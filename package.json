@@ -1,10 +1,10 @@
 {
-  "name": "nestjs-react-template",
+  "name": "pnrn",
   "version": "1.0.0",
   "engines": {
     "node": "16.14"
   },
-  "description": "Full stack template using NestJS for the backend and NextJS for the frontend",
+  "description": "Project for CPEPE463 Software Design 3",
   "main": "index.js",
   "scripts": {
     "start": "concurrently --kill-others \"npm run start:backend\" \"npm run start:frontend\"",
@@ -32,19 +32,20 @@
     "build": "npm run build:backend",
     "build:frontend": "npm run build --prefix frontend",
     "build:backend": "npm run build --prefix backend",
+    "build:all": "npm run build --prefix frontend && npm run build --prefix backend",
     "postinstall": "cd frontend && npm install && cd ../backend && npm install",
     "generate:api": "npm run generate:api --prefix backend"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/princhcanal/nestjs-nextjs-template.git"
+    "url": "git+ssh://git@github.com/citu-cpe/pnrn.git"
   },
   "author": "Princh Harold Cañal",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/princhcanal/nestjs-nextjs-template/issues"
+    "url": "https://github.com/citu-cpe/pnrn/issues"
   },
-  "homepage": "https://github.com/princhcanal/nestjs-nextjs-template#readme",
+  "homepage": "https://github.com/citu-cpe/pnrn#readme",
   "devDependencies": {
     "concurrently": "^6.2.1",
     "dotenv-cli": "^6.0.0"
