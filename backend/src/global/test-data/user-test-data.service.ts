@@ -4,15 +4,16 @@ import bcrypt from 'bcrypt';
 import { CustomLogger } from '../../shared/custom-logger';
 import { User, Role } from '@prisma/client';
 
-export const testUser: User = {
+export const testStaff: User = {
   id: '2f54ca0b-e389-4e17-a978-0cb98e0f7a46',
   createdAt: new Date(),
   updatedAt: new Date(),
-  email: 'test@test.com',
+  email: 'test_staff@test.com',
   username: 'test',
   password: 'test',
   currentHashedRefreshToken: undefined,
-  roles: [Role.USER],
+  roles: [Role.STAFF],
+  isFirstLogin: false,
 };
 
 export const testAdmin: User = {
@@ -23,7 +24,8 @@ export const testAdmin: User = {
   username: 'test_admin',
   password: 'test',
   currentHashedRefreshToken: undefined,
-  roles: [Role.USER, Role.ADMIN],
+  roles: [Role.STAFF, Role.ADMIN],
+  isFirstLogin: false,
 };
 
 @Injectable()
@@ -36,15 +38,15 @@ export class UserTestDataService {
     this.logger.log('GENERATING USER TEST DATA');
 
     const foundUser = await this.prismaService.user.findUnique({
-      where: { id: testUser.id },
+      where: { id: testStaff.id },
     });
     const foundAdmin = await this.prismaService.user.findUnique({
       where: { id: testAdmin.id },
     });
 
     if (!foundUser) {
-      this.logger.log('GENERATING TEST USER');
-      await this.createUser(testUser);
+      this.logger.log('GENERATING TEST STAFF');
+      await this.createUser(testStaff);
     }
     if (!foundAdmin) {
       this.logger.log('GENERATING TEST ADMIN');

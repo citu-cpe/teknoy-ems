@@ -1,11 +1,13 @@
 import { Role, User } from '@prisma/client';
 import { LoginUserDTO } from '../../../src/authentication/dto/login-user.dto';
-import { RegisterUserDTO } from '../../../src/authentication/dto/register-user.dto';
-import bcrypt from 'bcrypt';
+import {
+  RegisterUserDTO,
+  RoleEnum,
+} from '../../../src/authentication/dto/register-user.dto';
 import { HttpStatus } from '@nestjs/common';
 import { LoginResponseDTO } from '../../../src/authentication/dto/login-response.dto';
 import { AuthenticationController } from '../../../src/authentication/authentication.controller';
-import { request } from '../setup';
+import { request, requestWithAdmin } from '../setup';
 
 const authRoute = AuthenticationController.AUTH_API_ROUTE;
 const registerRoute = authRoute + AuthenticationController.REGISTER_API_ROUTE;
@@ -14,7 +16,7 @@ const loginRoute = authRoute + AuthenticationController.LOGIN_API_ROUTE;
 export const testRegisterUser: RegisterUserDTO = {
   username: 'test_register',
   email: 'test_register@test.com',
-  password: 'test',
+  roles: [RoleEnum.STAFF],
 };
 
 export const createUser = async (
@@ -26,9 +28,10 @@ export const createUser = async (
     username: 'test_user',
     createdAt: new Date(),
     updatedAt: new Date(),
-    password: await bcrypt.hash(user.password, 10),
+    password: generateRandomPassword(),
     currentHashedRefreshToken: null,
-    roles: [Role.USER],
+    roles: [Role.STAFF],
+    isFirstLogin: true,
   };
 
   if (user instanceof RegisterUserDTO) {
@@ -40,27 +43,18 @@ export const createUser = async (
 
 export const registerUser = async (
   dto: RegisterUserDTO
-): Promise<LoginResponseDTO> => {
-  const registerUser = await createUser(dto);
-
-  const { body } = await request
+): Promise<RegisterUserDTO> => {
+  const { body } = await requestWithAdmin
     .post(registerRoute)
     .send(dto)
     .expect(HttpStatus.CREATED);
-
-  const { user, tokens } = body as LoginResponseDTO;
-  const { accessToken, refreshToken } = tokens;
-
-  expect(user.email).toBe(registerUser.email);
-  expect(accessToken).toBeTruthy();
-  expect(refreshToken).toBeTruthy();
 
   return body;
 };
 
 export const logIn = async (): Promise<LoginResponseDTO> => {
   const loginUserDTO: LoginUserDTO = {
-    email: 'test@test.com',
+    email: 'test_staff@test.com',
     password: 'test',
   };
 
@@ -70,4 +64,9 @@ export const logIn = async (): Promise<LoginResponseDTO> => {
     .expect(HttpStatus.OK);
 
   return body as LoginResponseDTO;
+};
+
+const generateRandomPassword = () => {
+  // https://stackoverflow.com/a/9719815
+  return Math.random().toString(36).slice(-8);
 };

@@ -1,6 +1,6 @@
 import { Controller, Get, Logger } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CheckPolicies } from './authorization/check-policies.decorator';
+import { CheckPolicies } from './authorization/decorators/check-policies.decorator';
 import { Handlers } from './authorization/types/handlers';
 import { Public } from './shared/decorators/public.decorator';
 

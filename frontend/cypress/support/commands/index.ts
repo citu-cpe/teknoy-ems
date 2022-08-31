@@ -26,14 +26,14 @@ declare global {
 
       /**
        * Custom command to log in
-       * @example cy.login('test@test.com', 'test')
+       * @example cy.login('test_staff@test.com', 'test')
        */
       login(email: string, password: string): void;
 
       /**
        * Custom command to register
-       * @example cy.register('test', 'test@test.com', 'test')
-       * @example cy.register('test', 'test@test.com', 'test', true)
+       * @example cy.register('test', 'test_staff@test.com', 'test')
+       * @example cy.register('test', 'test_staff@test.com', 'test', true)
        */
       register(
         username: string,
@@ -44,7 +44,7 @@ declare global {
 
       /**
        * Custom command to reset test data then log in
-       * @example cy.resetTestDataAndLogin('test@test.com', 'test')
+       * @example cy.resetTestDataAndLogin('test_staff@test.com', 'test')
        */
       resetTestDataAndLogin(email?: string, password?: string): void;
     }
