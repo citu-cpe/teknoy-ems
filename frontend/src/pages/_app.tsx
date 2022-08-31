@@ -1,14 +1,11 @@
-import '../styles/globals.scss';
 import type { AppProps } from 'next/app';
-import { ChakraProvider } from '@chakra-ui/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import { ApiProvider } from '../shared/providers/ApiProvider';
-import { useGlobalStore } from '../shared/stores';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-
-const queryClient = new QueryClient();
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { AppProvider } from '../shared/providers/AppProvider';
+import { ThemeProvider } from '../shared/providers/ThemeProvider';
+import { useGlobalStore } from '../shared/stores';
+import '../styles/globals.scss';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const getUser = useGlobalStore((state) => state.getUser);
@@ -28,14 +25,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [getUser, pageProps, router]);
 
   return (
-    <ChakraProvider>
-      <ApiProvider>
-        <QueryClientProvider client={queryClient}>
-          {showPage && <Component {...pageProps} />}
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </ApiProvider>
-    </ChakraProvider>
+    <ThemeProvider>
+      <AppProvider>
+        {showPage && <Component {...pageProps} />}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </AppProvider>
+    </ThemeProvider>
   );
 }
 
