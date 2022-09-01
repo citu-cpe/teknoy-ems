@@ -1,6 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { AppController } from '../../src/app.controller';
-import { request, requestWithAdmin, requestWithUser } from './setup';
+import { request, requestWithAdmin, requestWithStaff } from './setup';
 
 describe('app.spec.ts - App Controller', () => {
   describe('GET /', () => {
@@ -17,7 +17,7 @@ describe('app.spec.ts - App Controller', () => {
     });
 
     it('should not authorize if user is not admin', async () => {
-      await requestWithUser
+      await requestWithStaff
         .get(AppController.API_PATH_AUTHORIZATION_TEST)
         .expect(HttpStatus.FORBIDDEN);
     });

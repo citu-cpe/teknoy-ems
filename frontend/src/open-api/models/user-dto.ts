@@ -48,4 +48,10 @@ export interface UserDTO {
    * @memberof UserDTO
    */
   username: string;
+  /**
+   *
+   * @type {Array<object>}
+   * @memberof UserDTO
+   */
+  roles: Array<object>;
 }

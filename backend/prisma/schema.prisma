@@ -19,10 +19,12 @@ model User {
   username                  String   @unique
   password                  String
   currentHashedRefreshToken String?
-  roles                     Role[]   @default([USER])
+  roles                     Role[]
+  isFirstLogin              Boolean  @default(true)
 }
 
 enum Role {
-  USER
+  STAFF
   ADMIN
+  ORGANIZER
 }

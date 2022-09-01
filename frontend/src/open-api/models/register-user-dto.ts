@@ -32,8 +32,24 @@ export interface RegisterUserDTO {
   username: string;
   /**
    *
+   * @type {Array<string>}
+   * @memberof RegisterUserDTO
+   */
+  roles: Array<RegisterUserDTORolesEnum>;
+  /**
+   *
    * @type {string}
    * @memberof RegisterUserDTO
    */
-  password: string;
+  password?: string;
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum RegisterUserDTORolesEnum {
+  Admin = 'ADMIN',
+  Staff = 'STAFF',
+  Organizer = 'ORGANIZER',
 }

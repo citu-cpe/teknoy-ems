@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { User } from '@prisma/client';
 import { UserDTO } from './dto/user.dto';
+import { ChangePasswordDTO } from 'src/authentication/dto/change-password.dto';
 
 @Injectable()
 export class UserService {
@@ -29,8 +30,11 @@ export class UserService {
     throw new NotFoundException('User with this id does not exist');
   }
 
-  public async register(data: RegisterUserDTO): Promise<User> {
-    return this.prisma.user.create({ data });
+  public async register(
+    data: RegisterUserDTO,
+    password: string
+  ): Promise<User> {
+    return this.prisma.user.create({ data: { ...data, password } });
   }
 
   public async setCurrentRefreshToken(
@@ -64,6 +68,24 @@ export class UserService {
   public async deleteRefreshToken(userId: string): Promise<User> {
     return this.prisma.user.update({
       data: { currentHashedRefreshToken: null },
+      where: { id: userId },
+    });
+  }
+
+  public async changePassword(
+    user: User,
+    changePasswordDTO: ChangePasswordDTO
+  ): Promise<User> {
+    const hashedPassword = await bcrypt.hash(changePasswordDTO.password, 10);
+    return this.prisma.user.update({
+      data: { password: hashedPassword },
+      where: { id: user.id },
+    });
+  }
+
+  public async updateFirstLogin(userId: string): Promise<User> {
+    return this.prisma.user.update({
+      data: { isFirstLogin: false },
       where: { id: userId },
     });
   }

@@ -2,7 +2,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RequestWithUser } from '../../authentication/types/request-with-user.interface';
 import { CaslAbilityFactory, AppAbility } from '../casl-ability.factory';
-import { CHECK_POLICIES_KEY } from '../check-policies.decorator';
+import { CHECK_POLICIES_KEY } from '../decorators/check-policies.decorator';
 import { PolicyHandler } from '../types/policy-handler.interface';
 
 @Injectable()

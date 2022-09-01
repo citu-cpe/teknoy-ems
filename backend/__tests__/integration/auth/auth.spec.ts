@@ -1,17 +1,26 @@
 import { HttpStatus } from '@nestjs/common';
+import { ChangePasswordDTO } from 'src/authentication/dto/change-password.dto';
 import { AuthenticationController } from '../../../src/authentication/authentication.controller';
 import { LoginResponseDTO } from '../../../src/authentication/dto/login-response.dto';
 import { LoginUserDTO } from '../../../src/authentication/dto/login-user.dto';
-import { RegisterUserDTO } from '../../../src/authentication/dto/register-user.dto';
+import {
+  RegisterUserDTO,
+  RoleEnum,
+} from '../../../src/authentication/dto/register-user.dto';
 import { TokensDTO } from '../../../src/authentication/dto/tokens.dto';
-import { registerUser, testRegisterUser } from '../fixtures/auth.fixtures';
-import { request } from '../setup';
+import {
+  logIn,
+  registerUser,
+  testRegisterUser,
+} from '../fixtures/auth.fixtures';
+import { request, requestWithAdmin, requestWithStaff } from '../setup';
 
 describe('auth.spec.ts - Authentication Controller', () => {
   let loginRoute: string;
   let registerRoute: string;
   let logoutRoute: string;
   let refreshRoute: string;
+  let changePasswordRoute: string;
 
   beforeAll(() => {
     const authRoute = AuthenticationController.AUTH_API_ROUTE;
@@ -19,12 +28,14 @@ describe('auth.spec.ts - Authentication Controller', () => {
     registerRoute = authRoute + AuthenticationController.REGISTER_API_ROUTE;
     logoutRoute = authRoute + AuthenticationController.LOGOUT_API_ROUTE;
     refreshRoute = authRoute + AuthenticationController.REFRESH_API_ROUTE;
+    changePasswordRoute =
+      authRoute + AuthenticationController.CHANGE_PASSWORD_API_ROUTE;
   });
 
   describe('POST /login', () => {
     it('should log in successfully', async () => {
       const loginUserDTO: LoginUserDTO = {
-        email: 'test@test.com',
+        email: 'test_staff@test.com',
         password: 'test',
       };
 
@@ -69,7 +80,20 @@ describe('auth.spec.ts - Authentication Controller', () => {
 
   describe('POST /register', () => {
     it('should successfully register when username, email, and password are provided', async () => {
-      await registerUser(testRegisterUser);
+      const { email, username, password, roles }: RegisterUserDTO =
+        await registerUser(testRegisterUser);
+
+      expect(email).toEqual(testRegisterUser.email);
+      expect(username).toEqual(testRegisterUser.username);
+      expect(roles).toEqual(testRegisterUser.roles);
+      expect(password).toBeTruthy();
+    });
+
+    it('should not be able to register user when user is not an admin', async () => {
+      await requestWithStaff
+        .post(registerRoute)
+        .send(testRegisterUser)
+        .expect(HttpStatus.FORBIDDEN);
     });
 
     it('should throw bad request exception when data is invalid', async () => {
@@ -89,31 +113,42 @@ describe('auth.spec.ts - Authentication Controller', () => {
         username: 'mock',
         email: 'not an email',
         password: 'mock',
+        roles: [RoleEnum.STAFF],
+      };
+      const registerUserDTOWithInvalidRole = {
+        username: 'mock',
+        email: 'not an email',
+        password: 'mock',
+        roles: ['NOT_A_VALID_ROLE'],
       };
 
-      await request.post(registerRoute).expect(HttpStatus.BAD_REQUEST);
-      await request
+      await requestWithAdmin.post(registerRoute).expect(HttpStatus.BAD_REQUEST);
+      await requestWithAdmin
         .post(registerRoute)
         .send(registerUserDTOWithoutUsername)
         .expect(HttpStatus.BAD_REQUEST);
-      await request
+      await requestWithAdmin
         .post(registerRoute)
         .send(registerUserDTOWithoutEmail)
         .expect(HttpStatus.BAD_REQUEST);
-      await request
+      await requestWithAdmin
         .post(registerRoute)
         .send(registerUserDTOWithoutPassword)
         .expect(HttpStatus.BAD_REQUEST);
-      await request
+      await requestWithAdmin
         .post(registerRoute)
         .send(registerUserDTOWithInvalidEmail)
+        .expect(HttpStatus.BAD_REQUEST);
+      await requestWithAdmin
+        .post(registerRoute)
+        .send(registerUserDTOWithInvalidRole)
         .expect(HttpStatus.BAD_REQUEST);
     });
   });
 
   describe('POST /logout', () => {
     it('should successfully log out when user is sent', async () => {
-      const { user } = await registerUser(testRegisterUser);
+      const { user } = await logIn();
 
       await request.post(logoutRoute).send(user).expect(HttpStatus.OK);
     });
@@ -125,7 +160,7 @@ describe('auth.spec.ts - Authentication Controller', () => {
 
   describe('POST /refresh', () => {
     it('should refresh access token', async () => {
-      const { tokens } = await registerUser(testRegisterUser);
+      const { tokens } = await logIn();
 
       const { body } = await request
         .post(refreshRoute)
@@ -139,6 +174,46 @@ describe('auth.spec.ts - Authentication Controller', () => {
 
     it('should not refresh access token when no refresh token is sent', async () => {
       await request.post(refreshRoute).expect(HttpStatus.UNAUTHORIZED);
+    });
+  });
+
+  describe('POST /change-password', () => {
+    it('should successfully change password', async () => {
+      const changePasswordDTO: ChangePasswordDTO = {
+        password: 'new_password',
+      };
+
+      // change password
+      await requestWithStaff
+        .put(changePasswordRoute)
+        .send(changePasswordDTO)
+        .expect(HttpStatus.OK);
+
+      const loginUserDTO: LoginUserDTO = {
+        email: 'test_staff@test.com',
+        password: 'new_password',
+      };
+
+      // log in with new password
+      const { body } = await request
+        .post(loginRoute)
+        .send(loginUserDTO)
+        .expect(HttpStatus.OK);
+      const { user, tokens } = body as LoginResponseDTO;
+
+      expect(user.email).toBe(loginUserDTO.email);
+      expect(tokens.accessToken).toBeTruthy();
+      expect(tokens.refreshToken).toBeTruthy();
+    });
+
+    it('should not successfully change password when not authenticated', async () => {
+      await request.put(changePasswordRoute).expect(HttpStatus.UNAUTHORIZED);
+    });
+
+    it('should not successfully change password with wrong data', async () => {
+      await requestWithStaff
+        .put(changePasswordRoute)
+        .expect(HttpStatus.BAD_REQUEST);
     });
   });
 });

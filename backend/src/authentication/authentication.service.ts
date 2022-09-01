@@ -31,6 +31,10 @@ export class AuthenticationService {
       loginUserDTO.password
     );
 
+    if (user.isFirstLogin) {
+      await this.userService.updateFirstLogin(user.id);
+    }
+
     const accessToken = this.getJwtAccessToken(user.id);
     const refreshToken = this.getRefreshToken(user.id);
 
@@ -49,17 +53,17 @@ export class AuthenticationService {
 
   public async register(
     registerUserDTO: RegisterUserDTO
-  ): Promise<LoginResponseDTO> {
-    const { email, password } = registerUserDTO;
+  ): Promise<RegisterUserDTO> {
+    const password = this.generateRandomPassword();
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
-      await this.userService.register({
-        ...registerUserDTO,
-        password: hashedPassword,
-      });
+      await this.userService.register(registerUserDTO, hashedPassword);
 
-      return this.login({ email, password });
+      return {
+        ...registerUserDTO,
+        password,
+      };
     } catch (error) {
       if (error?.code === PostgresErrorCode.UniqueViolation) {
         throw new BadRequestException(
@@ -150,5 +154,10 @@ export class AuthenticationService {
 
   public tokenExpired(exp: number) {
     return Date.now() > exp * 1000;
+  }
+
+  private generateRandomPassword() {
+    // https://stackoverflow.com/a/9719815
+    return Math.random().toString(36).slice(-8);
   }
 }

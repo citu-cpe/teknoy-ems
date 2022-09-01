@@ -17,7 +17,7 @@ const hook =
     );
   };
 
-export const requestWithUser = {
+export const requestWithStaff = {
   post: hook('post'),
   get: hook('get'),
   put: hook('put'),

@@ -1,4 +1,18 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsArray,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
+
+export enum RoleEnum {
+  ADMIN = 'ADMIN',
+  STAFF = 'STAFF',
+  ORGANIZER = 'ORGANIZER',
+}
 
 export class RegisterUserDTO {
   @IsEmail()
@@ -10,8 +24,12 @@ export class RegisterUserDTO {
   @IsNotEmpty()
   public username: string;
 
+  @IsArray()
+  @IsEnum(RoleEnum, { each: true })
+  public roles: RoleEnum[];
+
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @MinLength(4)
-  public password: string;
+  public password?: string;
 }

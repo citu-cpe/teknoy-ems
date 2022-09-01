@@ -16,24 +16,8 @@ Cypress.Commands.add('login', (email: string, password: string) => {
 });
 
 Cypress.Commands.add(
-  'register',
-  (username: string, email: string, password: string, shouldFail?: boolean) => {
-    cy.intercept('POST', '/api/v1/auth/register').as('register');
-
-    cy.get('input').eq(0).type(username);
-    cy.get('input').eq(1).type(email);
-    cy.get('input').eq(2).type(password);
-
-    cy.getBySel('register-submit-btn').click();
-    cy.wait('@register')
-      .its('response.statusCode')
-      .should('eq', shouldFail ? 400 : 201);
-  }
-);
-
-Cypress.Commands.add(
   'resetTestDataAndLogin',
-  (email: string = 'test@test.com', password: string = 'test') => {
+  (email: string = 'test_staff@test.com', password: string = 'test') => {
     cy.resetTestData();
     cy.login(email, password);
   }

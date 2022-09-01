@@ -9,6 +9,7 @@ common.ts
 configuration.ts
 git_push.sh
 index.ts
+models/change-password-dto.ts
 models/index.ts
 models/login-response-dto.ts
 models/login-user-dto.ts

@@ -37,6 +37,8 @@ import {
   RequiredError,
 } from '../base';
 // @ts-ignore
+import { ChangePasswordDTO } from '../models';
+// @ts-ignore
 import { LoginResponseDTO } from '../models';
 // @ts-ignore
 import { LoginUserDTO } from '../models';
@@ -54,6 +56,95 @@ export const DefaultApiAxiosParamCreator = function (
   configuration?: Configuration
 ) {
   return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authorizationTest: async (options: any = {}): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/authorization-test`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {ChangePasswordDTO} changePasswordDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    changePassword: async (
+      changePasswordDTO: ChangePasswordDTO,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'changePasswordDTO' is not null or undefined
+      assertParamExists(
+        'changePassword',
+        'changePasswordDTO',
+        changePasswordDTO
+      );
+      const localVarPath = `/api/v1/auth/change-password`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        changePasswordDTO,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
     /**
      *
      * @param {*} [options] Override http request option.
@@ -301,6 +392,48 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    async authorizationTest(
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.authorizationTest(options);
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {ChangePasswordDTO} changePasswordDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async changePassword(
+      changePasswordDTO: ChangePasswordDTO,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.changePassword(
+        changePasswordDTO,
+        options
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     async getHello(
       options?: any
     ): Promise<
@@ -401,7 +534,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<LoginResponseDTO>
+      ) => AxiosPromise<RegisterUserDTO>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.register(
         registerUserDTO,
@@ -428,6 +561,30 @@ export const DefaultApiFactory = function (
 ) {
   const localVarFp = DefaultApiFp(configuration);
   return {
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authorizationTest(options?: any): AxiosPromise<string> {
+      return localVarFp
+        .authorizationTest(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {ChangePasswordDTO} changePasswordDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    changePassword(
+      changePasswordDTO: ChangePasswordDTO,
+      options?: any
+    ): AxiosPromise<UserDTO> {
+      return localVarFp
+        .changePassword(changePasswordDTO, options)
+        .then((request) => request(axios, basePath));
+    },
     /**
      *
      * @param {*} [options] Override http request option.
@@ -483,7 +640,7 @@ export const DefaultApiFactory = function (
     register(
       registerUserDTO: RegisterUserDTO,
       options?: any
-    ): AxiosPromise<LoginResponseDTO> {
+    ): AxiosPromise<RegisterUserDTO> {
       return localVarFp
         .register(registerUserDTO, options)
         .then((request) => request(axios, basePath));
@@ -498,6 +655,31 @@ export const DefaultApiFactory = function (
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public authorizationTest(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .authorizationTest(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {ChangePasswordDTO} changePasswordDTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public changePassword(changePasswordDTO: ChangePasswordDTO, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .changePassword(changePasswordDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
   /**
    *
    * @param {*} [options] Override http request option.
