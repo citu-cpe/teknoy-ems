@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Link } from '@chakra-ui/react';
 import { FieldProps, Field, Form, Formik } from 'formik';
-import { Input } from '../../../shared/components/form/Input/Input';
+import { Input } from '../../../shared/components/form/Input';
 import React from 'react';
 import { useLogin } from '../hooks/useLogin';
 import * as Yup from 'yup';

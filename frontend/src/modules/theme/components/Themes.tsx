@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { BiCheckCircle, BiCloudLightning } from 'react-icons/bi';
-import { ContentLayout } from '../../../shared/components/layout/ContentLayout';
+import { MainLayout } from '../../../shared/components/layout/MainLayout';
 import { Theme, ThemeContext } from '../../../shared/providers/ThemeProvider';
 
 export const Themes = () => {
@@ -31,7 +31,7 @@ export const Themes = () => {
   };
 
   return (
-    <ContentLayout>
+    <MainLayout>
       <Flex gap={3}>
         {availableThemes.map((currentTheme) => (
           <Flex
@@ -140,6 +140,6 @@ export const Themes = () => {
           </GridItem>
         </Grid>
       </Flex>
-    </ContentLayout>
+    </MainLayout>
   );
 };

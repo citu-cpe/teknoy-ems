@@ -16,24 +16,21 @@ interface InputProps {
 export const Input = ({
   fieldProps: { field, form },
   label,
+  children,
   ...props
-}: InputProps & ChakraInputProps) => (
+}: InputProps & React.PropsWithChildren & ChakraInputProps) => (
   <FormControl
     isInvalid={!!form.errors[props.name!] && !!form.touched[props.name!]}
-    isRequired
     mb='4'
   >
     {!!label && (
-      <FormLabel
-        htmlFor={props.id}
-        mb='2'
-        color='gray.800'
-        fontWeight='semibold'
-      >
+      <FormLabel htmlFor={props.id} mb='2' fontWeight='semibold'>
         {label}
       </FormLabel>
     )}
-    <ChakraInput {...field} {...props} />
+    <ChakraInput {...field} {...props}>
+      {children}
+    </ChakraInput>
     <FormErrorMessage>{form.errors[props.name!]?.toString()}</FormErrorMessage>
   </FormControl>
 );
