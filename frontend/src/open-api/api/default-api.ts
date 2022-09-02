@@ -45,6 +45,8 @@ import { LoginUserDTO } from '../models';
 // @ts-ignore
 import { RegisterUserDTO } from '../models';
 // @ts-ignore
+import { ScheduleDTO } from '../models';
+// @ts-ignore
 import { TokensDTO } from '../models';
 // @ts-ignore
 import { UserDTO } from '../models';
@@ -147,11 +149,242 @@ export const DefaultApiAxiosParamCreator = function (
     },
     /**
      *
+     * @param {ScheduleDTO} scheduleDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createSchedule: async (
+      scheduleDTO: ScheduleDTO,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'scheduleDTO' is not null or undefined
+      assertParamExists('createSchedule', 'scheduleDTO', scheduleDTO);
+      const localVarPath = `/api/v1/schedule`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        scheduleDTO,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteSchedule: async (
+      id: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('deleteSchedule', 'id', id);
+      const localVarPath = `/api/v1/schedule/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {ScheduleDTO} scheduleDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    editSchedule: async (
+      id: string,
+      scheduleDTO: ScheduleDTO,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('editSchedule', 'id', id);
+      // verify required parameter 'scheduleDTO' is not null or undefined
+      assertParamExists('editSchedule', 'scheduleDTO', scheduleDTO);
+      const localVarPath = `/api/v1/schedule/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        scheduleDTO,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getHello: async (options: any = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/v1`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getScheduleById: async (
+      id: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('getScheduleById', 'id', id);
+      const localVarPath = `/api/v1/schedule/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSchedules: async (options: any = {}): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/schedule`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -431,6 +664,78 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @param {ScheduleDTO} scheduleDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createSchedule(
+      scheduleDTO: ScheduleDTO,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ScheduleDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createSchedule(
+        scheduleDTO,
+        options
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteSchedule(
+      id: string,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ScheduleDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSchedule(
+        id,
+        options
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {ScheduleDTO} scheduleDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async editSchedule(
+      id: string,
+      scheduleDTO: ScheduleDTO,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ScheduleDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.editSchedule(
+        id,
+        scheduleDTO,
+        options
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -440,6 +745,52 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getHello(
+        options
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getScheduleById(
+      id: string,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ScheduleDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getScheduleById(
+        id,
+        options
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getSchedules(
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<Array<ScheduleDTO>>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getSchedules(
         options
       );
       return createRequestFunction(
@@ -587,12 +938,74 @@ export const DefaultApiFactory = function (
     },
     /**
      *
+     * @param {ScheduleDTO} scheduleDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createSchedule(
+      scheduleDTO: ScheduleDTO,
+      options?: any
+    ): AxiosPromise<ScheduleDTO> {
+      return localVarFp
+        .createSchedule(scheduleDTO, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteSchedule(id: string, options?: any): AxiosPromise<ScheduleDTO> {
+      return localVarFp
+        .deleteSchedule(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {ScheduleDTO} scheduleDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    editSchedule(
+      id: string,
+      scheduleDTO: ScheduleDTO,
+      options?: any
+    ): AxiosPromise<ScheduleDTO> {
+      return localVarFp
+        .editSchedule(id, scheduleDTO, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getHello(options?: any): AxiosPromise<string> {
       return localVarFp
         .getHello(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getScheduleById(id: string, options?: any): AxiosPromise<ScheduleDTO> {
+      return localVarFp
+        .getScheduleById(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSchedules(options?: any): AxiosPromise<Array<ScheduleDTO>> {
+      return localVarFp
+        .getSchedules(options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -682,6 +1095,46 @@ export class DefaultApi extends BaseAPI {
 
   /**
    *
+   * @param {ScheduleDTO} scheduleDTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public createSchedule(scheduleDTO: ScheduleDTO, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .createSchedule(scheduleDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public deleteSchedule(id: string, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .deleteSchedule(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {ScheduleDTO} scheduleDTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public editSchedule(id: string, scheduleDTO: ScheduleDTO, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .editSchedule(id, scheduleDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
@@ -689,6 +1142,31 @@ export class DefaultApi extends BaseAPI {
   public getHello(options?: any) {
     return DefaultApiFp(this.configuration)
       .getHello(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getScheduleById(id: string, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .getScheduleById(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getSchedules(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .getSchedules(options)
       .then((request) => request(this.axios, this.basePath));
   }
 

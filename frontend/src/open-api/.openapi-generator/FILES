@@ -14,6 +14,7 @@ models/index.ts
 models/login-response-dto.ts
 models/login-user-dto.ts
 models/register-user-dto.ts
+models/schedule-dto.ts
 models/tokens-dto.ts
 models/user-dto.ts
 package.json

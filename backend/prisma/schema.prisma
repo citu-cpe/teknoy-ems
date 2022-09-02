@@ -28,3 +28,17 @@ enum Role {
   ADMIN
   ORGANIZER
 }
+
+model Schedule {
+  id           String       @id @default(uuid())
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  availability Availability
+  startTime    DateTime
+  endTime      DateTime
+}
+
+enum Availability {
+  AVAILABLE
+  UNAVAILABLE
+}
