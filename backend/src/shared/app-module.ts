@@ -15,6 +15,7 @@ import { ActiveProfilesModule } from '../global/active-profiles/active-profiles.
 import { E2EModule } from '../global/e2e/e2e.module';
 import { PrismaModule } from '../global/prisma/prisma.module';
 import { TestDataModule } from '../global/test-data/test-data.module';
+import { ScheduleModule } from '../schedule/schedule.module';
 import { UserModule } from '../user/user.module';
 
 export const appModule: ModuleMetadata = {
@@ -42,6 +43,7 @@ export const appModule: ModuleMetadata = {
     ActiveProfilesModule,
     TestDataModule,
     E2EModule,
+    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [

@@ -14,4 +14,5 @@ _First, create a draft pull request. Then mark the PR as ready for review when a
 
 **Backend only**
 
+- [ ] Added test data for new entity
 - [ ] Generated the client api if there are new or deleted endpoints and/or DTOs
