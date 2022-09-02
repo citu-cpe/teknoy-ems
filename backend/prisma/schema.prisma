@@ -23,6 +23,8 @@ model User {
   isFirstLogin              Boolean  @default(true)
 }
 
+
+
 enum Role {
   STAFF
   ADMIN
@@ -41,4 +43,15 @@ model Schedule {
 enum Availability {
   AVAILABLE
   UNAVAILABLE
+}
+
+model Organizer {
+  id    String @id @default(uuid())
+  name  String
+  type  Type
+}
+enum Type {
+  DEPARTMENT
+  ORGANIZATION
+  OTHERS
 }
