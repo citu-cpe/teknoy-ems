@@ -47,7 +47,7 @@ export interface UserDTO {
    * @type {string}
    * @memberof UserDTO
    */
-  username: string;
+  name: string;
   /**
    *
    * @type {Array<object>}

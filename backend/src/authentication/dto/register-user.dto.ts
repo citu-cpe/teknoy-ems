@@ -22,7 +22,7 @@ export class RegisterUserDTO {
 
   @IsString()
   @IsNotEmpty()
-  public username: string;
+  public name: string;
 
   @IsArray()
   @IsEnum(RoleEnum, { each: true })
