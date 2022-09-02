@@ -26,7 +26,7 @@ export class UserDTO {
 
   @IsString()
   @IsNotEmpty()
-  public username: string;
+  public name: string;
 
   @IsEnum(Role, { each: true })
   @IsNotEmpty()

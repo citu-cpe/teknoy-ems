@@ -146,14 +146,14 @@ export class UserService {
   }
 
   public static convertToDTO(user: User): UserDTO {
-    const { id, createdAt, updatedAt, email, username, roles } = user;
+    const { id, createdAt, updatedAt, email, name, roles } = user;
 
     const userDTO: UserDTO = {
       id,
       createdAt,
       updatedAt,
       email,
-      username,
+      name,
       roles,
     };
 

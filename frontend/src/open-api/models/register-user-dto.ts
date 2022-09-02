@@ -29,7 +29,7 @@ export interface RegisterUserDTO {
    * @type {string}
    * @memberof RegisterUserDTO
    */
-  username: string;
+  name: string;
   /**
    *
    * @type {Array<string>}

@@ -79,12 +79,12 @@ describe('auth.spec.ts - Authentication Controller', () => {
   });
 
   describe('POST /register', () => {
-    it('should successfully register when username, email, and password are provided', async () => {
-      const { email, username, password, roles }: RegisterUserDTO =
+    it('should successfully register when name, email, and password are provided', async () => {
+      const { email, name, password, roles }: RegisterUserDTO =
         await registerUser(testRegisterUser);
 
       expect(email).toEqual(testRegisterUser.email);
-      expect(username).toEqual(testRegisterUser.username);
+      expect(name).toEqual(testRegisterUser.name);
       expect(roles).toEqual(testRegisterUser.roles);
       expect(password).toBeTruthy();
     });
@@ -97,26 +97,26 @@ describe('auth.spec.ts - Authentication Controller', () => {
     });
 
     it('should throw bad request exception when data is invalid', async () => {
-      const registerUserDTOWithoutUsername = {
+      const registerUserDTOWithoutName = {
         email: 'mock@mock.com',
         password: ' mock',
       };
       const registerUserDTOWithoutEmail = {
-        username: 'mock',
+        name: 'mock',
         password: 'mock',
       };
       const registerUserDTOWithoutPassword = {
-        username: 'mock',
+        name: 'mock',
         email: 'mock@mock.com',
       };
       const registerUserDTOWithInvalidEmail: RegisterUserDTO = {
-        username: 'mock',
+        name: 'mock',
         email: 'not an email',
         password: 'mock',
         roles: [RoleEnum.STAFF],
       };
       const registerUserDTOWithInvalidRole = {
-        username: 'mock',
+        name: 'mock',
         email: 'not an email',
         password: 'mock',
         roles: ['NOT_A_VALID_ROLE'],
@@ -125,7 +125,7 @@ describe('auth.spec.ts - Authentication Controller', () => {
       await requestWithAdmin.post(registerRoute).expect(HttpStatus.BAD_REQUEST);
       await requestWithAdmin
         .post(registerRoute)
-        .send(registerUserDTOWithoutUsername)
+        .send(registerUserDTOWithoutName)
         .expect(HttpStatus.BAD_REQUEST);
       await requestWithAdmin
         .post(registerRoute)

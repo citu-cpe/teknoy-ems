@@ -36,7 +36,7 @@ declare global {
        * @example cy.register('test', 'test_staff@test.com', 'test', true)
        */
       register(
-        username: string,
+        name: string,
         email: string,
         password: string,
         shouldFail?: boolean

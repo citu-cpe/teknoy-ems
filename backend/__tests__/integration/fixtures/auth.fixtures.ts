@@ -14,7 +14,7 @@ const registerRoute = authRoute + AuthenticationController.REGISTER_API_ROUTE;
 const loginRoute = authRoute + AuthenticationController.LOGIN_API_ROUTE;
 
 export const testRegisterUser: RegisterUserDTO = {
-  username: 'test_register',
+  name: 'test_register',
   email: 'test_register@test.com',
   roles: [RoleEnum.STAFF],
 };
@@ -25,7 +25,7 @@ export const createUser = async (
   const newUser: User = {
     id: '',
     email: user.email,
-    username: 'test_user',
+    name: 'test_user',
     createdAt: new Date(),
     updatedAt: new Date(),
     password: generateRandomPassword(),
@@ -35,7 +35,7 @@ export const createUser = async (
   };
 
   if (user instanceof RegisterUserDTO) {
-    newUser.username = user.username;
+    newUser.name = user.name;
   }
 
   return newUser;
