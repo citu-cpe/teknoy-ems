@@ -40,7 +40,7 @@ export class AuthenticationService {
 
     await this.userService.setCurrentRefreshToken(refreshToken, user.id);
 
-    const userDTO = this.userService.convertToDTO(user);
+    const userDTO = UserService.convertToDTO(user);
 
     return {
       user: userDTO,
