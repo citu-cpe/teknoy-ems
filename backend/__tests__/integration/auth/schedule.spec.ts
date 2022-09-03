@@ -1,4 +1,9 @@
+import { ScheduleDTO } from '../../../src/schedule/dto/schedule.dto';
 import { ScheduleController } from '../../../src/schedule/schedule.controller';
+import {
+  createSchedule,
+  testCreateSchedule,
+} from '../fixtures/schedule.fixtures';
 
 describe('schedule.spec.ts - Schedule Controller', () => {
   const scheduleRoute = ScheduleController.SCHEDULE_API_PATH;
@@ -7,7 +12,16 @@ describe('schedule.spec.ts - Schedule Controller', () => {
 
   describe('POST /', () => {
     // eslint-disable-next-line
-    it('should create schedule', () => {});
+    it.only('should create schedule', async () => {
+      const { availability, startTime, endTime }: ScheduleDTO =
+        await createSchedule(testCreateSchedule);
+
+      expect(availability).toEqual(testCreateSchedule.availability);
+      expect(startTime.toString()).toEqual(
+        testCreateSchedule.startTime.toISOString()
+      );
+      expect(endTime).toEqual(testCreateSchedule.endTime);
+    });
 
     // eslint-disable-next-line
     it('should not create schedule with missing data', () => {});

@@ -1,6 +1,6 @@
 import { UserController } from '../../../src/user/user.controller';
 
-describe('user.spec.ts - User Controller', () => {
+xdescribe('user.spec.ts - User Controller', () => {
   const userRoute = UserController.USER_API_ROUTE;
   // eslint-disable-next-line
   const idPath = userRoute + UserController.ID_API_ROUTE;

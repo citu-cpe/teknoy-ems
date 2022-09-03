@@ -2,7 +2,7 @@ import { HttpStatus } from '@nestjs/common';
 import { AppController } from '../../src/app.controller';
 import { request, requestWithAdmin, requestWithStaff } from './setup';
 
-describe('app.spec.ts - App Controller', () => {
+xdescribe('app.spec.ts - App Controller', () => {
   describe('GET /', () => {
     it('should respond with Hello World!', () => {
       return request.get('/').expect(HttpStatus.OK).expect('Hello World!');
