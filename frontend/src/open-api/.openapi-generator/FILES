@@ -13,6 +13,7 @@ models/change-password-dto.ts
 models/index.ts
 models/login-response-dto.ts
 models/login-user-dto.ts
+models/organizer-dto.ts
 models/register-user-dto.ts
 models/schedule-dto.ts
 models/tokens-dto.ts

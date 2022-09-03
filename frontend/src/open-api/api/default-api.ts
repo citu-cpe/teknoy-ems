@@ -43,6 +43,8 @@ import { LoginResponseDTO } from '../models';
 // @ts-ignore
 import { LoginUserDTO } from '../models';
 // @ts-ignore
+import { OrganizerDTO } from '../models';
+// @ts-ignore
 import { RegisterUserDTO } from '../models';
 // @ts-ignore
 import { ScheduleDTO } from '../models';
@@ -149,6 +151,55 @@ export const DefaultApiAxiosParamCreator = function (
     },
     /**
      *
+     * @param {OrganizerDTO} organizerDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createNewOrganizer: async (
+      organizerDTO: OrganizerDTO,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'organizerDTO' is not null or undefined
+      assertParamExists('createNewOrganizer', 'organizerDTO', organizerDTO);
+      const localVarPath = `/api/v1/organizer`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        organizerDTO,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
      * @param {ScheduleDTO} scheduleDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -190,6 +241,51 @@ export const DefaultApiAxiosParamCreator = function (
         localVarRequestOptions,
         configuration
       );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteOrganizer: async (
+      id: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('deleteOrganizer', 'id', id);
+      const localVarPath = `/api/v1/organizer/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -400,8 +496,89 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    getAllOrganizers: async (options: any = {}): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/organizer`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     getHello: async (options: any = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/v1`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getOrganizerByID: async (
+      id: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('getOrganizerByID', 'id', id);
+      const localVarPath = `/api/v1/organizer/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -789,6 +966,62 @@ export const DefaultApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       };
     },
+    /**
+     *
+     * @param {string} id
+     * @param {OrganizerDTO} organizerDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateOrganizer: async (
+      id: string,
+      organizerDTO: OrganizerDTO,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('updateOrganizer', 'id', id);
+      // verify required parameter 'organizerDTO' is not null or undefined
+      assertParamExists('updateOrganizer', 'organizerDTO', organizerDTO);
+      const localVarPath = `/api/v1/organizer/{id}`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        organizerDTO,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -843,6 +1076,30 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @param {OrganizerDTO} organizerDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createNewOrganizer(
+      organizerDTO: OrganizerDTO,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrganizerDTO>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.createNewOrganizer(
+          organizerDTO,
+          options
+        );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
      * @param {ScheduleDTO} scheduleDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -855,6 +1112,29 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createSchedule(
         scheduleDTO,
+        options
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteOrganizer(
+      id: string,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrganizerDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOrganizer(
+        id,
         options
       );
       return createRequestFunction(
@@ -967,6 +1247,28 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    async getAllOrganizers(
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<Array<OrganizerDTO>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getAllOrganizers(options);
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     async getHello(
       options?: any
     ): Promise<
@@ -975,6 +1277,27 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getHello(
         options
       );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getOrganizerByID(
+      id: string,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrganizerDTO>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getOrganizerByID(id, options);
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -1169,6 +1492,32 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         configuration
       );
     },
+    /**
+     *
+     * @param {string} id
+     * @param {OrganizerDTO} organizerDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateOrganizer(
+      id: string,
+      organizerDTO: OrganizerDTO,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrganizerDTO>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateOrganizer(
+        id,
+        organizerDTO,
+        options
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
   };
 };
 
@@ -1209,6 +1558,20 @@ export const DefaultApiFactory = function (
     },
     /**
      *
+     * @param {OrganizerDTO} organizerDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createNewOrganizer(
+      organizerDTO: OrganizerDTO,
+      options?: any
+    ): AxiosPromise<OrganizerDTO> {
+      return localVarFp
+        .createNewOrganizer(organizerDTO, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
      * @param {ScheduleDTO} scheduleDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1219,6 +1582,17 @@ export const DefaultApiFactory = function (
     ): AxiosPromise<ScheduleDTO> {
       return localVarFp
         .createSchedule(scheduleDTO, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteOrganizer(id: string, options?: any): AxiosPromise<OrganizerDTO> {
+      return localVarFp
+        .deleteOrganizer(id, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -1280,9 +1654,30 @@ export const DefaultApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    getAllOrganizers(options?: any): AxiosPromise<Array<OrganizerDTO>> {
+      return localVarFp
+        .getAllOrganizers(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     getHello(options?: any): AxiosPromise<string> {
       return localVarFp
         .getHello(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getOrganizerByID(id: string, options?: any): AxiosPromise<OrganizerDTO> {
+      return localVarFp
+        .getOrganizerByID(id, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -1377,6 +1772,22 @@ export const DefaultApiFactory = function (
         .register(registerUserDTO, options)
         .then((request) => request(axios, basePath));
     },
+    /**
+     *
+     * @param {string} id
+     * @param {OrganizerDTO} organizerDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateOrganizer(
+      id: string,
+      organizerDTO: OrganizerDTO,
+      options?: any
+    ): AxiosPromise<OrganizerDTO> {
+      return localVarFp
+        .updateOrganizer(id, organizerDTO, options)
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -1414,6 +1825,19 @@ export class DefaultApi extends BaseAPI {
 
   /**
    *
+   * @param {OrganizerDTO} organizerDTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public createNewOrganizer(organizerDTO: OrganizerDTO, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .createNewOrganizer(organizerDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
    * @param {ScheduleDTO} scheduleDTO
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -1422,6 +1846,19 @@ export class DefaultApi extends BaseAPI {
   public createSchedule(scheduleDTO: ScheduleDTO, options?: any) {
     return DefaultApiFp(this.configuration)
       .createSchedule(scheduleDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public deleteOrganizer(id: string, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .deleteOrganizer(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -1485,9 +1922,34 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
+  public getAllOrganizers(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .getAllOrganizers(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
   public getHello(options?: any) {
     return DefaultApiFp(this.configuration)
       .getHello(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getOrganizerByID(id: string, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .getOrganizerByID(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -1590,6 +2052,24 @@ export class DefaultApi extends BaseAPI {
   public register(registerUserDTO: RegisterUserDTO, options?: any) {
     return DefaultApiFp(this.configuration)
       .register(registerUserDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {OrganizerDTO} organizerDTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public updateOrganizer(
+    id: string,
+    organizerDTO: OrganizerDTO,
+    options?: any
+  ) {
+    return DefaultApiFp(this.configuration)
+      .updateOrganizer(id, organizerDTO, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
