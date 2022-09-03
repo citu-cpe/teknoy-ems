@@ -6,6 +6,7 @@ import {
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, Reflector, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import Joi from 'joi';
+import { OrganizerModule } from '../organizer/organizer.module';
 import { AppController } from '../app.controller';
 import { AppService } from '../app.service';
 import { AuthenticationModule } from '../authentication/authentication.module';
@@ -44,6 +45,7 @@ export const appModule: ModuleMetadata = {
     TestDataModule,
     E2EModule,
     ScheduleModule,
+    OrganizerModule,
   ],
   controllers: [AppController],
   providers: [
