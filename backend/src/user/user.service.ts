@@ -146,7 +146,7 @@ export class UserService {
   }
 
   public static convertToDTO(user: User): UserDTO {
-    const { id, createdAt, updatedAt, email, name, roles } = user;
+    const { id, createdAt, updatedAt, email, name, roles, isFirstLogin } = user;
 
     const userDTO: UserDTO = {
       id,
@@ -155,6 +155,7 @@ export class UserService {
       email,
       name,
       roles,
+      isFirstLogin,
     };
 
     return userDTO;

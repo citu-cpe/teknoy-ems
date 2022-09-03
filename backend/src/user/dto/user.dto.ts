@@ -1,6 +1,7 @@
 import { Role } from '@prisma/client';
 import {
   IsArray,
+  IsBoolean,
   IsDateString,
   IsEmail,
   IsEnum,
@@ -32,4 +33,7 @@ export class UserDTO {
   @IsNotEmpty()
   @IsArray()
   public roles: Role[];
+
+  @IsBoolean()
+  public isFirstLogin?: boolean;
 }

@@ -54,4 +54,10 @@ export interface UserDTO {
    * @memberof UserDTO
    */
   roles: Array<object>;
+  /**
+   *
+   * @type {boolean}
+   * @memberof UserDTO
+   */
+  isFirstLogin?: boolean;
 }
