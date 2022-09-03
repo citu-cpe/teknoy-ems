@@ -1,11 +1,24 @@
 import { Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { UserDTO } from 'generated-api';
+import { useRouter } from 'next/router';
+import { useToast } from '../../../shared/hooks';
 import { useGlobalStore } from '../../../shared/stores';
 import { useLogout } from '../../index/hooks/useLogout';
 import { ChangePasswordForm } from '../../settings/components/ChangePasswordForm';
 
 export const FirstLogin = () => {
-  const { getUser } = useGlobalStore();
+  const { getUser, setUser } = useGlobalStore();
   const logout = useLogout().mutate;
+  const router = useRouter();
+  const toast = useToast();
+
+  const handleComplete = (userDTO: UserDTO) => {
+    setUser(userDTO);
+
+    toast({ title: 'Password changed successfully' });
+
+    router.push('/');
+  };
 
   return (
     <Flex
@@ -31,7 +44,7 @@ export const FirstLogin = () => {
 
       <Heading as='h1'>Welcome {getUser()?.name}!</Heading>
       <Text mb={6}>Please change the your default password.</Text>
-      <ChangePasswordForm />
+      <ChangePasswordForm onComplete={handleComplete} />
     </Flex>
   );
 };

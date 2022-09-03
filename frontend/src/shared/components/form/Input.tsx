@@ -22,6 +22,7 @@ export const Input = ({
   <FormControl
     isInvalid={!!form.errors[props.name!] && !!form.touched[props.name!]}
     mb='4'
+    isRequired={props?.isRequired}
   >
     {!!label && (
       <FormLabel htmlFor={props.id} mb='2' fontWeight='semibold'>

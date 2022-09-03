@@ -1,10 +1,10 @@
+import { LoginUserDTO } from 'generated-api';
+import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { useMutation } from 'react-query';
-import { LoginUserDTO } from 'generated-api';
+import { LocalStorageKeys } from '../../../shared/enums/localStorageKeys';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
 import { useGlobalStore } from '../../../shared/stores';
-import { useRouter } from 'next/router';
-import { LocalStorageKeys } from '../../../shared/enums/localStorageKeys';
 
 export const useLogin = () => {
   const api = useContext(ApiContext);

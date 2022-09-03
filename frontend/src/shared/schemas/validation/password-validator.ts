@@ -3,7 +3,7 @@ import * as yup from 'yup';
 export const MIN_PSWRD_LENGTH = 6;
 export const MAX_PWRD_LENGTH = 30;
 
-export const password = yup
+export const passwordValidator = yup
   .string()
   .min(
     MIN_PSWRD_LENGTH,

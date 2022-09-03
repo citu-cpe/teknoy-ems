@@ -3,6 +3,7 @@ import {
   Button,
   Checkbox as ChakraCheckbox,
   Flex,
+  FormControl,
   FormLabel,
   Spacer,
 } from '@chakra-ui/react';
@@ -12,7 +13,7 @@ import { useEffect } from 'react';
 import * as Yup from 'yup';
 import { FormikResetEffect, Input } from '../../../shared/components/form';
 import { useToast } from '../../../shared/hooks';
-import { email, name } from '../../../shared/schemas';
+import { emailValidator, nameValidator } from '../../../shared/schemas';
 import { useRegister } from '../hooks/useRegister';
 
 interface AccountRegisterFormProps {
@@ -36,14 +37,10 @@ export const AccountRegisterForm = ({
   };
 
   const validationSchema = Yup.object({
-    email,
-    name,
+    email: emailValidator,
+    name: nameValidator,
     roles: Yup.array()
-      .test(
-        'empty-check',
-        'Must include at least one role',
-        (roles) => roles?.length !== 0
-      )
+      .min(1, 'Must include at least one role')
       .required('Required'),
   });
 
@@ -53,6 +50,25 @@ export const AccountRegisterForm = ({
       onComplete(mutation.data.data);
     }
   }, [mutation, onComplete, toast]);
+
+  /**
+   * basic resetForm() function from `Formik` library
+   * does not reset the values of all Field members of a Field group,
+   * so we need to extend the reset functionality
+   */
+  const handleReset = () => {
+    const checkboxIds = ['admin-role', 'staff-role', 'organizer-role'];
+
+    checkboxIds.map((id) => {
+      const checkbox = window.document.getElementById(
+        `${id}`
+      ) as HTMLInputElement | null;
+
+      if (checkbox?.checked) {
+        checkbox.click();
+      }
+    });
+  };
 
   return (
     <Formik
@@ -65,6 +81,7 @@ export const AccountRegisterForm = ({
           <FormikResetEffect
             dependencies={[mutation]}
             condition={mutation.isError}
+            onReset={handleReset}
           />
           <Box mb='4'>
             <Field name='email' type='email'>
@@ -76,6 +93,7 @@ export const AccountRegisterForm = ({
                   type='email'
                   id='email'
                   placeholder='juan.delacruz@univ.edu'
+                  isRequired
                 />
               )}
             </Field>
@@ -89,10 +107,11 @@ export const AccountRegisterForm = ({
                   id='name'
                   placeholder='Juan Dela Cruz'
                   autoCapitalize='on'
+                  isRequired
                 />
               )}
             </Field>
-            <Flex role='group' direction='column'>
+            <Flex as={FormControl} isRequired role='group' direction='column'>
               <FormLabel fontWeight='semibold'>Roles</FormLabel>
               <Flex gap={3}>
                 <Field
@@ -150,7 +169,9 @@ export const AccountRegisterForm = ({
             </Flex>
           </Box>
           <Flex w='full' h='full'>
-            <Button type='reset'>Clear Inputs</Button>
+            <Button type='reset' onClick={handleReset}>
+              Clear Inputs
+            </Button>
             <Spacer />
             <Button
               variant='solid'

@@ -9,15 +9,22 @@ import {
   Spacer,
 } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
-import { ChangePasswordDTO } from 'generated-api';
-import { useState } from 'react';
+import { ChangePasswordDTO, UserDTO } from 'generated-api';
+import { useEffect, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import * as Yup from 'yup';
 import { Input } from '../../../shared/components/form';
-import { confirmPassword, password } from '../../../shared/schemas';
+import {
+  confirmPasswordValidator,
+  passwordValidator,
+} from '../../../shared/schemas';
 import { useChangePassword } from '../hooks';
 
-export const ChangePasswordForm = () => {
+interface ChangePasswordForm {
+  onComplete?: (userDTO: UserDTO) => void;
+}
+
+export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
   const mutation = useChangePassword();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfimPassword, setShowConfirmPassword] = useState(false);
@@ -32,9 +39,15 @@ export const ChangePasswordForm = () => {
   };
 
   const validationSchema = Yup.object({
-    password,
-    confirmPassword,
+    password: passwordValidator,
+    confirmPassword: confirmPasswordValidator,
   });
+
+  useEffect(() => {
+    if (onComplete && mutation.isSuccess) {
+      onComplete(mutation.data.data);
+    }
+  }, [mutation, onComplete]);
 
   return (
     <Formik

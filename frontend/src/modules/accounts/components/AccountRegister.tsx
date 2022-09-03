@@ -1,4 +1,4 @@
-import { Flex, Heading, HStack, Input, Text } from '@chakra-ui/react';
+import { Button, Flex, Heading, HStack, Input, Text } from '@chakra-ui/react';
 import { RegisterUserDTO } from 'generated-api';
 import { useState } from 'react';
 import { LinkButton } from '../../../shared/components/elements';
@@ -43,11 +43,9 @@ export const AccountRegister = () => {
           </Flex>
           <HStack>
             <LinkButton label='Back to Accounts' route='/accounts' />
-            <LinkButton
-              variant='solid'
-              label='Register Again'
-              route='/accounts/register'
-            />
+            <Button variant='solid' onClick={() => setRegisterDTO(undefined)}>
+              Register Again
+            </Button>
           </HStack>
         </Flex>
       ) : (
