@@ -12,7 +12,7 @@ export const ContentSection = ({ children }: ContentSectionProps) => {
       bg='foreground'
       borderWidth='1px'
       rounded='lg'
-      p={5}
+      p={2}
     >
       {children}
     </Flex>
