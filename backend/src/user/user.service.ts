@@ -130,12 +130,14 @@ export class UserService {
   public async changePassword(
     user: User,
     changePasswordDTO: ChangePasswordDTO
-  ): Promise<User> {
+  ): Promise<UserDTO> {
     const hashedPassword = await bcrypt.hash(changePasswordDTO.password, 10);
-    return this.prismaService.user.update({
+    const updatedUser = await this.prismaService.user.update({
       data: { password: hashedPassword },
       where: { id: user.id },
     });
+
+    return UserService.convertToDTO(updatedUser);
   }
 
   public async updateFirstLogin(userId: string): Promise<User> {
