@@ -1,13 +1,17 @@
 import { UserController } from '../../../src/user/user.controller';
+import { requestWithStaff } from '../setup';
+import { HttpStatus } from '@nestjs/common';
 
-xdescribe('user.spec.ts - User Controller', () => {
+describe('user.spec.ts - User Controller', () => {
   const userRoute = UserController.USER_API_ROUTE;
   // eslint-disable-next-line
   const idPath = userRoute + UserController.ID_API_ROUTE;
 
   describe('GET /', () => {
     // eslint-disable-next-line
-    it('should get all user', () => {});
+    it('should get all user', async() => {
+      await requestWithStaff.get(userRoute).expect(HttpStatus.OK);
+    });
   });
 
   describe('GET /:id', () => {

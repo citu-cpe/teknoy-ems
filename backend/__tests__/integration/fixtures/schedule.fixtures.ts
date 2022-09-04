@@ -11,7 +11,7 @@ import { request, requestWithAdmin, requestWithStaff } from '../setup';
 const scheduleRoute = ScheduleController.SCHEDULE_API_PATH;
 
 export const testCreateSchedule: ScheduleDTO = {
-  availability: AvailabilityEnum.UNAVAILABLE,
+  availability: AvailabilityEnum.AVAILABLE,
   startTime: new Date('2022-9-2 2:00:00 PM'),
   endTime: new Date('2022-9-2 5:00:00 PM'),
 };
