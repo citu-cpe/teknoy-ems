@@ -15,7 +15,7 @@ import {
 } from '../fixtures/auth.fixtures';
 import { request, requestWithAdmin, requestWithStaff } from '../setup';
 
-xdescribe('auth.spec.ts - Authentication Controller', () => {
+describe('auth.spec.ts - Authentication Controller', () => {
   let loginRoute: string;
   let registerRoute: string;
   let logoutRoute: string;
