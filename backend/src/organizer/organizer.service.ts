@@ -25,7 +25,7 @@ export class OrganizerService {
 
   public async getOrganizerById(id: string): Promise<OrganizerDTO> {
     try {
-      const organizer = await this.prisma.organizer.findFirst({
+      const organizer = await this.prisma.organizer.findUniqueOrThrow({
         where: {
           id,
         },
