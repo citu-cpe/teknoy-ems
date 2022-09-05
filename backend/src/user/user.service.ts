@@ -24,7 +24,9 @@ export class UserService {
 
   public async getUserById(id: string): Promise<UserDTO> {
     try {
-      const user = await this.prismaService.user.findUnique({ where: { id } });
+      const user = await this.prismaService.user.findUniqueOrThrow({
+        where: { id },
+      });
 
       return UserService.convertToDTO(user);
     } catch (e) {
