@@ -4,6 +4,8 @@ export const DEFAULT_TOAST_OPTIONS: UseToastOptions = {
   isClosable: true,
   variant: 'subtle',
   position: 'bottom-right',
+  status: 'success',
+  duration: 3000,
 };
 
 export const useToast = () => {

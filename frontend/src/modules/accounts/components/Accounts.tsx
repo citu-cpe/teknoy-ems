@@ -1,6 +1,10 @@
-import { ContentHeader } from '../../../shared/components/content';
+import {
+  ContentHeader,
+  ContentSection,
+} from '../../../shared/components/content';
 import { LinkButton } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
+import { AccountsTable } from './AccountsTable';
 
 export const Accounts = () => {
   return (
@@ -15,6 +19,9 @@ export const Accounts = () => {
           />
         }
       />
+      <ContentSection>
+        <AccountsTable />
+      </ContentSection>
     </MainLayout>
   );
 };
