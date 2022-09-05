@@ -4,4 +4,4 @@ export * from './AccountActions';
 export * from './AccountRegister';
 export * from './AccountRegisterForm';
 export * from './AccountEdit';
-export * from './AcountEditForm';
+export * from './AccountEditForm';
