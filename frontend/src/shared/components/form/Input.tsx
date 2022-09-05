@@ -1,13 +1,13 @@
-import React from 'react';
-import type { FieldProps } from 'formik';
 import {
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input as ChakraInput,
-  FormErrorMessage,
   InputProps as ChakraInputProps,
   Tooltip,
 } from '@chakra-ui/react';
+import type { FieldProps } from 'formik';
+import React from 'react';
 
 interface InputProps {
   label?: string;
@@ -24,7 +24,6 @@ export const Input = ({
 }: InputProps & React.PropsWithChildren & ChakraInputProps) => (
   <FormControl
     isInvalid={!!form.errors[props.name!] && !!form.touched[props.name!]}
-    mb='4'
     isRequired={props?.isRequired}
   >
     {!!label && (

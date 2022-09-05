@@ -1,6 +1,7 @@
 import { Button, Flex, Heading, HStack, Input, Text } from '@chakra-ui/react';
 import { RegisterUserDTO } from 'generated-api';
 import { useState } from 'react';
+import { ContentHeader } from '../../../shared/components/content';
 import { LinkButton } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
 import { AccountRegisterForm } from './AccountRegisterForm';
@@ -49,7 +50,10 @@ export const AccountRegister = () => {
           </HStack>
         </Flex>
       ) : (
-        <AccountRegisterForm onComplete={handleComplete} />
+        <>
+          <ContentHeader title='Account Register' />
+          <AccountRegisterForm onComplete={handleComplete} />
+        </>
       )}
     </MainLayout>
   );

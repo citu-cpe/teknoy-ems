@@ -4,19 +4,20 @@ interface ContentSectionProps {
   children: React.ReactNode;
 }
 
-export const ContentSection = ({
+export const FormLayout = ({
   children,
   ...props
 }: ContentSectionProps & FlexProps) => {
   return (
     <Flex
       direction='column'
-      gap={3}
       bg='foreground'
       borderWidth='1px'
       rounded='xl'
       px={6}
       py={5}
+      mb={4}
+      gap={5}
       {...props}
     >
       {children}

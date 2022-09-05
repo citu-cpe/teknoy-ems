@@ -1,8 +1,10 @@
 import {
   Avatar,
+  Center,
   Flex,
   HStack,
   Icon,
+  Spinner,
   Table,
   TableContainer,
   Tag,
@@ -17,7 +19,7 @@ import {
 import { UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { FaHandPointRight, FaLock, FaUserAlt } from 'react-icons/fa';
+import { FaLock, FaUserAlt } from 'react-icons/fa';
 import { useMutation } from 'react-query';
 import { Dialog } from '../../../shared/components/elements/Dialog/Dialog';
 import { useToast } from '../../../shared/hooks';
@@ -90,8 +92,16 @@ export const AccountsTable = () => {
     onClose();
   };
 
+  if (fetchUsers.isLoading) {
+    return (
+      <Center minH={80} minW={80}>
+        <Spinner colorScheme='brand' />
+      </Center>
+    );
+  }
+
   return (
-    <TableContainer bg='foreground'>
+    <TableContainer bg='foreground' p={0} m={0}>
       <Dialog
         title='Delete'
         description='Proceeding with this action cannot be undone. Continue?'
@@ -100,7 +110,7 @@ export const AccountsTable = () => {
         onClose={onClose}
         onConfirm={handleDeleteConfirm}
       />
-      <Table colorScheme='gray' variant='simple'>
+      <Table colorScheme='gray' variant='simple' p={0} m={0}>
         <Thead>
           <Tr>
             <Th>
@@ -115,18 +125,13 @@ export const AccountsTable = () => {
                 Roles
               </Text>
             </Th>
-            <Th>
-              <Icon as={FaHandPointRight} mr={2} />
-              <Text fontSize='sm' as='span'>
-                Actions
-              </Text>
-            </Th>
+            <Th maxW={10} w={10}></Th>
           </Tr>
         </Thead>
         <Tbody>
           {users &&
             users.map((user) => (
-              <Tr key={user.id}>
+              <Tr key={user.id} w={10} maxW={10}>
                 <Td>
                   <Flex gap={2} alignItems='center'>
                     <Avatar name={user.name} src='#' />

@@ -6,25 +6,39 @@ import {
 import { config } from './config';
 import { fonts, semanticTokens } from './foundations';
 import { styles } from './styles';
+import { components } from './components';
 
 export const defaultTheme = extendTheme(
   { config },
   {
     styles,
     fonts,
+    components,
     semanticTokens,
     colors: {
       brand: {
-        '50': '#EFE8FD',
-        '100': '#D3BEF9',
-        '200': '#B894F5',
-        '300': '#9C69F1',
-        '400': '#803FED',
-        '500': '#6415EA',
-        '600': '#5011BB',
-        '700': '#3C0D8C',
-        '800': '#28095D',
-        '900': '#14042F',
+        '50': '#F8EDEE',
+        '100': '#EBCBCE',
+        '200': '#DEAAAF',
+        '300': '#D2898F',
+        '400': '#C56870',
+        '500': '#B84750',
+        '600': '#933940',
+        '700': '#6F2A30',
+        '800': '#4A1C20',
+        '900': '#250E10',
+      },
+      accent: {
+        '50': '#FFF9E6',
+        '100': '#FEEFB9',
+        '200': '#FDE58C',
+        '300': '#FCDB5E',
+        '400': '#FCD131',
+        '500': '#FBC704',
+        '600': '#C9A003',
+        '700': '#967803',
+        '800': '#645002',
+        '900': '#322801',
       },
     },
   },
