@@ -1,5 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { string } from 'joi';
+import { availableSchedule } from '../../../src/global/test-data/schedule-test-data.service';
 import {
   AvailabilityEnum,
   ScheduleDTO,
@@ -86,7 +87,7 @@ describe('schedule.spec.ts - Schedule Controller', () => {
 
   describe('GET /:id', () => {
     // eslint-disable-next-line
-    it('should get schedule by id', async() => {
+    it('should get schedule by id', async () => {
       const id = '9a52e495-a1ec-49e0-acb4-2613a0c9e92b';
 
       await requestWithStaff
@@ -95,7 +96,7 @@ describe('schedule.spec.ts - Schedule Controller', () => {
     });
 
     // eslint-disable-next-line
-    it('should not get schedule with id that does not exist', async() => {     
+    it('should not get schedule with id that does not exist', async () => {
       const id = '9a52e495-a1ec-49e0-acb4-2613a0c9e92a'; //this id does not exist
 
       await requestWithStaff
@@ -106,7 +107,15 @@ describe('schedule.spec.ts - Schedule Controller', () => {
 
   describe('PUT /:id', () => {
     // eslint-disable-next-line
-    it('should update schedule', () => {});
+    it('should update schedule', () => {
+      availableSchedule.startTime = new Date('2022-9-2 3:00:00 PM');
+      availableSchedule.endTime = new Date('2022-9-2 5:00:00 PM');
+
+      return requestWithStaff
+        .put(scheduleRoute + '/' + availableSchedule.id)
+        .send(availableSchedule)
+        .expect(HttpStatus.OK);
+    });
 
     // eslint-disable-next-line
     it('should not update schedule with missing data', () => {});
