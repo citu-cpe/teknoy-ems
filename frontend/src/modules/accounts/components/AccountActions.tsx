@@ -1,14 +1,14 @@
 import {
+  Icon,
+  IconButton,
   Menu,
   MenuButton,
-  IconButton,
-  Icon,
-  Portal,
-  MenuList,
   MenuItem,
+  MenuList,
+  Portal,
 } from '@chakra-ui/react';
 import { UserDTO } from 'generated-api';
-import { BiMenu, BiEdit, BiTrash } from 'react-icons/bi';
+import { BiDotsVerticalRounded, BiEdit, BiTrash } from 'react-icons/bi';
 
 interface AccountActionsProps {
   user: UserDTO;
@@ -28,7 +28,7 @@ export const AccountActions = ({
         aria-label='Open notifications'
         color='current'
         rounded='full'
-        icon={<Icon boxSize='1.5rem' as={BiMenu} />}
+        icon={<Icon boxSize='1.5rem' as={BiDotsVerticalRounded} />}
       ></MenuButton>
       <Portal>
         <MenuList minW={40} w={20}>

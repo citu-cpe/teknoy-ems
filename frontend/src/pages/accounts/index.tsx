@@ -1,17 +1,15 @@
-import { RegisterUserDTORolesEnum } from 'generated-api';
-import { GetStaticProps, NextPage } from 'next';
-import { Accounts } from '../../modules/accounts/components/Accounts';
+import { Accounts } from '../../modules/accounts';
 
-const AccountsPage: NextPage = () => <Accounts />;
+// const AccountsPage: NextPage = () => <Accounts />;
 
-export const getStaticProps: GetStaticProps = () => {
-  return {
-    props: {
-      dontShowUser: false,
-      fallback: true,
-      roles: [RegisterUserDTORolesEnum.Admin],
-    },
-  };
-};
+// export const getStaticProps: GetStaticProps = () => {
+//   return {
+//     props: {
+//       dontShowUser: false,
+//       fallback: true,
+//       roles: [RegisterUserDTORolesEnum.Admin],
+//     },
+//   };
+// };
 
-export default AccountsPage;
+export default Accounts;

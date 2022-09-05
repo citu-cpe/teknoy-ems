@@ -1,14 +1,13 @@
-import { GetStaticProps, NextPage } from 'next';
-import { AccountRegister } from '../../../modules/accounts/components/AccountRegister';
+import { AccountRegister } from '../../../modules/accounts';
 
-const AccountRegisterPage: NextPage = () => <AccountRegister />;
+const AccountRegisterPage = AccountRegister;
 
-export const getStaticProps: GetStaticProps = () => {
-  return {
-    props: {
-      dontShowUser: false,
-    },
-  };
-};
+// export const getStaticProps: GetStaticProps = () => {
+//   return {
+//     props: {
+//       dontShowUser: false,
+//     },
+//   };
+// };
 
 export default AccountRegisterPage;

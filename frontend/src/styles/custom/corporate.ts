@@ -6,25 +6,39 @@ import {
 import { config } from '../config';
 import { fonts, semanticTokens } from '../foundations';
 import { styles } from '../styles';
+import { components } from '../components';
 
 export const corporate = extendTheme(
   { config },
   {
     styles,
     fonts,
+    components,
     semanticTokens,
     colors: {
       brand: {
-        '50': '#E5FFF4',
-        '100': '#B8FFE0',
-        '200': '#8AFFCC',
-        '300': '#5CFFB8',
-        '400': '#2EFFA4',
-        '500': '#00FF90',
-        '600': '#00CC73',
-        '700': '#009956',
-        '800': '#00663A',
-        '900': '#00331D',
+        '50': '#FFF9E6',
+        '100': '#FEEFB9',
+        '200': '#FDE58C',
+        '300': '#FCDB5E',
+        '400': '#FCD131',
+        '500': '#FBC704',
+        '600': '#C9A003',
+        '700': '#967803',
+        '800': '#645002',
+        '900': '#322801',
+      },
+      accent: {
+        '50': '#F8EDEE',
+        '100': '#EBCBCE',
+        '200': '#DEAAAF',
+        '300': '#D2898F',
+        '400': '#C56870',
+        '500': '#B84750',
+        '600': '#933940',
+        '700': '#6F2A30',
+        '800': '#4A1C20',
+        '900': '#250E10',
       },
     },
   },

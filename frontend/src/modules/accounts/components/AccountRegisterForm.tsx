@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Checkbox as ChakraCheckbox,
   Flex,
@@ -11,7 +10,11 @@ import { Field, FieldProps, Form, Formik } from 'formik';
 import { RegisterUserDTO, RegisterUserDTORolesEnum } from 'generated-api';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
-import { FormikResetEffect, Input } from '../../../shared/components/form';
+import {
+  FormikResetEffect,
+  FormLayout,
+  Input,
+} from '../../../shared/components/form';
 import { useToast } from '../../../shared/hooks';
 import { emailValidator, nameValidator } from '../../../shared/schemas';
 import { useRegister } from '../hooks/useRegister';
@@ -83,7 +86,7 @@ export const AccountRegisterForm = ({
             condition={mutation.isError}
             onReset={handleReset}
           />
-          <Box mb='4'>
+          <FormLayout>
             <Field name='email' type='email'>
               {(fieldProps: FieldProps<string, RegisterUserDTO>) => (
                 <Input
@@ -97,7 +100,7 @@ export const AccountRegisterForm = ({
                 />
               )}
             </Field>
-            <Field name='name' type='name'>
+            <Field name='name' type='name' isRequired>
               {(fieldProps: FieldProps<string, RegisterUserDTO>) => (
                 <Input
                   fieldProps={fieldProps}
@@ -106,14 +109,13 @@ export const AccountRegisterForm = ({
                   type='name'
                   id='name'
                   placeholder='Juan Dela Cruz'
-                  autoCapitalize='on'
                   isRequired
                 />
               )}
             </Field>
             <Flex as={FormControl} isRequired role='group' direction='column'>
               <FormLabel fontWeight='semibold'>Roles</FormLabel>
-              <Flex direction='column'>
+              <Flex direction='column' gap={0}>
                 <Field
                   name='roles'
                   type='checkbox'
@@ -124,6 +126,7 @@ export const AccountRegisterForm = ({
                       as={ChakraCheckbox}
                       fieldProps={fieldProps}
                       name='roles'
+                      borderWidth='0px'
                       type='checkbox'
                       id='admin-role'
                     >
@@ -141,6 +144,7 @@ export const AccountRegisterForm = ({
                       as={ChakraCheckbox}
                       fieldProps={fieldProps}
                       name='roles'
+                      borderWidth='0px'
                       type='checkbox'
                       id='staff-role'
                     >
@@ -158,8 +162,10 @@ export const AccountRegisterForm = ({
                       as={ChakraCheckbox}
                       fieldProps={fieldProps}
                       name='roles'
+                      borderWidth='0px'
                       type='checkbox'
-                      id='organizer-role'
+                      id='organizer-rol
+                      e'
                     >
                       {fieldProps.field.value}
                     </Input>
@@ -167,7 +173,7 @@ export const AccountRegisterForm = ({
                 </Field>
               </Flex>
             </Flex>
-          </Box>
+          </FormLayout>
           <Flex w='full' h='full'>
             <Button type='reset' onClick={handleReset}>
               Clear Inputs

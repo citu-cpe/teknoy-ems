@@ -126,7 +126,7 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
             <Spacer />
             <Button
               variant='solid'
-              data-cy='register-submit-btn'
+              data-cy='change-password-submit-btn'
               formNoValidate
               type='submit'
               isLoading={mutation.isLoading}

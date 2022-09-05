@@ -8,7 +8,7 @@ interface ContentHeaderProps {
 export const ContentHeader = ({ title, actions }: ContentHeaderProps) => {
   return (
     <Flex justifyContent='center' alignItems='center'>
-      <Heading>{title}</Heading>
+      <Heading fontWeight='black'>{title}</Heading>
       <Spacer />
       {actions}
     </Flex>
