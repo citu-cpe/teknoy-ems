@@ -40,6 +40,10 @@ export const semanticTokens = {
       default: 'gray.200',
       _dark: 'whiteAlpha.500',
     },
+    errorColor: {
+      default: 'red.500',
+      _dark: 'red.300',
+    },
   },
   sizes: {
     headerHeight: 14,

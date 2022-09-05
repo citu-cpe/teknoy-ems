@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 interface FormikResetEffectProps {
   condition: boolean;
   dependencies: unknown[];
-  onReset: () => void;
+  onReset?: () => void;
 }
 
 export const FormikResetEffect = ({
@@ -16,8 +16,11 @@ export const FormikResetEffect = ({
 
   useEffect(() => {
     if (condition) {
+      if (onReset) {
+        onReset();
+      }
+
       resetForm();
-      onReset();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetForm, condition, ...dependencies]);
