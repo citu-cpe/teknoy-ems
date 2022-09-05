@@ -44,7 +44,6 @@ export const AccountEditForm = ({
   const onSubmit = (userDTO: UserDTO) => {
     if (initialUser.name === userDTO.name) {
       toast({ title: 'No account changes', status: 'info' });
-      router.push('/accounts');
     }
 
     mutation.mutate(userDTO);
@@ -57,7 +56,6 @@ export const AccountEditForm = ({
       }
 
       toast({ title: 'Edited account successfully' });
-      router.push('/accounts');
     }
   }, [mutation, onComplete, toast, router]);
 
@@ -88,10 +86,6 @@ export const AccountEditForm = ({
     >
       {() => (
         <Form noValidate>
-          <FormikResetEffect
-            dependencies={[mutation]}
-            condition={mutation.isError}
-          />
           <FormikResetEffect
             dependencies={[mutation]}
             condition={mutation.isError}
