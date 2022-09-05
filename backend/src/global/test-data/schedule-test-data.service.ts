@@ -10,6 +10,7 @@ export const availableSchedule: Schedule = {
   availability: Availability.AVAILABLE,
   startTime: new Date('2022-9-2 2:00:00 PM'),
   endTime: new Date('2022-9-2 5:00:00 PM'),
+  equipmentId: null,
 };
 
 export const unavailableSchedule: Schedule = {
@@ -19,6 +20,7 @@ export const unavailableSchedule: Schedule = {
   availability: Availability.UNAVAILABLE,
   startTime: new Date('2022-9-2 2:00:00 PM'),
   endTime: new Date('2022-9-2 5:00:00 PM'),
+  equipmentId: null,
 };
 
 @Injectable()
