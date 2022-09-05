@@ -10,6 +10,7 @@ import { Role, User } from '@prisma/client';
 import { UserDTO } from './dto/user.dto';
 import { ChangePasswordDTO } from 'src/authentication/dto/change-password.dto';
 import { arraysEqual } from '../shared/utils/array.util';
+import { NotFoundError } from '@prisma/client/runtime';
 
 @Injectable()
 export class UserService {
@@ -22,9 +23,15 @@ export class UserService {
   }
 
   public async getUserById(id: string): Promise<UserDTO> {
-    const user = await this.prismaService.user.findUnique({ where: { id } });
+    try {
+      const user = await this.prismaService.user.findUnique({ where: { id } });
 
-    return UserService.convertToDTO(user);
+      return UserService.convertToDTO(user);
+    } catch (e) {
+      if (e instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 
   public async editUser(
@@ -51,18 +58,30 @@ export class UserService {
       }
     }
 
-    const user = await this.prismaService.user.update({
-      data: userDTO,
-      where: { id },
-    });
+    try {
+      const user = await this.prismaService.user.update({
+        data: userDTO,
+        where: { id },
+      });
 
-    return UserService.convertToDTO(user);
+      return UserService.convertToDTO(user);
+    } catch (e) {
+      if (e instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 
   public async deleteUser(id: string): Promise<UserDTO> {
-    const user = await this.prismaService.user.delete({ where: { id } });
+    try {
+      const user = await this.prismaService.user.delete({ where: { id } });
 
-    return UserService.convertToDTO(user);
+      return UserService.convertToDTO(user);
+    } catch (e) {
+      if (e instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 
   public async findByEmail(email: string): Promise<User> {
@@ -131,20 +150,32 @@ export class UserService {
     user: User,
     changePasswordDTO: ChangePasswordDTO
   ): Promise<UserDTO> {
-    const hashedPassword = await bcrypt.hash(changePasswordDTO.password, 10);
-    const updatedUser = await this.prismaService.user.update({
-      data: { password: hashedPassword },
-      where: { id: user.id },
-    });
+    try {
+      const hashedPassword = await bcrypt.hash(changePasswordDTO.password, 10);
+      const updatedUser = await this.prismaService.user.update({
+        data: { password: hashedPassword },
+        where: { id: user.id },
+      });
 
-    return UserService.convertToDTO(updatedUser);
+      return UserService.convertToDTO(updatedUser);
+    } catch (e) {
+      if (e instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 
   public async updateFirstLogin(userId: string): Promise<User> {
-    return this.prismaService.user.update({
-      data: { isFirstLogin: false },
-      where: { id: userId },
-    });
+    try {
+      return this.prismaService.user.update({
+        data: { isFirstLogin: false },
+        where: { id: userId },
+      });
+    } catch (e) {
+      if (e instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 
   public static convertToDTO(user: User): UserDTO {
