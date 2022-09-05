@@ -1,55 +1,34 @@
-import React from 'react';
-import type { FieldProps } from 'formik';
 import {
-  CheckboxProps as ChakraCheckBoxProps,
-  useCheckbox,
-  Flex,
-  chakra,
-  Text,
-  Box,
+  Checkbox as ChakraCheckbox,
+  CheckboxProps as ChakraCheckboxProps,
+  FormControl,
+  FormErrorMessage,
 } from '@chakra-ui/react';
+import type { FieldProps } from 'formik';
+import React from 'react';
 
 interface CheckboxProps {
   fieldProps: FieldProps;
-  label?: string;
 }
 
-export const Checkbox = (
-  props: CheckboxProps & ChakraCheckBoxProps & FieldProps
-) => {
-  const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } =
-    useCheckbox(props);
-
-  return (
-    <chakra.label
-      display='flex'
-      flexDirection='row'
-      alignItems='center'
-      gridColumnGap={2}
-      bg='green.50'
-      border='1px solid'
-      borderColor='green.500'
-      rounded='lg'
-      px={3}
-      py={1}
-      cursor='pointer'
-      {...htmlProps}
+export const Checkbox = ({
+  fieldProps: { field, form },
+  children,
+  ...props
+}: CheckboxProps & React.PropsWithChildren & ChakraCheckboxProps) => (
+  <FormControl
+    isInvalid={!!form.errors[props.name!] && !!form.touched[props.name!]}
+    isRequired={props?.isRequired}
+  >
+    <ChakraCheckbox
+      type='checkbox'
+      isChecked={field.checked}
+      my={1}
+      {...field}
+      {...props}
     >
-      <input {...getInputProps()} hidden />
-      <Flex
-        alignItems='center'
-        justifyContent='center'
-        border='2px solid'
-        borderColor='green.500'
-        w={4}
-        h={4}
-        {...getCheckboxProps()}
-      >
-        {state.isChecked && <Box w={2} h={2} bg='green.500' />}
-      </Flex>
-      <Text color='gray.700' {...getLabelProps()}>
-        Click me for {props.value}
-      </Text>
-    </chakra.label>
-  );
-};
+      {children}
+    </ChakraCheckbox>
+    <FormErrorMessage>{form.errors[props.name!]?.toString()}</FormErrorMessage>
+  </FormControl>
+);

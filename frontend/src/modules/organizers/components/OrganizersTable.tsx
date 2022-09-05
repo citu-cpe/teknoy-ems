@@ -2,12 +2,10 @@ import {
   Avatar,
   Center,
   Flex,
-  HStack,
   Icon,
   Spinner,
   Table,
   TableContainer,
-  Tag,
   Tbody,
   Td,
   Text,
@@ -16,32 +14,28 @@ import {
   Tr,
   useDisclosure,
 } from '@chakra-ui/react';
-import { UserDTO } from 'generated-api';
+import { OrganizerDTO } from 'generated-api';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { FaLock, FaUserAlt } from 'react-icons/fa';
+import { FaBuilding, FaUserAlt } from 'react-icons/fa';
 import { useMutation } from 'react-query';
 import { Modal } from '../../../shared/components/elements';
 import { Dialog } from '../../../shared/components/elements/Dialog/Dialog';
-import { TableActions } from '../../../shared/components/table';
+import { TableActions } from '../../../shared/components/table/TableActions';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
-import { useGlobalStore } from '../../../shared/stores';
-import { AccountEditForm } from './AccountEditForm';
+import { OrganizerEditForm } from './OrganizerEditForm';
 
-interface AccountsTableProps {
+interface OrganizersTableProps {
   refresh: boolean;
 }
 
-export const AccountsTable = ({ refresh }: AccountsTableProps) => {
+export const OrganizersTable = ({ refresh }: OrganizersTableProps) => {
   const api = useContext(ApiContext);
   const toast = useToast();
 
-  const { getUser } = useGlobalStore();
-  const localUser = getUser();
-
-  const [users, setUsers] = useState<UserDTO[] | undefined>([]);
-  const userToEdit = useRef<UserDTO | null>(null);
-  const userToDelete = useRef<UserDTO | null>(null);
+  const [organizers, setOrganizers] = useState<OrganizerDTO[] | undefined>([]);
+  const organizerToEdit = useRef<OrganizerDTO | null>(null);
+  const organizerToDelete = useRef<OrganizerDTO | null>(null);
 
   const {
     onOpen: onEditModalOpen,
@@ -55,67 +49,59 @@ export const AccountsTable = ({ refresh }: AccountsTableProps) => {
     onClose: onDeleteDialogClose,
   } = useDisclosure();
 
-  const fetchUsers = useMutation(() => api.getUsers(), {
+  const fetchOrganizers = useMutation(() => api.getAllOrganizers(), {
     onSuccess: (data) => {
-      setUsers(() => data.data);
+      setOrganizers(() => data.data);
     },
   });
 
-  const deleteUser = useMutation(
-    (userDTO: UserDTO) => api.deleteUser(userDTO.id),
+  const deleteOrganizers = useMutation(
+    (organizerDTO: OrganizerDTO) =>
+      api.deleteOrganizer(organizerDTO.id as string),
     {
       onSuccess: () => {
-        fetchAllUsers();
+        fetchAllOrganizers();
       },
     }
   );
 
-  const fetchAllUsers = () => {
-    fetchUsers.mutate();
+  const fetchAllOrganizers = () => {
+    fetchOrganizers.mutate();
   };
 
   useEffect(() => {
-    fetchAllUsers();
+    fetchAllOrganizers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh]);
 
-  const handleEdit = (userDTO: UserDTO) => {
+  const handleEdit = (organizerDTO: OrganizerDTO) => {
     onEditModalOpen();
-    userToEdit.current = userDTO;
+    organizerToEdit.current = organizerDTO;
   };
 
-  const handleDelete = (userDTO: UserDTO) => {
+  const handleDelete = (organizerDTO: OrganizerDTO) => {
     onDeleteDialogOpen();
-    userToDelete.current = userDTO;
+    organizerToDelete.current = organizerDTO;
   };
 
   const handleDeleteConfirm = async () => {
-    const userDTO = userToDelete.current;
+    const organizerDTO = organizerToDelete.current;
 
-    if (userDTO === null) {
+    if (organizerDTO === null) {
       return;
     }
 
-    if (localUser?.id.toString() === userDTO.id.toString()) {
-      toast({
-        title: 'Error',
-        description: 'Cannot delete own account in Accounts',
-        status: 'error',
-      });
-    } else {
-      await deleteUser.mutateAsync(userDTO);
-    }
-
-    toast({ title: 'Deleted account successfully' });
+    await deleteOrganizers.mutateAsync(organizerDTO);
+    toast({ title: 'Deleted organizer successfully' });
     onDeleteDialogClose();
   };
 
   const handleEditComplete = () => {
-    fetchAllUsers();
+    fetchAllOrganizers();
     onEditModalClose();
   };
 
-  if (fetchUsers.isLoading) {
+  if (fetchOrganizers.isLoading) {
     return (
       <Center minH={80} minW={80}>
         <Spinner colorScheme='brand' />
@@ -125,14 +111,14 @@ export const AccountsTable = ({ refresh }: AccountsTableProps) => {
 
   return (
     <TableContainer bg='foreground' p={0} m={0}>
-      {userToEdit.current && (
+      {organizerToEdit.current && (
         <Modal
-          title='Account Edit'
+          title='Organizer Edit'
           isOpen={isEditModalOpen}
           onClose={onEditModalClose}
         >
-          <AccountEditForm
-            initialUser={userToEdit.current}
+          <OrganizerEditForm
+            initialOrganizer={organizerToEdit.current}
             onComplete={handleEditComplete}
           />
         </Modal>
@@ -141,7 +127,7 @@ export const AccountsTable = ({ refresh }: AccountsTableProps) => {
       <Dialog
         title='Delete'
         description='Proceeding with this action cannot be undone. Continue?'
-        data={userToDelete.current?.name.toString()}
+        data={organizerToDelete.current?.name.toString()}
         isOpen={isDeleteDialogOpen}
         onClose={onDeleteDialogClose}
         onConfirm={handleDeleteConfirm}
@@ -156,41 +142,32 @@ export const AccountsTable = ({ refresh }: AccountsTableProps) => {
               </Text>
             </Th>
             <Th>
-              <Icon as={FaLock} mr={2} />
+              <Icon as={FaBuilding} mr={2} />
               <Text fontSize='sm' as='span'>
-                Roles
+                Type
               </Text>
             </Th>
             <Th maxW={10} w={10}></Th>
           </Tr>
         </Thead>
         <Tbody>
-          {users &&
-            users.map((user) => (
-              <Tr key={user.id} w={10} maxW={10}>
+          {organizers &&
+            organizers.map((org) => (
+              <Tr key={org.id} w={10} maxW={10}>
                 <Td>
                   <Flex gap={2} alignItems='center'>
-                    <Avatar name={user.name} src='#' />
-                    <Flex direction='column'>
-                      <Text as='span'>{user.name}</Text>
-                      <Text as='span' fontSize='sm' opacity={0.8}>
-                        {user.email}
-                      </Text>
-                    </Flex>
+                    <Avatar name={org.name} src='#' />
+                    <Text as='span'>{org.name}</Text>
                   </Flex>
                 </Td>
                 <Td>
-                  <HStack>
-                    {user.roles.map((role, index) => (
-                      <Tag colorScheme='gray' key={index}>
-                        {role.toString()}
-                      </Tag>
-                    ))}
-                  </HStack>
+                  <Text as='span' fontSize='sm' opacity={0.8}>
+                    {org.type}
+                  </Text>
                 </Td>
                 <Td>
                   <TableActions
-                    data={user}
+                    data={org}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                   />

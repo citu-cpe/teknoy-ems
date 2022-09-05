@@ -1,6 +1,9 @@
 import { UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
-import { ContentHeader } from '../../../shared/components/content';
+import {
+  ContentHeader,
+  ContentSection,
+} from '../../../shared/components/content';
 import { MainLayout } from '../../../shared/components/layout';
 import { useToast } from '../../../shared/hooks';
 import { useGlobalStore } from '../../../shared/stores';
@@ -23,7 +26,9 @@ export const ChangePassword = () => {
   return (
     <MainLayout>
       <ContentHeader title='Change Password' />
-      <ChangePasswordForm onComplete={handleComplete} />
+      <ContentSection>
+        <ChangePasswordForm onComplete={handleComplete} />
+      </ContentSection>
     </MainLayout>
   );
 };

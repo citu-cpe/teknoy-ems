@@ -1,17 +1,11 @@
-import {
-  Button,
-  Checkbox as ChakraCheckbox,
-  Flex,
-  FormControl,
-  FormLabel,
-  Spacer,
-} from '@chakra-ui/react';
+import { Button, Flex, FormControl, FormLabel, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { RegisterUserDTORolesEnum, UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
 import {
+  Checkbox,
   FormikResetEffect,
   FormLayout,
   Input,
@@ -45,7 +39,10 @@ export const AccountEditForm = ({
   });
 
   const onSubmit = (userDTO: UserDTO) => {
-    if (initialUser.name === userDTO.name) {
+    if (
+      initialUser.name === userDTO.name &&
+      initialUser.roles === userDTO.roles
+    ) {
       if (onComplete) {
         onComplete(userDTO);
       }
@@ -119,18 +116,16 @@ export const AccountEditForm = ({
                   name='roles'
                   type='checkbox'
                   value={RegisterUserDTORolesEnum.Admin}
+                  isChecked
                 >
                   {(fieldProps: FieldProps<string, UserDTO>) => (
-                    <Input
-                      as={ChakraCheckbox}
+                    <Checkbox
                       fieldProps={fieldProps}
                       name='roles'
-                      borderWidth='0px'
-                      type='checkbox'
                       id='admin-role'
                     >
                       {fieldProps.field.value}
-                    </Input>
+                    </Checkbox>
                   )}
                 </Field>
                 <Field
@@ -139,16 +134,13 @@ export const AccountEditForm = ({
                   value={RegisterUserDTORolesEnum.Staff}
                 >
                   {(fieldProps: FieldProps<string, UserDTO>) => (
-                    <Input
-                      as={ChakraCheckbox}
+                    <Checkbox
                       fieldProps={fieldProps}
                       name='roles'
-                      borderWidth='0px'
-                      type='checkbox'
                       id='staff-role'
                     >
                       {fieldProps.field.value}
-                    </Input>
+                    </Checkbox>
                   )}
                 </Field>
                 <Field
@@ -157,16 +149,13 @@ export const AccountEditForm = ({
                   value={RegisterUserDTORolesEnum.Organizer}
                 >
                   {(fieldProps: FieldProps<string, UserDTO>) => (
-                    <Input
-                      as={ChakraCheckbox}
+                    <Checkbox
                       fieldProps={fieldProps}
                       name='roles'
-                      borderWidth='0px'
-                      type='checkbox'
                       id='organizer-role'
                     >
                       {fieldProps.field.value}
-                    </Input>
+                    </Checkbox>
                   )}
                 </Field>
               </Flex>
@@ -185,7 +174,7 @@ export const AccountEditForm = ({
             </Field>
           </FormLayout>
           <Flex w='full' h='full'>
-            <Button type='reset'>Clear Inputs</Button>
+            <Button type='reset'>Reset Inputs</Button>
             <Spacer />
             <Button
               variant='solid'

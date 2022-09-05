@@ -9,17 +9,7 @@ export const FormLayout = ({
   ...props
 }: ContentSectionProps & FlexProps) => {
   return (
-    <Flex
-      direction='column'
-      bg='foreground'
-      borderWidth='1px'
-      rounded='xl'
-      px={6}
-      py={5}
-      mb={4}
-      gap={5}
-      {...props}
-    >
+    <Flex direction='column' mb={10} gap={4} {...props}>
       {children}
     </Flex>
   );
