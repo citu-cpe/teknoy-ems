@@ -7,7 +7,7 @@ import {
 } from '../../../shared/components/content';
 import { MainLayout } from '../../../shared/components/layout';
 import { useAccounts } from '../hooks/useAccounts';
-import { AccountEditForm } from './AcountEditForm';
+import { AccountEditForm } from './AccountEditForm';
 
 export const AccountEdit = () => {
   const router = useRouter();
@@ -28,11 +28,17 @@ export const AccountEdit = () => {
     }
   }, [mutations]);
 
+  const handleComplete = () => {
+    router.push('/accounts');
+  };
+
   return (
     <MainLayout>
       <ContentHeader title='Account Edit' />
       <ContentSection>
-        {userDTO && <AccountEditForm initialUser={userDTO} />}
+        {userDTO && (
+          <AccountEditForm initialUser={userDTO} onComplete={handleComplete} />
+        )}
       </ContentSection>
     </MainLayout>
   );

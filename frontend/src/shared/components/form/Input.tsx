@@ -6,16 +6,19 @@ import {
   Input as ChakraInput,
   FormErrorMessage,
   InputProps as ChakraInputProps,
+  Tooltip,
 } from '@chakra-ui/react';
 
 interface InputProps {
-  fieldProps: FieldProps;
   label?: string;
+  tooltipLabel?: string;
+  fieldProps: FieldProps;
 }
 
 export const Input = ({
   fieldProps: { field, form },
   label,
+  tooltipLabel,
   children,
   ...props
 }: InputProps & React.PropsWithChildren & ChakraInputProps) => (
@@ -29,9 +32,16 @@ export const Input = ({
         {label}
       </FormLabel>
     )}
-    <ChakraInput {...field} {...props}>
-      {children}
-    </ChakraInput>
+    <Tooltip
+      display={props.isReadOnly ? 'block' : 'none'}
+      label={tooltipLabel || `Editing ${props.name} is restricted`}
+      placement='bottom-end'
+      hasArrow
+    >
+      <ChakraInput {...field} {...props}>
+        {children}
+      </ChakraInput>
+    </Tooltip>
     <FormErrorMessage>{form.errors[props.name!]?.toString()}</FormErrorMessage>
   </FormControl>
 );

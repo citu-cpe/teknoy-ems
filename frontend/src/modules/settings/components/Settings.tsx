@@ -17,7 +17,8 @@ export const Settings = () => {
           <Badge key={index}>{role.toString()}</Badge>
         ))}
       </Flex>
-      <Flex maxW={80}>
+      <Flex direction='column' maxW={80}>
+        <LinkButton label='Edit Profile' route='/settings/profile' />
         <LinkButton
           label='Change Password'
           route='/settings/profile/change-password'
