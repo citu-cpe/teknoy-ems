@@ -1,5 +1,6 @@
 import { Schedule } from '.prisma/client';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { NotFoundError } from '@prisma/client/runtime';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { AvailabilityEnum, ScheduleDTO } from './dto/schedule.dto';
 
@@ -22,31 +23,49 @@ export class ScheduleService {
   }
 
   public async getScheduleById(id: string): Promise<ScheduleDTO> {
-    const schedule = await this.prismaService.schedule.findUniqueOrThrow({
-      where: { id },
-    });
+    try {
+      const schedule = await this.prismaService.schedule.findUniqueOrThrow({
+        where: { id },
+      });
 
-    return ScheduleService.convertToDTO(schedule);
+      return ScheduleService.convertToDTO(schedule);
+    } catch (e) {
+      if (e instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 
   public async editSchedule(
     id: string,
     scheduleDTO: ScheduleDTO
   ): Promise<ScheduleDTO> {
-    const updatedSchedule = await this.prismaService.schedule.update({
-      data: scheduleDTO,
-      where: { id },
-    });
+    try {
+      const updatedSchedule = await this.prismaService.schedule.update({
+        data: scheduleDTO,
+        where: { id },
+      });
 
-    return ScheduleService.convertToDTO(updatedSchedule);
+      return ScheduleService.convertToDTO(updatedSchedule);
+    } catch (e) {
+      if (e instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 
   public async deleteSchedule(id: string): Promise<ScheduleDTO> {
-    const deleteSchedule = await this.prismaService.schedule.delete({
-      where: { id },
-    });
+    try {
+      const deleteSchedule = await this.prismaService.schedule.delete({
+        where: { id },
+      });
 
-    return ScheduleService.convertToDTO(deleteSchedule);
+      return ScheduleService.convertToDTO(deleteSchedule);
+    } catch (e) {
+      if (e instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+    }
   }
 
   public static convertToDTO(schedule: Schedule): ScheduleDTO {
