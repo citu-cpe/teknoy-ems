@@ -60,10 +60,15 @@ export const Dialog = ({
         <AlertDialogCloseButton />
         <AlertDialogBody>{bodyText}</AlertDialogBody>
         <AlertDialogFooter>
-          <Button variant='solid' ref={cancelRef} onClick={handleCancel}>
+          <Button color='current' ref={cancelRef} onClick={handleCancel}>
             No
           </Button>
-          <Button colorScheme='red' ml={3} onClick={handleConfirm}>
+          <Button
+            variant='solid'
+            colorScheme='red'
+            ml={3}
+            onClick={handleConfirm}
+          >
             Yes
           </Button>
         </AlertDialogFooter>

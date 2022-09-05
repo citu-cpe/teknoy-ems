@@ -1,6 +1,14 @@
-import { Box, Button, Flex, Spacer } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Spacer,
+  Checkbox as ChakraCheckbox,
+} from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
-import { UserDTO } from 'generated-api';
+import { RegisterUserDTORolesEnum, UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
@@ -28,6 +36,9 @@ export const AccountEditForm = ({
 
   const validationSchema = Yup.object({
     name: nameValidator,
+    roles: Yup.array()
+      .min(1, 'Must include at least one role')
+      .required('Required'),
   });
 
   const onSubmit = (userDTO: UserDTO) => {
@@ -50,6 +61,25 @@ export const AccountEditForm = ({
     }
   }, [mutation, onComplete, toast, router]);
 
+  /**
+   * basic resetForm() function from `Formik` library
+   * does not reset the values of all Field members of a Field group,
+   * so we need to extend the reset functionality
+   */
+  const handleReset = () => {
+    const checkboxIds = ['admin-role', 'staff-role', 'organizer-role'];
+
+    checkboxIds.map((id) => {
+      const checkbox = window.document.getElementById(
+        `${id}`
+      ) as HTMLInputElement | null;
+
+      if (checkbox?.checked) {
+        checkbox.click();
+      }
+    });
+  };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -61,6 +91,11 @@ export const AccountEditForm = ({
           <FormikResetEffect
             dependencies={[mutation]}
             condition={mutation.isError}
+          />
+          <FormikResetEffect
+            dependencies={[mutation]}
+            condition={mutation.isError}
+            onReset={handleReset}
           />
           <Box mb='4'>
             <Field name='email' type='email' isReadOnly>
@@ -75,19 +110,63 @@ export const AccountEditForm = ({
                 />
               )}
             </Field>
-            <Field name='roles' type='roles' isReadOnly>
-              {(fieldProps: FieldProps<string, UserDTO>) => (
-                <Input
-                  fieldProps={fieldProps}
+            <Flex as={FormControl} isRequired role='group' direction='column'>
+              <FormLabel fontWeight='semibold'>Roles</FormLabel>
+              <Flex direction='column'>
+                <Field
                   name='roles'
-                  label='Roles'
-                  type='roles'
-                  id='roles'
-                  isReadOnly
-                />
-              )}
-            </Field>
-            <Field name='name' type='name' isReadOnly>
+                  type='checkbox'
+                  value={RegisterUserDTORolesEnum.Admin}
+                >
+                  {(fieldProps: FieldProps<string, UserDTO>) => (
+                    <Input
+                      as={ChakraCheckbox}
+                      fieldProps={fieldProps}
+                      name='roles'
+                      type='checkbox'
+                      id='admin-role'
+                    >
+                      {fieldProps.field.value}
+                    </Input>
+                  )}
+                </Field>
+                <Field
+                  name='roles'
+                  type='checkbox'
+                  value={RegisterUserDTORolesEnum.Staff}
+                >
+                  {(fieldProps: FieldProps<string, UserDTO>) => (
+                    <Input
+                      as={ChakraCheckbox}
+                      fieldProps={fieldProps}
+                      name='roles'
+                      type='checkbox'
+                      id='staff-role'
+                    >
+                      {fieldProps.field.value}
+                    </Input>
+                  )}
+                </Field>
+                <Field
+                  name='roles'
+                  type='checkbox'
+                  value={RegisterUserDTORolesEnum.Organizer}
+                >
+                  {(fieldProps: FieldProps<string, UserDTO>) => (
+                    <Input
+                      as={ChakraCheckbox}
+                      fieldProps={fieldProps}
+                      name='roles'
+                      type='checkbox'
+                      id='organizer-role'
+                    >
+                      {fieldProps.field.value}
+                    </Input>
+                  )}
+                </Field>
+              </Flex>
+            </Flex>
+            <Field name='name' type='name'>
               {(fieldProps: FieldProps<string, UserDTO>) => (
                 <Input
                   fieldProps={fieldProps}
