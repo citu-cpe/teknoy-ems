@@ -23,8 +23,6 @@ model User {
   isFirstLogin              Boolean  @default(true)
 }
 
-
-
 enum Role {
   STAFF
   ADMIN
@@ -38,6 +36,18 @@ model Schedule {
   availability Availability
   startTime    DateTime
   endTime      DateTime
+  Equipment    Equipment?   @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  equipmentId  String?
+}
+
+model Equipment {
+  id        String     @id @default(uuid())
+  name      String
+  type      String
+  brand     String
+  serial    String
+  notes     String
+  schedules Schedule[]
 }
 
 enum Availability {
@@ -46,10 +56,11 @@ enum Availability {
 }
 
 model Organizer {
-  id    String @id @default(uuid())
-  name  String
-  type  Type
+  id   String @id @default(uuid())
+  name String
+  type Type
 }
+
 enum Type {
   DEPARTMENT
   ORGANIZATION
