@@ -18,6 +18,7 @@ import { PrismaModule } from '../global/prisma/prisma.module';
 import { TestDataModule } from '../global/test-data/test-data.module';
 import { ScheduleModule } from '../schedule/schedule.module';
 import { UserModule } from '../user/user.module';
+import { EquipmentModule } from '../equipment/equipment.module';
 
 export const appModule: ModuleMetadata = {
   imports: [
@@ -46,6 +47,7 @@ export const appModule: ModuleMetadata = {
     E2EModule,
     ScheduleModule,
     OrganizerModule,
+    EquipmentModule,
   ],
   controllers: [AppController],
   providers: [
