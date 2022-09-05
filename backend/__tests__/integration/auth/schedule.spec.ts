@@ -110,6 +110,12 @@ describe('schedule.spec.ts - Schedule Controller', () => {
         availability: availableSchedule.availability,
         startTime: new Date('2022-9-2 3:00:00 PM'),
       };
+      const updateWithNoStartAndEndTime = {
+        id: availableSchedule.id,
+        createdAt: availableSchedule.createdAt,
+        updatedAt: new Date(),
+        availability: availableSchedule.availability,
+      };
 
       await requestWithStaff
         .put(scheduleRoute + '/' + availableSchedule.id)
@@ -118,6 +124,10 @@ describe('schedule.spec.ts - Schedule Controller', () => {
       await requestWithStaff
         .put(scheduleRoute + '/' + availableSchedule.id)
         .send(updateWithNoEndTime)
+        .expect(HttpStatus.BAD_REQUEST);
+      await requestWithStaff
+        .put(scheduleRoute + '/' + availableSchedule.id)
+        .send(updateWithNoStartAndEndTime)
         .expect(HttpStatus.BAD_REQUEST);
     });
 
