@@ -57,7 +57,7 @@ enum Availability {
 
 model Organizer {
   id   String @id @default(uuid())
-  name String
+  name String @unique
   type Type
 }
 
