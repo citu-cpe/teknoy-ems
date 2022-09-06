@@ -48,7 +48,7 @@ describe('organizer.spec.ts - Organizer Controller', () => {
         type: TypeEnum.DEPARTMENT,
       };
       const createDeptOrganizerWithoutType = {
-        name: 'Christopher Lao',
+        name: 'CEA',
       };
       const createDeptOrganizerWithEmptyData = {};
 
@@ -71,7 +71,7 @@ describe('organizer.spec.ts - Organizer Controller', () => {
         type: TypeEnum.ORGANIZATION,
       };
       const createOrgOrganizerWithoutType = {
-        name: 'Keanue Dax Teaño',
+        name: 'SSC',
       };
       const createOrgOrganizerWithEmptyData = {};
 
@@ -90,21 +90,17 @@ describe('organizer.spec.ts - Organizer Controller', () => {
     });
 
     it('should not create a dept type organizer with the same dept name', async () => {
-      const { name, type }: OrganizerDTO = await uncreatedOrganizerDept(
-        testCreateOrganizerDeptSameName
+      await uncreatedOrganizerDept(testCreateOrganizerDeptSameName);
+      expect(testCreateOrganizerDeptSameName.name).toEqual(
+        testOrganizerDepartment.name
       );
-
-      expect(name).toEqual(testCreateOrganizerDeptSameName.name);
-      expect(type).toEqual(testCreateOrganizerDeptSameName.type);
     });
 
     it('should not create an org type organizer with the same org name', async () => {
-      const { name, type }: OrganizerDTO = await uncreatedOrganizerOrg(
-        testCreateOrganizerOrgSameName
+      await uncreatedOrganizerOrg(testCreateOrganizerOrgSameName);
+      expect(testCreateOrganizerOrgSameName.name).toEqual(
+        testOrganizerOrganization.name
       );
-
-      expect(name).toEqual(testCreateOrganizerOrgSameName.name);
-      expect(type).toEqual(testCreateOrganizerOrgSameName.type);
     });
   });
 
@@ -146,7 +142,7 @@ describe('organizer.spec.ts - Organizer Controller', () => {
       //UPDATES ORGANIZER INFO WITH DEPARTMENT TYPE
       const updateOrganizerDeptName = {
         id: testOrganizerDepartment.id,
-        name: 'Chris Law',
+        name: 'CEA',
         type: testOrganizerDepartment.type,
       };
       const updateOrganizerDeptType = {
@@ -163,7 +159,7 @@ describe('organizer.spec.ts - Organizer Controller', () => {
       //UPDATES ORGANIZER INFO WITH ORGANIZATION TYPE
       const updateOrganizerOrgName = {
         id: testOrganizerOrganization.id,
-        name: 'Patrek Mands',
+        name: 'Supreme Student Council',
         type: testOrganizerOrganization.type,
       };
       const updateOrganizerOrgType = {
@@ -173,7 +169,7 @@ describe('organizer.spec.ts - Organizer Controller', () => {
       };
       const updateOrganizerOrgAllInfo = {
         id: testOrganizerOrganization.id,
-        name: 'SSC',
+        name: 'Supreme Student Council',
         type: Type.DEPARTMENT,
       };
 
@@ -206,13 +202,23 @@ describe('organizer.spec.ts - Organizer Controller', () => {
 
     it('should not update organizer info with id that does not exist', async () => {
       const updateOrganizerDeptWrongId = {
-        id: '6ee07e9c-daa6-4d13-a96a-91a64d380a2f',
+        id: '6ee07e9c-daa6-4d13-a96a-91a64d380a2f', //this id does not exist
         name: 'CEA',
         type: testOrganizerDepartment.type,
       };
+      const updateOrganizerOrgWrongId = {
+        id: '906e7fb5-67ac-4632-9c4b-6721833f1265', //this id does not exist
+        name: 'Supreme Student Council',
+        type: testOrganizerOrganization.type,
+      };
+
       await requestWithStaff
         .put(organizerRoute + '/' + updateOrganizerDeptWrongId.id)
         .send(updateOrganizerDeptWrongId)
+        .expect(HttpStatus.BAD_REQUEST);
+      await requestWithStaff
+        .put(organizerRoute + '/' + updateOrganizerOrgWrongId.id)
+        .send(updateOrganizerOrgWrongId)
         .expect(HttpStatus.BAD_REQUEST);
     });
   });

@@ -9,22 +9,22 @@ import { requestWithStaff } from '../setup';
 const organizerRoute = OrganizerController.ORGANIZER_API_PATH;
 
 export const testCreateOrganizerDept: OrganizerDTO = {
-  name: 'Maria Agwanta',
+  name: 'CEA',
   type: TypeEnum.DEPARTMENT,
 };
 
 export const testCreateOrganizerDeptSameName: OrganizerDTO = {
-  name: 'Christopher Lao',
+  name: 'MSDO',
   type: TypeEnum.DEPARTMENT,
 };
 
 export const testCreateOrganizerOrg: OrganizerDTO = {
-  name: 'Patrek Mands',
+  name: 'NAS',
   type: TypeEnum.ORGANIZATION,
 };
 
 export const testCreateOrganizerOrgSameName: OrganizerDTO = {
-  name: 'Keanue Dax Teaño',
+  name: 'Supreme Student Government',
   type: TypeEnum.ORGANIZATION,
 };
 
