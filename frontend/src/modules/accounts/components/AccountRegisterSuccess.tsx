@@ -64,7 +64,9 @@ export const AccountRegisterSuccess = ({
       </FormLayout>
       <Flex>
         <Spacer />
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={onClose} data-cy='close-btn'>
+          Close
+        </Button>
         <Button variant='solid' onClick={onRepeat} ml={2}>
           Register Again
         </Button>

@@ -7,12 +7,6 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Custom command to reset test data
-       * @example cy.resetTestData()
-       */
-      resetTestData(): void;
-
-      /**
        * Custom command to select DOM element by data-cy attribute.
        * @example cy.getBySel('greeting')
        */
@@ -31,6 +25,18 @@ declare global {
       login(email: string, password: string): void;
 
       /**
+       * Custom command to log in as admin
+       * @example cy.loginAsAdmin()
+       */
+      loginWithAdmin(): void;
+
+      /**
+       * Custom command to log in as staff
+       * @example cy.loginAsStaff()
+       */
+      loginWithStaff(): void;
+
+      /**
        * Custom command to register
        * @example cy.register('test', 'test_staff@test.com', 'test')
        * @example cy.register('test', 'test_staff@test.com', 'test', true)
@@ -43,10 +49,28 @@ declare global {
       ): void;
 
       /**
+       * Custom command to reset test data
+       * @example cy.resetTestData()
+       */
+      resetTestData(): void;
+
+      /**
        * Custom command to reset test data then log in
        * @example cy.resetTestDataAndLogin('test_staff@test.com', 'test')
        */
       resetTestDataAndLogin(email?: string, password?: string): void;
+
+      /**
+       * Custom command to reset test data then log in as admin
+       * @example cy.resetTestDataAndLoginAsAdmin()
+       */
+      resetTestDataAndLoginAsAdmin(): void;
+
+      /**
+       * Custom command to reset test data then log in as staff
+       * @example cy.resetTestDataAndLoginAsStaff()
+       */
+      resetTestDataAndLoginAsStaff(): void;
     }
   }
 }

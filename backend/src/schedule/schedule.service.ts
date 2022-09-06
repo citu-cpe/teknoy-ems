@@ -1,6 +1,9 @@
 import { Schedule } from '.prisma/client';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { NotFoundError } from '@prisma/client/runtime';
+import {
+  NotFoundError,
+  PrismaClientKnownRequestError,
+} from '@prisma/client/runtime';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { AvailabilityEnum, ScheduleDTO } from './dto/schedule.dto';
 
@@ -62,7 +65,7 @@ export class ScheduleService {
 
       return ScheduleService.convertToDTO(deleteSchedule);
     } catch (e) {
-      if (e instanceof NotFoundError) {
+      if (e instanceof PrismaClientKnownRequestError) {
         throw new NotFoundException();
       }
     }

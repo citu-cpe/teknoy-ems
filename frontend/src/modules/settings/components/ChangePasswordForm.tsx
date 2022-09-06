@@ -25,7 +25,8 @@ interface ChangePasswordForm {
 
 export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
   const mutation = useChangePassword();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showConfimPassword, setShowConfirmPassword] = useState(false);
 
   const onSubmit = (passwordDTO: ChangePasswordDTO) => {
@@ -33,13 +34,14 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
   };
 
   const initialValues = {
-    password: '',
+    currentPassword: '',
+    newPassword: '',
     confirmPassword: '',
   };
 
   const validationSchema = Yup.object({
-    password: passwordValidator,
-    confirmPassword: confirmPasswordValidator,
+    newPassword: passwordValidator,
+    confirmPassword: confirmPasswordValidator('newPassword'),
   });
 
   useEffect(() => {
@@ -58,8 +60,8 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
         <Form noValidate>
           <FormLayout gap={3}>
             <Flex direction='column'>
-              <FormLabel>New Password</FormLabel>
-              <Field name='password' type='password'>
+              <FormLabel>Current Password</FormLabel>
+              <Field name='currentPassword' type='password'>
                 {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
                   <InputGroup>
                     {fieldProps.field.value?.length > 0 ? (
@@ -73,16 +75,53 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
                           aria-label='Show password'
                           size='sm'
                           variant='ghost'
-                          icon={showPassword ? <FaEye /> : <FaEyeSlash />}
-                          onClick={() => setShowPassword(!showPassword)}
+                          icon={
+                            showCurrentPassword ? <FaEye /> : <FaEyeSlash />
+                          }
+                          onClick={() =>
+                            setShowCurrentPassword(!showCurrentPassword)
+                          }
                         />
                       </InputRightElement>
                     ) : null}
                     <Input
                       fieldProps={fieldProps}
-                      name='password'
-                      type={showPassword ? 'text' : 'password'}
-                      id='password'
+                      name='currentPassword'
+                      type={showCurrentPassword ? 'text' : 'password'}
+                      id='currentPassword'
+                      data-cy='current-password-input'
+                    />
+                  </InputGroup>
+                )}
+              </Field>
+            </Flex>
+            <Flex direction='column'>
+              <FormLabel>New Password</FormLabel>
+              <Field name='newPassword' type='password'>
+                {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
+                  <InputGroup>
+                    {fieldProps.field.value?.length > 0 ? (
+                      <InputRightElement
+                        alignItems='center'
+                        justifyContent='center'
+                        h={10}
+                        px='4'
+                      >
+                        <IconButton
+                          aria-label='Show password'
+                          size='sm'
+                          variant='ghost'
+                          icon={showNewPassword ? <FaEye /> : <FaEyeSlash />}
+                          onClick={() => setShowNewPassword(!showNewPassword)}
+                        />
+                      </InputRightElement>
+                    ) : null}
+                    <Input
+                      fieldProps={fieldProps}
+                      name='newPassword'
+                      type={showNewPassword ? 'text' : 'password'}
+                      id='newPassword'
+                      data-cy='new-password-input'
                     />
                   </InputGroup>
                 )}
@@ -117,6 +156,7 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
                       name='confirmPassword'
                       type={showConfimPassword ? 'text' : 'password'}
                       id='confirmPassword'
+                      data-cy='confirm-password-input'
                     />
                   </InputGroup>
                 )}

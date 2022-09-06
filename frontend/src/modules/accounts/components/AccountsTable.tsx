@@ -167,13 +167,20 @@ export const AccountsTable = ({ refresh }: AccountsTableProps) => {
         <Tbody>
           {users &&
             users.map((user) => (
-              <Tr key={user.id} w={10} maxW={10}>
+              <Tr key={user.id} w={10} maxW={10} data-cy='user-row'>
                 <Td>
                   <Flex gap={2} alignItems='center'>
                     <Avatar name={user.name} src='#' />
                     <Flex direction='column'>
-                      <Text as='span'>{user.name}</Text>
-                      <Text as='span' fontSize='sm' opacity={0.8}>
+                      <Text as='span' data-cy='user-name'>
+                        {user.name}
+                      </Text>
+                      <Text
+                        as='span'
+                        fontSize='sm'
+                        opacity={0.8}
+                        data-cy='user-email'
+                      >
                         {user.email}
                       </Text>
                     </Flex>
@@ -182,7 +189,7 @@ export const AccountsTable = ({ refresh }: AccountsTableProps) => {
                 <Td>
                   <HStack>
                     {user.roles.map((role, index) => (
-                      <Tag colorScheme='gray' key={index}>
+                      <Tag colorScheme='gray' key={index} data-cy='roles-tag'>
                         {role.toString()}
                       </Tag>
                     ))}

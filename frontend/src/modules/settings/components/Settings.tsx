@@ -15,17 +15,24 @@ export const Settings = () => {
     <MainLayout>
       <ContentHeader title='Settings' />
       <ContentSection>
-        <Text fontWeight='bold'>{user?.name}</Text>
+        <Text fontWeight='bold' data-cy='user-name'>
+          {user?.name}
+        </Text>
         <Flex gap={3}>
           {user?.roles.map((role, index) => (
             <Badge key={index}>{role.toString()}</Badge>
           ))}
         </Flex>
         <Flex direction='column' maxW={80}>
-          <LinkButton label='Edit Profile' route='/settings/profile' />
+          <LinkButton
+            label='Edit Profile'
+            route='/settings/profile'
+            data-cy='edit-profile-btn'
+          />
           <LinkButton
             label='Change Password'
             route='/settings/profile/change-password'
+            data-cy='change-password-btn'
           />
         </Flex>
       </ContentSection>

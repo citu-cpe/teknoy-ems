@@ -1,26 +1,29 @@
 import { HttpStatus } from '@nestjs/common';
-import { OrganizerController } from '../../../src/organizer/organizer.controller';
 import {
   testAdmin,
   testStaff,
 } from '../../../src/global/test-data/user-test-data.service';
 import { UserController } from '../../../src/user/user.controller';
-import { request, requestWithAdmin, requestWithStaff } from '../setup';
+import { requestWithAdmin, requestWithStaff } from '../setup';
 import { Role } from '@prisma/client';
+import { UserDTO } from '../../../src/user/dto/user.dto';
 
 describe('user.spec.ts - User Controller', () => {
   const userRoute = UserController.USER_API_ROUTE;
-  const idPath = userRoute + UserController.ID_API_ROUTE;
 
   describe('GET /', () => {
-    // eslint-disable-next-line
-    it('should get all user', async() => {
-      await requestWithAdmin.get(userRoute).expect(HttpStatus.OK);
+    it('should get all users except self', async () => {
+      const { body } = await requestWithAdmin
+        .get(userRoute)
+        .expect(HttpStatus.OK);
+
+      const userIds = (body as UserDTO[]).map((user) => user.id);
+
+      expect(userIds).not.toContain(testAdmin.id);
     });
   });
 
   describe('GET /:id', () => {
-    // eslint-disable-next-line
     it('should get user by id', async () => {
       const staffId = testStaff.id;
       const adminId = testAdmin.id;
@@ -33,10 +36,9 @@ describe('user.spec.ts - User Controller', () => {
         .expect(HttpStatus.OK);
     });
 
-    // eslint-disable-next-line
-    it('should not get user with id that does not exist', async() => {
-      const staffId = '2f54ca0b-e389-4e17-a978-0cb98e0f7a47'; //this id does not exist
-      const adminId = '2cf38670-0a8a-41e9-9018-e8b8a9b36487'; //this id does not exist
+    it('should not get user with id that does not exist', async () => {
+      const staffId = '2f54ca0b-e389-4e17-a978-0cb98e0f7a47'; // this id does not exist
+      const adminId = '2cf38670-0a8a-41e9-9018-e8b8a9b36487'; // this id does not exist
 
       await requestWithStaff
         .get(userRoute + '/' + staffId)
@@ -48,8 +50,7 @@ describe('user.spec.ts - User Controller', () => {
   });
 
   describe('PUT /:id', () => {
-    // eslint-disable-next-line
-    it('should update self', async() => {
+    it('should update self', async () => {
       testStaff.name = 'test staff';
       testStaff.email = 'test_staff@teststaff.com';
 
@@ -65,8 +66,7 @@ describe('user.spec.ts - User Controller', () => {
         .expect(HttpStatus.OK);
     });
 
-    // eslint-disable-next-line
-    it("should not update self's roles", async() => {
+    it("should not update self's roles", async () => {
       testStaff.roles = [Role.ORGANIZER];
       testAdmin.roles = [Role.ORGANIZER];
 
@@ -80,8 +80,7 @@ describe('user.spec.ts - User Controller', () => {
         .expect(HttpStatus.BAD_REQUEST);
     });
 
-    // eslint-disable-next-line
-    it('should update another user if admin', async() => {
+    it('should update another user if admin', async () => {
       testStaff.name = 'test staff';
 
       await requestWithAdmin
@@ -102,6 +101,12 @@ describe('user.spec.ts - User Controller', () => {
       await requestWithStaff
         .delete(userRoute + '/' + testStaff.id)
         .expect(HttpStatus.FORBIDDEN);
+    });
+
+    it('should not delete user with id that does not exist', async () => {
+      await requestWithAdmin
+        .delete(userRoute + '/' + testStaff.id + 'random-characters')
+        .expect(HttpStatus.NOT_FOUND);
     });
   });
 });

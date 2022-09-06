@@ -23,5 +23,11 @@ export interface ChangePasswordDTO {
    * @type {string}
    * @memberof ChangePasswordDTO
    */
-  password: string;
+  currentPassword: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ChangePasswordDTO
+   */
+  newPassword: string;
 }

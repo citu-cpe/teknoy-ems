@@ -52,7 +52,11 @@ export const Organizers = () => {
       <ContentHeader
         title='Organizers'
         actions={
-          <Button variant='solid' onClick={onAddOpen}>
+          <Button
+            variant='solid'
+            onClick={onAddOpen}
+            data-cy='add-organizer-btn'
+          >
             Add Organizer
           </Button>
         }

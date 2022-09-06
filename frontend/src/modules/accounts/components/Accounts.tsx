@@ -47,7 +47,11 @@ export const Accounts = () => {
       <ContentHeader
         title='Accounts'
         actions={
-          <Button variant='solid' onClick={onRegisterOpen}>
+          <Button
+            variant='solid'
+            onClick={onRegisterOpen}
+            data-cy='register-account-btn'
+          >
             Register Account
           </Button>
         }

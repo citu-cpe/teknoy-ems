@@ -55,6 +55,7 @@ export const OrganizerAddForm = ({ onComplete }: OrganizerAddFormProps) => {
                   id='name'
                   placeholder='College of Engineering and Architecture'
                   isRequired
+                  data-cy='name-input'
                 />
               )}
             </Field>
@@ -66,6 +67,7 @@ export const OrganizerAddForm = ({ onComplete }: OrganizerAddFormProps) => {
                   label='Type'
                   id='type'
                   isRequired
+                  data-cy='type-select'
                 >
                   <option value={OrganizerDTOTypeEnum.Department}>
                     {OrganizerDTOTypeEnum.Department.toString()}
