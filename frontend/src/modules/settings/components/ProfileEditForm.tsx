@@ -97,6 +97,7 @@ export const ProfileEditForm = ({
                   type='name'
                   id='name'
                   isRequired
+                  data-cy='name-input'
                 />
               )}
             </Field>

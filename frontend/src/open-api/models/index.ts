@@ -1,4 +1,5 @@
 export * from './change-password-dto';
+export * from './equipment-dto';
 export * from './login-response-dto';
 export * from './login-user-dto';
 export * from './organizer-dto';

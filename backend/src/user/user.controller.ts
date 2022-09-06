@@ -13,8 +13,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  public getUsers(): Promise<UserDTO[]> {
-    return this.userService.getAllUsers();
+  public getUsers(@Req() { user }: RequestWithUser): Promise<UserDTO[]> {
+    return this.userService.getAllUsers(user);
   }
 
   @Get(UserController.ID_API_ROUTE)

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -10,16 +11,21 @@ import { Role, User } from '@prisma/client';
 import { UserDTO } from './dto/user.dto';
 import { ChangePasswordDTO } from 'src/authentication/dto/change-password.dto';
 import { arraysEqual } from '../shared/utils/array.util';
-import { NotFoundError } from '@prisma/client/runtime';
+import {
+  NotFoundError,
+  PrismaClientKnownRequestError,
+} from '@prisma/client/runtime';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  public async getAllUsers(): Promise<UserDTO[]> {
-    const users = await this.prismaService.user.findMany();
+  public async getAllUsers(user: User): Promise<UserDTO[]> {
+    const users = await this.prismaService.user.findMany({
+      where: { id: { not: user.id } },
+    });
 
-    return users.map((user) => UserService.convertToDTO(user));
+    return users.map((u) => UserService.convertToDTO(u));
   }
 
   public async getUserById(id: string): Promise<UserDTO> {
@@ -80,7 +86,7 @@ export class UserService {
 
       return UserService.convertToDTO(user);
     } catch (e) {
-      if (e instanceof NotFoundError) {
+      if (e instanceof PrismaClientKnownRequestError) {
         throw new NotFoundException();
       }
     }
@@ -152,8 +158,20 @@ export class UserService {
     user: User,
     changePasswordDTO: ChangePasswordDTO
   ): Promise<UserDTO> {
+    const isPasswordMatching = await bcrypt.compare(
+      changePasswordDTO.currentPassword,
+      user.password
+    );
+
+    if (!isPasswordMatching) {
+      throw new BadRequestException('Wrong credentials provided');
+    }
+
     try {
-      const hashedPassword = await bcrypt.hash(changePasswordDTO.password, 10);
+      const hashedPassword = await bcrypt.hash(
+        changePasswordDTO.newPassword,
+        10
+      );
       const updatedUser = await this.prismaService.user.update({
         data: { password: hashedPassword },
         where: { id: user.id },

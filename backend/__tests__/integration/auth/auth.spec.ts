@@ -8,6 +8,7 @@ import {
   RoleEnum,
 } from '../../../src/authentication/dto/register-user.dto';
 import { TokensDTO } from '../../../src/authentication/dto/tokens.dto';
+import { testStaff } from '../../../src/global/test-data/user-test-data.service';
 import {
   logIn,
   registerUser,
@@ -180,7 +181,8 @@ describe('auth.spec.ts - Authentication Controller', () => {
   describe('POST /change-password', () => {
     it('should successfully change password', async () => {
       const changePasswordDTO: ChangePasswordDTO = {
-        password: 'new_password',
+        currentPassword: testStaff.password,
+        newPassword: 'new_password',
       };
 
       // change password
@@ -211,6 +213,17 @@ describe('auth.spec.ts - Authentication Controller', () => {
     });
 
     it('should not successfully change password with wrong data', async () => {
+      const changePasswordDTO: ChangePasswordDTO = {
+        currentPassword: 'notmypassword',
+        newPassword: 'new_password',
+      };
+
+      // change password
+      await requestWithStaff
+        .put(changePasswordRoute)
+        .send(changePasswordDTO)
+        .expect(HttpStatus.BAD_REQUEST);
+
       await requestWithStaff
         .put(changePasswordRoute)
         .expect(HttpStatus.BAD_REQUEST);

@@ -91,6 +91,7 @@ export const AccountRegisterForm = ({
                   id='email'
                   placeholder='juan.delacruz@univ.edu'
                   isRequired
+                  data-cy='email-input'
                 />
               )}
             </Field>
@@ -104,6 +105,7 @@ export const AccountRegisterForm = ({
                   id='name'
                   placeholder='Juan Dela Cruz'
                   isRequired
+                  data-cy='name-input'
                 />
               )}
             </Field>
@@ -121,6 +123,7 @@ export const AccountRegisterForm = ({
                       name='roles'
                       checked={fieldProps.field.checked}
                       id='admin-role'
+                      data-cy='admin-checkbox'
                     >
                       {fieldProps.field.value}
                     </Checkbox>
@@ -136,6 +139,7 @@ export const AccountRegisterForm = ({
                       fieldProps={fieldProps}
                       name='roles'
                       id='staff-role'
+                      data-cy='staff-checkbox'
                     >
                       {fieldProps.field.value}
                     </Checkbox>
@@ -151,8 +155,8 @@ export const AccountRegisterForm = ({
                       fieldProps={fieldProps}
                       name='roles'
                       checked={fieldProps.field.checked}
-                      id='organizer-rol
-                      e'
+                      id='organizer-role'
+                      data-cy='organizer-checkbox'
                     >
                       {fieldProps.field.value}
                     </Checkbox>

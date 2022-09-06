@@ -4,7 +4,10 @@ import { ScheduleDTO } from '../schedule/dto/schedule.dto';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { EquipmentDTO } from './dto/equipment.dto';
 import { ScheduleService } from '../schedule/schedule.service';
-import { NotFoundError } from '@prisma/client/runtime';
+import {
+  NotFoundError,
+  PrismaClientKnownRequestError,
+} from '@prisma/client/runtime';
 
 @Injectable()
 export class EquipmentService {
@@ -79,7 +82,9 @@ export class EquipmentService {
       });
       return EquipmentService.convertToDTO(equipment);
     } catch (error) {
-      throw new NotFoundException();
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new NotFoundException();
+      }
     }
   }
   public async updateEquipment(

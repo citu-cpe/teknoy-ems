@@ -123,6 +123,7 @@ export const AccountEditForm = ({
                       fieldProps={fieldProps}
                       name='roles'
                       id='admin-role'
+                      data-cy='admin-checkbox'
                     >
                       {fieldProps.field.value}
                     </Checkbox>
@@ -138,6 +139,7 @@ export const AccountEditForm = ({
                       fieldProps={fieldProps}
                       name='roles'
                       id='staff-role'
+                      data-cy='staff-checkbox'
                     >
                       {fieldProps.field.value}
                     </Checkbox>
@@ -147,6 +149,7 @@ export const AccountEditForm = ({
                   name='roles'
                   type='checkbox'
                   value={RegisterUserDTORolesEnum.Organizer}
+                  data-cy='organizer-checkbox'
                 >
                   {(fieldProps: FieldProps<string, UserDTO>) => (
                     <Checkbox
@@ -169,6 +172,7 @@ export const AccountEditForm = ({
                   type='name'
                   id='name'
                   isRequired
+                  data-cy='name-input'
                 />
               )}
             </Field>

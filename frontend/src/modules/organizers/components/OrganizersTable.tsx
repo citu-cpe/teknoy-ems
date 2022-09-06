@@ -153,15 +153,22 @@ export const OrganizersTable = ({ refresh }: OrganizersTableProps) => {
         <Tbody>
           {organizers &&
             organizers.map((org) => (
-              <Tr key={org.id} w={10} maxW={10}>
+              <Tr key={org.id} w={10} maxW={10} data-cy='organizer-row'>
                 <Td>
                   <Flex gap={2} alignItems='center'>
                     <Avatar name={org.name} src='#' />
-                    <Text as='span'>{org.name}</Text>
+                    <Text as='span' data-cy='organizer-name'>
+                      {org.name}
+                    </Text>
                   </Flex>
                 </Td>
                 <Td>
-                  <Text as='span' fontSize='sm' opacity={0.8}>
+                  <Text
+                    as='span'
+                    fontSize='sm'
+                    opacity={0.8}
+                    data-cy='organizer-type'
+                  >
                     {org.type}
                   </Text>
                 </Td>

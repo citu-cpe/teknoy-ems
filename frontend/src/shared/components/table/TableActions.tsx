@@ -28,12 +28,14 @@ export const TableActions = <T extends unknown>({
         color='current'
         rounded='full'
         icon={<Icon boxSize='1.5rem' as={BiDotsVerticalRounded} />}
+        data-cy='actions-btn'
       ></MenuButton>
       <Portal>
         <MenuList minW={40} w={20}>
           <MenuItem
             icon={<Icon as={BiEdit} boxSize={4} />}
             onClick={() => onEdit(user)}
+            data-cy='actions-edit-btn'
           >
             Edit
           </MenuItem>
@@ -43,6 +45,7 @@ export const TableActions = <T extends unknown>({
             bg='errorBg'
             color='errorColor'
             borderColor='errorBorder'
+            data-cy='actions-delete-btn'
           >
             Delete
           </MenuItem>
