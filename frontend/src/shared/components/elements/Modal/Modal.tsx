@@ -1,51 +1,47 @@
 import {
   Modal as ChakraModal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
   ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
-  Button,
+  ModalHeader,
+  ModalOverlay,
   ModalProps as ChakraModalProps,
 } from '@chakra-ui/react';
 
 interface ModalProps {
-  // modalProps: UseDisclosureProps;
-  title?: string;
+  iconTitle?: React.ReactNode;
+  title: string;
   children: React.PropsWithChildren;
   footer?: React.ReactNode;
 }
 
 export const Modal = ({
+  iconTitle,
   title,
   children,
   footer,
-  // modalProps: { isOpen, onClose },
   isOpen,
   onClose,
   ...props
 }: ModalProps & ChakraModalProps) => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <ChakraModal
-      scrollBehavior='inside'
       motionPreset='slideInBottom'
       isOpen={isOpen}
       onClose={onClose}
+      size='xl'
+      {...props}
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
+        <ModalHeader>
+          {iconTitle}
+          {title}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>{children}</ModalBody>
-        <ModalFooter>
-          <Button mr={3} onClick={onClose}>
-            Cancel
-          </Button>
-          {footer}
-        </ModalFooter>
+        <ModalFooter>{footer}</ModalFooter>
       </ModalContent>
     </ChakraModal>
   );

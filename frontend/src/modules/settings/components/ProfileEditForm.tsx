@@ -1,17 +1,10 @@
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Spacer,
-} from '@chakra-ui/react';
+import { Button, Flex, FormControl, FormLabel, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
-import { Input } from '../../../shared/components/form';
+import { FormLayout, Input } from '../../../shared/components/form';
 import { useToast } from '../../../shared/hooks';
 import { nameValidator } from '../../../shared/schemas';
 import { useEdit } from '../../accounts/hooks/useEdit';
@@ -39,7 +32,11 @@ export const ProfileEditForm = ({
 
   const onSubmit = (userDTO: UserDTO) => {
     if (initialUser.name === userDTO.name) {
-      toast({ title: 'No account changes', status: 'info' });
+      if (onComplete) {
+        onComplete(userDTO);
+      }
+
+      toast({ title: 'No profile changes', status: 'info' });
     }
 
     mutation.mutate(userDTO);
@@ -63,7 +60,7 @@ export const ProfileEditForm = ({
     >
       {() => (
         <Form noValidate>
-          <Box mb='4'>
+          <FormLayout>
             <Field name='email' type='email' isReadOnly>
               {(fieldProps: FieldProps<string, UserDTO>) => (
                 <Input
@@ -103,9 +100,9 @@ export const ProfileEditForm = ({
                 />
               )}
             </Field>
-          </Box>
+          </FormLayout>
           <Flex w='full' h='full'>
-            <Button type='reset'>Clear Inputs</Button>
+            <Button type='reset'>Reset Inputs</Button>
             <Spacer />
             <Button
               variant='solid'

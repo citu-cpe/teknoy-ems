@@ -22,11 +22,11 @@ export const Profile = () => {
   return (
     <MainLayout>
       <ContentHeader title='Profile Edit' />
-      <ContentSection>
-        {userDTO && (
+      {userDTO && (
+        <ContentSection>
           <ProfileEditForm initialUser={userDTO} onComplete={handleComplete} />
-        )}
-      </ContentSection>
+        </ContentSection>
+      )}
     </MainLayout>
   );
 };

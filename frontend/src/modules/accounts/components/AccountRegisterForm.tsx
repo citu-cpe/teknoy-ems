@@ -1,17 +1,14 @@
-import {
-  Box,
-  Button,
-  Checkbox as ChakraCheckbox,
-  Flex,
-  FormControl,
-  FormLabel,
-  Spacer,
-} from '@chakra-ui/react';
+import { Button, Flex, FormControl, FormLabel, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { RegisterUserDTO, RegisterUserDTORolesEnum } from 'generated-api';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
-import { FormikResetEffect, Input } from '../../../shared/components/form';
+import {
+  Checkbox,
+  FormikResetEffect,
+  FormLayout,
+  Input,
+} from '../../../shared/components/form';
 import { useToast } from '../../../shared/hooks';
 import { emailValidator, nameValidator } from '../../../shared/schemas';
 import { useRegister } from '../hooks/useRegister';
@@ -83,7 +80,7 @@ export const AccountRegisterForm = ({
             condition={mutation.isError}
             onReset={handleReset}
           />
-          <Box mb='4'>
+          <FormLayout>
             <Field name='email' type='email'>
               {(fieldProps: FieldProps<string, RegisterUserDTO>) => (
                 <Input
@@ -97,7 +94,7 @@ export const AccountRegisterForm = ({
                 />
               )}
             </Field>
-            <Field name='name' type='name'>
+            <Field name='name' type='name' isRequired>
               {(fieldProps: FieldProps<string, RegisterUserDTO>) => (
                 <Input
                   fieldProps={fieldProps}
@@ -106,29 +103,27 @@ export const AccountRegisterForm = ({
                   type='name'
                   id='name'
                   placeholder='Juan Dela Cruz'
-                  autoCapitalize='on'
                   isRequired
                 />
               )}
             </Field>
             <Flex as={FormControl} isRequired role='group' direction='column'>
               <FormLabel fontWeight='semibold'>Roles</FormLabel>
-              <Flex direction='column'>
+              <Flex direction='column' gap={0}>
                 <Field
                   name='roles'
                   type='checkbox'
                   value={RegisterUserDTORolesEnum.Admin}
                 >
                   {(fieldProps: FieldProps<string, RegisterUserDTO>) => (
-                    <Input
-                      as={ChakraCheckbox}
+                    <Checkbox
                       fieldProps={fieldProps}
                       name='roles'
-                      type='checkbox'
+                      checked={fieldProps.field.checked}
                       id='admin-role'
                     >
                       {fieldProps.field.value}
-                    </Input>
+                    </Checkbox>
                   )}
                 </Field>
                 <Field
@@ -137,15 +132,13 @@ export const AccountRegisterForm = ({
                   value={RegisterUserDTORolesEnum.Staff}
                 >
                   {(fieldProps: FieldProps<string, RegisterUserDTO>) => (
-                    <Input
-                      as={ChakraCheckbox}
+                    <Checkbox
                       fieldProps={fieldProps}
                       name='roles'
-                      type='checkbox'
                       id='staff-role'
                     >
                       {fieldProps.field.value}
-                    </Input>
+                    </Checkbox>
                   )}
                 </Field>
                 <Field
@@ -154,23 +147,23 @@ export const AccountRegisterForm = ({
                   value={RegisterUserDTORolesEnum.Organizer}
                 >
                   {(fieldProps: FieldProps<string, RegisterUserDTO>) => (
-                    <Input
-                      as={ChakraCheckbox}
+                    <Checkbox
                       fieldProps={fieldProps}
                       name='roles'
-                      type='checkbox'
-                      id='organizer-role'
+                      checked={fieldProps.field.checked}
+                      id='organizer-rol
+                      e'
                     >
                       {fieldProps.field.value}
-                    </Input>
+                    </Checkbox>
                   )}
                 </Field>
               </Flex>
             </Flex>
-          </Box>
+          </FormLayout>
           <Flex w='full' h='full'>
             <Button type='reset' onClick={handleReset}>
-              Clear Inputs
+              Reset Inputs
             </Button>
             <Spacer />
             <Button

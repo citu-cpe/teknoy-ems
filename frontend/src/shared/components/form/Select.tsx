@@ -2,26 +2,26 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Input as ChakraInput,
-  InputProps as ChakraInputProps,
+  Select as ChakraSelect,
+  SelectProps as ChakraSelectProps,
   Tooltip,
 } from '@chakra-ui/react';
 import type { FieldProps } from 'formik';
 import React from 'react';
 
-interface InputProps {
+interface SelectProps {
   label?: string;
   tooltipLabel?: string;
   fieldProps: FieldProps;
 }
 
-export const Input = ({
+export const Select = ({
   fieldProps: { field, form },
   label,
   tooltipLabel,
   children,
   ...props
-}: InputProps & React.PropsWithChildren & ChakraInputProps) => (
+}: SelectProps & React.PropsWithChildren & ChakraSelectProps) => (
   <FormControl
     isInvalid={!!form.errors[props.name!] && !!form.touched[props.name!]}
     isRequired={props?.isRequired}
@@ -37,9 +37,9 @@ export const Input = ({
       placement='bottom-end'
       hasArrow
     >
-      <ChakraInput {...field} {...props}>
+      <ChakraSelect {...field} {...props}>
         {children}
-      </ChakraInput>
+      </ChakraSelect>
     </Tooltip>
     <FormErrorMessage>{form.errors[props.name!]?.toString()}</FormErrorMessage>
   </FormControl>

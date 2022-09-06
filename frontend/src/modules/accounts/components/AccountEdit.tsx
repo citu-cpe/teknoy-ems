@@ -1,10 +1,7 @@
 import { UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import {
-  ContentHeader,
-  ContentSection,
-} from '../../../shared/components/content';
+import { ContentHeader } from '../../../shared/components/content';
 import { MainLayout } from '../../../shared/components/layout';
 import { useAccounts } from '../hooks/useAccounts';
 import { AccountEditForm } from './AccountEditForm';
@@ -35,11 +32,9 @@ export const AccountEdit = () => {
   return (
     <MainLayout>
       <ContentHeader title='Account Edit' />
-      <ContentSection>
-        {userDTO && (
-          <AccountEditForm initialUser={userDTO} onComplete={handleComplete} />
-        )}
-      </ContentSection>
+      {userDTO && (
+        <AccountEditForm initialUser={userDTO} onComplete={handleComplete} />
+      )}
     </MainLayout>
   );
 };

@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Flex,
   FormLabel,
@@ -13,7 +12,7 @@ import { ChangePasswordDTO, UserDTO } from 'generated-api';
 import { useEffect, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import * as Yup from 'yup';
-import { Input } from '../../../shared/components/form';
+import { FormLayout, Input } from '../../../shared/components/form';
 import {
   confirmPasswordValidator,
   passwordValidator,
@@ -57,76 +56,79 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
     >
       {() => (
         <Form noValidate>
-          <Box mb='4'>
-            <FormLabel>New Password</FormLabel>
-            <Field name='password' type='password'>
-              {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
-                <InputGroup>
-                  {fieldProps.field.value?.length > 0 ? (
-                    <InputRightElement
-                      alignItems='center'
-                      justifyContent='center'
-                      h={10}
-                      px='4'
-                    >
-                      <IconButton
-                        aria-label='Show password'
-                        size='sm'
-                        variant='ghost'
-                        icon={showPassword ? <FaEye /> : <FaEyeSlash />}
-                        onClick={() => setShowPassword(!showPassword)}
-                      />
-                    </InputRightElement>
-                  ) : null}
-                  <Input
-                    fieldProps={fieldProps}
-                    name='password'
-                    type={showPassword ? 'text' : 'password'}
-                    id='password'
-                  />
-                </InputGroup>
-              )}
-            </Field>
+          <FormLayout gap={3}>
+            <Flex direction='column'>
+              <FormLabel>New Password</FormLabel>
+              <Field name='password' type='password'>
+                {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
+                  <InputGroup>
+                    {fieldProps.field.value?.length > 0 ? (
+                      <InputRightElement
+                        alignItems='center'
+                        justifyContent='center'
+                        h={10}
+                        px='4'
+                      >
+                        <IconButton
+                          aria-label='Show password'
+                          size='sm'
+                          variant='ghost'
+                          icon={showPassword ? <FaEye /> : <FaEyeSlash />}
+                          onClick={() => setShowPassword(!showPassword)}
+                        />
+                      </InputRightElement>
+                    ) : null}
+                    <Input
+                      fieldProps={fieldProps}
+                      name='password'
+                      type={showPassword ? 'text' : 'password'}
+                      id='password'
+                    />
+                  </InputGroup>
+                )}
+              </Field>
+            </Flex>
+            <Flex direction='column'>
+              <FormLabel>Confirm New Password</FormLabel>
+              <Field name='confirmPassword' type='confirmPassword'>
+                {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
+                  <InputGroup>
+                    {fieldProps.field.value?.length > 0 ? (
+                      <InputRightElement
+                        alignItems='center'
+                        justifyContent='center'
+                        h={10}
+                        px='4'
+                      >
+                        <IconButton
+                          aria-label='Show confirm password'
+                          size='sm'
+                          variant='ghost'
+                          icon={showConfimPassword ? <FaEye /> : <FaEyeSlash />}
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfimPassword)
+                          }
+                        />
+                      </InputRightElement>
+                    ) : null}
 
-            <FormLabel>Confirm New Password</FormLabel>
-            <Field name='confirmPassword' type='confirmPassword'>
-              {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
-                <InputGroup>
-                  {fieldProps.field.value?.length > 0 ? (
-                    <InputRightElement
-                      alignItems='center'
-                      justifyContent='center'
-                      h={10}
-                      px='4'
-                    >
-                      <IconButton
-                        aria-label='Show confirm password'
-                        size='sm'
-                        variant='ghost'
-                        icon={showConfimPassword ? <FaEye /> : <FaEyeSlash />}
-                        onClick={() =>
-                          setShowConfirmPassword(!showConfimPassword)
-                        }
-                      />
-                    </InputRightElement>
-                  ) : null}
-
-                  <Input
-                    fieldProps={fieldProps}
-                    name='confirmPassword'
-                    type={showConfimPassword ? 'text' : 'password'}
-                    id='confirmPassword'
-                  />
-                </InputGroup>
-              )}
-            </Field>
-          </Box>
+                    <Input
+                      fieldProps={fieldProps}
+                      name='confirmPassword'
+                      type={showConfimPassword ? 'text' : 'password'}
+                      id='confirmPassword'
+                    />
+                  </InputGroup>
+                )}
+              </Field>
+            </Flex>
+          </FormLayout>
           <Flex w='full' h='full'>
-            <Button type='reset'>Clear Inputs</Button>
+            <Button type='reset'>Reset Inputs</Button>
             <Spacer />
             <Button
               variant='solid'
-              data-cy='register-submit-btn'
+              data-cy='change-password-submit-btn'
               formNoValidate
               type='submit'
               isLoading={mutation.isLoading}

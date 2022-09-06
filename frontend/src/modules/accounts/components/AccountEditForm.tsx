@@ -1,18 +1,15 @@
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Spacer,
-  Checkbox as ChakraCheckbox,
-} from '@chakra-ui/react';
+import { Button, Flex, FormControl, FormLabel, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { RegisterUserDTORolesEnum, UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
-import { FormikResetEffect, Input } from '../../../shared/components/form';
+import {
+  Checkbox,
+  FormikResetEffect,
+  FormLayout,
+  Input,
+} from '../../../shared/components/form';
 import { useToast } from '../../../shared/hooks';
 import { nameValidator } from '../../../shared/schemas';
 import { useEdit } from '../hooks/useEdit';
@@ -42,8 +39,16 @@ export const AccountEditForm = ({
   });
 
   const onSubmit = (userDTO: UserDTO) => {
-    if (initialUser.name === userDTO.name) {
+    if (
+      initialUser.name === userDTO.name &&
+      initialUser.roles === userDTO.roles
+    ) {
+      if (onComplete) {
+        onComplete(userDTO);
+      }
+
       toast({ title: 'No account changes', status: 'info' });
+      return;
     }
 
     mutation.mutate(userDTO);
@@ -91,7 +96,7 @@ export const AccountEditForm = ({
             condition={mutation.isError}
             onReset={handleReset}
           />
-          <Box mb='4'>
+          <FormLayout>
             <Field name='email' type='email' isReadOnly>
               {(fieldProps: FieldProps<string, UserDTO>) => (
                 <Input
@@ -111,17 +116,16 @@ export const AccountEditForm = ({
                   name='roles'
                   type='checkbox'
                   value={RegisterUserDTORolesEnum.Admin}
+                  isChecked
                 >
                   {(fieldProps: FieldProps<string, UserDTO>) => (
-                    <Input
-                      as={ChakraCheckbox}
+                    <Checkbox
                       fieldProps={fieldProps}
                       name='roles'
-                      type='checkbox'
                       id='admin-role'
                     >
                       {fieldProps.field.value}
-                    </Input>
+                    </Checkbox>
                   )}
                 </Field>
                 <Field
@@ -130,15 +134,13 @@ export const AccountEditForm = ({
                   value={RegisterUserDTORolesEnum.Staff}
                 >
                   {(fieldProps: FieldProps<string, UserDTO>) => (
-                    <Input
-                      as={ChakraCheckbox}
+                    <Checkbox
                       fieldProps={fieldProps}
                       name='roles'
-                      type='checkbox'
                       id='staff-role'
                     >
                       {fieldProps.field.value}
-                    </Input>
+                    </Checkbox>
                   )}
                 </Field>
                 <Field
@@ -147,20 +149,18 @@ export const AccountEditForm = ({
                   value={RegisterUserDTORolesEnum.Organizer}
                 >
                   {(fieldProps: FieldProps<string, UserDTO>) => (
-                    <Input
-                      as={ChakraCheckbox}
+                    <Checkbox
                       fieldProps={fieldProps}
                       name='roles'
-                      type='checkbox'
                       id='organizer-role'
                     >
                       {fieldProps.field.value}
-                    </Input>
+                    </Checkbox>
                   )}
                 </Field>
               </Flex>
             </Flex>
-            <Field name='name' type='name'>
+            <Field name='name' type='name' isRequired>
               {(fieldProps: FieldProps<string, UserDTO>) => (
                 <Input
                   fieldProps={fieldProps}
@@ -168,12 +168,13 @@ export const AccountEditForm = ({
                   label='Name'
                   type='name'
                   id='name'
+                  isRequired
                 />
               )}
             </Field>
-          </Box>
+          </FormLayout>
           <Flex w='full' h='full'>
-            <Button type='reset'>Clear Inputs</Button>
+            <Button type='reset'>Reset Inputs</Button>
             <Spacer />
             <Button
               variant='solid'
@@ -183,7 +184,7 @@ export const AccountEditForm = ({
               isLoading={mutation.isLoading}
               loadingText='Editing...'
             >
-              Edit Account
+              Edit Profile
             </Button>
           </Flex>
         </Form>

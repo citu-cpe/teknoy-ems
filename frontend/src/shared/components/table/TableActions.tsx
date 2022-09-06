@@ -7,20 +7,19 @@ import {
   MenuList,
   Portal,
 } from '@chakra-ui/react';
-import { UserDTO } from 'generated-api';
 import { BiDotsVerticalRounded, BiEdit, BiTrash } from 'react-icons/bi';
 
-interface AccountActionsProps {
-  user: UserDTO;
-  onDelete: (userDTO: UserDTO) => void;
-  onEdit: (userDTO: UserDTO) => void;
+interface AccountActionsProps<T> {
+  data: T;
+  onDelete: (userDTO: T) => void;
+  onEdit: (userDTO: T) => void;
 }
 
-export const AccountActions = ({
-  user,
+export const TableActions = <T extends unknown>({
+  data: user,
   onDelete,
   onEdit,
-}: AccountActionsProps) => {
+}: AccountActionsProps<T>) => {
   return (
     <Menu strategy='absolute' placement='bottom-end'>
       <MenuButton

@@ -5,7 +5,7 @@ export const DEFAULT_TOAST_OPTIONS: UseToastOptions = {
   variant: 'subtle',
   position: 'bottom-right',
   status: 'success',
-  duration: 3000,
+  duration: 5000,
 };
 
 export const useToast = () => {
