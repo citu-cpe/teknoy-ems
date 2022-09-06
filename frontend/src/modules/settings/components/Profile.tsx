@@ -1,7 +1,10 @@
 import { UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { ContentHeader } from '../../../shared/components/content';
+import {
+  ContentHeader,
+  ContentSection,
+} from '../../../shared/components/content';
 import { MainLayout } from '../../../shared/components/layout';
 import { useGlobalStore } from '../../../shared/stores';
 import { ProfileEditForm } from './ProfileEditForm';
@@ -20,7 +23,9 @@ export const Profile = () => {
     <MainLayout>
       <ContentHeader title='Profile Edit' />
       {userDTO && (
-        <ProfileEditForm initialUser={userDTO} onComplete={handleComplete} />
+        <ContentSection>
+          <ProfileEditForm initialUser={userDTO} onComplete={handleComplete} />
+        </ContentSection>
       )}
     </MainLayout>
   );

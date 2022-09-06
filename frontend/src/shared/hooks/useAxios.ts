@@ -62,6 +62,7 @@ export const useAxios = ({
             description: toastDescription || description,
             isClosable: true,
             variant: 'subtle',
+            position: 'bottom-right',
           });
         }
       }

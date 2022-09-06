@@ -102,7 +102,7 @@ export const ProfileEditForm = ({
             </Field>
           </FormLayout>
           <Flex w='full' h='full'>
-            <Button type='reset'>Clear Inputs</Button>
+            <Button type='reset'>Reset Inputs</Button>
             <Spacer />
             <Button
               variant='solid'
