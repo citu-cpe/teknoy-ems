@@ -1,19 +1,36 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Organizer } from '@prisma/client';
-import { NotFoundError } from '@prisma/client/runtime';
+import {
+  NotFoundError,
+  PrismaClientKnownRequestError,
+} from '@prisma/client/runtime';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { OrganizerDTO, TypeEnum } from './dto/organizer.dto';
 @Injectable()
 export class OrganizerService {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async createNewOrganizer(
-    organizerDTO: OrganizerDTO
-  ): Promise<OrganizerDTO> {
-    const newOrganizer = await this.prisma.organizer.create({
-      data: organizerDTO,
+  public async createNewOrganizer(organizerDTO: OrganizerDTO): Promise<any> {
+    const result = await this.prisma.organizer.findMany({
+      where: {
+        name: {
+          equals: organizerDTO.name,
+          mode: 'insensitive',
+        },
+      },
     });
-    return OrganizerService.convertToDTO(newOrganizer);
+    if (result.length > 0) {
+      throw new BadRequestException('Organizer already exists');
+    } else {
+      const organizer = await this.prisma.organizer.create({
+        data: organizerDTO,
+      });
+      return OrganizerService.convertToDTO(organizer);
+    }
   }
 
   public async getAllOrganizer(): Promise<OrganizerDTO[]> {
@@ -51,8 +68,8 @@ export class OrganizerService {
       });
       return OrganizerService.convertToDTO(updatedOrganizer);
     } catch (e) {
-      if (e instanceof NotFoundError) {
-        throw new NotFoundException();
+      if (e instanceof PrismaClientKnownRequestError) {
+        throw new BadRequestException();
       }
     }
   }
@@ -64,8 +81,8 @@ export class OrganizerService {
       });
       return OrganizerService.convertToDTO(deleteOrganizer);
     } catch (e) {
-      if (e instanceof NotFoundError) {
-        throw new NotFoundException();
+      if (e instanceof PrismaClientKnownRequestError) {
+        throw new BadRequestException();
       }
     }
   }
