@@ -44,8 +44,8 @@ model Equipment {
   id        String     @id @default(uuid())
   name      String     @unique
   type      String
-  brand     String
-  serial    String     @unique
+  brand     String?
+  serial    String?     
   notes     String
   schedules Schedule[]
 }

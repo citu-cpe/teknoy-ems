@@ -26,11 +26,6 @@ export class EquipmentService {
       return EquipmentService.convertToDTO(equipment);
     } catch (error) {
       if (error?.code === PostgresErrorCode.UniqueViolation) {
-        if (error.meta.target[0] === 'serial') {
-          throw new BadRequestException(
-            'Equipment with that serial number already exists!'
-          );
-        }
         if (error.meta.target[0] === 'name') {
           throw new BadRequestException(
             'Equipment with that name already exists!'
@@ -122,11 +117,6 @@ export class EquipmentService {
       return EquipmentService.convertToDTO(equipment);
     } catch (error) {
       if (error?.code === PostgresErrorCode.UniqueViolation) {
-        if (error.meta.target[0] === 'serial') {
-          throw new BadRequestException(
-            'Equipment with that serial number already exists!'
-          );
-        }
         if (error.meta.target[0] === 'name') {
           throw new BadRequestException(
             'Equipment with that name already exists!'
