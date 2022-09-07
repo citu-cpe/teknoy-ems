@@ -42,10 +42,10 @@ model Schedule {
 
 model Equipment {
   id        String     @id @default(uuid())
-  name      String
+  name      String     @unique
   type      String
   brand     String
-  serial    String
+  serial    String     @unique
   notes     String
   schedules Schedule[]
 }
