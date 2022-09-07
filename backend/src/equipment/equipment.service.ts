@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Equipment, Schedule } from '@prisma/client';
 import { ScheduleDTO } from '../schedule/dto/schedule.dto';
 import { PrismaService } from '../global/prisma/prisma.service';
@@ -8,16 +12,28 @@ import {
   NotFoundError,
   PrismaClientKnownRequestError,
 } from '@prisma/client/runtime';
+import { PostgresErrorCode } from '../shared/constants/postgress-error-codes.enum';
 
 @Injectable()
 export class EquipmentService {
   constructor(private readonly prisma: PrismaService) {}
 
   public async addEquipment(data: EquipmentDTO): Promise<EquipmentDTO> {
-    const equipment = await this.prisma.equipment.create({
-      data,
-    });
-    return EquipmentService.convertToDTO(equipment);
+    try {
+      const equipment = await this.prisma.equipment.create({
+        data,
+      });
+      return EquipmentService.convertToDTO(equipment);
+    } catch (error) {
+      if (error?.code === PostgresErrorCode.UniqueViolation) {
+        if (error.meta.target[0] === 'name') {
+          throw new BadRequestException(
+            'Equipment with that name already exists!'
+          );
+        }
+      }
+      throw new BadRequestException();
+    }
   }
   public async addScheduletoEquipment(
     id: string,
@@ -100,6 +116,14 @@ export class EquipmentService {
       });
       return EquipmentService.convertToDTO(equipment);
     } catch (error) {
+      if (error?.code === PostgresErrorCode.UniqueViolation) {
+        if (error.meta.target[0] === 'name') {
+          throw new BadRequestException(
+            'Equipment with that name already exists!'
+          );
+        }
+      }
+
       throw new NotFoundException();
     }
   }
