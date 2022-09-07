@@ -38,6 +38,8 @@ model Schedule {
   endTime      DateTime
   Equipment    Equipment?   @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
   equipmentId  String?
+  Venues       Venues?      @relation(fields: [venuesId], references: [id])
+  venuesId     String?
 }
 
 model Equipment {
@@ -45,9 +47,16 @@ model Equipment {
   name      String     @unique
   type      String
   brand     String?
-  serial    String?     
+  serial    String?
   notes     String
   schedules Schedule[]
+}
+
+model Venues {
+  id        String     @id @default(uuid())
+  name      String
+  schedules Schedule[]
+  notes     String
 }
 
 enum Availability {
