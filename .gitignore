@@ -7,3 +7,4 @@ build/
 .env
 .vim
 .vercel
+.DS_Store
