@@ -16,7 +16,7 @@ interface AccountActionsProps<T> {
 }
 
 export const TableActions = <T extends unknown>({
-  data: user,
+  data,
   onDelete,
   onEdit,
 }: AccountActionsProps<T>) => {
@@ -34,14 +34,14 @@ export const TableActions = <T extends unknown>({
         <MenuList minW={40} w={20}>
           <MenuItem
             icon={<Icon as={BiEdit} boxSize={4} />}
-            onClick={() => onEdit(user)}
+            onClick={() => onEdit(data)}
             data-cy='actions-edit-btn'
           >
             Edit
           </MenuItem>
           <MenuItem
             icon={<Icon as={BiTrash} boxSize={4} />}
-            onClick={() => onDelete(user)}
+            onClick={() => onDelete(data)}
             bg='errorBg'
             color='errorColor'
             borderColor='errorBorder'

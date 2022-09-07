@@ -20,6 +20,18 @@ export const OrganizerEditForm = ({
   const toast = useToast();
 
   const onSubmit = (organizer: OrganizerDTO) => {
+    if (
+      initialOrganizer.name === organizer.name &&
+      initialOrganizer.type === organizer.type
+    ) {
+      if (onComplete) {
+        onComplete(organizer);
+      }
+
+      toast({ title: 'No equipment changes', status: 'info' });
+      return;
+    }
+
     editOrganizer.mutate(organizer);
   };
 
