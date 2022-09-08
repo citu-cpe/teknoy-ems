@@ -21,17 +21,17 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
 
   const initialValues = {
     name: '',
-    type: '',
+    type: 'Camera',
     brand: '',
     serial: '',
     notes: '',
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().min(1).max(25).required('Required'),
-    type: Yup.string().min(1).max(25).required('Required'),
-    brand: Yup.string().min(1).max(25).required('Required'),
-    serial: Yup.string().min(1).max(25).required('Required'),
+    name: Yup.string().min(1).max(40).required('Required'),
+    type: Yup.string().min(1).max(40).required('Required'),
+    brand: Yup.string().min(1).max(40).required('Required'),
+    serial: Yup.string().min(1).max(40).required('Required'),
     notes: Yup.string().min(1).max(250).required('Required'),
   });
 
@@ -85,6 +85,7 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
                   <option value='Laptop'>Laptop</option>
                   <option value='Lights'>Lights</option>
                   <option value='Others'>Others</option>
+                  <option value='EQUIPMENT SET'>EQUIPMENT SET</option>
                   <option value='Broken'>Broken</option>
                   <option value='Unallowed'>Unallowed</option>
                 </Select>

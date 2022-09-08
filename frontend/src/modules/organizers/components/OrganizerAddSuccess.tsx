@@ -1,6 +1,7 @@
-import { Button, Flex, Icon, Spacer, Text } from '@chakra-ui/react';
+import { Button, Flex, Icon, Spacer } from '@chakra-ui/react';
 import { OrganizerDTO } from 'generated-api';
 import { BiCheckCircle } from 'react-icons/bi';
+import { EllipsisText } from '../../../shared/components/elements/Text';
 import { FormLayout } from '../../../shared/components/form';
 
 interface OrganizerAddSuccessProps {
@@ -19,8 +20,8 @@ export const OrganizerAddSuccess = ({
       <FormLayout>
         <Flex direction='column' gap={3}>
           <Icon as={BiCheckCircle} boxSize='2rem' color='green.500' />
-          <Text>Name: {organizerDTO?.name}</Text>
-          <Text>Type: {organizerDTO?.type}</Text>
+          <EllipsisText>Name: {organizerDTO?.name}</EllipsisText>
+          <EllipsisText>Type: {organizerDTO?.type}</EllipsisText>
         </Flex>
       </FormLayout>
       <Flex>

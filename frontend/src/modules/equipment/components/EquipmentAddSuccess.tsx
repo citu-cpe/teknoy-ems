@@ -30,11 +30,18 @@ export const EquipmentAddSuccess = ({
           <Heading size='md' mb={4}>
             Equipment has been added
           </Heading>
-          <Text>Name: {equipment?.name}</Text>
-          <Text>Type: {equipment?.type}</Text>
-          <Text>Brand: {equipment?.brand}</Text>
-          <Text>Serial: {equipment?.serial}</Text>
-          <Text>Notes: {equipment?.notes}</Text>
+          <Text fontWeight='bold'>Name</Text>
+          <Text mb={2}>{equipment?.name}</Text>
+          <Text fontWeight='bold'>Type</Text>
+          <Text mb={2}>{equipment?.type}</Text>
+          <Text fontWeight='bold'>Brand</Text>
+          <Text mb={2}>{equipment?.brand}</Text>
+          <Text fontWeight='bold'>Serial</Text>
+          <Text mb={2}>{equipment?.serial}</Text>
+          <Text fontWeight='bold'>Notes</Text>
+          <Text mb={2} w='full'>
+            {equipment?.notes}
+          </Text>
         </Flex>
       </FormLayout>
       <Flex alignItems='center' justifyContent='center'>

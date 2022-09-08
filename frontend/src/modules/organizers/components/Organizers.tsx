@@ -73,7 +73,7 @@ export const Organizers = () => {
       <Modal
         title='Add Success'
         isOpen={isSuccessOpen}
-        onClose={onSuccessClose}
+        onClose={handleSuccessClose}
       >
         <OrganizerAddSuccess
           organizerDTO={newOrganizerDTO}

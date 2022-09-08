@@ -106,6 +106,7 @@ export const EquipmentEditForm = ({
                     <option value='Laptop'>Laptop</option>
                     <option value='Lights'>Lights</option>
                     <option value='Others'>Others</option>
+                    <option value='EQUIPMENT SET'>EQUIPMENT SET</option>
                     <option value='Broken'>Broken</option>
                     <option value='Unallowed'>Unallowed</option>
                   </Select>

@@ -70,7 +70,7 @@ export const Equipment = () => {
         <EquipmentAddForm onComplete={handleComplete} />
       </Modal>
 
-      <Modal isOpen={isSuccessOpen} onClose={onSuccessClose} size='md'>
+      <Modal isOpen={isSuccessOpen} onClose={handleSuccessClose} size='md'>
         <EquipmentAddSuccess
           equipment={newEquipmentDTO}
           onClose={handleSuccessClose}
