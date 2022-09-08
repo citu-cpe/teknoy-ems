@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * NestJS/NextJS Template
- * API for NestJS/NextJS Template
+ * Teknoy EMS API
+ * API for Teknoy EMS
  *
  * The version of the OpenAPI document: 1.0
  *

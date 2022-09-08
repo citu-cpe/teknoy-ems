@@ -9,7 +9,7 @@ _First, create a draft pull request. Then mark the PR as ready for review when a
 - [ ] Reviewed own code
 - [ ] Commented on code that is hard to understand
 - [ ] Implemented tests for the feature/bugfix
-- [ ] All GitHub status checks pass
+- [ ] All **_Required_** GitHub status checks pass
 - [ ] The frontend and backend PR previews have been deployed
 
 **Backend only**

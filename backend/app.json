@@ -1,8 +1,8 @@
 {
-  "name": "NestJS/NextJS Template",
-  "description": "A fullstack template using NestJS and NextJS",
-  "repository": "https://github.com/princhcanal/nestjs-nextjs-template",
-  "website": "https://nestjs-nextjs-template.herokuapp.com",
+  "name": "Teknoy EMS",
+  "description": "An event management system used by the staff of Cebu Institute of Technology - University",
+  "repository": "https://github.com/citu-cpe/teknoy-ems",
+  "website": "https://teknoy-ems.vercel.app",
   "addons": ["heroku-postgresql:hobby-dev"],
   "environments": {
     "review": {

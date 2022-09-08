@@ -23,12 +23,12 @@ export class EquipmentDTO {
   public type: string;
 
   @IsString()
-  @IsNotEmpty()
-  public brand: string;
+  @IsOptional()
+  public brand?: string;
 
   @IsString()
-  @IsNotEmpty()
-  public serial: string;
+  @IsOptional()
+  public serial?: string;
 
   @IsArray()
   @IsOptional()

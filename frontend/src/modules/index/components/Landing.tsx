@@ -5,7 +5,7 @@ import { Center, Heading, Box, Link } from '@chakra-ui/react';
 export const Landing = () => {
   return (
     <Center w='100%' h='100vh' flexDir='column'>
-      <Heading>NextJS/NestJS Template</Heading>
+      <Heading>Teknoy EMS</Heading>
       <Box as='nav'>
         <NextLink href='/login' passHref>
           <Link mr='4'>Log In</Link>
