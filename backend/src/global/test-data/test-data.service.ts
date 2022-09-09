@@ -1,5 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ActiveProfilesService } from '../active-profiles/active-profiles.service';
+import { AnnouncementTestDataService } from './announcement-test-data.service';
 import { EquipmentTestDataService } from './equipment-test-data.service';
 import { OrganizerTestDataService } from './organizer-test-data.service';
 import { ScheduleTestDataService } from './schedule-test-data.service';
@@ -14,7 +15,8 @@ export class TestDataService implements OnModuleInit {
     private readonly activeProfilesService: ActiveProfilesService,
     private readonly organizerTestDataservice: OrganizerTestDataService,
     private readonly equipmentTestDataService: EquipmentTestDataService,
-    private readonly venueTestDataService: VenueTestDataService
+    private readonly venueTestDataService: VenueTestDataService,
+    private readonly announcementTestDataService: AnnouncementTestDataService
   ) {}
 
   public async onModuleInit() {
@@ -32,5 +34,6 @@ export class TestDataService implements OnModuleInit {
     await this.organizerTestDataservice.generateTestData();
     await this.equipmentTestDataService.generateTestData();
     await this.venueTestDataService.generateTestData();
+    await this.announcementTestDataService.generateTestData();
   }
 }
