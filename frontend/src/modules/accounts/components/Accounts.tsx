@@ -13,9 +13,9 @@ import { AccountsTable } from './AccountsTable';
 
 export const Accounts = () => {
   const [refresh, setRefresh] = useState(false);
-  const [registerDTO, setRegisterDTO] = useState<RegisterUserDTO | undefined>(
-    undefined
-  );
+  const [registeredUser, setRegisteredUser] = useState<
+    RegisterUserDTO | undefined
+  >(undefined);
 
   const {
     onOpen: onRegisterOpen,
@@ -29,17 +29,23 @@ export const Accounts = () => {
     onClose: onSuccessClose,
   } = useDisclosure();
 
-  const handleComplete = (registeredUser: RegisterUserDTO) => {
-    setRegisterDTO(registeredUser);
+  const handleComplete = (registerDTO: RegisterUserDTO) => {
+    setRegisteredUser(registerDTO);
     onRegisterClose();
     onSuccessOpen();
     setRefresh(!refresh);
   };
 
   const handleRegisterAgain = () => {
-    setRegisterDTO(undefined);
+    setRegisteredUser(undefined);
     onRegisterOpen();
     onSuccessClose();
+  };
+
+  const handleSuccessClose = () => {
+    setRegisteredUser(undefined);
+    onSuccessClose();
+    setRefresh(!refresh);
   };
 
   return (
@@ -72,11 +78,11 @@ export const Accounts = () => {
       <Modal
         title='Register Success'
         isOpen={isSuccessOpen}
-        onClose={onSuccessClose}
+        onClose={handleSuccessClose}
       >
         <AccountRegisterSuccess
-          registerDTO={registerDTO}
-          onClose={onSuccessClose}
+          registerDTO={registeredUser}
+          onClose={handleSuccessClose}
           onRepeat={handleRegisterAgain}
         />
       </Modal>

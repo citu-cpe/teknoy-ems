@@ -1,4 +1,5 @@
 import {
+  Flex,
   Modal as ChakraModal,
   ModalBody,
   ModalCloseButton,
@@ -11,7 +12,7 @@ import {
 
 interface ModalProps {
   iconTitle?: React.ReactNode;
-  title: string;
+  title?: string;
   children: React.PropsWithChildren;
   footer?: React.ReactNode;
 }
@@ -36,8 +37,10 @@ export const Modal = ({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {iconTitle}
-          {title}
+          <Flex alignItems='center' justifyContent='start' gap={4}>
+            {iconTitle}
+            {title}
+          </Flex>
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>{children}</ModalBody>

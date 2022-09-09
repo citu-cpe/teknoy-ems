@@ -1,5 +1,5 @@
 import { Button, useDisclosure } from '@chakra-ui/react';
-import { OrganizerDTO } from 'generated-api';
+import { EquipmentDTO } from 'generated-api';
 import { useState } from 'react';
 import {
   ContentHeader,
@@ -7,13 +7,13 @@ import {
 } from '../../../shared/components/content';
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
-import { OrganizerAddForm } from './OrganizerAddForm';
-import { OrganizerAddSuccess } from './OrganizerAddSuccess';
-import { OrganizersTable } from './OrganizersTable';
+import { EquipmentAddForm } from './EquipmentAddForm';
+import { EquipmentAddSuccess } from './EquipmentAddSuccess';
+import { EquipmentTable } from './EquipmentTable';
 
-export const Organizers = () => {
+export const Equipment = () => {
   const [refresh, setRefresh] = useState(false);
-  const [newOrganizerDTO, setOrganizerDTO] = useState<OrganizerDTO | undefined>(
+  const [newEquipmentDTO, setEquipmentDTO] = useState<EquipmentDTO | undefined>(
     undefined
   );
 
@@ -29,20 +29,20 @@ export const Organizers = () => {
     onClose: onSuccessClose,
   } = useDisclosure();
 
-  const handleComplete = (newOrganizer: OrganizerDTO) => {
-    setOrganizerDTO(newOrganizer);
+  const handleComplete = (newEquipment: EquipmentDTO) => {
+    setEquipmentDTO(newEquipment);
     onClose();
     onSuccessOpen();
   };
 
   const handleRegisterAgain = () => {
-    setOrganizerDTO(undefined);
+    setEquipmentDTO(undefined);
     onAddOpen();
     onSuccessClose();
   };
 
   const handleSuccessClose = () => {
-    setOrganizerDTO(undefined);
+    setEquipmentDTO(undefined);
     onSuccessClose();
     setRefresh(!refresh);
   };
@@ -50,33 +50,29 @@ export const Organizers = () => {
   return (
     <MainLayout>
       <ContentHeader
-        title='Organizers'
+        title='Equipment'
         actions={
           <Button
             variant='solid'
             onClick={onAddOpen}
-            data-cy='add-organizer-btn'
+            data-cy='add-equipment-btn'
           >
-            Add Organizer
+            Add Equipment
           </Button>
         }
       />
 
       <ContentSection>
-        <OrganizersTable refresh={refresh} />
+        <EquipmentTable refresh={refresh} />
       </ContentSection>
 
-      <Modal title='Organizer Edit' isOpen={isAddOpen} onClose={onClose}>
-        <OrganizerAddForm onComplete={handleComplete} />
+      <Modal title='Equipment Add' isOpen={isAddOpen} onClose={onClose}>
+        <EquipmentAddForm onComplete={handleComplete} />
       </Modal>
 
-      <Modal
-        title='Add Success'
-        isOpen={isSuccessOpen}
-        onClose={handleSuccessClose}
-      >
-        <OrganizerAddSuccess
-          organizerDTO={newOrganizerDTO}
+      <Modal isOpen={isSuccessOpen} onClose={handleSuccessClose} size='md'>
+        <EquipmentAddSuccess
+          equipment={newEquipmentDTO}
           onClose={handleSuccessClose}
           onRepeat={handleRegisterAgain}
         />

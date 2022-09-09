@@ -25,8 +25,8 @@ export const OrganizerAddForm = ({ onComplete }: OrganizerAddFormProps) => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().min(1).max(65).required('Required'),
-    type: Yup.string().min(1).max(50).required('Required'),
+    name: Yup.string().min(1).max(40).required('Required'),
+    type: Yup.string().min(1).max(40).required('Required'),
   });
 
   useEffect(() => {

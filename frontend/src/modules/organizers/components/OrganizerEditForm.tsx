@@ -20,6 +20,18 @@ export const OrganizerEditForm = ({
   const toast = useToast();
 
   const onSubmit = (organizer: OrganizerDTO) => {
+    if (
+      initialOrganizer.name === organizer.name &&
+      initialOrganizer.type === organizer.type
+    ) {
+      if (onComplete) {
+        onComplete(organizer);
+      }
+
+      toast({ title: 'No organizer changes', status: 'info' });
+      return;
+    }
+
     editOrganizer.mutate(organizer);
   };
 
@@ -28,8 +40,8 @@ export const OrganizerEditForm = ({
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().min(1).max(65).required('Required'),
-    type: Yup.string().min(1).max(50).required('Required'),
+    name: Yup.string().min(1).max(40).required('Required'),
+    type: Yup.string().min(1).max(40).required('Required'),
   });
 
   useEffect(() => {
