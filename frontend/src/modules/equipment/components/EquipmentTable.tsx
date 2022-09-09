@@ -16,8 +16,8 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
 import { Modal } from '../../../shared/components/elements';
 import { Dialog } from '../../../shared/components/elements/Dialog/Dialog';
-import { TableActions } from '../../../shared/components/table/TableActions';
 import { EllipsisText } from '../../../shared/components/elements/Text';
+import { TableActions } from '../../../shared/components/table/TableActions';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
 import { EquipmentEditForm } from './EquipmentEditForm';
@@ -170,70 +170,70 @@ export const EquipmentTable = ({ refresh }: EquipmentTableProps) => {
             <Th textAlign='center'>
               <Text as='span'>Schedules</Text>
             </Th>
-            <Th maxW={10} w={10}>
-              {/* Need the empty table headers below for schedule and actions spacers */}
-            </Th>
+            {/* Need the empty table data for Actions spacer */}
+            <Th maxW={10} w={10}></Th>
           </Tr>
         </Thead>
         <Tbody>
           {equipment &&
             equipment.map((eq) => (
-              <Tr
-                key={eq.id}
-                w={10}
-                maxW={10}
-                data-cy='equipment-row'
-                _hover={{ bg: 'hoverBg', cursor: 'pointer' }}
-                transition={'all 0.1s linear'}
-                onClick={() => handleView(eq)}
-              >
-                <Td maxW={32}>
-                  <EllipsisText
-                    as='span'
-                    fontWeight='medium'
-                    data-cy='equipment-name'
-                  >
-                    {eq.name}
-                  </EllipsisText>
-                </Td>
-                <Td maxW={32}>
-                  <EllipsisText
-                    as='span'
-                    opacity={0.8}
-                    data-cy='equipment-type'
-                  >
-                    {eq.type}
-                  </EllipsisText>
-                </Td>
-                <Td maxW={32}>
-                  <EllipsisText
-                    as='span'
-                    opacity={0.8}
-                    data-cy='equipment-brand'
-                  >
-                    {eq.brand}
-                  </EllipsisText>
-                </Td>
-                <Td maxW={48}>
-                  <EllipsisText
-                    as='span'
-                    opacity={0.8}
-                    data-cy='equipment-notes'
-                  >
-                    {eq.notes}
-                  </EllipsisText>
-                </Td>
-                <Td maxW={10} textAlign='center'>
-                  <Text>{eq.schedules?.length.toString()}</Text>
-                </Td>
-                <Td>
+              <>
+                <Center h={14} position='absolute' right={0}>
                   <TableActions
                     data={eq}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                   />
-                </Td>
-              </Tr>
+                </Center>
+                <Tr
+                  key={eq.id}
+                  data-cy='equipment-row'
+                  _hover={{ bg: 'hoverBg', cursor: 'pointer' }}
+                  transition={'all 0.1s linear'}
+                  onClick={() => handleView(eq)}
+                >
+                  <Td maxW={32}>
+                    <EllipsisText
+                      as='span'
+                      fontWeight='medium'
+                      data-cy='equipment-name'
+                    >
+                      {eq.name}
+                    </EllipsisText>
+                  </Td>
+                  <Td maxW={32}>
+                    <EllipsisText
+                      as='span'
+                      opacity={0.8}
+                      data-cy='equipment-type'
+                    >
+                      {eq.type}
+                    </EllipsisText>
+                  </Td>
+                  <Td maxW={32}>
+                    <EllipsisText
+                      as='span'
+                      opacity={0.8}
+                      data-cy='equipment-brand'
+                    >
+                      {eq.brand}
+                    </EllipsisText>
+                  </Td>
+                  <Td maxW={48}>
+                    <EllipsisText
+                      as='span'
+                      opacity={0.8}
+                      data-cy='equipment-notes'
+                    >
+                      {eq.notes}
+                    </EllipsisText>
+                  </Td>
+                  <Td maxW={10} textAlign='center'>
+                    <Text>{eq.schedules?.length.toString()}</Text>
+                  </Td>
+                  <Td>{/* Need the empty table data for Actions spacer */}</Td>
+                </Tr>
+              </>
             ))}
         </Tbody>
       </Table>
