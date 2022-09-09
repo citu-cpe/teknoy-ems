@@ -19,6 +19,7 @@ import { TestDataModule } from '../global/test-data/test-data.module';
 import { ScheduleModule } from '../schedule/schedule.module';
 import { UserModule } from '../user/user.module';
 import { EquipmentModule } from '../equipment/equipment.module';
+import { VenueModule } from '../venue/venue.module';
 
 export const appModule: ModuleMetadata = {
   imports: [
@@ -48,6 +49,7 @@ export const appModule: ModuleMetadata = {
     ScheduleModule,
     OrganizerModule,
     EquipmentModule,
+    VenueModule,
   ],
   controllers: [AppController],
   providers: [

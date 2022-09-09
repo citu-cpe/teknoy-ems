@@ -20,6 +20,7 @@ export const addSchedToEquipment: Schedule = {
   startTime: new Date('2022-9-2 2:00:00 PM'),
   endTime: new Date('2022-9-2 5:00:00 PM'),
   equipmentId: null,
+  venuesId: null,
 };
 @Injectable()
 export class EquipmentTestDataService {

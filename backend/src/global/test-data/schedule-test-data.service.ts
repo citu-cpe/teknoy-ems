@@ -11,6 +11,7 @@ export const availableSchedule: Schedule = {
   startTime: new Date('2022-9-2 2:00:00 PM'),
   endTime: new Date('2022-9-2 5:00:00 PM'),
   equipmentId: null,
+  venuesId: null,
 };
 
 export const unavailableSchedule: Schedule = {
@@ -21,6 +22,7 @@ export const unavailableSchedule: Schedule = {
   startTime: new Date('2022-9-2 2:00:00 PM'),
   endTime: new Date('2022-9-2 5:00:00 PM'),
   equipmentId: null,
+  venuesId: null,
 };
 
 @Injectable()

@@ -4,6 +4,7 @@ import { OrganizerTestDataService } from './organizer-test-data.service';
 import { ScheduleTestDataService } from './schedule-test-data.service';
 import { TestDataService } from './test-data.service';
 import { UserTestDataService } from './user-test-data.service';
+import { VenueTestDataService } from './venue-test-data.service';
 
 @Module({
   providers: [
@@ -12,6 +13,7 @@ import { UserTestDataService } from './user-test-data.service';
     ScheduleTestDataService,
     OrganizerTestDataService,
     EquipmentTestDataService,
+    VenueTestDataService,
   ],
   exports: [TestDataService],
 })
