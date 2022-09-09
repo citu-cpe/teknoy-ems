@@ -20,6 +20,7 @@ import { ScheduleModule } from '../schedule/schedule.module';
 import { UserModule } from '../user/user.module';
 import { EquipmentModule } from '../equipment/equipment.module';
 import { VenueModule } from '../venue/venue.module';
+import { AnnouncementModule } from '../announcement/announcement.module';
 
 export const appModule: ModuleMetadata = {
   imports: [
@@ -50,6 +51,7 @@ export const appModule: ModuleMetadata = {
     OrganizerModule,
     EquipmentModule,
     VenueModule,
+    AnnouncementModule,
   ],
   controllers: [AppController],
   providers: [

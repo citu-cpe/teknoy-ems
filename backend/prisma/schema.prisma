@@ -70,6 +70,20 @@ model Organizer {
   type Type
 }
 
+model Announcement {
+  id         String     @id @default(uuid())
+  title      String
+  subtitle   String?
+  content    String
+  tags       String[]
+  viewAccess ViewAccess
+}
+
+enum ViewAccess {
+  PUBLIC
+  PRIVATE
+}
+
 enum Type {
   DEPARTMENT
   ORGANIZATION
