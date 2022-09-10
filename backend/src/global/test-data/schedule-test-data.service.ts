@@ -45,15 +45,11 @@ export class ScheduleTestDataService {
       });
 
     if (!foundAvailableSchedule) {
-      this.logger.log('GENERATING AVAILABLE SCHEDULE');
       await this.createSchedule(availableSchedule);
     }
     if (!foundUnavailableSchedule) {
-      this.logger.log('GENERATING UNAVAILABLE SCHEDULE');
       await this.createSchedule(unavailableSchedule);
     }
-
-    this.logger.log('DONE GENERATING SCHEDULE TEST DATA');
   }
 
   private async createSchedule(schedule: Schedule) {

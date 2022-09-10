@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { BiBell, BiMenu } from 'react-icons/bi';
-import { MainNav } from '../nav';
+import { Navbar } from '../nav';
 import { ThemeModeToggle } from './ThemeModeToggle';
 import { HeaderProfile } from './HeaderProfile';
 
@@ -48,7 +48,7 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
         onClick={onOpen}
       />
       {routeBreadCrumb}
-      <MainNav onClose={onClose} isOpen={isOpen} />
+      <Navbar onClose={onClose} isOpen={isOpen} />
       <Spacer />
       <ThemeModeToggle />
       <Menu strategy='absolute'>

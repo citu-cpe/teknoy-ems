@@ -5,9 +5,9 @@ export const Landing = () => {
   return (
     <Center w='100%' h='100vh' flexDir='column'>
       <Flex direction='column' alignItems='center' as='nav' gap={3}>
-        <Heading>Teknoy EMS</Heading>
+        <Heading as='h1'>Teknoy EMS</Heading>
         <NextLink href='/login' passHref>
-          <Button variant='solid' minW={56}>
+          <Button as='a' variant='solid' minW={56}>
             Log In
           </Button>
         </NextLink>

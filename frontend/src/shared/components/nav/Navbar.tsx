@@ -1,13 +1,36 @@
-import { Flex, Spacer } from '@chakra-ui/react';
-import { ThemeModeToggle } from '../header';
+import {
+  Box,
+  Drawer,
+  DrawerContent,
+  DrawerOverlay,
+  DrawerProps,
+} from '@chakra-ui/react';
 import { Nav } from './Nav';
 
-export const Navbar = () => {
+type MainNavProps = Omit<DrawerProps, 'children'>;
+
+export const Navbar = ({ onClose, isOpen }: MainNavProps) => {
   return (
-    <Flex>
-      <Nav />
-      <Spacer />
-      <ThemeModeToggle />
-    </Flex>
+    <Box
+      bg='gray.50'
+      minH='100vh'
+      _dark={{
+        bg: 'gray.700',
+      }}
+    >
+      {/* Desktop Nav */}
+      <Nav
+        visibility={{ base: 'hidden', md: 'visible' }}
+        display={{ base: 'none', md: 'flex' }}
+      />
+
+      {/* Mobile Nav */}
+      <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay />
+        <DrawerContent maxW='navbarWidth'>
+          <Nav />
+        </DrawerContent>
+      </Drawer>
+    </Box>
   );
 };
