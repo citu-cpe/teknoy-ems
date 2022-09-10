@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Flex,
+  FormControl,
   FormLabel,
   IconButton,
   InputGroup,
@@ -53,36 +54,44 @@ export const LoginForm = () => {
               )}
             </Field>
             <Flex direction='column'>
-              <FormLabel fontWeight='semibold'>New Password</FormLabel>
-              <Field name='password' type='password'>
-                {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
-                  <InputGroup>
-                    {fieldProps.field.value?.length > 0 ? (
-                      <InputRightElement
-                        alignItems='center'
-                        justifyContent='center'
-                        h={10}
-                        px='4'
-                      >
-                        <IconButton
-                          aria-label='Show password'
-                          size='sm'
-                          variant='ghost'
-                          icon={showPassword ? <FaEye /> : <FaEyeSlash />}
-                          onClick={() => setShowPassword(!showPassword)}
-                        />
-                      </InputRightElement>
-                    ) : null}
-                    <Input
-                      fieldProps={fieldProps}
-                      name='password'
-                      type={showPassword ? 'text' : 'password'}
-                      id='password'
-                      data-cy='new-password-input'
-                    />
-                  </InputGroup>
-                )}
-              </Field>
+              <FormControl>
+                <FormLabel
+                  htmlFor='password'
+                  aria-labelledby='password'
+                  fontWeight='semibold'
+                >
+                  Password
+                </FormLabel>
+                <Field name='password' type='password'>
+                  {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
+                    <InputGroup>
+                      {fieldProps.field.value?.length > 0 ? (
+                        <InputRightElement
+                          alignItems='center'
+                          justifyContent='center'
+                          h={10}
+                          px='4'
+                        >
+                          <IconButton
+                            aria-label='Show password'
+                            size='sm'
+                            variant='ghost'
+                            icon={showPassword ? <FaEye /> : <FaEyeSlash />}
+                            onClick={() => setShowPassword(!showPassword)}
+                          />
+                        </InputRightElement>
+                      ) : null}
+                      <Input
+                        fieldProps={fieldProps}
+                        name='password'
+                        type={showPassword ? 'text' : 'password'}
+                        id='password'
+                        data-cy='password-input'
+                      />
+                    </InputGroup>
+                  )}
+                </Field>
+              </FormControl>
             </Flex>
           </FormLayout>
           <Box mb={2}>

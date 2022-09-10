@@ -17,6 +17,5 @@ describe('Home Page', () => {
 
     expect(heading).toBeInTheDocument();
     expect(loginLink).toBeInTheDocument();
-    expect(registerLink).toBeInTheDocument();
   });
 });
