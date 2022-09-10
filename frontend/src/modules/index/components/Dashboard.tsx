@@ -6,7 +6,7 @@ export const Dashboard = () => {
   return (
     <MainLayout title='Dashboard'>
       <ContentHeader
-        title='TeknoyEMS'
+        title='Dashboard'
         actions={
           <Button variant='solid' data-cy='reserve-event-btn'>
             Reserve Event

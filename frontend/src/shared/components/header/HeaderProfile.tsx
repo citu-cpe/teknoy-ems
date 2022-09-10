@@ -22,7 +22,7 @@ export const HeaderProfile = () => {
 
   return (
     <Menu>
-      <MenuButton ml={4}>
+      <MenuButton ml={4} data-cy='profile-btn'>
         <Avatar name='Admin' boxSize='2rem' rounded='full' src='#' />
       </MenuButton>
       <Portal>
@@ -56,7 +56,9 @@ export const HeaderProfile = () => {
           </MenuGroup>
           <MenuDivider />
           <MenuGroup fontSize='sm'>
-            <MenuItem onClick={() => logout()}>Logout</MenuItem>
+            <MenuItem data-cy='logout-btn' onClick={() => logout()}>
+              Log out
+            </MenuItem>
           </MenuGroup>
         </MenuList>
       </Portal>

@@ -21,7 +21,7 @@ export const Login = () => {
         Home
       </Button>
 
-      <Heading>Log in</Heading>
+      <Heading>Login</Heading>
       <ContentSection minW='lg'>
         <LoginForm />
       </ContentSection>
