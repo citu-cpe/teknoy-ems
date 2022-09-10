@@ -4,7 +4,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Announcement } from '@prisma/client';
-import { NotFoundError } from '@prisma/client/runtime';
+import {
+  NotFoundError,
+  PrismaClientKnownRequestError,
+} from '@prisma/client/runtime';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { AnnouncementDTO, ViewAccessENUM } from './dto/announcement.dto';
 
@@ -57,7 +60,7 @@ export class AnnouncementServices {
       });
       return AnnouncementServices.convertToDTO(announcement);
     } catch (error) {
-      if (error instanceof NotFoundError) {
+      if (error instanceof PrismaClientKnownRequestError) {
         throw new NotFoundException();
       }
     }
@@ -71,7 +74,7 @@ export class AnnouncementServices {
       });
       return AnnouncementServices.convertToDTO(announcement);
     } catch (error) {
-      if (error instanceof NotFoundError) {
+      if (error instanceof PrismaClientKnownRequestError) {
         throw new NotFoundException();
       }
     }
