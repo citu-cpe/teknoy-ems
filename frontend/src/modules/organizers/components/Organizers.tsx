@@ -48,7 +48,7 @@ export const Organizers = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title='Organizers'>
       <ContentHeader
         title='Organizers'
         actions={

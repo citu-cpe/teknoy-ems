@@ -1,19 +1,17 @@
-import React from 'react';
+import { Button, Center, Flex, Heading } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { Center, Heading, Box, Link } from '@chakra-ui/react';
 
 export const Landing = () => {
   return (
     <Center w='100%' h='100vh' flexDir='column'>
-      <Heading>Teknoy EMS</Heading>
-      <Box as='nav'>
+      <Flex direction='column' alignItems='center' as='nav' gap={3}>
+        <Heading as='h1'>Teknoy EMS</Heading>
         <NextLink href='/login' passHref>
-          <Link mr='4'>Log In</Link>
+          <Button as='a' variant='solid' minW={56}>
+            Log In
+          </Button>
         </NextLink>
-        <NextLink href='/register' passHref>
-          <Link mr='4'>Register</Link>
-        </NextLink>
-      </Box>
+      </Flex>
     </Center>
   );
 };

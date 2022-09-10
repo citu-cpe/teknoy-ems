@@ -25,7 +25,14 @@ export const EquipmentView = ({ equipment }: EquipmentViewProps) => {
       </Text>
 
       <TableContainer>
-        <Table size='sm' w='full' maxW='full'>
+        <Table
+          colorScheme='gray'
+          fontSize='sm'
+          variant='simple'
+          size='sm'
+          w='full'
+          maxW='full'
+        >
           <Tbody w='full' maxW='full'>
             <Tr>
               <Th>Name</Th>

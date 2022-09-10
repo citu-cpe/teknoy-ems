@@ -20,14 +20,10 @@ describe('Login Page', () => {
     const logInButton = screen.getByRole<HTMLButtonElement>('button', {
       name: /log in/i,
     });
-    const registerLink = screen.getByRole<HTMLAnchorElement>('link', {
-      name: /register/i,
-    });
 
     expect(emailInput).toHaveAttribute('type', 'email');
     expect(passwordInput).toHaveAttribute('type', 'password');
     expect(logInButton).toBeInTheDocument();
-    expect(registerLink).toBeInTheDocument();
   });
 
   it('should show error message if fields are empty and submit button is clicked', async () => {

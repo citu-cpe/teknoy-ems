@@ -12,7 +12,7 @@ export const Settings = () => {
   const user = getUser();
 
   return (
-    <MainLayout>
+    <MainLayout title='Settings'>
       <ContentHeader title='Settings' />
       <ContentSection>
         <Text fontWeight='bold' data-cy='user-name'>

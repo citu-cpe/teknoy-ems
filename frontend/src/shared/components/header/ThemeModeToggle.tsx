@@ -8,6 +8,7 @@ export const ThemeModeToggle = ({ ...props }) => {
     <Tooltip
       label={`Enable ${colorMode === 'light' ? 'Dark' : 'Light'} mode`}
       placement='bottom'
+      hasArrow
     >
       <IconButton
         color='current'

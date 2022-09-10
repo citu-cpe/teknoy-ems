@@ -31,7 +31,7 @@ export const Themes = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title='Themes'>
       <Flex gap={3}>
         {availableThemes.map((currentTheme) => (
           <Flex

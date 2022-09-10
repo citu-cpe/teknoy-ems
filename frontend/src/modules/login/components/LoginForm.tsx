@@ -1,18 +1,26 @@
-import { Box, Button, Flex, Link } from '@chakra-ui/react';
-import { FieldProps, Field, Form, Formik } from 'formik';
-import { Input } from '../../../shared/components/form/Input';
-import React from 'react';
-import { useLogin } from '../hooks/useLogin';
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  IconButton,
+  InputGroup,
+  InputRightElement,
+} from '@chakra-ui/react';
+import { Field, FieldProps, Form, Formik } from 'formik';
+import { ChangePasswordDTO, LoginUserDTO } from 'generated-api';
+import { useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import * as Yup from 'yup';
-import NextLink from 'next/link';
-import { LoginUserDTO } from 'generated-api';
+import { FormLayout } from '../../../shared/components/form';
+import { Input } from '../../../shared/components/form/Input';
+import { useLogin } from '../hooks/useLogin';
 
 export const LoginForm = () => {
   const mutation = useLogin();
 
-  const onSubmit = (loginDTO: LoginUserDTO) => {
-    mutation.mutate(loginDTO);
-  };
+  const [showPassword, setShowPassword] = useState(false);
 
   const initialValues = { email: '', password: '' };
 
@@ -21,67 +29,86 @@ export const LoginForm = () => {
     password: Yup.string().required('Required'),
   });
 
+  const onSubmit = (loginDTO: LoginUserDTO) => {
+    mutation.mutate(loginDTO);
+  };
+
   return (
-    <Box bg='gray.200' p='8' borderRadius='md' w='xl'>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-      >
-        {() => (
-          <Form noValidate>
-            <Box mb='4'>
-              <Field name='email' type='email'>
-                {(fieldProps: FieldProps<string, LoginUserDTO>) => (
-                  <Input
-                    fieldProps={fieldProps}
-                    name='email'
-                    label='Email'
-                    type='email'
-                    id='email'
-                    borderColor='gray.300'
-                    bgColor='gray.50'
-                    color='gray.800'
-                  />
-                )}
-              </Field>
-              <Field name='password' type='password'>
-                {(fieldProps: FieldProps<string, LoginUserDTO>) => (
-                  <Input
-                    fieldProps={fieldProps}
-                    name='password'
-                    label='Password'
-                    type='password'
-                    id='password'
-                    borderColor='gray.300'
-                    bgColor='gray.50'
-                    color='gray.800'
-                  />
-                )}
-              </Field>
-            </Box>
-            <Box mb='4'>
-              <Button
-                data-cy='login-submit-btn'
-                formNoValidate
-                type='submit'
-                isLoading={mutation.isLoading}
-                width='full'
-                bgColor='gray.800'
-                color='gray.50'
-                _hover={{ bgColor: 'gray.800', color: 'gray.50' }}
-              >
-                Log In
-              </Button>
-            </Box>
-          </Form>
-        )}
-      </Formik>
-      <Flex justifyContent='right' color='gray.500'>
-        <NextLink href='/register' passHref>
-          <Link>Register</Link>
-        </NextLink>
-      </Flex>
-    </Box>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {() => (
+        <Form noValidate>
+          <FormLayout>
+            <Field name='email' type='email'>
+              {(fieldProps: FieldProps<string, LoginUserDTO>) => (
+                <Input
+                  fieldProps={fieldProps}
+                  name='email'
+                  label='Email'
+                  type='email'
+                  id='email'
+                />
+              )}
+            </Field>
+            <Flex direction='column'>
+              <FormControl>
+                <FormLabel
+                  htmlFor='password'
+                  aria-labelledby='password'
+                  fontWeight='semibold'
+                >
+                  Password
+                </FormLabel>
+                <Field name='password' type='password'>
+                  {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
+                    <InputGroup>
+                      {fieldProps.field.value?.length > 0 ? (
+                        <InputRightElement
+                          alignItems='center'
+                          justifyContent='center'
+                          h={10}
+                          px='4'
+                        >
+                          <IconButton
+                            aria-label='Show password'
+                            size='sm'
+                            variant='ghost'
+                            icon={showPassword ? <FaEye /> : <FaEyeSlash />}
+                            onClick={() => setShowPassword(!showPassword)}
+                          />
+                        </InputRightElement>
+                      ) : null}
+                      <Input
+                        fieldProps={fieldProps}
+                        name='password'
+                        type={showPassword ? 'text' : 'password'}
+                        id='password'
+                        data-cy='password-input'
+                      />
+                    </InputGroup>
+                  )}
+                </Field>
+              </FormControl>
+            </Flex>
+          </FormLayout>
+          <Box mb={2}>
+            <Button
+              variant='solid'
+              formNoValidate
+              data-cy='login-submit-btn'
+              type='submit'
+              isLoading={mutation.isLoading}
+              loadingText='Logging in...'
+              w='full'
+            >
+              Log In
+            </Button>
+          </Box>
+        </Form>
+      )}
+    </Formik>
   );
 };
