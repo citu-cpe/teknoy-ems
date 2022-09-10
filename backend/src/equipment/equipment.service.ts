@@ -13,6 +13,7 @@ import {
   PrismaClientKnownRequestError,
 } from '@prisma/client/runtime';
 import { PostgresErrorCode } from '../shared/constants/postgress-error-codes.enum';
+import { SortedEquipmentsDTO } from '../event/dto/sorted-equipments.dto';
 
 @Injectable()
 export class EquipmentService {
@@ -35,6 +36,7 @@ export class EquipmentService {
       throw new BadRequestException();
     }
   }
+
   public async addScheduletoEquipment(
     id: string,
     data: ScheduleDTO
@@ -56,6 +58,7 @@ export class EquipmentService {
     });
     return equipment;
   }
+
   public async getAllEquipments(): Promise<EquipmentDTO[]> {
     try {
       const getAll = await this.prisma.equipment.findMany({
@@ -72,6 +75,7 @@ export class EquipmentService {
       }
     }
   }
+
   public async getEquipmenyById(id: string): Promise<EquipmentDTO> {
     try {
       const equipment = await this.prisma.equipment.findUniqueOrThrow({
@@ -89,6 +93,7 @@ export class EquipmentService {
       }
     }
   }
+
   public async deleteEquipment(id: string): Promise<EquipmentDTO> {
     try {
       const equipment = await this.prisma.equipment.delete({
@@ -103,6 +108,7 @@ export class EquipmentService {
       }
     }
   }
+
   public async updateEquipment(
     id: string,
     data: EquipmentDTO
@@ -126,6 +132,46 @@ export class EquipmentService {
 
       throw new NotFoundException();
     }
+  }
+
+  public async getSortedEquipments(
+    startTime: Date,
+    endTime: Date
+  ): Promise<SortedEquipmentsDTO> {
+    const unavailableEquipments = await this.prisma.equipment.findMany({
+      where: {
+        schedules: {
+          some: {
+            AND: { startTime: { lte: endTime }, endTime: { gte: startTime } },
+          },
+        },
+      },
+      include: { schedules: true },
+    });
+
+    const unavailableEquipmentsDTO = unavailableEquipments.map((u) =>
+      EquipmentService.convertToDTO(u)
+    );
+
+    const availableEquipments = await this.prisma.equipment.findMany({
+      where: {
+        schedules: {
+          none: {
+            AND: { startTime: { lte: endTime }, endTime: { gte: startTime } },
+          },
+        },
+      },
+      include: { schedules: true },
+    });
+
+    const availableEquipmentsDTO = availableEquipments.map((a) =>
+      EquipmentService.convertToDTO(a)
+    );
+
+    return {
+      availableEquipments: availableEquipmentsDTO,
+      unavailableEquipments: unavailableEquipmentsDTO,
+    };
   }
 
   public static convertToDTO(

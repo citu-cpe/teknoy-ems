@@ -35,7 +35,6 @@ export class EquipmentTestDataService {
       },
     });
     if (!findEquipment) {
-      this.logger.log('GENERATING EQUIPMENT TEST DATA');
       await this.createEquipment(addEquipmentWithoutSched);
     }
     const addSched = await this.prisma.schedule.findUnique({
@@ -44,7 +43,6 @@ export class EquipmentTestDataService {
       },
     });
     if (!addSched) {
-      this.logger.log('GENERATING SCHEDULE TEST DATA');
       await this.createSchedule(addSchedToEquipment);
     }
   }

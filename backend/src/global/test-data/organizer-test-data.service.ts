@@ -32,11 +32,9 @@ export class OrganizerTestDataService {
     });
 
     if (!findDepartmentOrganizer) {
-      this.logger.log('GENERATING ORGANIZER TEST DATA DEPARTMENT');
       await this.createOrganizer(testOrganizerDepartment);
     }
     if (!findOrganizationOrganizer) {
-      this.logger.log('GENERATING ORGANIZER TEST DATA ORGANIZATION');
       await this.createOrganizer(testOrganizerOrganization);
     }
   }

@@ -45,15 +45,11 @@ export class UserTestDataService {
     });
 
     if (!foundUser) {
-      this.logger.log('GENERATING TEST STAFF');
       await this.createUser(testStaff);
     }
     if (!foundAdmin) {
-      this.logger.log('GENERATING TEST ADMIN');
       await this.createUser(testAdmin);
     }
-
-    this.logger.log('DONE GENERATING USER TEST DATA');
   }
 
   private async createUser(user: User) {

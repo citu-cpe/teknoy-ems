@@ -33,11 +33,9 @@ export class VenueTestDataService {
     });
 
     if (!findDepartmentOrganizer) {
-      this.logger.log('GENERATING VENUE TEST DATA');
       await this.createVenue(venueTestCC);
     }
     if (!findOrganizationOrganizer) {
-      this.logger.log('GENERATING VENUE TEST DATA');
       await this.createVenue(venueTestGYM);
     }
   }

@@ -11,6 +11,8 @@ import {
   NotFoundError,
   PrismaClientKnownRequestError,
 } from '@prisma/client/runtime';
+import { SortedVenuesDTO } from '../event/dto/sorted-venues.dto';
+import { ScheduleDTO } from '../schedule/dto/schedule.dto';
 
 @Injectable()
 export class VenueService {
@@ -26,6 +28,28 @@ export class VenueService {
       throw new BadRequestException();
     }
   }
+  public async addScheduletoVenue(
+    id: string,
+    data: ScheduleDTO
+  ): Promise<VenueDTO> {
+    const schedule = await this.prisma.schedule.create({
+      data,
+    });
+    const equipment = await this.prisma.venues.update({
+      where: {
+        id,
+      },
+      data: {
+        schedules: {
+          connect: {
+            id: schedule.id,
+          },
+        },
+      },
+    });
+    return equipment;
+  }
+
   public async getAllVenue(): Promise<VenueDTO[]> {
     try {
       const venues = await this.prisma.venues.findMany({
@@ -40,12 +64,14 @@ export class VenueService {
       }
     }
   }
+
   public async getVenueById(id: string): Promise<VenueDTO> {
     try {
       const venue = await this.prisma.venues.findUniqueOrThrow({
         where: {
           id,
         },
+        include: { schedules: true },
       });
       return VenueService.convertToDTO(venue);
     } catch (error) {
@@ -54,6 +80,7 @@ export class VenueService {
       }
     }
   }
+
   public async deleteVenue(id: string): Promise<VenueDTO> {
     try {
       const venue = await this.prisma.venues.delete({
@@ -68,6 +95,7 @@ export class VenueService {
       }
     }
   }
+
   public async updateVenue(id: string, data: VenueDTO): Promise<VenueDTO> {
     try {
       const venue = await this.prisma.venues.update({
@@ -83,6 +111,47 @@ export class VenueService {
       }
     }
   }
+
+  public async getSortedVenues(
+    startTime: Date,
+    endTime: Date
+  ): Promise<SortedVenuesDTO> {
+    const unavailableVenues = await this.prisma.venues.findMany({
+      where: {
+        schedules: {
+          some: {
+            AND: { startTime: { lte: endTime }, endTime: { gte: startTime } },
+          },
+        },
+      },
+      include: { schedules: true },
+    });
+
+    const unavailableVenuesDTO = unavailableVenues.map((u) =>
+      VenueService.convertToDTO(u)
+    );
+
+    const availableVenues = await this.prisma.venues.findMany({
+      where: {
+        schedules: {
+          none: {
+            AND: { startTime: { lte: endTime }, endTime: { gte: startTime } },
+          },
+        },
+      },
+      include: { schedules: true },
+    });
+
+    const availableVenuesDTO = availableVenues.map((a) =>
+      VenueService.convertToDTO(a)
+    );
+
+    return {
+      availableVenues: availableVenuesDTO,
+      unavailableVenues: unavailableVenuesDTO,
+    };
+  }
+
   public static convertToDTO(
     venue: Venues & { schedules?: Schedule[] }
   ): VenueDTO {

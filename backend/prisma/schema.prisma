@@ -21,6 +21,7 @@ model User {
   currentHashedRefreshToken String?
   roles                     Role[]
   isFirstLogin              Boolean  @default(true)
+  Event                     Event[]
 }
 
 enum Role {
@@ -43,20 +44,22 @@ model Schedule {
 }
 
 model Equipment {
-  id        String     @id @default(uuid())
-  name      String     @unique
-  type      String
-  brand     String?
-  serial    String?
-  notes     String
-  schedules Schedule[]
+  id                 String               @id @default(uuid())
+  name               String               @unique
+  type               String
+  brand              String?
+  serial             String?
+  notes              String
+  schedules          Schedule[]
+  EquipmentsOnEvents EquipmentsOnEvents[]
 }
 
 model Venues {
-  id        String     @id @default(uuid())
-  name      String
-  schedules Schedule[]
-  notes     String
+  id             String           @id @default(uuid())
+  name           String
+  schedules      Schedule[]
+  notes          String
+  VenuesOnEvents VenuesOnEvents[]
 }
 
 enum Availability {
@@ -65,9 +68,10 @@ enum Availability {
 }
 
 model Organizer {
-  id   String @id @default(uuid())
-  name String @unique
-  type Type
+  id    String  @id @default(uuid())
+  name  String  @unique
+  type  Type
+  Event Event[]
 }
 
 model Announcement {
@@ -87,5 +91,66 @@ enum ViewAccess {
 enum Type {
   DEPARTMENT
   ORGANIZATION
+  OTHERS
+}
+
+model Event {
+  id              String     @id @default(uuid())
+  title           String
+  description     String
+  status          Status
+  startTime       DateTime
+  endTime         DateTime
+  contactPerson   String
+  contactNumber   String
+  approvedBy      String
+  viewAccess      ViewAccess
+  type            EventType
+  additionalNotes String?
+
+  organizer  Organizer            @relation(fields: [organizerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  venues     VenuesOnEvents[]
+  equipments EquipmentsOnEvents[]
+  encodedBy  User                 @relation(fields: [encodedById], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  organizerId String
+  encodedById String
+}
+
+model VenuesOnEvents {
+  event    Event  @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  eventId  String
+  venue    Venues @relation(fields: [venuesId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  venuesId String
+
+  @@id([eventId, venuesId])
+}
+
+model EquipmentsOnEvents {
+  event       Event     @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  eventId     String
+  equipment   Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  equipmentId String
+
+  @@id([eventId, equipmentId])
+}
+
+enum Status {
+  PENDING
+  ONGOING
+  RESERVED
+  DONE
+  CANCELED
+  POSTPONED
+}
+
+enum EventType {
+  CORPORATE
+  ACADEMIC
+  SEMINAR
+  CONFERENCE
+  CAMPUS_WIDE
+  VIRTUAL
+  SPORTS
   OTHERS
 }
