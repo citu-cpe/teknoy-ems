@@ -16,6 +16,7 @@ export const styles = {
     '&::-webkit-scrollbar-track': {
       width: '1rem',
       backgroundColor: 'scrollTrack',
+      borderRadius: '24px',
     },
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: 'scrollThumb',

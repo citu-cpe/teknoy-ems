@@ -32,6 +32,14 @@ export const semanticTokens = {
       default: 'brand.100',
       _dark: 'whiteAlpha.300',
     },
+    focusColor: {
+      default: 'brand.500',
+      _dark: 'brand.200',
+    },
+    focusBg: {
+      default: 'gray.50',
+      _dark: 'whiteAlpha.300',
+    },
     scrollTrack: {
       default: 'white',
       _dark: 'gray.900',

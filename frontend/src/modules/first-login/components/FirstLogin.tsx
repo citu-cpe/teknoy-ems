@@ -1,6 +1,7 @@
 import { Button, Flex, Heading, Text } from '@chakra-ui/react';
 import { UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
+import { ContentSection } from '../../../shared/components/content';
 import { useToast } from '../../../shared/hooks';
 import { useGlobalStore } from '../../../shared/stores';
 import { useLogout } from '../../index/hooks/useLogout';
@@ -43,8 +44,10 @@ export const FirstLogin = () => {
       </Button>
 
       <Heading as='h1'>Welcome {getUser()?.name}!</Heading>
-      <Text mb={6}>Please change the your default password.</Text>
-      <ChangePasswordForm onComplete={handleComplete} />
+      <Text mb={3}>Please change the your default password.</Text>
+      <ContentSection>
+        <ChangePasswordForm onComplete={handleComplete} />
+      </ContentSection>
     </Flex>
   );
 };
