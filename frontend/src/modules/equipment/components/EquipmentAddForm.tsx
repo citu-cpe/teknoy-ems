@@ -25,14 +25,12 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
     type: 'Camera',
     brand: '',
     serial: '',
-    notes: '',
+    notes: 'None',
   };
 
   const validationSchema = Yup.object({
     name: Yup.string().min(1).max(40).required('Required'),
     type: Yup.string().min(1).max(40).required('Required'),
-    brand: Yup.string().min(1).max(40).required('Required'),
-    serial: Yup.string().min(1).max(40).required('Required'),
     notes: Yup.string().min(1).max(250).required('Required'),
   });
 
@@ -92,7 +90,7 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
                 </Select>
               )}
             </Field>
-            <Field name='brand' type='text' isRequired>
+            <Field name='brand' type='text'>
               {(fieldProps: FieldProps<string, EquipmentDTO>) => (
                 <Input
                   fieldProps={fieldProps}
@@ -101,12 +99,11 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
                   type='text'
                   id='brand'
                   placeholder='EPSON'
-                  isRequired
                   data-cy='brand-input'
                 />
               )}
             </Field>
-            <Field name='serial' type='text' isRequired>
+            <Field name='serial' type='text'>
               {(fieldProps: FieldProps<string, EquipmentDTO>) => (
                 <Input
                   fieldProps={fieldProps}
@@ -115,7 +112,6 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
                   type='serial'
                   id='serial'
                   placeholder='GIJ777GIM'
-                  isRequired
                   data-cy='serial-input'
                 />
               )}
