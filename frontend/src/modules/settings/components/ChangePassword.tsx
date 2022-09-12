@@ -24,7 +24,7 @@ export const ChangePassword = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title='Change Password'>
       <ContentHeader title='Change Password' />
       <ContentSection>
         <ChangePasswordForm onComplete={handleComplete} />

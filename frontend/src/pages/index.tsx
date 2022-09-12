@@ -1,11 +1,10 @@
-import type { NextPage } from 'next';
-import { useGlobalStore } from '../shared/stores';
-import { Landing } from '../modules/index/components/Landing';
-import { Home } from '../modules/index/components/Home';
-import { useEffect, useState } from 'react';
 import { UserDTO } from 'generated-api';
+import { useEffect, useState } from 'react';
+import { Dashboard } from '../modules/index/components/Dashboard';
+import { Landing } from '../modules/index/components/Landing';
+import { useGlobalStore } from '../shared/stores';
 
-const Index: NextPage = () => {
+const Index = () => {
   const [user, setUser] = useState<UserDTO | undefined>();
   const getUser = useGlobalStore((state) => state.getUser);
 
@@ -13,7 +12,7 @@ const Index: NextPage = () => {
     setUser(getUser());
   }, [getUser]);
 
-  return user ? <Home /> : <Landing />;
+  return user ? <Dashboard /> : <Landing />;
 };
 
 export default Index;

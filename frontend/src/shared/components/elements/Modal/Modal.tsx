@@ -9,6 +9,7 @@ import {
   ModalOverlay,
   ModalProps as ChakraModalProps,
 } from '@chakra-ui/react';
+import { brandSmallScrollbar } from '../../../../styles/components';
 
 interface ModalProps {
   iconTitle?: React.ReactNode;
@@ -29,6 +30,7 @@ export const Modal = ({
   return (
     <ChakraModal
       motionPreset='slideInBottom'
+      scrollBehavior='inside'
       isOpen={isOpen}
       onClose={onClose}
       size='xl'
@@ -43,7 +45,7 @@ export const Modal = ({
           </Flex>
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody>{children}</ModalBody>
+        <ModalBody sx={brandSmallScrollbar}>{children}</ModalBody>
         <ModalFooter>{footer}</ModalFooter>
       </ModalContent>
     </ChakraModal>

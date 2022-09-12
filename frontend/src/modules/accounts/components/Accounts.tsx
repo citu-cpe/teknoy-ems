@@ -49,7 +49,7 @@ export const Accounts = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title='Accounts'>
       <ContentHeader
         title='Accounts'
         actions={

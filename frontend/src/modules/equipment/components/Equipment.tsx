@@ -48,7 +48,7 @@ export const Equipment = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title='Equipment'>
       <ContentHeader
         title='Equipment'
         actions={
@@ -61,7 +61,6 @@ export const Equipment = () => {
           </Button>
         }
       />
-
       <ContentSection>
         <EquipmentTable refresh={refresh} />
       </ContentSection>

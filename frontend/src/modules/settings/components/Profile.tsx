@@ -20,7 +20,7 @@ export const Profile = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title='Profile'>
       <ContentHeader title='Profile Edit' />
       {userDTO && (
         <ContentSection>

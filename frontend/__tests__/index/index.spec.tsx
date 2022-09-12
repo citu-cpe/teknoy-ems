@@ -15,12 +15,7 @@ describe('Home Page', () => {
       name: 'Log In',
     });
 
-    const registerLink = screen.getByRole<HTMLAnchorElement>('link', {
-      name: 'Register',
-    });
-
     expect(heading).toBeInTheDocument();
     expect(loginLink).toBeInTheDocument();
-    expect(registerLink).toBeInTheDocument();
   });
 });
