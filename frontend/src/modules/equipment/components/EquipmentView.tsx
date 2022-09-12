@@ -36,7 +36,9 @@ export const EquipmentView = ({ equipment }: EquipmentViewProps) => {
           <Tbody w='full' maxW='full'>
             <Tr>
               <Th>Name</Th>
-              <Td>{equipment.name}</Td>
+              <Td>
+                <Text data-cy='equipment-view-name'>{equipment.name}</Text>
+              </Td>
             </Tr>
             <Tr>
               <Th>Type</Th>
