@@ -97,13 +97,13 @@ enum Type {
 model Event {
   id              String     @id @default(uuid())
   title           String
-  description     String
+  description     String?
   status          Status
   startTime       DateTime
   endTime         DateTime
   contactPerson   String
   contactNumber   String
-  approvedBy      String
+  approvedBy      String?
   viewAccess      ViewAccess
   type            EventType
   additionalNotes String?
