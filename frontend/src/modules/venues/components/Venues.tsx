@@ -59,7 +59,7 @@ export const Venues = () => {
         <VenuesTable refresh={refresh} />
       </ContentSection>
 
-      <Modal title='Venue Add' isOpen={isAddOpen} onClose={onClose}>
+      <Modal title='Add Venue' isOpen={isAddOpen} onClose={onClose}>
         <VenueAddForm onComplete={handleComplete} />
       </Modal>
 

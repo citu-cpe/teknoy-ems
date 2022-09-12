@@ -27,7 +27,7 @@ export const VenueAddForm = ({ onComplete }: VenueAddFormProps) => {
 
   const validationSchema = Yup.object({
     name: Yup.string().min(1).max(40).required('Required'),
-    notes: Yup.string().min(1).max(250).required('Required'),
+    notes: Yup.string().min(1).max(250),
   });
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const VenueAddForm = ({ onComplete }: VenueAddFormProps) => {
                 />
               )}
             </Field>
-            <Field name='notes' type='text' isRequired>
+            <Field name='notes' type='text'>
               {(fieldProps: FieldProps<string, VenueDTO>) => (
                 <Input
                   fieldProps={fieldProps}
@@ -69,7 +69,6 @@ export const VenueAddForm = ({ onComplete }: VenueAddFormProps) => {
                   type='text'
                   id='notes'
                   placeholder='Always NO food and drinks allowed'
-                  isRequired
                   data-cy='notes-input'
                 />
               )}
