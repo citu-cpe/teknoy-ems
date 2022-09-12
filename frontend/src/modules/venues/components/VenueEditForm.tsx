@@ -78,7 +78,7 @@ export const VenueEditForm = ({
                   />
                 )}
               </Field>
-              <Field name='notes' type='text' isRequired>
+              <Field name='notes' type='text'>
                 {(fieldProps: FieldProps<string, VenueDTO>) => (
                   <Input
                     fieldProps={fieldProps}
@@ -87,7 +87,6 @@ export const VenueEditForm = ({
                     type='text'
                     id='notes'
                     placeholder='Always NO food and drinks allowed'
-                    isRequired
                     data-cy='notes-input'
                   />
                 )}
