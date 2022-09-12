@@ -1,7 +1,12 @@
 import { venueTestCC } from '../../../src/global/test-data/venue-test-data.service';
 import { VenueDTO } from '../../../src/venue/dto/venue.dto';
 import { VenueController } from '../../../src/venue/venue.controller';
-import { addVenue, testAddVenue } from '../fixtures/venue.fixtures';
+import {
+  addVenue,
+  addVenueSameName,
+  testAddVenue,
+  testAddVenueSameName,
+} from '../fixtures/venue.fixtures';
 import { requestWithStaff } from '../setup';
 import { HttpStatus } from '@nestjs/common';
 import { SortedVenuesDTO } from '../../../src/event/dto/sorted-venues.dto';
@@ -14,26 +19,37 @@ describe('venue.spec.ts - Venue Controller', () => {
     it('should successfully add a venue', async () => {
       const { name, notes }: VenueDTO = await addVenue(testAddVenue);
 
+      expect(name).toEqual(testAddVenue.name);
+      expect(notes).toEqual(testAddVenue.notes);
+    });
+
+    it('should successfully add a venue even if notes is not populated', async () => {
+      const venueWithoutNotes = {
+        name: 'Covered Court',
+      };
+      await requestWithStaff
+        .post(venueRoute)
+        .send(venueWithoutNotes)
+        .expect(HttpStatus.OK);
+    });
+
+    it('should not successfully add a venue with the same name', async () => {
+      const { name, notes }: VenueDTO = await addVenueSameName(
+        testAddVenueSameName
+      );
+
       expect(name).toEqual(venueTestCC.name);
-      expect(notes).toEqual(venueTestCC.notes);
+      expect(notes).toEqual(testAddVenueSameName.notes);
     });
 
     it('should not successfully add a venue with missing data', async () => {
       const venueWithoutName = {
         notes: 'this is a test for covered court',
       };
-      const venueWithoutNotes = {
-        name: 'Covered Court',
-      };
 
       await requestWithStaff
         .post(venueRoute)
         .send(venueWithoutName)
-        .expect(HttpStatus.BAD_REQUEST);
-
-      await requestWithStaff
-        .post(venueRoute)
-        .send(venueWithoutNotes)
         .expect(HttpStatus.BAD_REQUEST);
     });
   });
