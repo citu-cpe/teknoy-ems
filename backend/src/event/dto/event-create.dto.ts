@@ -8,6 +8,7 @@ import {
   Validate,
   IsPhoneNumber,
   IsArray,
+  ArrayNotEmpty,
 } from 'class-validator';
 import { IsBeforeConstraint } from '../../shared/validators/is-before.validator';
 
@@ -46,8 +47,7 @@ export class EventCreateDTO {
   public title: string;
 
   @IsString()
-  @IsNotEmpty()
-  public description: string;
+  public description?: string;
 
   @IsNotEmpty()
   @IsEnum(StatusEnum)
@@ -70,8 +70,7 @@ export class EventCreateDTO {
   public contactNumber: string;
 
   @IsString()
-  @IsNotEmpty()
-  public approvedBy: string;
+  public approvedBy?: string;
 
   @IsEnum(ViewAccessEnum)
   @IsNotEmpty()
@@ -99,5 +98,6 @@ export class EventCreateDTO {
 
   @IsUUID(undefined, { each: true })
   @IsArray()
+  @ArrayNotEmpty()
   public venueIds: string[];
 }
