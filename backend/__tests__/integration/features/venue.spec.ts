@@ -1,12 +1,7 @@
 import { venueTestCC } from '../../../src/global/test-data/venue-test-data.service';
 import { VenueDTO } from '../../../src/venue/dto/venue.dto';
 import { VenueController } from '../../../src/venue/venue.controller';
-import {
-  addVenue,
-  addVenueSameName,
-  testAddVenue,
-  testAddVenueSameName,
-} from '../fixtures/venue.fixtures';
+import { addVenue, testAddVenue } from '../fixtures/venue.fixtures';
 import { requestWithStaff } from '../setup';
 import { HttpStatus } from '@nestjs/common';
 import { SortedVenuesDTO } from '../../../src/event/dto/sorted-venues.dto';
@@ -23,23 +18,25 @@ describe('venue.spec.ts - Venue Controller', () => {
       expect(notes).toEqual(testAddVenue.notes);
     });
 
-    it('should successfully add a venue even if notes is not populated', async () => {
+    it('should successfully add a venue even if there is no notes', async () => {
       const venueWithoutNotes = {
-        name: 'Covered Court',
+        name: 'Canteen',
       };
       await requestWithStaff
         .post(venueRoute)
         .send(venueWithoutNotes)
-        .expect(HttpStatus.OK);
+        .expect(HttpStatus.CREATED);
     });
 
     it('should not successfully add a venue with the same name', async () => {
-      const { name, notes }: VenueDTO = await addVenueSameName(
-        testAddVenueSameName
-      );
+      const venueSameName = {
+        name: 'Covered Court',
+      };
 
-      expect(name).toEqual(venueTestCC.name);
-      expect(notes).toEqual(testAddVenueSameName.notes);
+      const { body } = await requestWithStaff
+        .post(venueRoute)
+        .send(venueSameName)
+        .expect(HttpStatus.BAD_REQUEST);
     });
 
     it('should not successfully add a venue with missing data', async () => {

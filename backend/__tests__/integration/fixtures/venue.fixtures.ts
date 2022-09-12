@@ -10,25 +10,11 @@ export const testAddVenue: VenueDTO = {
   notes: 'this is a test for canteen',
 };
 
-export const testAddVenueSameName: VenueDTO = {
-  name: 'Covered Court',
-  notes: 'this is a test for court',
-};
-
 export const addVenue = async (dto: VenueDTO): Promise<VenueDTO> => {
   const { body } = await requestWithStaff
     .post(venueRoute)
     .send(dto)
     .expect(HttpStatus.CREATED);
-
-  return body;
-};
-
-export const addVenueSameName = async (dto: VenueDTO): Promise<VenueDTO> => {
-  const { body } = await requestWithStaff
-    .post(venueRoute)
-    .send(dto)
-    .expect(HttpStatus.BAD_REQUEST);
 
   return body;
 };
