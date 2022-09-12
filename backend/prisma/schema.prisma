@@ -56,9 +56,9 @@ model Equipment {
 
 model Venues {
   id             String           @id @default(uuid())
-  name           String
+  name           String           @unique
   schedules      Schedule[]
-  notes          String
+  notes          String?
   VenuesOnEvents VenuesOnEvents[]
 }
 

@@ -17,9 +17,9 @@ export class VenueDTO {
   @IsString()
   public name: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  public notes: string;
+  public notes?: string;
 
   @IsArray()
   @IsOptional()
