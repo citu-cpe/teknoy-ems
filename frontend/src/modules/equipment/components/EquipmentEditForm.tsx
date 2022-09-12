@@ -4,6 +4,7 @@ import { EquipmentDTO } from 'generated-api';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
 import { FormLayout, Input, Select } from '../../../shared/components/form';
+import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
 import { useToast } from '../../../shared/hooks';
 import { useEquipment } from '../hooks';
 
@@ -50,8 +51,6 @@ export const EquipmentEditForm = ({
   const validationSchema = Yup.object({
     name: Yup.string().min(1).max(80).required('Required'),
     type: Yup.string().min(1).max(80).required('Required'),
-    brand: Yup.string().min(1).max(80).required('Required'),
-    serial: Yup.string().min(1).max(80).required('Required'),
     notes: Yup.string().min(1).max(250).required('Required'),
   });
 
@@ -112,7 +111,7 @@ export const EquipmentEditForm = ({
                   </Select>
                 )}
               </Field>
-              <Field name='brand' type='text' isRequired>
+              <Field name='brand' type='text'>
                 {(fieldProps: FieldProps<string, EquipmentDTO>) => (
                   <Input
                     fieldProps={fieldProps}
@@ -121,12 +120,11 @@ export const EquipmentEditForm = ({
                     type='text'
                     id='brand'
                     placeholder='EPSON'
-                    isRequired
                     data-cy='brand-input'
                   />
                 )}
               </Field>
-              <Field name='serial' type='text' isRequired>
+              <Field name='serial' type='text'>
                 {(fieldProps: FieldProps<string, EquipmentDTO>) => (
                   <Input
                     fieldProps={fieldProps}
@@ -135,7 +133,6 @@ export const EquipmentEditForm = ({
                     type='serial'
                     id='serial'
                     placeholder='GIJ777GIM'
-                    isRequired
                     data-cy='serial-input'
                   />
                 )}
@@ -157,7 +154,7 @@ export const EquipmentEditForm = ({
             </FormLayout>
           </Form>
           <Flex w='full' h='full'>
-            <Button type='reset'>Reset Inputs</Button>
+            <FormikResetButton />
             <Spacer />
             <Button
               variant='solid'

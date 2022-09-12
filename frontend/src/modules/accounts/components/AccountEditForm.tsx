@@ -10,6 +10,7 @@ import {
   FormLayout,
   Input,
 } from '../../../shared/components/form';
+import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
 import { useToast } from '../../../shared/hooks';
 import { nameValidator } from '../../../shared/schemas';
 import { useEdit } from '../hooks/useEdit';
@@ -178,7 +179,7 @@ export const AccountEditForm = ({
             </Field>
           </FormLayout>
           <Flex w='full' h='full'>
-            <Button type='reset'>Reset Inputs</Button>
+            <FormikResetButton />
             <Spacer />
             <Button
               variant='solid'
