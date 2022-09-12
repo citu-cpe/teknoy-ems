@@ -9,6 +9,7 @@ import {
   FormLayout,
   Input,
 } from '../../../shared/components/form';
+import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
 import { useToast } from '../../../shared/hooks';
 import { emailValidator, nameValidator } from '../../../shared/schemas';
 import { useRegister } from '../hooks/useRegister';
@@ -166,9 +167,7 @@ export const AccountRegisterForm = ({
             </Flex>
           </FormLayout>
           <Flex w='full' h='full'>
-            <Button type='reset' onClick={handleReset}>
-              Reset Inputs
-            </Button>
+            <FormikResetButton onClick={handleReset} />
             <Spacer />
             <Button
               variant='solid'
