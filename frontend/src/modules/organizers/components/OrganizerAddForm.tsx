@@ -4,6 +4,7 @@ import { OrganizerDTO, OrganizerDTOTypeEnum } from 'generated-api';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
 import { FormLayout, Input, Select } from '../../../shared/components/form';
+import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
 import { useToast } from '../../../shared/hooks';
 import { useOrganizers } from '../hooks';
 
@@ -83,7 +84,7 @@ export const OrganizerAddForm = ({ onComplete }: OrganizerAddFormProps) => {
             </Field>
           </FormLayout>
           <Flex w='full' h='full'>
-            <Button type='reset'>Reset Inputs</Button>
+            <FormikResetButton />
             <Spacer />
             <Button
               variant='solid'
