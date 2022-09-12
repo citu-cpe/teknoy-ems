@@ -13,6 +13,7 @@ import {
 } from '@prisma/client/runtime';
 import { SortedVenuesDTO } from '../event/dto/sorted-venues.dto';
 import { ScheduleDTO } from '../schedule/dto/schedule.dto';
+import { PostgresErrorCode } from '../shared/constants/postgress-error-codes.enum';
 
 @Injectable()
 export class VenueService {
@@ -25,6 +26,11 @@ export class VenueService {
       });
       return venue;
     } catch (error) {
+      if (error?.code === PostgresErrorCode.UniqueViolation) {
+        if (error.meta.target[0] === 'name') {
+          throw new BadRequestException('Venue with that name already exists!');
+        }
+      }
       throw new BadRequestException();
     }
   }
@@ -106,6 +112,11 @@ export class VenueService {
       });
       return VenueService.convertToDTO(venue);
     } catch (error) {
+      if (error?.code === PostgresErrorCode.UniqueViolation) {
+        if (error.meta.target[0] === 'name') {
+          throw new BadRequestException('Venue with that name already exists!');
+        }
+      }
       if (error instanceof PrismaClientKnownRequestError) {
         throw new NotFoundException();
       }

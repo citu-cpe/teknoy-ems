@@ -6,8 +6,8 @@ import { HttpStatus } from '@nestjs/common';
 const venueRoute = VenueController.VENUE_API_PATH;
 
 export const testAddVenue: VenueDTO = {
-  name: 'Covered Court',
-  notes: 'this is a test for covered court',
+  name: 'Canteen',
+  notes: 'this is a test for canteen',
 };
 
 export const addVenue = async (dto: VenueDTO): Promise<VenueDTO> => {
