@@ -42,20 +42,32 @@ export const EquipmentView = ({ equipment }: EquipmentViewProps) => {
             </Tr>
             <Tr>
               <Th>Type</Th>
-              <Td>{equipment.type}</Td>
+              <Td>
+                <Text data-cy='equipment-view-type'>{equipment.type}</Text>
+              </Td>
             </Tr>
             <Tr>
               <Th>Brand</Th>
-              <Td>{equipment.brand}</Td>
+              <Td>
+                <Text data-cy='equipment-view-brand'>{equipment.brand}</Text>
+              </Td>
             </Tr>
             <Tr>
               <Th>Serial</Th>
-              <Td>{equipment.serial}</Td>
+              <Td>
+                <Text data-cy='equipment-view-serial'>{equipment.serial}</Text>
+              </Td>
             </Tr>
             <Tr>
               <Th>Notes</Th>
               <Td>
-                <Textarea variant='flushed' w='full' fontSize='sm' readOnly>
+                <Textarea
+                  data-cy='equipment-view-notes'
+                  variant='flushed'
+                  w='full'
+                  fontSize='sm'
+                  readOnly
+                >
                   {equipment.notes}
                 </Textarea>
               </Td>

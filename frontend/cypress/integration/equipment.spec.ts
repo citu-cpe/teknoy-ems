@@ -14,17 +14,18 @@ describe('equipment.spec.ts - Equipment Page', () => {
 
   it('should get all equipment', () => {
     cy.getBySel('equipment-row').should('have.length', 1);
-
-    //codes from line 20-23 are working fine if the chakra element is Text however the element is
-    //Ellipisis Text and I have no Idea how get the text values even if I already searched the internet
-    // cy.getBySel('equipment-name').contains('SONY CAM 1').should('exist');
-    // cy.getBySel('equipment-type').contains('CAMERA').should('exist');
-    // cy.getBySel('equipment-brand').contains('SONY');
-    // cy.getBySel('equipment-notes').contains('This is a test');
+    cy.getBySel('equipment-name').contains('SONY CAM 1').should('exist');
+    cy.getBySel('equipment-type').contains('CAMERA').should('exist');
+    cy.getBySel('equipment-brand').contains('SONY');
+    cy.getBySel('equipment-notes').contains('This is a test');
 
     //should show equipment view
     cy.getBySel('equipment-row').first().click();
     cy.getBySel('equipment-view-name').contains('SONY CAM 1').should('exist');
+    cy.getBySel('equipment-view-brand').contains('SONY').should('exist');
+    cy.getBySel('equipment-view-serial').contains('123456789').should('exist');
+    cy.getBySel('equipment-view-notes').contains('This is a test').should('exist');
+
   });
 
   it('should add an equipment', () => {
@@ -44,8 +45,7 @@ describe('equipment.spec.ts - Equipment Page', () => {
 
     cy.wait('@getAllEquipment');
     cy.getBySel('equipment-row').should('have.length', 2);
-    // cy.getBySel('equipment-name').contains('RJ45').should('exist'); //cannot implement this
-    //due to ellipsistext element
+    cy.getBySel('equipment-name').contains('RJ45').should('exist');
   });
 
   it('should add an equipment even withouth populating brand and serial fields', () => {
@@ -63,8 +63,7 @@ describe('equipment.spec.ts - Equipment Page', () => {
 
     cy.wait('@getAllEquipment');
     cy.getBySel('equipment-row').should('have.length', 2);
-    // cy.getBySel('equipment-name').contains('JBL').should('exist'); //cannot implement this
-    //due to ellipsistext element
+    cy.getBySel('equipment-name').contains('JBL').should('exist');
   });
 
   it('should not add a duplicate equipment', () => {
@@ -98,14 +97,16 @@ describe('equipment.spec.ts - Equipment Page', () => {
     cy.wait('@editEquipment');
     
     cy.wait(1000);
-    // cy.getBySel('equipment-name').contains('SONY CAM 2').should('exist'); //cannot implement since test will fail 
-    //due to same reasons in getting all equipments
+    cy.getBySel('equipment-name').contains('SONY CAM 2').should('exist');
+    cy.getBySel('equipment-notes').contains('Handle with Care').should('exist');
 
     cy.getBySel('equipment-row').first().click();
     cy.getBySel('equipment-view-name').contains('SONY CAM 2').should('exist');
+    cy.getBySel('equipment-view-serial').contains('987654321').should('exist');
+    cy.getBySel('equipment-view-notes').contains('Handle with Care').should('exist');
   });
 
-  it('should delete organizer', () => {
+  it('should delete equipment', () => {
     cy.getBySel('actions-btn').first().click();
     cy.getBySel('actions-delete-btn').first().click();
     cy.getBySel('dialog-yes-btn').click();
@@ -117,6 +118,5 @@ describe('equipment.spec.ts - Equipment Page', () => {
     cy.wait('@getAllEquipment');
 
     cy.getBySel('equipment-row').should('have.length', 0);
-    // cy.getBySel('equipment-name').contains('SONY CAM 1').should('not.exist');
-  })
+  });
 });
