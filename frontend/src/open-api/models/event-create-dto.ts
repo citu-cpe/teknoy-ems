@@ -35,7 +35,7 @@ export interface EventCreateDTO {
    * @type {string}
    * @memberof EventCreateDTO
    */
-  description: string;
+  description?: string;
   /**
    *
    * @type {string}
@@ -71,7 +71,7 @@ export interface EventCreateDTO {
    * @type {string}
    * @memberof EventCreateDTO
    */
-  approvedBy: string;
+  approvedBy?: string;
   /**
    *
    * @type {string}

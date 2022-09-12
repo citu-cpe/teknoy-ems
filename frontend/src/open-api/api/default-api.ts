@@ -57,6 +57,8 @@ import { RegisterUserDTO } from '../models';
 // @ts-ignore
 import { ScheduleDTO } from '../models';
 // @ts-ignore
+import { SortedEquipmentsDTO } from '../models';
+// @ts-ignore
 import { SortedVenuesDTO } from '../models';
 // @ts-ignore
 import { TokensDTO } from '../models';
@@ -1388,13 +1390,58 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    getSortedEquipments: async (
+      id: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('getSortedEquipments', 'id', id);
+      const localVarPath = `/api/v1/event/{id}/sorted-equipments`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     getSortedVenues: async (
       id: string,
       options: any = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('getSortedVenues', 'id', id);
-      const localVarPath = `/api/v1/event/{id}/sorted-equipments`.replace(
+      const localVarPath = `/api/v1/event/{id}/sorted-venues`.replace(
         `{${'id'}}`,
         encodeURIComponent(String(id))
       );
@@ -2808,6 +2855,30 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    async getSortedEquipments(
+      id: string,
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<SortedEquipmentsDTO>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getSortedEquipments(id, options);
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     async getSortedVenues(
       id: string,
       options?: any
@@ -3547,6 +3618,20 @@ export const DefaultApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    getSortedEquipments(
+      id: string,
+      options?: any
+    ): AxiosPromise<SortedEquipmentsDTO> {
+      return localVarFp
+        .getSortedEquipments(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     getSortedVenues(id: string, options?: any): AxiosPromise<SortedVenuesDTO> {
       return localVarFp
         .getSortedVenues(id, options)
@@ -4122,6 +4207,19 @@ export class DefaultApi extends BaseAPI {
   public getSchedules(options?: any) {
     return DefaultApiFp(this.configuration)
       .getSchedules(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getSortedEquipments(id: string, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .getSortedEquipments(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
