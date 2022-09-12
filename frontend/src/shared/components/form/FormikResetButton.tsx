@@ -26,6 +26,7 @@ export const FormikResetButton = ({
   return (
     <Button
       type='reset'
+      data-cy='reset-btn'
       disabled={!isFormModified}
       _disabled={{ cursor: 'auto', opacity: 0.8 }}
       {...props}

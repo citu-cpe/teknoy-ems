@@ -33,7 +33,7 @@ export const Nav = ({ ...props }) => {
       <NavLink label='Dashboard' route='/' icon={BiHome} />
       <NavLink label='Events' route='#' isDisabled icon={BiCalendarEvent} />
       <NavLink label='Equipment' route='/equipment' icon={BiDevices} />
-      <NavLink label='Venues' route='#' isDisabled icon={BiMap} />
+      <NavLink label='Venues' route='/venues' isDisabled icon={BiMap} />
       <NavLink
         label='Organizers'
         route='/organizers'
