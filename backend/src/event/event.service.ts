@@ -134,6 +134,12 @@ export class EventService {
     dto: EventCreateDTO,
     user: User
   ): Promise<EventDTO> {
+    const validationErrorDTO = await this.verifyEventCreation(dto);
+
+    if (validationErrorDTO.hasErrors) {
+      throw new BadRequestException(validationErrorDTO, 'Error creating event');
+    }
+
     await this.deleteSchedules(id);
 
     try {

@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -38,6 +40,7 @@ export class EventController {
   }
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   public async createEvent(
     @Req() { user }: RequestWithUser,
     @Body() dto: EventCreateDTO
@@ -70,8 +73,7 @@ export class EventController {
   }
 
   @Get(
-    EventController.EVENT_ID_API_PATH +
-      EventController.SORTED_EQUIPMENTS_API_PATH
+    EventController.EVENT_ID_API_PATH + EventController.SORTED_VENUES_API_PATH
   )
   public async getSortedVenues(
     @Param('id') id: string
@@ -80,6 +82,7 @@ export class EventController {
   }
 
   @Post(EventController.VERIFY_EVENT_CREATION_API_PATH)
+  @HttpCode(HttpStatus.OK)
   public async verifyEventCreation(
     @Body() dto: EventCreateDTO
   ): Promise<ValidationErrorDTO> {
