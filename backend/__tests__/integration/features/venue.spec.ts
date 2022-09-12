@@ -14,26 +14,39 @@ describe('venue.spec.ts - Venue Controller', () => {
     it('should successfully add a venue', async () => {
       const { name, notes }: VenueDTO = await addVenue(testAddVenue);
 
-      expect(name).toEqual(venueTestCC.name);
-      expect(notes).toEqual(venueTestCC.notes);
+      expect(name).toEqual(testAddVenue.name);
+      expect(notes).toEqual(testAddVenue.notes);
+    });
+
+    it('should successfully add a venue even if there is no notes', async () => {
+      const venueWithoutNotes = {
+        name: 'Canteen',
+      };
+      await requestWithStaff
+        .post(venueRoute)
+        .send(venueWithoutNotes)
+        .expect(HttpStatus.CREATED);
+    });
+
+    it('should not successfully add a venue with the same name', async () => {
+      const venueSameName = {
+        name: 'Covered Court',
+      };
+
+      const { body } = await requestWithStaff
+        .post(venueRoute)
+        .send(venueSameName)
+        .expect(HttpStatus.BAD_REQUEST);
     });
 
     it('should not successfully add a venue with missing data', async () => {
       const venueWithoutName = {
         notes: 'this is a test for covered court',
       };
-      const venueWithoutNotes = {
-        name: 'Covered Court',
-      };
 
       await requestWithStaff
         .post(venueRoute)
         .send(venueWithoutName)
-        .expect(HttpStatus.BAD_REQUEST);
-
-      await requestWithStaff
-        .post(venueRoute)
-        .send(venueWithoutNotes)
         .expect(HttpStatus.BAD_REQUEST);
     });
   });
