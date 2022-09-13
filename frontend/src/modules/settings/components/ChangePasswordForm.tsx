@@ -44,7 +44,7 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
   };
 
   const validationSchema = Yup.object({
-    currentPassword: passwordValidator,
+    currentPassword: Yup.string().required('Current password is required'),
     newPassword: passwordValidator,
     confirmPassword: confirmPasswordValidator('newPassword'),
   });
