@@ -48,5 +48,9 @@ export const defaultTheme = extendTheme(
   withDefaultVariant({
     variant: 'ghost',
     components: ['Button'],
+  }),
+  withDefaultVariant({
+    variant: 'filled',
+    components: ['Input', 'Select', 'Checkbox', 'Textarea'],
   })
 );
