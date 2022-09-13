@@ -49,7 +49,7 @@ model Equipment {
   type               String
   brand              String?
   serial             String?
-  notes              String
+  notes              String?
   schedules          Schedule[]
   EquipmentsOnEvents EquipmentsOnEvents[]
 }
