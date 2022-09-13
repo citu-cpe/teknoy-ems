@@ -16,12 +16,7 @@ export const EllipsisText = ({
         textOverflow='ellipsis'
         overflow='hidden'
         whiteSpace='nowrap'
-        color={props.color}
-        bg={props.bg}
-        fontWeight={props.fontWeight}
-        fontStyle={props.fontStyle}
-        fontSize={props.fontSize}
-        opacity={props.opacity}
+        {...props}
       >
         {children}
       </Text>
