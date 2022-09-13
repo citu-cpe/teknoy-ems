@@ -13,8 +13,6 @@ export const EllipsisText = ({
         textOverflow='ellipsis'
         overflow='hidden'
         whiteSpace='nowrap'
-        color={props.color}
-        bg={props.bg}
         {...props}
       >
         {children}

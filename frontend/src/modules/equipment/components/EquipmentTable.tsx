@@ -193,38 +193,22 @@ export const EquipmentTable = ({ refresh }: EquipmentTableProps) => {
                   onClick={() => handleView(eq)}
                 >
                   <Td maxW={32}>
-                    <EllipsisText
-                      as='span'
-                      fontWeight='medium'
-                      data-cy='equipment-name'
-                    >
+                    <EllipsisText fontWeight='medium' data-cy='equipment-name'>
                       {eq.name}
                     </EllipsisText>
                   </Td>
                   <Td maxW={32}>
-                    <EllipsisText
-                      as='span'
-                      opacity={0.8}
-                      data-cy='equipment-type'
-                    >
+                    <EllipsisText opacity={0.8} data-cy='equipment-type'>
                       {eq.type}
                     </EllipsisText>
                   </Td>
                   <Td maxW={32}>
-                    <EllipsisText
-                      as='span'
-                      opacity={0.8}
-                      data-cy='equipment-brand'
-                    >
+                    <EllipsisText opacity={0.8} data-cy='equipment-brand'>
                       {eq.brand}
                     </EllipsisText>
                   </Td>
                   <Td maxW={48}>
-                    <EllipsisText
-                      as='span'
-                      opacity={0.8}
-                      data-cy='equipment-notes'
-                    >
+                    <EllipsisText opacity={0.8} data-cy='equipment-notes'>
                       {eq.notes}
                     </EllipsisText>
                   </Td>
