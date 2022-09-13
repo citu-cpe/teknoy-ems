@@ -27,8 +27,53 @@ describe('equipment.spec.ts - Equipment Controller', () => {
       expect(notes).toEqual(testAddEquipment.notes);
     });
 
+    it('should successfully add an equipment even without populating brand, serial and notes field', async () => {
+      const equipmentWithoutBrand = {
+        name: 'EPSON Large 4',
+        type: 'CAMERA',
+        serial: 'GIJDKSLS',
+        notes: 'handle with care',
+      };
+
+      const equipmentWithoutSerial = {
+        name: 'EPSON Large 3',
+        type: 'CAMERA',
+        brand: 'EPSON',
+        notes: 'handle with care',
+      };
+
+      const equipmentWithoutNotes = {
+        name: 'EPSON Large 2',
+        type: 'CAMERA',
+        brand: 'EPSON',
+        serial: 'OJSDFMCJ',
+      };
+
+      const equipmentWithoutAllOptional = {
+        name: 'EPSON Large 1',
+        type: 'CAMERA',
+      };
+
+      await requestWithStaff
+        .post(equipmentRoute)
+        .send(equipmentWithoutBrand)
+        .expect(HttpStatus.CREATED);
+      await requestWithStaff
+        .post(equipmentRoute)
+        .send(equipmentWithoutSerial)
+        .expect(HttpStatus.CREATED);
+      await requestWithStaff
+        .post(equipmentRoute)
+        .send(equipmentWithoutNotes)
+        .expect(HttpStatus.CREATED);
+      await requestWithStaff
+        .post(equipmentRoute)
+        .send(equipmentWithoutAllOptional)
+        .expect(HttpStatus.CREATED);
+    });
+
     it('should not successfully add an equipment with missing data', async () => {
-      //brand and serial fields are not required
+      //brand, serial and notes fields are not required
       const equipmentWithoutName = {
         type: 'CAMERA',
         brand: 'EPSON',
@@ -41,24 +86,6 @@ describe('equipment.spec.ts - Equipment Controller', () => {
         serial: 'GIJDKSLS',
         notes: 'handle with care',
       };
-      const equipmentWithoutBrand = {
-        name: 'EPSON Large 3',
-        type: 'CAMERA',
-        serial: 'GIJDKSLS',
-        notes: 'handle with care',
-      };
-      const equipmentWithoutSerial = {
-        name: 'EPSON Large 3',
-        type: 'CAMERA',
-        brand: 'EPSON',
-        notes: 'handle with care',
-      };
-      const equipmentWithoutNotes = {
-        name: 'EPSON Large 3',
-        type: 'CAMERA',
-        brand: 'EPSON',
-        serial: 'GIJDKSLS',
-      };
 
       await requestWithStaff
         .post(equipmentRoute)
@@ -67,10 +94,6 @@ describe('equipment.spec.ts - Equipment Controller', () => {
       await requestWithStaff
         .post(equipmentRoute)
         .send(equipmentWithoutType)
-        .expect(HttpStatus.BAD_REQUEST);
-      await requestWithStaff
-        .post(equipmentRoute)
-        .send(equipmentWithoutNotes)
         .expect(HttpStatus.BAD_REQUEST);
     });
 

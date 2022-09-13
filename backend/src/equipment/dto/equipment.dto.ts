@@ -36,6 +36,6 @@ export class EquipmentDTO {
   public schedules?: ScheduleDTO[];
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   public notes: string;
 }
