@@ -221,13 +221,13 @@ export const AnnouncementEditForm = ({
             <Spacer />
             <Button
               variant='solid'
-              data-cy='add-submit-btn'
+              data-cy='edit-submit-btn'
               formNoValidate
               type='submit'
               isLoading={editAnnouncement.isLoading}
-              loadingText='Adding...'
+              loadingText='Editing...'
             >
-              Add Announcement
+              Edit Announcement
             </Button>
           </Flex>
         </Form>

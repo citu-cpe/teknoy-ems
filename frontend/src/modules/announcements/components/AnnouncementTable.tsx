@@ -196,7 +196,11 @@ export const AnnouncementsTable = ({ refresh }: AnnouncementsTableProps) => {
                   onClick={() => handleView(an)}
                 >
                   <Td maxW={32}>
-                    <EllipsisText fontWeight='medium' opacity={0.8}>
+                    <EllipsisText
+                      fontWeight='medium'
+                      opacity={0.8}
+                      data-cy='announcement-title'
+                    >
                       {an.title}
                     </EllipsisText>
                   </Td>
