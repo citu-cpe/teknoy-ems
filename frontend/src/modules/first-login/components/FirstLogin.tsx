@@ -29,7 +29,7 @@ export const FirstLogin = () => {
       justifyContent='center'
       gap={3}
       w='full'
-      maxW='md'
+      maxW='container.sm'
       mx='auto'
       textAlign='center'
     >

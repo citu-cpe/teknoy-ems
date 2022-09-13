@@ -4,7 +4,11 @@ import { UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
-import { FormLayout, Input } from '../../../shared/components/form';
+import {
+  FormikResetButton,
+  FormLayout,
+  Input,
+} from '../../../shared/components/form';
 import { useToast } from '../../../shared/hooks';
 import { nameValidator } from '../../../shared/schemas';
 import { useEdit } from '../../accounts/hooks/useEdit';
@@ -73,21 +77,18 @@ export const ProfileEditForm = ({
                 />
               )}
             </Field>
-            <Flex as={FormControl} role='group' direction='column'>
-              <FormLabel fontWeight='semibold'>Roles</FormLabel>
-              <Field name='roles' type='text' isReadOnly>
-                {(fieldProps: FieldProps<string, UserDTO>) => (
-                  <Input
-                    fieldProps={fieldProps}
-                    name='roles'
-                    type='text'
-                    isReadOnly
-                  >
-                    {/* {fieldProps.field.value} */}
-                  </Input>
-                )}
-              </Field>
-            </Flex>
+            <Field name='roles' type='text' isReadOnly>
+              {(fieldProps: FieldProps<string, UserDTO>) => (
+                <Input
+                  fieldProps={fieldProps}
+                  label='Roles'
+                  name='roles'
+                  type='text'
+                  isReadOnly
+                />
+              )}
+            </Field>
+
             <Field name='name' type='name' isRequired>
               {(fieldProps: FieldProps<string, UserDTO>) => (
                 <Input
@@ -103,7 +104,7 @@ export const ProfileEditForm = ({
             </Field>
           </FormLayout>
           <Flex w='full' h='full'>
-            <Button type='reset'>Reset Inputs</Button>
+            <FormikResetButton />
             <Spacer />
             <Button
               variant='solid'

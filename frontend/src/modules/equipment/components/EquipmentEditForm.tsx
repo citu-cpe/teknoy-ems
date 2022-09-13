@@ -3,7 +3,12 @@ import { Field, FieldProps, Form, Formik } from 'formik';
 import { EquipmentDTO } from 'generated-api';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
-import { FormLayout, Input, Select } from '../../../shared/components/form';
+import {
+  FormLayout,
+  Input,
+  Select,
+  Textarea,
+} from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
 import { useToast } from '../../../shared/hooks';
 import { useEquipment } from '../hooks';
@@ -139,11 +144,10 @@ export const EquipmentEditForm = ({
               </Field>
               <Field name='notes' type='text' isRequired>
                 {(fieldProps: FieldProps<string, EquipmentDTO>) => (
-                  <Input
+                  <Textarea
                     fieldProps={fieldProps}
                     name='notes'
                     label='Notes'
-                    type='text'
                     id='notes'
                     placeholder="Don't forget equipment bag"
                     isRequired

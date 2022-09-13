@@ -1,11 +1,4 @@
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Spacer,
-  Textarea,
-} from '@chakra-ui/react';
+import { Button, Flex, FormControl, FormLabel, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { AnnouncementDTO, AnnouncementDTOViewAccessEnum } from 'generated-api';
 import { useEffect } from 'react';
@@ -16,6 +9,7 @@ import {
   FormLayout,
   Input,
   Select,
+  Textarea,
 } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
 import { useToast } from '../../../shared/hooks';
@@ -115,12 +109,10 @@ export const AnnouncementAddForm = ({
             </Field>
             <Field name='content' type='text' isRequired>
               {(fieldProps: FieldProps<string, AnnouncementDTO>) => (
-                <Input
-                  as={Textarea}
+                <Textarea
                   fieldProps={fieldProps}
                   name='content'
                   label='Content'
-                  type='text'
                   id='content'
                   placeholder='New Virtual Reality (VR) technologies will be integrated in preparation to the facility as our...'
                   isRequired
@@ -128,8 +120,10 @@ export const AnnouncementAddForm = ({
                 />
               )}
             </Field>
-            <Flex as={FormControl} isRequired role='group' direction='column'>
-              <FormLabel fontWeight='semibold'>Tags</FormLabel>
+            <Flex as={FormControl} isRequired role='group'>
+              <FormLabel fontWeight='semibold' minW={20} m={0} p={0}>
+                Tags
+              </FormLabel>
               <Flex direction='column' gap={0}>
                 <Field
                   name='tags'
@@ -185,7 +179,7 @@ export const AnnouncementAddForm = ({
                 <Select
                   fieldProps={fieldProps}
                   name='viewAccess'
-                  label='View Access'
+                  label='Access'
                   id='viewAccess'
                   isRequired
                   data-cy='viewAccess-select'

@@ -50,6 +50,10 @@ export const semanticTokens = {
     },
     errorColor: {
       default: 'red.500',
+      _dark: 'white',
+    },
+    errorBg: {
+      default: 'red.100',
       _dark: 'red.300',
     },
   },

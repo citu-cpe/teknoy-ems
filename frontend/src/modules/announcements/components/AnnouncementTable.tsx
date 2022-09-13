@@ -225,9 +225,12 @@ export const AnnouncementsTable = ({ refresh }: AnnouncementsTableProps) => {
                     </EllipsisText>
                   </Td>
                   <Td maxW={32}>
-                    <Text opacity={0.8} data-cy='announcement-view-access'>
+                    <EllipsisText
+                      opacity={0.8}
+                      data-cy='announcement-view-access'
+                    >
                       {an.viewAccess}
-                    </Text>
+                    </EllipsisText>
                   </Td>
                   <Td>{/* Need the empty table data for Actions spacer */}</Td>
                 </Tr>
