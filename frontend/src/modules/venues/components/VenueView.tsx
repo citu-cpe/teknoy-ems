@@ -36,12 +36,20 @@ export const VenueView = ({ venue }: VenueViewProps) => {
           <Tbody w='full' maxW='full'>
             <Tr>
               <Th>Name</Th>
-              <Td>{venue.name}</Td>
+              <Td>
+                <Text data-cy='venue-view-name'>{venue.name}</Text>
+              </Td>
             </Tr>
             <Tr>
               <Th>Notes</Th>
               <Td>
-                <Textarea variant='flushed' w='full' fontSize='sm' readOnly>
+                <Textarea
+                  data-cy='venue-view-notes'
+                  variant='flushed'
+                  w='full'
+                  fontSize='sm'
+                  readOnly
+                >
                   {venue.notes}
                 </Textarea>
               </Td>

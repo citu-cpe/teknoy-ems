@@ -186,16 +186,12 @@ export const VenuesTable = ({ refresh }: VenuesTableProps) => {
                   onClick={() => handleView(vn)}
                 >
                   <Td maxW={32}>
-                    <EllipsisText
-                      as='span'
-                      fontWeight='medium'
-                      data-cy='venue-name'
-                    >
+                    <EllipsisText fontWeight='medium' data-cy='venue-name'>
                       {vn.name}
                     </EllipsisText>
                   </Td>
                   <Td maxW={48}>
-                    <EllipsisText as='span' opacity={0.8} data-cy='venue-notes'>
+                    <EllipsisText opacity={0.8} data-cy='venue-notes'>
                       {vn.notes}
                     </EllipsisText>
                   </Td>
