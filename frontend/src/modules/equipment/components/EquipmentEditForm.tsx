@@ -142,7 +142,7 @@ export const EquipmentEditForm = ({
                   />
                 )}
               </Field>
-              <Field name='notes' type='text' isRequired>
+              <Field name='notes' type='text'>
                 {(fieldProps: FieldProps<string, EquipmentDTO>) => (
                   <Textarea
                     fieldProps={fieldProps}
@@ -150,7 +150,6 @@ export const EquipmentEditForm = ({
                     label='Notes'
                     id='notes'
                     placeholder="Don't forget equipment bag"
-                    isRequired
                     data-cy='notes-input'
                   />
                 )}

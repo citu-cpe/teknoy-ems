@@ -36,7 +36,7 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
   const validationSchema = Yup.object({
     name: Yup.string().min(1).max(40).required('Required'),
     type: Yup.string().min(1).max(40).required('Required'),
-    notes: Yup.string().min(1).max(250).required('Required'),
+    notes: Yup.string().min(1).max(250),
   });
 
   useEffect(() => {
@@ -121,7 +121,7 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
                 />
               )}
             </Field>
-            <Field name='notes' type='text' isRequired>
+            <Field name='notes' type='text'>
               {(fieldProps: FieldProps<string, EquipmentDTO>) => (
                 <Textarea
                   fieldProps={fieldProps}
@@ -129,7 +129,6 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
                   label='Notes'
                   id='notes'
                   placeholder="Don't forget equipment bag"
-                  isRequired
                   data-cy='notes-input'
                 />
               )}
