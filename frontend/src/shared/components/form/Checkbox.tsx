@@ -2,10 +2,10 @@ import {
   Checkbox as ChakraCheckbox,
   CheckboxProps as ChakraCheckboxProps,
   FormControl,
-  FormErrorMessage,
 } from '@chakra-ui/react';
 import type { FieldProps } from 'formik';
 import React from 'react';
+import { ErrorTooltip } from './ErrorTooltip';
 
 interface CheckboxProps {
   fieldProps: FieldProps;
@@ -27,8 +27,13 @@ export const Checkbox = ({
       {...field}
       {...props}
     >
-      {children}
+      <ErrorTooltip
+        error={form.errors[props.name!]?.toString()}
+        isInvalid={!!form.errors[props.name!] && !!form.touched[props.name!]}
+        placement='right'
+      >
+        {children}
+      </ErrorTooltip>
     </ChakraCheckbox>
-    <FormErrorMessage>{form.errors[props.name!]?.toString()}</FormErrorMessage>
   </FormControl>
 );

@@ -9,7 +9,7 @@ export const FormLayout = ({
   ...props
 }: ContentSectionProps & FlexProps) => {
   return (
-    <Flex direction='column' mb={10} gap={4} {...props}>
+    <Flex direction='column' mb={10} gap={6} {...props}>
       {children}
     </Flex>
   );

@@ -2,6 +2,9 @@ import { Text, TextProps } from '@chakra-ui/react';
 import React from 'react';
 import { Tooltip } from '../Tooltip';
 
+/**
+ * NOTE: `as` prop currently not supported
+ */
 export const EllipsisText = ({
   children,
   ...props

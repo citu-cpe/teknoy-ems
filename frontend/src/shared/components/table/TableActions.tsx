@@ -24,7 +24,7 @@ export const TableActions = <T extends unknown>({
     <Menu strategy='absolute' placement='bottom-end'>
       <MenuButton
         as={IconButton}
-        aria-label='Open notifications'
+        aria-label='Open table actions'
         color='current'
         rounded='full'
         icon={<Icon boxSize='1.5rem' as={BiDotsVerticalRounded} />}
@@ -42,9 +42,7 @@ export const TableActions = <T extends unknown>({
           <MenuItem
             icon={<Icon as={BiTrash} boxSize={4} />}
             onClick={() => onDelete(data)}
-            bg='errorBg'
             color='errorColor'
-            borderColor='errorBorder'
             data-cy='actions-delete-btn'
           >
             Delete

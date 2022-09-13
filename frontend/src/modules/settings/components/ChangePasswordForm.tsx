@@ -12,7 +12,11 @@ import { ChangePasswordDTO, UserDTO } from 'generated-api';
 import { useEffect, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import * as Yup from 'yup';
-import { FormLayout, Input } from '../../../shared/components/form';
+import {
+  FormikResetButton,
+  FormLayout,
+  Input,
+} from '../../../shared/components/form';
 import {
   confirmPasswordValidator,
   passwordValidator,
@@ -40,6 +44,7 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
   };
 
   const validationSchema = Yup.object({
+    currentPassword: Yup.string().required('Current password is required'),
     newPassword: passwordValidator,
     confirmPassword: confirmPasswordValidator('newPassword'),
   });
@@ -59,9 +64,17 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
       {() => (
         <Form noValidate>
           <FormLayout gap={3}>
-            <Flex direction='column'>
-              <FormLabel>Current Password</FormLabel>
-              <Field name='currentPassword' type='password'>
+            <Flex justifyContent='center' alignItems='center'>
+              <FormLabel
+                htmlFor='currentPassword'
+                fontWeight='semibold'
+                minW={56}
+                m={0}
+                p={0}
+              >
+                Current Password
+              </FormLabel>
+              <Field name='currentPassword' type='password' isRequired>
                 {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
                   <InputGroup>
                     {fieldProps.field.value?.length > 0 ? (
@@ -89,15 +102,24 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
                       name='currentPassword'
                       type={showCurrentPassword ? 'text' : 'password'}
                       id='currentPassword'
+                      isRequired
                       data-cy='current-password-input'
                     />
                   </InputGroup>
                 )}
               </Field>
             </Flex>
-            <Flex direction='column'>
-              <FormLabel>New Password</FormLabel>
-              <Field name='newPassword' type='password'>
+            <Flex justifyContent='center' alignItems='center'>
+              <FormLabel
+                htmlFor='newPassword'
+                fontWeight='semibold'
+                minW={56}
+                m={0}
+                p={0}
+              >
+                New Password
+              </FormLabel>
+              <Field name='newPassword' type='password' isRequired>
                 {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
                   <InputGroup>
                     {fieldProps.field.value?.length > 0 ? (
@@ -121,15 +143,24 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
                       name='newPassword'
                       type={showNewPassword ? 'text' : 'password'}
                       id='newPassword'
+                      isRequired
                       data-cy='new-password-input'
                     />
                   </InputGroup>
                 )}
               </Field>
             </Flex>
-            <Flex direction='column'>
-              <FormLabel>Confirm New Password</FormLabel>
-              <Field name='confirmPassword' type='confirmPassword'>
+            <Flex justifyContent='center' alignItems='center'>
+              <FormLabel
+                htmlFor='confirmPassword'
+                fontWeight='semibold'
+                minW={56}
+                m={0}
+                p={0}
+              >
+                Confirm New Password
+              </FormLabel>
+              <Field name='confirmPassword' type='confirmPassword' isRequired>
                 {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
                   <InputGroup>
                     {fieldProps.field.value?.length > 0 ? (
@@ -156,6 +187,7 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
                       name='confirmPassword'
                       type={showConfimPassword ? 'text' : 'password'}
                       id='confirmPassword'
+                      isRequired
                       data-cy='confirm-password-input'
                     />
                   </InputGroup>
@@ -164,7 +196,7 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
             </Flex>
           </FormLayout>
           <Flex w='full' h='full'>
-            <Button type='reset'>Reset Inputs</Button>
+            <FormikResetButton />
             <Spacer />
             <Button
               variant='solid'

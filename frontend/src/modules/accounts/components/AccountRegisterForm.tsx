@@ -110,8 +110,10 @@ export const AccountRegisterForm = ({
                 />
               )}
             </Field>
-            <Flex as={FormControl} isRequired role='group' direction='column'>
-              <FormLabel fontWeight='semibold'>Roles</FormLabel>
+            <Flex as={FormControl} isRequired role='group'>
+              <FormLabel fontWeight='semibold' minW={20} m={0} p={0}>
+                Roles
+              </FormLabel>
               <Flex direction='column' gap={0}>
                 <Field
                   name='roles'

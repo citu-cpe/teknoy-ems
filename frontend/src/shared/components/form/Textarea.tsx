@@ -2,36 +2,44 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Select as ChakraSelect,
-  SelectProps as ChakraSelectProps,
+  Textarea as ChakraTextarea,
+  TextareaProps as ChakraTextareaProps,
   Tooltip,
 } from '@chakra-ui/react';
 import type { FieldProps } from 'formik';
 import React from 'react';
 import { ErrorTooltip } from './ErrorTooltip';
 
-interface SelectProps {
+interface TextareaProps {
   label?: string;
   tooltipLabel?: string;
   fieldProps: FieldProps;
 }
 
-export const Select = ({
+export const Textarea = ({
   fieldProps: { field, form },
   label,
   tooltipLabel,
   children,
   ...props
-}: SelectProps & React.PropsWithChildren & ChakraSelectProps) => (
+}: TextareaProps & React.PropsWithChildren & ChakraTextareaProps) => (
   <FormControl
     as={Flex}
     justifyContent='center'
-    alignItems='center'
+    alignItems='start'
     isInvalid={!!form.errors[props.name!] && !!form.touched[props.name!]}
     isRequired={props?.isRequired}
+    overflow='hidden'
   >
     {!!label && (
-      <FormLabel htmlFor={props.id} fontWeight='semibold' minW={20} m={0} p={0}>
+      <FormLabel
+        htmlFor={props.id}
+        fontWeight='semibold'
+        minW={20}
+        m={0}
+        p={0}
+        mt={2}
+      >
         {label}
       </FormLabel>
     )}
@@ -44,18 +52,18 @@ export const Select = ({
         placement='bottom-end'
         hasArrow
       >
-        <ChakraSelect {...field} {...props}>
+        <ChakraTextarea {...field} {...props}>
           {children}
-        </ChakraSelect>
+        </ChakraTextarea>
       </Tooltip>
     ) : (
       <ErrorTooltip
         error={form.errors[props.name!]?.toString()}
         isInvalid={!!form.errors[props.name!] && !!form.touched[props.name!]}
       >
-        <ChakraSelect {...field} {...props}>
+        <ChakraTextarea {...field} {...props}>
           {children}
-        </ChakraSelect>
+        </ChakraTextarea>
       </ErrorTooltip>
     )}
   </FormControl>

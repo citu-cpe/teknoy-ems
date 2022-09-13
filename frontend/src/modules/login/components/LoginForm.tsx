@@ -50,49 +50,54 @@ export const LoginForm = () => {
                   label='Email'
                   type='email'
                   id='email'
+                  formLabelProps={{
+                    minW: 24,
+                  }}
                 />
               )}
             </Field>
-            <Flex direction='column'>
-              <FormControl>
-                <FormLabel
-                  htmlFor='password'
-                  aria-labelledby='password'
-                  fontWeight='semibold'
-                >
-                  Password
-                </FormLabel>
-                <Field name='password' type='password'>
-                  {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
-                    <InputGroup>
-                      {fieldProps.field.value?.length > 0 ? (
-                        <InputRightElement
-                          alignItems='center'
-                          justifyContent='center'
-                          h={10}
-                          px='4'
-                        >
-                          <IconButton
-                            aria-label='Show password'
-                            size='sm'
-                            variant='ghost'
-                            icon={showPassword ? <FaEye /> : <FaEyeSlash />}
-                            onClick={() => setShowPassword(!showPassword)}
-                          />
-                        </InputRightElement>
-                      ) : null}
-                      <Input
-                        fieldProps={fieldProps}
-                        name='password'
-                        type={showPassword ? 'text' : 'password'}
-                        id='password'
-                        data-cy='password-input'
-                      />
-                    </InputGroup>
-                  )}
-                </Field>
-              </FormControl>
-            </Flex>
+
+            <FormControl as={Flex} justifyContent='center' alignItems='center'>
+              <FormLabel
+                htmlFor='password'
+                aria-labelledby='password'
+                fontWeight='semibold'
+                minW={24}
+                m={0}
+                p={0}
+              >
+                Password
+              </FormLabel>
+              <Field name='password' type='password'>
+                {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
+                  <InputGroup>
+                    {fieldProps.field.value?.length > 0 ? (
+                      <InputRightElement
+                        alignItems='center'
+                        justifyContent='center'
+                        h={10}
+                        px='4'
+                      >
+                        <IconButton
+                          aria-label='Show password'
+                          size='sm'
+                          variant='ghost'
+                          icon={showPassword ? <FaEye /> : <FaEyeSlash />}
+                          onClick={() => setShowPassword(!showPassword)}
+                        />
+                      </InputRightElement>
+                    ) : null}
+                    <Input
+                      fieldProps={fieldProps}
+                      name='password'
+                      type={showPassword ? 'text' : 'password'}
+                      id='password'
+                      data-cy='password-input'
+                    />
+                  </InputGroup>
+                )}
+              </Field>
+            </FormControl>
           </FormLayout>
           <Box mb={2}>
             <Button
