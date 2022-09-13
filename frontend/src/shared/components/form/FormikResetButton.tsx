@@ -1,6 +1,7 @@
 import { Button, ButtonProps } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
 import { useState, useEffect } from 'react';
+import { valuesAreEqual } from '../../helpers';
 
 export const FormikResetButton = ({
   children = 'Reset Inputs',
@@ -10,14 +11,8 @@ export const FormikResetButton = ({
   const [isFormModified, setIsFormModified] = useState(false);
 
   useEffect(() => {
-    const isChanged = (): boolean => {
-      return JSON.stringify(initialValues) !== JSON.stringify(values);
-    };
-
-    // Adapted from:
-    // https://stackoverflow.com/questions/73395387/javascript-comparing-if-2-objects-are-the-same
     function handleChange() {
-      setIsFormModified(isChanged());
+      setIsFormModified(!valuesAreEqual(initialValues, values));
     }
 
     handleChange();
