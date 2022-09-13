@@ -24,8 +24,9 @@ describe('equipment.spec.ts - Equipment Page', () => {
     cy.getBySel('equipment-view-name').contains('SONY CAM 1').should('exist');
     cy.getBySel('equipment-view-brand').contains('SONY').should('exist');
     cy.getBySel('equipment-view-serial').contains('123456789').should('exist');
-    cy.getBySel('equipment-view-notes').contains('This is a test').should('exist');
-
+    cy.getBySel('equipment-view-notes')
+      .contains('This is a test')
+      .should('exist');
   });
 
   it('should add an equipment', () => {
@@ -35,6 +36,7 @@ describe('equipment.spec.ts - Equipment Page', () => {
     cy.getBySel('type-select').select('Wire');
     cy.getBySel('brand-input').type('N/A');
     cy.getBySel('serial-input').type('GIOEMSKIQ');
+    cy.getBySel('notes-input').type('Notes');
 
     cy.getBySel('add-submit-btn').click();
 
@@ -48,11 +50,12 @@ describe('equipment.spec.ts - Equipment Page', () => {
     cy.getBySel('equipment-name').contains('RJ45').should('exist');
   });
 
-  it('should add an equipment even withouth populating brand and serial fields', () => {
+  it('should add an equipment even without populating brand and serial fields', () => {
     cy.getBySel('add-equipment-btn').click();
 
     cy.getBySel('name-input').type('JBL');
     cy.getBySel('type-select').select('Speaker');
+    cy.getBySel('notes-input').type('Notes');
 
     cy.getBySel('add-submit-btn').click();
 
@@ -72,6 +75,7 @@ describe('equipment.spec.ts - Equipment Page', () => {
     cy.getBySel('name-input').type('SONY CAM 1');
     cy.getBySel('brand-input').type('SONY');
     cy.getBySel('serial-input').type('123456789');
+    cy.getBySel('notes-input').type('Notes');
 
     cy.getBySel('add-submit-btn').click();
 
@@ -81,7 +85,7 @@ describe('equipment.spec.ts - Equipment Page', () => {
 
   it('should edit an equipment', () => {
     const newName = 'SONY CAM 2';
-    const newSerial = '987654321'
+    const newSerial = '987654321';
     const newNote = 'Handle with Care';
 
     cy.getBySel('actions-btn').first().click();
@@ -95,7 +99,7 @@ describe('equipment.spec.ts - Equipment Page', () => {
 
     //wait for edit req
     cy.wait('@editEquipment');
-    
+
     cy.wait(1000);
     cy.getBySel('equipment-name').contains('SONY CAM 2').should('exist');
     cy.getBySel('equipment-notes').contains('Handle with Care').should('exist');
@@ -103,7 +107,9 @@ describe('equipment.spec.ts - Equipment Page', () => {
     cy.getBySel('equipment-row').first().click();
     cy.getBySel('equipment-view-name').contains('SONY CAM 2').should('exist');
     cy.getBySel('equipment-view-serial').contains('987654321').should('exist');
-    cy.getBySel('equipment-view-notes').contains('Handle with Care').should('exist');
+    cy.getBySel('equipment-view-notes')
+      .contains('Handle with Care')
+      .should('exist');
   });
 
   it('should delete equipment', () => {
