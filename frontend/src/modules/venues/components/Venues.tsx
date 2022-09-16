@@ -33,7 +33,7 @@ export const Venues = () => {
     onSuccessOpen();
   };
 
-  const handleRegisterAgain = () => {
+  const handleAddAgain = () => {
     setVenueDTO(undefined);
     onAddOpen();
     onSuccessClose();
@@ -46,7 +46,7 @@ export const Venues = () => {
   };
 
   return (
-    <MainLayout title='Venue'>
+    <MainLayout title='Venues'>
       <ContentHeader
         title='Venue'
         actions={
@@ -59,15 +59,15 @@ export const Venues = () => {
         <VenuesTable refresh={refresh} />
       </ContentSection>
 
-      <Modal title='Add Venue' isOpen={isAddOpen} onClose={onClose}>
+      <Modal title='New Venue' isOpen={isAddOpen} onClose={onClose}>
         <VenueAddForm onComplete={handleComplete} />
       </Modal>
 
-      <Modal isOpen={isSuccessOpen} onClose={handleSuccessClose} size='md'>
+      <Modal isOpen={isSuccessOpen} onClose={handleSuccessClose}>
         <VenueAddSuccess
           venue={newVenueDTO}
           onClose={handleSuccessClose}
-          onRepeat={handleRegisterAgain}
+          onConfirm={handleAddAgain}
         />
       </Modal>
     </MainLayout>

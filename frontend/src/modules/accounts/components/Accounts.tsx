@@ -68,22 +68,18 @@ export const Accounts = () => {
       </ContentSection>
 
       <Modal
-        title='Account Edit'
+        title='Account Register'
         isOpen={isRegisterOpen}
         onClose={onRegisterClose}
       >
         <AccountRegisterForm onComplete={handleComplete} />
       </Modal>
 
-      <Modal
-        title='Register Success'
-        isOpen={isSuccessOpen}
-        onClose={handleSuccessClose}
-      >
+      <Modal isOpen={isSuccessOpen} onClose={handleSuccessClose}>
         <AccountRegisterSuccess
           registerDTO={registeredUser}
           onClose={handleSuccessClose}
-          onRepeat={handleRegisterAgain}
+          onConfirm={handleRegisterAgain}
         />
       </Modal>
     </MainLayout>

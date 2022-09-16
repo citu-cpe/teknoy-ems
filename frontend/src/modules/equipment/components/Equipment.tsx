@@ -35,7 +35,7 @@ export const Equipment = () => {
     onSuccessOpen();
   };
 
-  const handleRegisterAgain = () => {
+  const handleAddAgain = () => {
     setEquipmentDTO(undefined);
     onAddOpen();
     onSuccessClose();
@@ -65,7 +65,7 @@ export const Equipment = () => {
         <EquipmentTable refresh={refresh} />
       </ContentSection>
 
-      <Modal title='Equipment Add' isOpen={isAddOpen} onClose={onClose}>
+      <Modal title='New Equipment' isOpen={isAddOpen} onClose={onClose}>
         <EquipmentAddForm onComplete={handleComplete} />
       </Modal>
 
@@ -73,7 +73,7 @@ export const Equipment = () => {
         <EquipmentAddSuccess
           equipment={newEquipmentDTO}
           onClose={handleSuccessClose}
-          onRepeat={handleRegisterAgain}
+          onConfirm={handleAddAgain}
         />
       </Modal>
     </MainLayout>
