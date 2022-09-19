@@ -2,6 +2,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  FormLabelProps,
   Textarea as ChakraTextarea,
   TextareaProps as ChakraTextareaProps,
   Tooltip,
@@ -14,12 +15,14 @@ interface TextareaProps {
   label?: string;
   tooltipLabel?: string;
   fieldProps: FieldProps;
+  formLabelProps?: FormLabelProps;
 }
 
 export const Textarea = ({
   fieldProps: { field, form },
   label,
   tooltipLabel,
+  formLabelProps,
   children,
   ...props
 }: TextareaProps & React.PropsWithChildren & ChakraTextareaProps) => (
@@ -39,6 +42,7 @@ export const Textarea = ({
         m={0}
         p={0}
         mt={2}
+        {...formLabelProps}
       >
         {label}
       </FormLabel>

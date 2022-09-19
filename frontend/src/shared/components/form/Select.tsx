@@ -2,6 +2,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  FormLabelProps,
   Select as ChakraSelect,
   SelectProps as ChakraSelectProps,
   Tooltip,
@@ -14,12 +15,14 @@ interface SelectProps {
   label?: string;
   tooltipLabel?: string;
   fieldProps: FieldProps;
+  formLabelProps?: FormLabelProps;
 }
 
 export const Select = ({
   fieldProps: { field, form },
   label,
   tooltipLabel,
+  formLabelProps,
   children,
   ...props
 }: SelectProps & React.PropsWithChildren & ChakraSelectProps) => (
@@ -31,7 +34,14 @@ export const Select = ({
     isRequired={props?.isRequired}
   >
     {!!label && (
-      <FormLabel htmlFor={props.id} fontWeight='semibold' minW={20} m={0} p={0}>
+      <FormLabel
+        htmlFor={props.id}
+        fontWeight='semibold'
+        minW={20}
+        m={0}
+        p={0}
+        {...formLabelProps}
+      >
         {label}
       </FormLabel>
     )}
