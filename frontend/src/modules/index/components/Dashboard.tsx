@@ -7,9 +7,13 @@ import {
   princh,
   raol,
 } from '../../../assets/team';
-import { ContentHeader } from '../../../shared/components/content';
+import {
+  ContentHeader,
+  ContentSection,
+} from '../../../shared/components/content';
 import { TeamCard } from '../../../shared/components/elements/card';
 import { MainLayout } from '../../../shared/components/layout/MainLayout';
+import { EventsCalendar } from '../../events';
 
 export const Dashboard = () => {
   return (
@@ -22,6 +26,11 @@ export const Dashboard = () => {
           </Button>
         }
       />
+
+      <ContentSection>
+        <EventsCalendar initialView='dayGridWeek' />
+      </ContentSection>
+
       <Flex flexWrap='wrap' w='full' gap={5} justify='center' align='center'>
         <TeamCard
           src={princh.src}

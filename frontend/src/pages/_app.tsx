@@ -8,6 +8,11 @@ import { ThemeProvider } from '../shared/providers/ThemeProvider';
 import { useGlobalStore } from '../shared/stores';
 import '../styles/globals.scss';
 
+import '@fullcalendar/common/main.css';
+import '@fullcalendar/list/main.css';
+import '@fullcalendar/daygrid/main.css';
+import '@fullcalendar/timegrid/main.css';
+
 function MyApp({ Component, pageProps }: AppProps) {
   const getUser = useGlobalStore((state) => state.getUser);
   const router = useRouter();
