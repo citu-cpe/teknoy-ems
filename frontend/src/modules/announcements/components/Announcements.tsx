@@ -69,11 +69,11 @@ export const Announcements = () => {
         <AnnouncementAddForm onComplete={handleComplete} />
       </Modal>
 
-      <Modal isOpen={isSuccessOpen} onClose={handleSuccessClose} size='md'>
+      <Modal isOpen={isSuccessOpen} onClose={handleSuccessClose}>
         <AnnouncementAddSuccess
           announcement={newAnnouncementDTO}
           onClose={handleSuccessClose}
-          onRepeat={handleAddAgain}
+          onConfirm={handleAddAgain}
         />
       </Modal>
     </MainLayout>

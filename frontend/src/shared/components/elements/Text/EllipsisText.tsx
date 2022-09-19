@@ -10,7 +10,7 @@ export const EllipsisText = ({
   ...props
 }: React.PropsWithChildren & TextProps) => {
   return (
-    <Tooltip openDelay={500} label={children} hasArrow>
+    <Tooltip openDelay={500} label={children} placement='bottom-start' hasArrow>
       <Text
         w='full'
         textOverflow='ellipsis'

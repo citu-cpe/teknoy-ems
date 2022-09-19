@@ -48,9 +48,33 @@ export const semanticTokens = {
       default: 'gray.200',
       _dark: 'whiteAlpha.500',
     },
+    infoColor: {
+      default: 'blue.500',
+      _dark: 'white',
+    },
+    infoBg: {
+      default: 'blue.100',
+      _dark: 'blue.300',
+    },
+    successColor: {
+      default: 'green.500',
+      _dark: 'green.50',
+    },
+    successBg: {
+      default: 'green.100',
+      _dark: 'green.300',
+    },
+    warnColor: {
+      default: 'orange.500',
+      _dark: 'orange.50',
+    },
+    warnBg: {
+      default: 'orange.100',
+      _dark: 'orange.300',
+    },
     errorColor: {
       default: 'red.500',
-      _dark: 'white',
+      _dark: 'red.50',
     },
     errorBg: {
       default: 'red.100',

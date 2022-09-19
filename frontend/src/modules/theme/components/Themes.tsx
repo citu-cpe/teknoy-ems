@@ -138,6 +138,48 @@ export const Themes = () => {
               </RangeSliderThumb>
             </RangeSlider>
           </GridItem>
+          <GridItem colSpan={3}>
+            <Box
+              h={10}
+              rounded='lg'
+              px={3}
+              py={2}
+              bg='infoBg'
+              color='infoColor'
+            >
+              Information
+            </Box>
+            <Box
+              h={10}
+              rounded='lg'
+              px={3}
+              py={2}
+              bg='successBg'
+              color='successColor'
+            >
+              Success
+            </Box>
+            <Box
+              h={10}
+              rounded='lg'
+              px={3}
+              py={2}
+              bg='warnBg'
+              color='warnColor'
+            >
+              Warning
+            </Box>
+            <Box
+              h={10}
+              rounded='lg'
+              px={3}
+              py={2}
+              bg='errorBg'
+              color='errorColor'
+            >
+              Error
+            </Box>
+          </GridItem>
         </Grid>
       </Flex>
     </MainLayout>

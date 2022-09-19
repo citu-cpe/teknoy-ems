@@ -11,7 +11,7 @@ import type { FieldProps } from 'formik';
 import React from 'react';
 import { ErrorTooltip } from './ErrorTooltip';
 
-interface InputProps {
+export interface InputProps {
   label?: string;
   tooltipLabel?: string;
   fieldProps: FieldProps;

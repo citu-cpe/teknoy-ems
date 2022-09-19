@@ -1,38 +1,45 @@
-import { Button, Flex, Icon, Spacer } from '@chakra-ui/react';
 import { OrganizerDTO } from 'generated-api';
-import { BiCheckCircle } from 'react-icons/bi';
-import { EllipsisText } from '../../../shared/components/elements/Text';
-import { FormLayout } from '../../../shared/components/form';
+import { ModalInfo } from '../../../shared/components/elements';
+import { FieldTableBody } from '../../../shared/components/table';
+import { ModalTable } from '../../../shared/components/table/FieldTable';
 
 interface OrganizerAddSuccessProps {
-  organizerDTO: OrganizerDTO | undefined;
+  organizer: OrganizerDTO | undefined;
   onClose: () => void;
-  onRepeat: () => void;
+  onConfirm: () => void;
 }
 
 export const OrganizerAddSuccess = ({
-  organizerDTO,
+  organizer,
   onClose,
-  onRepeat,
+  onConfirm,
 }: OrganizerAddSuccessProps) => {
   return (
     <>
-      <FormLayout>
-        <Flex direction='column' gap={3}>
-          <Icon as={BiCheckCircle} boxSize='2rem' color='green.500' />
-          <EllipsisText>Name: {organizerDTO?.name}</EllipsisText>
-          <EllipsisText>Type: {organizerDTO?.type}</EllipsisText>
-        </Flex>
-      </FormLayout>
-      <Flex>
-        <Spacer />
-        <Button onClick={onClose} data-cy='close-btn'>
-          Close
-        </Button>
-        <Button variant='solid' onClick={onRepeat} ml={2}>
-          Add Again
-        </Button>
-      </Flex>
+      <ModalInfo
+        title='Organizer has been added'
+        onClose={onClose}
+        onConfirm={onConfirm}
+      >
+        <ModalTable>
+          {organizer && (
+            <FieldTableBody
+              data={[
+                {
+                  label: 'Name',
+                  value: organizer?.name,
+                  type: 'text',
+                },
+                {
+                  label: 'Type',
+                  value: organizer?.type,
+                  type: 'text',
+                },
+              ]}
+            />
+          )}
+        </ModalTable>
+      </ModalInfo>
     </>
   );
 };

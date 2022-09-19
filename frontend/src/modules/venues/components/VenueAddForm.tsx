@@ -3,7 +3,7 @@ import { Field, FieldProps, Form, Formik } from 'formik';
 import { VenueDTO } from 'generated-api';
 import { useEffect } from 'react';
 import * as Yup from 'yup';
-import { FormLayout, Input } from '../../../shared/components/form';
+import { FormLayout, Input, Textarea } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
 import { useToast } from '../../../shared/hooks';
 import { useVenues } from '../hooks';
@@ -62,11 +62,10 @@ export const VenueAddForm = ({ onComplete }: VenueAddFormProps) => {
             </Field>
             <Field name='notes' type='text'>
               {(fieldProps: FieldProps<string, VenueDTO>) => (
-                <Input
+                <Textarea
                   fieldProps={fieldProps}
                   name='notes'
                   label='Notes'
-                  type='text'
                   id='notes'
                   placeholder='Always NO food and drinks allowed'
                   data-cy='notes-input'

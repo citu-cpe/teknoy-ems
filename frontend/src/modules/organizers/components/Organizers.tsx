@@ -66,19 +66,15 @@ export const Organizers = () => {
         <OrganizersTable refresh={refresh} />
       </ContentSection>
 
-      <Modal title='Organizer Edit' isOpen={isAddOpen} onClose={onClose}>
+      <Modal title='New Organizer' isOpen={isAddOpen} onClose={onClose}>
         <OrganizerAddForm onComplete={handleComplete} />
       </Modal>
 
-      <Modal
-        title='Add Success'
-        isOpen={isSuccessOpen}
-        onClose={handleSuccessClose}
-      >
+      <Modal isOpen={isSuccessOpen} onClose={handleSuccessClose}>
         <OrganizerAddSuccess
-          organizerDTO={newOrganizerDTO}
+          organizer={newOrganizerDTO}
           onClose={handleSuccessClose}
-          onRepeat={handleRegisterAgain}
+          onConfirm={handleRegisterAgain}
         />
       </Modal>
     </MainLayout>
