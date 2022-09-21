@@ -71,7 +71,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.3.0",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@chax-at/transactional-prisma-testing": "^0.5.0",
