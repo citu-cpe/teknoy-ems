@@ -12,36 +12,24 @@
  * Do not edit the class manually.
  */
 
-import { ScheduleDTO } from './schedule-dto';
+import { ReportFilterDTO } from './report-filter-dto';
 
 /**
  *
  * @export
- * @interface VenueDTO
+ * @interface ReportGetDTO
  */
-export interface VenueDTO {
+export interface ReportGetDTO {
   /**
    *
    * @type {string}
-   * @memberof VenueDTO
+   * @memberof ReportGetDTO
    */
-  id?: string;
+  message?: string;
   /**
    *
-   * @type {string}
-   * @memberof VenueDTO
+   * @type {ReportFilterDTO}
+   * @memberof ReportGetDTO
    */
-  name: string;
-  /**
-   *
-   * @type {string}
-   * @memberof VenueDTO
-   */
-  notes?: string;
-  /**
-   *
-   * @type {Array<ScheduleDTO>}
-   * @memberof VenueDTO
-   */
-  schedule?: Array<ScheduleDTO>;
+  reportFilterDTO: ReportFilterDTO;
 }

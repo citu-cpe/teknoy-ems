@@ -55,6 +55,8 @@ import { OrganizerDTO } from '../models';
 // @ts-ignore
 import { RegisterUserDTO } from '../models';
 // @ts-ignore
+import { ReportGetDTO } from '../models';
+// @ts-ignore
 import { ScheduleDTO } from '../models';
 // @ts-ignore
 import { SortedEquipmentsDTO } from '../models';
@@ -1297,6 +1299,55 @@ export const DefaultApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {ReportGetDTO} reportGetDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getReport: async (
+      reportGetDTO: ReportGetDTO,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'reportGetDTO' is not null or undefined
+      assertParamExists('getReport', 'reportGetDTO', reportGetDTO);
+      const localVarPath = `/api/v1/report`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        reportGetDTO,
+        localVarRequestOptions,
+        configuration
+      );
 
       return {
         url: toPathString(localVarUrlObj),
@@ -2805,6 +2856,29 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @param {ReportGetDTO} reportGetDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getReport(
+      reportGetDTO: ReportGetDTO,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getReport(
+        reportGetDTO,
+        options
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
      * @param {string} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3593,6 +3667,17 @@ export const DefaultApiFactory = function (
     },
     /**
      *
+     * @param {ReportGetDTO} reportGetDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getReport(reportGetDTO: ReportGetDTO, options?: any): AxiosPromise<object> {
+      return localVarFp
+        .getReport(reportGetDTO, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
      * @param {string} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4182,6 +4267,19 @@ export class DefaultApi extends BaseAPI {
   public getOrganizerByID(id: string, options?: any) {
     return DefaultApiFp(this.configuration)
       .getOrganizerByID(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {ReportGetDTO} reportGetDTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getReport(reportGetDTO: ReportGetDTO, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .getReport(reportGetDTO, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
