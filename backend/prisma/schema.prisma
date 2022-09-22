@@ -45,6 +45,8 @@ model Schedule {
 
 model Equipment {
   id                 String               @id @default(uuid())
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
   name               String               @unique
   type               String
   brand              String?
@@ -56,6 +58,8 @@ model Equipment {
 
 model Venues {
   id             String           @id @default(uuid())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
   name           String           @unique
   schedules      Schedule[]
   notes          String?
@@ -76,6 +80,8 @@ model Organizer {
 
 model Announcement {
   id         String     @id @default(uuid())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
   title      String
   subtitle   String?
   content    String
@@ -96,6 +102,8 @@ enum Type {
 
 model Event {
   id              String     @id @default(uuid())
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
   title           String
   description     String?
   status          Status

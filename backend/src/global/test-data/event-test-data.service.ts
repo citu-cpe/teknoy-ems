@@ -9,6 +9,8 @@ import { venueTestCC, venueTestGYM } from './venue-test-data.service';
 
 export const testEvent: Event = {
   id: '64415bad-632f-4f13-8946-4bffb0345615',
+  createdAt: new Date(),
+  updatedAt: new Date(),
   title: 'First Event',
   description: 'Welcome to the First Event',
   status: Status.PENDING,
