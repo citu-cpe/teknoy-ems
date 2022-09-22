@@ -65,6 +65,8 @@ export const LoginForm = () => {
                 minW={24}
                 m={0}
                 p={0}
+                pr={5}
+                textAlign='right'
               >
                 Password
               </FormLabel>

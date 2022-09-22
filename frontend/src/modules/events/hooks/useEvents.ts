@@ -14,8 +14,11 @@ export const useEvents = () => {
     api.updateEvent(eventCreateDTO.id as string, eventCreateDTO)
   );
 
+  const getEventById = useMutation((id: string) => api.getEventById(id));
+
   return {
     addEvent,
     editEvent,
+    getEventById,
   };
 };

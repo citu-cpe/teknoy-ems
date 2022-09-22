@@ -40,6 +40,8 @@ export const Select = ({
         minW={20}
         m={0}
         p={0}
+        pr={5}
+        textAlign='right'
         {...formLabelProps}
       >
         {label}

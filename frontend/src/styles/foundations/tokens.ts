@@ -4,9 +4,13 @@ export const semanticTokens = {
       default: 'white',
       _dark: 'gray.900',
     },
-    fgSecondary: {
-      default: 'gray.50',
-      _dark: 'whiteAlpha.100',
+    neutral2: {
+      default: 'gray.200',
+      _dark: 'whiteAlpha.200',
+    },
+    neutral3: {
+      default: 'gray.300',
+      _dark: 'whiteAlpha.300',
     },
     fgTertiary: {
       default: 'gray.100',

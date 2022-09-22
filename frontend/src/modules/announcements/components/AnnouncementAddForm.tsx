@@ -121,7 +121,14 @@ export const AnnouncementAddForm = ({
               )}
             </Field>
             <Flex as={FormControl} isRequired role='group'>
-              <FormLabel fontWeight='semibold' minW={20} m={0} p={0}>
+              <FormLabel
+                fontWeight='semibold'
+                minW={20}
+                m={0}
+                p={0}
+                pr={5}
+                textAlign='right'
+              >
                 Tags
               </FormLabel>
               <Flex direction='column' gap={0}>

@@ -71,6 +71,8 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
                 minW={56}
                 m={0}
                 p={0}
+                pr={5}
+                textAlign='right'
               >
                 Current Password
               </FormLabel>
@@ -116,6 +118,8 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
                 minW={56}
                 m={0}
                 p={0}
+                pr={5}
+                textAlign='right'
               >
                 New Password
               </FormLabel>
@@ -157,6 +161,8 @@ export const ChangePasswordForm = ({ onComplete }: ChangePasswordForm) => {
                 minW={56}
                 m={0}
                 p={0}
+                pr={5}
+                textAlign='right'
               >
                 Confirm New Password
               </FormLabel>

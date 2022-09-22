@@ -1,8 +1,8 @@
 import { Center, Spinner, useDisclosure, useToast } from '@chakra-ui/react';
 import {
   CalendarOptions,
-  EventInput,
   EventClickArg,
+  EventInput,
 } from '@fullcalendar/common';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
@@ -12,22 +12,30 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { EventDTO } from 'generated-api';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
+import { Modal } from '../../../shared/components/elements';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
-
-interface EventsCalendarProps {
-  refresh: boolean;
-}
+import { EventAddForm } from './EventAddForm';
+import { EventAddSuccess } from './EventAddSuccess';
+import { EventView } from './EventView';
 
 export const EventsCalendar = ({
-  refresh,
   ...props
-}: EventsCalendarProps & (CalendarOptions | Readonly<CalendarOptions>)) => {
+}: CalendarOptions | Readonly<CalendarOptions>) => {
   const api = useContext(ApiContext);
   const toast = useToast();
 
   const [events, setEvents] = useState<EventInput[] | undefined>([]);
+  const eventToView = useRef<string | null>(null);
   const eventToEdit = useRef<EventDTO | null>(null);
   const eventToDelete = useRef<EventDTO | null>(null);
+
+  const [refresh, setRefresh] = useState(false);
+
+  const {
+    onOpen: onViewModalOpen,
+    isOpen: isViewModalOpen,
+    onClose: onViewModalClose,
+  } = useDisclosure();
 
   const {
     onOpen: onEditModalOpen,
@@ -43,7 +51,6 @@ export const EventsCalendar = ({
 
   const fetchEvents = useMutation(() => api.getAllEvents(), {
     onSuccess: (data) => {
-      console.log({ data });
       setEvents(() => formatEvents(data.data));
     },
   });
@@ -59,11 +66,7 @@ export const EventsCalendar = ({
       };
       return event;
     });
-    // let event: EventInput;
-    // event.title
-    // event.sta
 
-    console.log({ formattedEvents });
     return formattedEvents;
   };
 
@@ -112,6 +115,38 @@ export const EventsCalendar = ({
     onEditModalClose();
   };
 
+  const [newEventDTO, setEventDTO] = useState<EventDTO | undefined>(undefined);
+
+  const {
+    onOpen: onAddOpen,
+    isOpen: isAddOpen,
+    onClose: onClose,
+  } = useDisclosure();
+
+  const {
+    onOpen: onSuccessOpen,
+    isOpen: isSuccessOpen,
+    onClose: onSuccessClose,
+  } = useDisclosure();
+
+  const handleComplete = (newEvent: EventDTO) => {
+    setEventDTO(newEvent);
+    onClose();
+    onSuccessOpen();
+  };
+
+  const handleRegisterAgain = () => {
+    setEventDTO(undefined);
+    onAddOpen();
+    onSuccessClose();
+  };
+
+  const handleSuccessClose = () => {
+    setEventDTO(undefined);
+    onSuccessClose();
+    setRefresh(!refresh);
+  };
+
   if (fetchEvents.isLoading) {
     return (
       <Center minH={80} minW={80}>
@@ -121,11 +156,14 @@ export const EventsCalendar = ({
   }
 
   const handleEventClick = (eventInfo: EventClickArg) => {
-    console.log({ eventInfo });
+    // console.log({ eventInfo });
+    eventToView.current = eventInfo.event.id;
+    onViewModalOpen();
   };
 
   const handleDateClick = (dateInfo: DateClickArg) => {
-    console.log({ dateInfo });
+    // console.log({ dateInfo });
+    onAddOpen();
   };
 
   return (
@@ -148,10 +186,32 @@ export const EventsCalendar = ({
           }}
           eventClick={handleEventClick}
           dateClick={handleDateClick}
-          editable
           selectable
+          editable
           {...props}
         />
+      )}
+
+      <Modal title='New Event' isOpen={isAddOpen} onClose={onClose} size='4xl'>
+        <EventAddForm onComplete={handleComplete} />
+      </Modal>
+
+      <Modal isOpen={isSuccessOpen} onClose={handleSuccessClose}>
+        <EventAddSuccess
+          event={newEventDTO}
+          onClose={handleSuccessClose}
+          onConfirm={handleRegisterAgain}
+        />
+      </Modal>
+
+      {eventToView.current && (
+        <Modal
+          title='Event View'
+          isOpen={isViewModalOpen}
+          onClose={onViewModalClose}
+        >
+          <EventView id={eventToView.current} />
+        </Modal>
       )}
     </>
   );

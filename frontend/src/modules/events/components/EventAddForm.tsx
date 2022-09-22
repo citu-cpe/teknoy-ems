@@ -1,17 +1,15 @@
-import { Button, Flex, FormControl, FormLabel, Spacer } from '@chakra-ui/react';
-import Select from 'react-select';
+import { Button, Flex, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import {
-  EventDTO,
   EventCreateDTO,
   EventCreateDTOStatusEnum,
   EventCreateDTOTypeEnum,
   EventCreateDTOViewAccessEnum,
+  EventDTO,
 } from 'generated-api';
-import { useEffect } from 'react';
-import * as Yup from 'yup';
+import moment from 'moment';
+import { useEffect, useRef } from 'react';
 import {
-  Checkbox,
   FormLayout,
   Input,
   Select as FormSelect,
@@ -21,6 +19,18 @@ import { FormikResetButton } from '../../../shared/components/form/FormikResetBu
 import { useToast } from '../../../shared/hooks';
 import { useGlobalStore } from '../../../shared/stores';
 import { useEvents } from '../hooks/useEvents';
+import { eventValidator } from '../schemas';
+import { EquipmentSelect } from './EquipmentSelect';
+import { OrganizerSelect } from './OrganizerSelect';
+import { VenueSelect } from './VenueSelect';
+
+export const formLabelProps = {
+  minW: 44,
+};
+
+export const requiredControlProp = {
+  isRequired: true,
+};
 
 interface EventAddFormProps {
   onComplete: (eventDTO: EventDTO) => void;
@@ -28,53 +38,60 @@ interface EventAddFormProps {
 
 export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
   const { addEvent } = useEvents();
-  const toast = useToast();
   const { getUser } = useGlobalStore();
 
+  const toast = useToast();
+
+  const organizerKey = useRef(new Date().getTime() + Math.random());
+  const equipmentKey = useRef(new Date().getTime() + Math.random());
+  const venueKey = useRef(new Date().getTime() + Math.random());
+
   const onSubmit = (eventCreateDTO: EventCreateDTO) => {
-    addEvent.mutate(eventCreateDTO);
+    const formattedEvent = {
+      ...eventCreateDTO,
+      startTime: moment(eventCreateDTO.startTime).toISOString(),
+      endTime: moment(eventCreateDTO.endTime).toISOString(),
+    };
+
+    addEvent.mutate(formattedEvent);
   };
 
   const initialValues = {
-    // id: '',
     title: '',
     description: '',
+    type: EventCreateDTOTypeEnum.Seminar,
+    viewAccess: EventCreateDTOViewAccessEnum.Public,
     status: EventCreateDTOStatusEnum.Pending,
-    startTime: '2022-09-19 2:00:00 PM',
-    endTime: '2022-09-19 5:00:00 PM',
+    startTime: '',
+    endTime: '',
     contactPerson: '',
     contactNumber: '',
     approvedBy: '',
-    viewAccess: EventCreateDTOViewAccessEnum.Public,
-    type: EventCreateDTOTypeEnum.Seminar,
-    additionalNotes: '',
     organizerId: '',
-    encodedById: getUser()?.name,
     equipmentIds: [],
     venueIds: [],
+    additionalNotes: '',
+    encodedById: getUser()?.id,
   };
-
-  const validationSchema = Yup.object({
-    title: Yup.string().min(1).max(40).required('Required'),
-  });
 
   useEffect(() => {
     if (addEvent.isSuccess) {
-      toast({ title: 'Added organizer successfully' });
+      toast({ title: 'Added event successfully' });
       onComplete(addEvent.data.data);
     }
   }, [addEvent, onComplete, toast]);
 
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ];
+  const handleReset = () => {
+    // force reset async select keys by changing their prop keys
+    organizerKey.current = new Date().getTime() + Math.random();
+    equipmentKey.current = new Date().getTime() + Math.random();
+    venueKey.current = new Date().getTime() + Math.random();
+  };
 
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      validationSchema={eventValidator}
       onSubmit={onSubmit}
     >
       {() => (
@@ -83,179 +100,34 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
             <Field name='title' type='text' isRequired>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
                 <Input
-                  formLabelProps={{
-                    minW: 44,
-                  }}
+                  formLabelProps={formLabelProps}
                   fieldProps={fieldProps}
                   name='title'
                   label='Title'
                   type='text'
                   id='title'
-                  placeholder='Event title'
                   isRequired
-                  data-cy='name-input'
+                  data-cy='title-input'
                 />
               )}
             </Field>
-            <Field name='description' type='text' isRequired>
+            <Field name='description' type='text'>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
                 <Textarea
-                  formLabelProps={{
-                    minW: 44,
-                  }}
+                  formLabelProps={formLabelProps}
                   fieldProps={fieldProps}
                   name='description'
                   label='Description'
                   id='description'
-                  placeholder='Event description for public viewing'
-                  isRequired
                   data-cy='description-input'
+                  rows={8}
                 />
-              )}
-            </Field>
-            <Field name='status' type='text' isRequired>
-              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-                <FormSelect
-                  formLabelProps={{
-                    minW: 44,
-                  }}
-                  fieldProps={fieldProps}
-                  name='status'
-                  label='Status'
-                  id='status'
-                  isRequired
-                  data-cy='status-select'
-                >
-                  <option value={EventCreateDTOStatusEnum.Pending}>
-                    Pending
-                  </option>
-                  <option value={EventCreateDTOStatusEnum.Reserved}>
-                    Reserved
-                  </option>
-                  <option value={EventCreateDTOStatusEnum.Ongoing}>
-                    Ongoing
-                  </option>
-                  <option value={EventCreateDTOStatusEnum.Done}>Done</option>
-                  <option value={EventCreateDTOStatusEnum.Canceled}>
-                    Canceled
-                  </option>
-                  <option value={EventCreateDTOStatusEnum.Postponed}>
-                    Postponed
-                  </option>
-                </FormSelect>
-              )}
-            </Field>
-            <Field name='startTime' type='datetime-local' isRequired>
-              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-                <Input
-                  formLabelProps={{
-                    minW: 44,
-                  }}
-                  fieldProps={fieldProps}
-                  name='startTime'
-                  label='Start Time'
-                  type='datetime-local'
-                  id='startTime'
-                  isRequired
-                  data-cy='start-time-input'
-                />
-              )}
-            </Field>
-            <Field name='endTime' type='datetime-local' isRequired>
-              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-                <Input
-                  formLabelProps={{
-                    minW: 44,
-                  }}
-                  fieldProps={fieldProps}
-                  name='endTime'
-                  label='End Time'
-                  type='datetime-local'
-                  id='endTime'
-                  isRequired
-                  data-cy='end-time-input'
-                />
-              )}
-            </Field>
-            <Field name='contactPerson' type='text' isRequired>
-              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-                <Input
-                  formLabelProps={{
-                    minW: 44,
-                  }}
-                  fieldProps={fieldProps}
-                  name='contactPerson'
-                  label='Contact Person'
-                  type='text'
-                  id='contactPerson'
-                  placeholder='Sir Eli'
-                  isRequired
-                  data-cy='contact-person-input'
-                />
-              )}
-            </Field>
-            <Field name='contactNumber' type='phone' isRequired>
-              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-                <Input
-                  formLabelProps={{
-                    minW: 44,
-                  }}
-                  fieldProps={fieldProps}
-                  name='contactNumber'
-                  label='Contact Number'
-                  type='phone'
-                  id='contactNumber'
-                  placeholder='120'
-                  isRequired
-                  data-cy='contact-number-input'
-                />
-              )}
-            </Field>
-            <Field name='approvedBy' type='text' isRequired>
-              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-                <Input
-                  formLabelProps={{
-                    minW: 44,
-                  }}
-                  fieldProps={fieldProps}
-                  name='approvedBy'
-                  label='Approved by'
-                  type='text'
-                  id='approvedBy'
-                  placeholder="President's Office"
-                  isRequired
-                  data-cy='contact-person-input'
-                />
-              )}
-            </Field>
-            <Field name='viewAccess' type='text' isRequired>
-              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-                <FormSelect
-                  formLabelProps={{
-                    minW: 44,
-                  }}
-                  fieldProps={fieldProps}
-                  name='viewAccess'
-                  label='View Access'
-                  id='viewAccess'
-                  isRequired
-                  data-cy='view-access-select'
-                >
-                  <option value={EventCreateDTOViewAccessEnum.Public}>
-                    Public
-                  </option>
-                  <option value={EventCreateDTOViewAccessEnum.Private}>
-                    Private
-                  </option>
-                </FormSelect>
               )}
             </Field>
             <Field name='type' type='text' isRequired>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
                 <FormSelect
-                  formLabelProps={{
-                    minW: 44,
-                  }}
+                  formLabelProps={formLabelProps}
                   fieldProps={fieldProps}
                   name='type'
                   label='Type'
@@ -286,26 +158,145 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
                 </FormSelect>
               )}
             </Field>
-            <Field name='additionalNotes' type='text' isRequired>
+            <Field name='viewAccess' type='text' isRequired>
+              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+                <FormSelect
+                  formLabelProps={formLabelProps}
+                  fieldProps={fieldProps}
+                  name='viewAccess'
+                  label='View Access'
+                  id='viewAccess'
+                  isRequired
+                  data-cy='view-access-select'
+                >
+                  <option value={EventCreateDTOViewAccessEnum.Public}>
+                    Public
+                  </option>
+                  <option value={EventCreateDTOViewAccessEnum.Private}>
+                    Private
+                  </option>
+                </FormSelect>
+              )}
+            </Field>
+            <Field name='status' type='text' isRequired>
+              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+                <FormSelect
+                  formLabelProps={formLabelProps}
+                  fieldProps={fieldProps}
+                  name='status'
+                  label='Status'
+                  id='status'
+                  isRequired
+                  data-cy='status-select'
+                >
+                  <option value={EventCreateDTOStatusEnum.Pending}>
+                    Pending
+                  </option>
+                  <option value={EventCreateDTOStatusEnum.Reserved}>
+                    Reserved
+                  </option>
+                  <option value={EventCreateDTOStatusEnum.Ongoing}>
+                    Ongoing
+                  </option>
+                  <option value={EventCreateDTOStatusEnum.Done}>Done</option>
+                  <option value={EventCreateDTOStatusEnum.Canceled}>
+                    Canceled
+                  </option>
+                  <option value={EventCreateDTOStatusEnum.Postponed}>
+                    Postponed
+                  </option>
+                </FormSelect>
+              )}
+            </Field>
+            <Field name='startTime' type='datetime-local' isRequired>
+              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+                <Input
+                  formLabelProps={formLabelProps}
+                  fieldProps={fieldProps}
+                  name='startTime'
+                  label='Start Time'
+                  type='datetime-local'
+                  id='startTime'
+                  isRequired
+                  data-cy='start-time-input'
+                />
+              )}
+            </Field>
+            <Field name='endTime' type='datetime-local' isRequired>
+              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+                <Input
+                  formLabelProps={formLabelProps}
+                  fieldProps={fieldProps}
+                  name='endTime'
+                  label='End Time'
+                  type='datetime-local'
+                  id='endTime'
+                  isRequired
+                  data-cy='end-time-input'
+                />
+              )}
+            </Field>
+            <Field name='contactPerson' type='text' isRequired>
+              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+                <Input
+                  formLabelProps={formLabelProps}
+                  fieldProps={fieldProps}
+                  name='contactPerson'
+                  label='Contact Person'
+                  type='text'
+                  id='contactPerson'
+                  isRequired
+                  data-cy='contact-person-input'
+                />
+              )}
+            </Field>
+            <Field name='contactNumber' type='phone' isRequired>
+              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+                <Input
+                  formLabelProps={formLabelProps}
+                  fieldProps={fieldProps}
+                  name='contactNumber'
+                  label='Contact Number'
+                  type='phone'
+                  id='contactNumber'
+                  isRequired
+                  data-cy='contact-number-input'
+                />
+              )}
+            </Field>
+            <Field name='approvedBy' type='text'>
+              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+                <Input
+                  formLabelProps={formLabelProps}
+                  fieldProps={fieldProps}
+                  name='approvedBy'
+                  label='Approved by'
+                  type='text'
+                  id='approvedBy'
+                  data-cy='approved-by-input'
+                />
+              )}
+            </Field>
+
+            <OrganizerSelect key={organizerKey.current} />
+            <EquipmentSelect key={equipmentKey.current} />
+            <VenueSelect key={venueKey.current} />
+
+            <Field name='additionalNotes' type='text'>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
                 <Textarea
-                  formLabelProps={{
-                    minW: 44,
-                  }}
+                  formLabelProps={formLabelProps}
                   fieldProps={fieldProps}
                   name='additionalNotes'
                   label='Additional Notes'
                   id='additionalNotes'
-                  placeholder='Important notes for technical staff and support'
-                  isRequired
                   data-cy='additional-notes-input'
                 />
               )}
             </Field>
-            <Select options={options} isClearable isSearchable isMulti />
           </FormLayout>
           <Flex w='full' h='full'>
-            <FormikResetButton />
+            <FormikResetButton onClick={handleReset} />
             <Spacer />
             <Button
               variant='solid'

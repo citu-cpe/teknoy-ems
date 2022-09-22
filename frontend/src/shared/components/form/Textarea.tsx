@@ -42,6 +42,8 @@ export const Textarea = ({
         m={0}
         p={0}
         mt={2}
+        pr={5}
+        textAlign='right'
         {...formLabelProps}
       >
         {label}
