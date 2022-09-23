@@ -29,29 +29,29 @@ export interface ReportFilterDTO {
    * @type {EventReportFilterDTO}
    * @memberof ReportFilterDTO
    */
-  eventReportFilterDTO: EventReportFilterDTO;
+  eventReportFilterDTO?: EventReportFilterDTO;
   /**
    *
    * @type {AnnouncementReportFilterDTO}
    * @memberof ReportFilterDTO
    */
-  announcementReportFilterDTO: AnnouncementReportFilterDTO;
+  announcementReportFilterDTO?: AnnouncementReportFilterDTO;
   /**
    *
    * @type {EquipmentReportFilterDTO}
    * @memberof ReportFilterDTO
    */
-  equipmentReportFilterDTO: EquipmentReportFilterDTO;
+  equipmentReportFilterDTO?: EquipmentReportFilterDTO;
   /**
    *
    * @type {OrganizerReportFilterDTO}
    * @memberof ReportFilterDTO
    */
-  organizerReportFilterDTO: OrganizerReportFilterDTO;
+  organizerReportFilterDTO?: OrganizerReportFilterDTO;
   /**
    *
    * @type {VenueReportFilterDTO}
    * @memberof ReportFilterDTO
    */
-  venueReportFilterDTO: VenueReportFilterDTO;
+  venueReportFilterDTO?: VenueReportFilterDTO;
 }

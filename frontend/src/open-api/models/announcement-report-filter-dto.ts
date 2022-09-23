@@ -23,6 +23,18 @@ export interface AnnouncementReportFilterDTO {
    * @type {boolean}
    * @memberof AnnouncementReportFilterDTO
    */
+  id?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof AnnouncementReportFilterDTO
+   */
+  title?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof AnnouncementReportFilterDTO
+   */
   subtitle?: boolean;
   /**
    *

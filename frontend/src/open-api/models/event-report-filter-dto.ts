@@ -23,6 +23,18 @@ export interface EventReportFilterDTO {
    * @type {boolean}
    * @memberof EventReportFilterDTO
    */
+  id?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof EventReportFilterDTO
+   */
+  title?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof EventReportFilterDTO
+   */
   description?: boolean;
   /**
    *

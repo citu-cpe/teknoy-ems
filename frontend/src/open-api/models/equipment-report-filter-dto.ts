@@ -23,6 +23,18 @@ export interface EquipmentReportFilterDTO {
    * @type {boolean}
    * @memberof EquipmentReportFilterDTO
    */
+  id?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof EquipmentReportFilterDTO
+   */
+  name?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof EquipmentReportFilterDTO
+   */
   type?: boolean;
   /**
    *

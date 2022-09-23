@@ -23,6 +23,18 @@ export interface VenueReportFilterDTO {
    * @type {boolean}
    * @memberof VenueReportFilterDTO
    */
+  id?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof VenueReportFilterDTO
+   */
+  name?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof VenueReportFilterDTO
+   */
   notes?: boolean;
   /**
    *

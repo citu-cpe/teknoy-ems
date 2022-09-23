@@ -3,6 +3,14 @@ import { IsBoolean, IsOptional } from 'class-validator';
 export class EquipmentReportFilterDTO {
   @IsBoolean()
   @IsOptional()
+  public id?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  public name?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
   public type?: boolean;
 
   @IsBoolean()
