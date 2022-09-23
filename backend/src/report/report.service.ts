@@ -69,50 +69,60 @@ export class ReportService {
       'Export Metadata'
     );
 
-    XLSX.utils.book_append_sheet(
-      workbook,
-      this.getEventsWorksheet(
-        eventDTOs,
-        reportGetDTO.reportFilterDTO.eventReportFilterDTO
-      ),
-      'Events'
-    );
+    if (reportGetDTO.reportFilterDTO.eventReportFilterDTO) {
+      XLSX.utils.book_append_sheet(
+        workbook,
+        this.getEventsWorksheet(
+          eventDTOs,
+          reportGetDTO.reportFilterDTO.eventReportFilterDTO
+        ),
+        'Events'
+      );
+    }
 
-    XLSX.utils.book_append_sheet(
-      workbook,
-      this.getEquipmentsWorksheet(
-        equipmentDTOs,
-        reportGetDTO.reportFilterDTO.equipmentReportFilterDTO
-      ),
-      'Equipments'
-    );
+    if (reportGetDTO.reportFilterDTO.equipmentReportFilterDTO) {
+      XLSX.utils.book_append_sheet(
+        workbook,
+        this.getEquipmentsWorksheet(
+          equipmentDTOs,
+          reportGetDTO.reportFilterDTO.equipmentReportFilterDTO
+        ),
+        'Equipments'
+      );
+    }
 
-    XLSX.utils.book_append_sheet(
-      workbook,
-      this.getVenuesWorksheet(
-        venueDTOs,
-        reportGetDTO.reportFilterDTO.venueReportFilterDTO
-      ),
-      'Venues'
-    );
+    if (reportGetDTO.reportFilterDTO.venueReportFilterDTO) {
+      XLSX.utils.book_append_sheet(
+        workbook,
+        this.getVenuesWorksheet(
+          venueDTOs,
+          reportGetDTO.reportFilterDTO.venueReportFilterDTO
+        ),
+        'Venues'
+      );
+    }
 
-    XLSX.utils.book_append_sheet(
-      workbook,
-      this.getOrganizersWorksheet(
-        organizerDTOs,
-        reportGetDTO.reportFilterDTO.organizerReportFilterDTO
-      ),
-      'Organizers'
-    );
+    if (reportGetDTO.reportFilterDTO.organizerReportFilterDTO) {
+      XLSX.utils.book_append_sheet(
+        workbook,
+        this.getOrganizersWorksheet(
+          organizerDTOs,
+          reportGetDTO.reportFilterDTO.organizerReportFilterDTO
+        ),
+        'Organizers'
+      );
+    }
 
-    XLSX.utils.book_append_sheet(
-      workbook,
-      this.getAnnouncementsWorksheet(
-        announcementDTOs,
-        reportGetDTO.reportFilterDTO.announcementReportFilterDTO
-      ),
-      'Announcements'
-    );
+    if (reportGetDTO.reportFilterDTO.announcementReportFilterDTO) {
+      XLSX.utils.book_append_sheet(
+        workbook,
+        this.getAnnouncementsWorksheet(
+          announcementDTOs,
+          reportGetDTO.reportFilterDTO.announcementReportFilterDTO
+        ),
+        'Announcements'
+      );
+    }
 
     XLSX.writeFileXLSX(workbook, 'report.xlsx');
   }
@@ -141,7 +151,14 @@ export class ReportService {
 
     for (const e of events) {
       const value: KeyValuePair[] = [];
-      value.push({ key: 'Title', value: e.title });
+
+      if (filter.id) {
+        value.push({ key: 'ID', value: e.id });
+      }
+
+      if (filter.title) {
+        value.push({ key: 'Title', value: e.title });
+      }
 
       if (filter.description) {
         value.push({ key: 'Description', value: e.description });
@@ -235,7 +252,14 @@ export class ReportService {
 
     for (const e of equipments) {
       const value: KeyValuePair[] = [];
-      value.push({ key: 'Name', value: e.name });
+
+      if (filter.id) {
+        value.push({ key: 'ID', value: e.id });
+      }
+
+      if (filter.name) {
+        value.push({ key: 'Name', value: e.name });
+      }
 
       if (filter.type) {
         value.push({ key: 'Type', value: e.type });
@@ -288,7 +312,14 @@ export class ReportService {
 
     for (const v of venues) {
       const value: KeyValuePair[] = [];
-      value.push({ key: 'Name', value: v.name });
+
+      if (filter.id) {
+        value.push({ key: 'ID', value: v.id });
+      }
+
+      if (filter.name) {
+        value.push({ key: 'Name', value: v.name });
+      }
 
       if (filter.notes) {
         value.push({ key: 'Notes', value: v.notes });
@@ -325,7 +356,14 @@ export class ReportService {
 
     for (const o of organizers) {
       const value: KeyValuePair[] = [];
-      value.push({ key: 'name', value: o.name });
+
+      if (filter.id) {
+        value.push({ key: 'ID', value: o.id });
+      }
+
+      if (filter.name) {
+        value.push({ key: 'name', value: o.name });
+      }
 
       if (filter.type) {
         value.push({ key: 'Type', value: o.type });
@@ -351,7 +389,14 @@ export class ReportService {
 
     for (const a of announcements) {
       const value: KeyValuePair[] = [];
-      value.push({ key: 'Title', value: a.title });
+
+      if (filter.id) {
+        value.push({ key: 'ID', value: a.id });
+      }
+
+      if (filter.title) {
+        value.push({ key: 'Title', value: a.title });
+      }
 
       if (filter.subtitle) {
         value.push({ key: 'Subtitle', value: a.subtitle });

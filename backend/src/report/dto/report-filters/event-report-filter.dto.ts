@@ -3,6 +3,14 @@ import { IsBoolean, IsOptional } from 'class-validator';
 export class EventReportFilterDTO {
   @IsBoolean()
   @IsOptional()
+  public id?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  public title?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
   public description?: boolean;
 
   @IsBoolean()

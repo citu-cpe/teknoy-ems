@@ -14,6 +14,8 @@ export const defaultReportGetDTO: ReportGetDTO = {
   message: 'System report',
   reportFilterDTO: {
     eventReportFilterDTO: {
+      id: true,
+      title: true,
       additionalNotes: true,
       approvedBy: true,
       contactPerson: true,
@@ -30,12 +32,16 @@ export const defaultReportGetDTO: ReportGetDTO = {
       viewAccess: true,
     },
     announcementReportFilterDTO: {
+      id: true,
+      title: true,
       content: true,
       subtitle: true,
       tags: true,
       viewAccess: true,
     },
     equipmentReportFilterDTO: {
+      id: true,
+      name: true,
       brand: true,
       notes: true,
       serial: true,
@@ -43,9 +49,13 @@ export const defaultReportGetDTO: ReportGetDTO = {
       type: true,
     },
     organizerReportFilterDTO: {
+      id: true,
+      name: true,
       type: true,
     },
     venueReportFilterDTO: {
+      id: true,
+      name: true,
       notes: true,
       schedule: true,
     },
