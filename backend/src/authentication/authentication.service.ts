@@ -16,13 +16,16 @@ import { TokenPayload } from './types/token-payload.interface';
 import { User } from '@prisma/client';
 import { PostgresErrorCode } from '../shared/constants/postgress-error-codes.enum';
 import { TokensDTO } from './dto/tokens.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ActionENUM, PriorityENUM } from '../activity-log/dto/activity-log.dto';
 
 @Injectable()
 export class AuthenticationService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly eventEmitter: EventEmitter2
   ) {}
 
   public async login(loginUserDTO: LoginUserDTO): Promise<LoginResponseDTO> {
@@ -52,6 +55,7 @@ export class AuthenticationService {
   }
 
   public async register(
+    user: User,
     registerUserDTO: RegisterUserDTO
   ): Promise<RegisterUserDTO> {
     const password = this.generateRandomPassword();
@@ -59,7 +63,12 @@ export class AuthenticationService {
 
     try {
       await this.userService.register(registerUserDTO, hashedPassword);
-
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'user',
+        action: ActionENUM.ADDED,
+        username: user.name,
+        priority: PriorityENUM.PRIVATE,
+      });
       return {
         ...registerUserDTO,
         password,

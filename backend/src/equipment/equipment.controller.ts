@@ -6,7 +6,9 @@ import {
   Delete,
   Param,
   Put,
+  Req,
 } from '@nestjs/common';
+import { RequestWithUser } from '../authentication/types/request-with-user.interface';
 import { ScheduleDTO } from '../schedule/dto/schedule.dto';
 import { EquipmentDTO } from './dto/equipment.dto';
 import { EquipmentService } from './equipment.service';
@@ -29,8 +31,11 @@ export class EquipmentController {
     return this.equipmentService.getEquipmenyById(id);
   }
   @Post()
-  public async addEquipment(@Body() data: EquipmentDTO): Promise<EquipmentDTO> {
-    return this.equipmentService.addEquipment(data);
+  public async addEquipment(
+    @Req() { user }: RequestWithUser,
+    @Body() data: EquipmentDTO
+  ): Promise<EquipmentDTO> {
+    return this.equipmentService.addEquipment(user, data);
   }
   @Post(EquipmentController.EQUIPMENT_CONTROLLER_WITH_SCHED)
   public async addScheduletoEquipment(
@@ -40,15 +45,19 @@ export class EquipmentController {
     return this.equipmentService.addScheduletoEquipment(id, data);
   }
   @Delete(EquipmentController.EQUIPMENT_ID_ROUTE)
-  public async deleteEquipment(@Param('id') id: string): Promise<EquipmentDTO> {
-    return this.equipmentService.deleteEquipment(id);
+  public async deleteEquipment(
+    @Req() { user }: RequestWithUser,
+    @Param('id') id: string
+  ): Promise<EquipmentDTO> {
+    return this.equipmentService.deleteEquipment(user, id);
   }
 
   @Put(EquipmentController.EQUIPMENT_ID_ROUTE)
   public async updateEquipment(
+    @Req() { user }: RequestWithUser,
     @Param('id') id: string,
     @Body() data: EquipmentDTO
   ): Promise<EquipmentDTO> {
-    return this.equipmentService.updateEquipment(id, data);
+    return this.equipmentService.updateEquipment(user, id, data);
   }
 }

@@ -145,6 +145,33 @@ model EquipmentsOnEvents {
   @@id([eventId, equipmentId])
 }
 
+model ActivityLog {
+  id         String   @id @default(uuid())
+  username   String
+  action     Action
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  entityName String
+  oldValue   String?
+  newValue   String?
+  executedAt DateTime @default(now())
+  priority   Priority
+}
+
+enum Priority {
+  PUBLIC
+  PRIVATE
+  IMPORTANT
+}
+
+enum Action {
+  ADDED
+  EDITED
+  DELETED
+  RESERVED
+  REGISTERED
+}
+
 enum Status {
   PENDING
   ONGOING
