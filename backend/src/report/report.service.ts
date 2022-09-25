@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { ReportGetDTO } from './dto/report-get.dto';
-import XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 import { User } from '@prisma/client';
 import { EventDTO } from '../event/dto/event.dto';
 import { EventService } from '../event/event.service';
@@ -61,87 +61,92 @@ export class ReportService {
       AnnouncementServices.convertToDTO(a)
     );
 
-    const workbook = XLSX.utils.book_new();
+    // const workbook = XLSX.utils.book_new();
+    const workbook = new ExcelJS.Workbook();
+    this.getFirstWorksheet(workbook, reportGetDTO, user);
 
-    XLSX.utils.book_append_sheet(
-      workbook,
-      this.getFirstWorksheet(reportGetDTO, user),
-      'Export Metadata'
-    );
-
-    XLSX.utils.book_append_sheet(
-      workbook,
+    if (reportGetDTO.reportFilterDTO.eventReportFilterDTO) {
       this.getEventsWorksheet(
+        workbook,
         eventDTOs,
         reportGetDTO.reportFilterDTO.eventReportFilterDTO
-      ),
-      'Events'
-    );
+      );
+    }
 
-    XLSX.utils.book_append_sheet(
-      workbook,
+    if (reportGetDTO.reportFilterDTO.equipmentReportFilterDTO) {
       this.getEquipmentsWorksheet(
+        workbook,
         equipmentDTOs,
         reportGetDTO.reportFilterDTO.equipmentReportFilterDTO
-      ),
-      'Equipments'
-    );
+      );
+    }
 
-    XLSX.utils.book_append_sheet(
-      workbook,
+    if (reportGetDTO.reportFilterDTO.venueReportFilterDTO) {
       this.getVenuesWorksheet(
+        workbook,
         venueDTOs,
         reportGetDTO.reportFilterDTO.venueReportFilterDTO
-      ),
-      'Venues'
-    );
+      );
+    }
 
-    XLSX.utils.book_append_sheet(
-      workbook,
+    if (reportGetDTO.reportFilterDTO.organizerReportFilterDTO) {
       this.getOrganizersWorksheet(
+        workbook,
         organizerDTOs,
         reportGetDTO.reportFilterDTO.organizerReportFilterDTO
-      ),
-      'Organizers'
-    );
+      );
+    }
 
-    XLSX.utils.book_append_sheet(
-      workbook,
+    if (reportGetDTO.reportFilterDTO.announcementReportFilterDTO) {
       this.getAnnouncementsWorksheet(
+        workbook,
         announcementDTOs,
         reportGetDTO.reportFilterDTO.announcementReportFilterDTO
-      ),
-      'Announcements'
-    );
+      );
+    }
 
-    XLSX.writeFileXLSX(workbook, 'report.xlsx');
+    await workbook.xlsx.writeFile('report.xlsx');
   }
 
   private getFirstWorksheet(
+    workbook: ExcelJS.Workbook,
     reportGetDTO: ReportGetDTO,
     user: User
-  ): XLSX.WorkSheet {
-    return XLSX.utils.aoa_to_sheet([
-      ['Exported by', user.name],
-      ['Exported at', new Date().toLocaleString()],
-      [
-        'Message',
-        !reportGetDTO.message || reportGetDTO.message.length === 0
-          ? 'n/a'
-          : reportGetDTO.message,
-      ],
+  ): ExcelJS.Worksheet {
+    const worksheet = workbook.addWorksheet('Export Metadata');
+
+    worksheet.addRow(['Exported by', user.name]);
+    worksheet.addRow(['Exported at', new Date().toLocaleString()]);
+    worksheet.addRow([
+      'Message',
+      !reportGetDTO.message || reportGetDTO.message.length === 0
+        ? 'n/a'
+        : reportGetDTO.message,
     ]);
+    worksheet.getColumn('A').font = { bold: true };
+
+    return worksheet;
   }
 
   private getEventsWorksheet(
+    workbook: ExcelJS.Workbook,
     events: EventDTO[],
     filter: EventReportFilterDTO
-  ): XLSX.WorkSheet {
+  ): ExcelJS.Worksheet {
+    const worksheet = workbook.addWorksheet('Events');
+
     const values: KeyValuePair[][] = [];
 
     for (const e of events) {
       const value: KeyValuePair[] = [];
-      value.push({ key: 'Title', value: e.title });
+
+      if (filter.id) {
+        value.push({ key: 'ID', value: e.id });
+      }
+
+      if (filter.title) {
+        value.push({ key: 'Title', value: e.title });
+      }
 
       if (filter.description) {
         value.push({ key: 'Description', value: e.description });
@@ -202,6 +207,7 @@ export class ReportService {
     }
 
     const defaultHeaderRows = [
+      'ID',
       'Title',
       'Description',
       'Status',
@@ -223,19 +229,31 @@ export class ReportService {
       ? values[0].map((e) => e.key)
       : defaultHeaderRows;
     const valueRows = values.map((va) => va.map((v) => v.value));
+    worksheet.addRow(headerRow).font = { bold: true };
+    worksheet.addRows(valueRows);
 
-    return XLSX.utils.aoa_to_sheet([headerRow, ...valueRows]);
+    return worksheet;
   }
 
   private getEquipmentsWorksheet(
+    workbook: ExcelJS.Workbook,
     equipments: EquipmentDTO[],
     filter: EquipmentReportFilterDTO
-  ): XLSX.WorkSheet {
+  ): ExcelJS.Worksheet {
+    const worksheet = workbook.addWorksheet('Equipments');
+
     const values: KeyValuePair[][] = [];
 
     for (const e of equipments) {
       const value: KeyValuePair[] = [];
-      value.push({ key: 'Name', value: e.name });
+
+      if (filter.id) {
+        value.push({ key: 'ID', value: e.id });
+      }
+
+      if (filter.name) {
+        value.push({ key: 'Name', value: e.name });
+      }
 
       if (filter.type) {
         value.push({ key: 'Type', value: e.type });
@@ -265,6 +283,7 @@ export class ReportService {
     }
 
     const defaultHeaderRows = [
+      'ID',
       'Name',
       'Type',
       'Brand',
@@ -277,18 +296,31 @@ export class ReportService {
       : defaultHeaderRows;
     const valueRows = values.map((va) => va.map((v) => v.value));
 
-    return XLSX.utils.aoa_to_sheet([headerRow, ...valueRows]);
+    worksheet.addRow(headerRow).font = { bold: true };
+    worksheet.addRows(valueRows);
+
+    return worksheet;
   }
 
   private getVenuesWorksheet(
+    workbook: ExcelJS.Workbook,
     venues: VenueDTO[],
     filter: VenueReportFilterDTO
-  ): XLSX.WorkSheet {
+  ): ExcelJS.Worksheet {
+    const worksheet = workbook.addWorksheet('Venues');
+
     const values: KeyValuePair[][] = [];
 
     for (const v of venues) {
       const value: KeyValuePair[] = [];
-      value.push({ key: 'Name', value: v.name });
+
+      if (filter.id) {
+        value.push({ key: 'ID', value: v.id });
+      }
+
+      if (filter.name) {
+        value.push({ key: 'Name', value: v.name });
+      }
 
       if (filter.notes) {
         value.push({ key: 'Notes', value: v.notes });
@@ -308,24 +340,37 @@ export class ReportService {
       values.push(value);
     }
 
-    const defaultHeaderRows = ['Name', 'Notes', 'Schedules'];
+    const defaultHeaderRows = ['ID', 'Name', 'Notes', 'Schedules'];
     const headerRow = values[0]
       ? values[0].map((e) => e.key)
       : defaultHeaderRows;
     const valueRows = values.map((va) => va.map((v) => v.value));
 
-    return XLSX.utils.aoa_to_sheet([headerRow, ...valueRows]);
+    worksheet.addRow(headerRow).font = { bold: true };
+    worksheet.addRows(valueRows);
+
+    return worksheet;
   }
 
   private getOrganizersWorksheet(
+    workbook: ExcelJS.Workbook,
     organizers: OrganizerDTO[],
     filter: OrganizerReportFilterDTO
-  ): XLSX.WorkSheet {
+  ): ExcelJS.Worksheet {
+    const worksheet = workbook.addWorksheet('Organizers');
+
     const values: KeyValuePair[][] = [];
 
     for (const o of organizers) {
       const value: KeyValuePair[] = [];
-      value.push({ key: 'name', value: o.name });
+
+      if (filter.id) {
+        value.push({ key: 'ID', value: o.id });
+      }
+
+      if (filter.name) {
+        value.push({ key: 'Name', value: o.name });
+      }
 
       if (filter.type) {
         value.push({ key: 'Type', value: o.type });
@@ -334,24 +379,37 @@ export class ReportService {
       values.push(value);
     }
 
-    const defaultHeaderRows = ['Name', 'Notes', 'Schedules'];
+    const defaultHeaderRows = ['ID', 'Name', 'Notes', 'Schedules'];
     const headerRow = values[0]
       ? values[0].map((e) => e.key)
       : defaultHeaderRows;
     const valueRows = values.map((va) => va.map((v) => v.value));
 
-    return XLSX.utils.aoa_to_sheet([headerRow, ...valueRows]);
+    worksheet.addRow(headerRow).font = { bold: true };
+    worksheet.addRows(valueRows);
+
+    return worksheet;
   }
 
   private getAnnouncementsWorksheet(
+    workbook: ExcelJS.Workbook,
     announcements: AnnouncementDTO[],
     filter: AnnouncementReportFilterDTO
-  ): XLSX.WorkSheet {
+  ): ExcelJS.Worksheet {
+    const worksheet = workbook.addWorksheet('Announcements');
+
     const values: KeyValuePair[][] = [];
 
     for (const a of announcements) {
       const value: KeyValuePair[] = [];
-      value.push({ key: 'Title', value: a.title });
+
+      if (filter.id) {
+        value.push({ key: 'ID', value: a.id });
+      }
+
+      if (filter.title) {
+        value.push({ key: 'Title', value: a.title });
+      }
 
       if (filter.subtitle) {
         value.push({ key: 'Subtitle', value: a.subtitle });
@@ -369,12 +427,15 @@ export class ReportService {
       values.push(value);
     }
 
-    const defaultHeaderRows = ['Name', 'Notes', 'Schedules'];
+    const defaultHeaderRows = ['ID', 'Name', 'Notes', 'Schedules'];
     const headerRow = values[0]
       ? values[0].map((e) => e.key)
       : defaultHeaderRows;
     const valueRows = values.map((va) => va.map((v) => v.value));
 
-    return XLSX.utils.aoa_to_sheet([headerRow, ...valueRows]);
+    worksheet.addRow(headerRow).font = { bold: true };
+    worksheet.addRows(valueRows);
+
+    return worksheet;
   }
 }

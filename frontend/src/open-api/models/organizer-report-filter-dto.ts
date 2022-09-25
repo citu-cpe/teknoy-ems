@@ -23,5 +23,17 @@ export interface OrganizerReportFilterDTO {
    * @type {boolean}
    * @memberof OrganizerReportFilterDTO
    */
+  id?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof OrganizerReportFilterDTO
+   */
+  name?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof OrganizerReportFilterDTO
+   */
   type?: boolean;
 }
