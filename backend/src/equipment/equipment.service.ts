@@ -180,6 +180,8 @@ export class EquipmentService {
     const equipmentDTO = new EquipmentDTO();
     equipmentDTO.brand = equipment.brand;
     equipmentDTO.id = equipment.id;
+    equipmentDTO.createdAt = equipment.createdAt;
+    equipmentDTO.updatedAt = equipment.updatedAt;
     equipmentDTO.name = equipment.name;
     equipmentDTO.notes = equipment.notes;
     equipmentDTO.type = equipment.type;

@@ -386,6 +386,8 @@ export class EventService {
   ): EventDTO {
     const eventDTO = new EventDTO();
     eventDTO.id = event.id;
+    eventDTO.createdAt = event.createdAt;
+    eventDTO.updatedAt = event.updatedAt;
     eventDTO.title = event.title;
     eventDTO.description = event.description;
     eventDTO.status = event.status.toString() as StatusEnum;

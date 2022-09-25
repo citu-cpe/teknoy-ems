@@ -90,6 +90,8 @@ export class OrganizerService {
   public static convertToDTO(organizer: Organizer): OrganizerDTO {
     const organizerDTO = new OrganizerDTO();
     organizerDTO.id = organizer.id;
+    organizerDTO.createdAt = organizer.createdAt;
+    organizerDTO.updatedAt = organizer.updatedAt;
     organizerDTO.name = organizer.name;
     organizerDTO.type = organizer.type.toString() as TypeEnum;
     return organizerDTO;

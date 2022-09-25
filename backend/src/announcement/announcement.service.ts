@@ -83,6 +83,8 @@ export class AnnouncementServices {
   public static convertToDTO(announcement: Announcement): AnnouncementDTO {
     const announcementDTO = new AnnouncementDTO();
     announcementDTO.id = announcement.id;
+    announcementDTO.createdAt = announcement.createdAt;
+    announcementDTO.updatedAt = announcement.updatedAt;
     announcementDTO.title = announcement.title;
     announcementDTO.subtitle = announcement.subtitle;
     announcementDTO.content = announcement.content;

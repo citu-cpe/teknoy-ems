@@ -74,6 +74,8 @@ export class ScheduleService {
   public static convertToDTO(schedule: Schedule): ScheduleDTO {
     const scheduleDTO = new ScheduleDTO();
     scheduleDTO.id = schedule.id;
+    scheduleDTO.createdAt = schedule.createdAt;
+    scheduleDTO.updatedAt = schedule.updatedAt;
     scheduleDTO.availability =
       schedule.availability.toString() as AvailabilityEnum;
     scheduleDTO.startTime = schedule.startTime;

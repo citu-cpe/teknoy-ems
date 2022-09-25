@@ -17,6 +17,14 @@ export class ScheduleDTO {
   @IsOptional()
   public id?: string;
 
+  @IsDateString()
+  @IsOptional()
+  public createdAt?: Date;
+
+  @IsDateString()
+  @IsOptional()
+  public updatedAt?: Date;
+
   @IsEnum(AvailabilityEnum)
   public availability: AvailabilityEnum;
 
