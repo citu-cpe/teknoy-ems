@@ -168,6 +168,8 @@ export class VenueService {
   ): VenueDTO {
     const venueDTO = new VenueDTO();
     venueDTO.id = venue.id;
+    venueDTO.createdAt = venue.createdAt;
+    venueDTO.updatedAt = venue.updatedAt;
     venueDTO.name = venue.name;
     venueDTO.notes = venue.notes;
     if (venue.schedules) {

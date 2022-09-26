@@ -22,6 +22,14 @@ export class EventDTO {
   @IsOptional()
   public id?: string;
 
+  @IsDateString()
+  @IsOptional()
+  public createdAt?: Date;
+
+  @IsDateString()
+  @IsOptional()
+  public updatedAt?: Date;
+
   @IsString()
   @IsNotEmpty()
   public title: string;

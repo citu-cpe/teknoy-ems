@@ -1,6 +1,7 @@
 import {
   IsArray,
   IsEnum,
+  IsDateString,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -15,6 +16,14 @@ export class AnnouncementDTO {
   @IsUUID()
   @IsOptional()
   public id?: string;
+
+  @IsDateString()
+  @IsOptional()
+  public createdAt?: Date;
+
+  @IsDateString()
+  @IsOptional()
+  public updatedAt?: Date;
 
   @IsString()
   @IsNotEmpty()

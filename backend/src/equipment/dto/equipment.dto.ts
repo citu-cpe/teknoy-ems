@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsDateString,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -13,6 +14,14 @@ export class EquipmentDTO {
   @IsString()
   @IsOptional()
   public id?: string;
+
+  @IsDateString()
+  @IsOptional()
+  public createdAt?: Date;
+
+  @IsDateString()
+  @IsOptional()
+  public updatedAt?: Date;
 
   @IsString()
   @IsNotEmpty()
