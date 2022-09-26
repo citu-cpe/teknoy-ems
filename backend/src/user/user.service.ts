@@ -15,10 +15,15 @@ import {
   NotFoundError,
   PrismaClientKnownRequestError,
 } from '@prisma/client/runtime';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ActionENUM, PriorityENUM } from '../activity-log/dto/activity-log.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly eventEmitter: EventEmitter2
+  ) {}
 
   public async getAllUsers(user: User): Promise<UserDTO[]> {
     const users = await this.prismaService.user.findMany({
@@ -67,11 +72,21 @@ export class UserService {
     }
 
     try {
+      const oldValue = await this.prismaService.user.findUnique({
+        where: { id },
+      });
       const user = await this.prismaService.user.update({
         data: userDTO,
         where: { id },
       });
-
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'user',
+        action: ActionENUM.EDITED,
+        username: loggedInUserDTO.name,
+        priority: PriorityENUM.PRIVATE,
+        oldValue: JSON.stringify(oldValue),
+        newValue: JSON.stringify(user),
+      });
       return UserService.convertToDTO(user);
     } catch (e) {
       if (e instanceof NotFoundError) {
@@ -80,10 +95,15 @@ export class UserService {
     }
   }
 
-  public async deleteUser(id: string): Promise<UserDTO> {
+  public async deleteUser(loggedInUser: User, id: string): Promise<UserDTO> {
     try {
       const user = await this.prismaService.user.delete({ where: { id } });
-
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'user',
+        action: ActionENUM.DELETED,
+        username: loggedInUser.name,
+        priority: PriorityENUM.PRIVATE,
+      });
       return UserService.convertToDTO(user);
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {

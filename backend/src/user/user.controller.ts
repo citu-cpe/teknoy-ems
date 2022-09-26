@@ -33,7 +33,10 @@ export class UserController {
 
   @Roles(Role.ADMIN)
   @Delete(UserController.ID_API_ROUTE)
-  public deleteUser(@Param('id') id: string): Promise<UserDTO> {
-    return this.userService.deleteUser(id);
+  public deleteUser(
+    @Req() { user }: RequestWithUser,
+    @Param('id') id: string
+  ): Promise<UserDTO> {
+    return this.userService.deleteUser(user, id);
   }
 }

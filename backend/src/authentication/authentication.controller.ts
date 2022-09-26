@@ -37,9 +37,10 @@ export class AuthenticationController {
   @Roles(Role.ADMIN)
   @Post(AuthenticationController.REGISTER_API_ROUTE)
   public register(
+    @Req() { user }: RequestWithUser,
     @Body() registerUserDTO: RegisterUserDTO
   ): Promise<RegisterUserDTO> {
-    return this.authenticationService.register(registerUserDTO);
+    return this.authenticationService.register(user, registerUserDTO);
   }
 
   @Public()

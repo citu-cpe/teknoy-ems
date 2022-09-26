@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Equipment, Schedule } from '@prisma/client';
+import { Equipment, Schedule, User } from '@prisma/client';
 import { ScheduleDTO } from '../schedule/dto/schedule.dto';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { EquipmentDTO } from './dto/equipment.dto';
@@ -14,15 +14,29 @@ import {
 } from '@prisma/client/runtime';
 import { PostgresErrorCode } from '../shared/constants/postgress-error-codes.enum';
 import { SortedEquipmentsDTO } from '../event/dto/sorted-equipments.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ActionENUM, PriorityENUM } from '../activity-log/dto/activity-log.dto';
 
 @Injectable()
 export class EquipmentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly eventEmitter: EventEmitter2
+  ) {}
 
-  public async addEquipment(data: EquipmentDTO): Promise<EquipmentDTO> {
+  public async addEquipment(
+    user: User,
+    data: EquipmentDTO
+  ): Promise<EquipmentDTO> {
     try {
       const equipment = await this.prisma.equipment.create({
         data,
+      });
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'equipment',
+        action: ActionENUM.ADDED,
+        username: user.name,
+        priority: PriorityENUM.IMPORTANT,
       });
       return EquipmentService.convertToDTO(equipment);
     } catch (error) {
@@ -94,12 +108,18 @@ export class EquipmentService {
     }
   }
 
-  public async deleteEquipment(id: string): Promise<EquipmentDTO> {
+  public async deleteEquipment(user: User, id: string): Promise<EquipmentDTO> {
     try {
       const equipment = await this.prisma.equipment.delete({
         where: {
           id,
         },
+      });
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'equipment',
+        action: ActionENUM.DELETED,
+        username: user.name,
+        priority: PriorityENUM.IMPORTANT,
       });
       return EquipmentService.convertToDTO(equipment);
     } catch (error) {
@@ -110,15 +130,29 @@ export class EquipmentService {
   }
 
   public async updateEquipment(
+    user: User,
     id: string,
     data: EquipmentDTO
   ): Promise<EquipmentDTO> {
     try {
+      const oldValue = await this.prisma.equipment.findUnique({
+        where: {
+          id,
+        },
+      });
       const equipment = await this.prisma.equipment.update({
         where: {
           id,
         },
         data,
+      });
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'equipment',
+        action: ActionENUM.EDITED,
+        username: user.name,
+        oldValue: JSON.stringify(oldValue),
+        newValue: JSON.stringify(equipment),
+        priority: PriorityENUM.IMPORTANT,
       });
       return EquipmentService.convertToDTO(equipment);
     } catch (error) {
