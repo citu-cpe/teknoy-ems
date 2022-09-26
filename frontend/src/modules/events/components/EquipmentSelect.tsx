@@ -1,16 +1,22 @@
-import { FieldProps, Field } from 'formik';
-import { EventCreateDTO } from 'generated-api';
-import { useContext, useRef, useEffect } from 'react';
+import { Field, FieldProps } from 'formik';
+import { EquipmentDTO, EventCreateDTO } from 'generated-api';
+import { useContext, useEffect, useRef } from 'react';
 import { useMutation } from 'react-query';
 import { MultiValue } from 'react-select';
-import SelectAsync from '../../../shared/components/form/SelectAsync';
+import { SelectAsync } from '../../../shared/components/form/SelectAsync';
 import { filterOptions } from '../../../shared/helpers/filter-options';
 import { isOption } from '../../../shared/helpers/is-option';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
 import { Option } from '../../../shared/types';
-import { formLabelProps } from './EventAddForm';
+import { formLabelProps } from '../styles';
 
-export const EquipmentSelect = () => {
+interface EquipmentSelectProps {
+  defaultValue?: EquipmentDTO[];
+}
+
+export const EquipmentSelect = ({
+  defaultValue: equipment,
+}: EquipmentSelectProps) => {
   const api = useContext(ApiContext);
   const equipmentOptions = useRef<Option[]>([]);
 
@@ -29,6 +35,23 @@ export const EquipmentSelect = () => {
       });
     },
   });
+
+  const getDefaultValues = (): Option[] => {
+    if (equipment) {
+      const equipmentOptions = equipment.map((eq) => {
+        const option = {
+          value: eq.id,
+          label: eq.name,
+        } as Option;
+
+        return option;
+      });
+
+      return equipmentOptions;
+    }
+
+    return [];
+  };
 
   /**
    * Options that allow for async/promise fetching
@@ -69,29 +92,34 @@ export const EquipmentSelect = () => {
   };
 
   return (
-    <Field name='equipmentIds' id='equipmentIds' data-cy='equipment-select'>
-      {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-        <SelectAsync
-          name='equipmentIds'
-          label='Equipment'
-          id='equipmentIds'
-          placeholder='Search...'
-          data-cy='equipment-select'
-          formLabelProps={formLabelProps}
-          fieldProps={fieldProps}
-          cacheOptions
-          isMulti
-          isClearable
-          closeMenuOnSelect={false}
-          defaultOptions={equipmentOptions.current}
-          loadOptions={promiseOptions}
-          isLoading={fetchEquipment.isLoading}
-          onChange={(newValue: MultiValue<string | Option>) =>
-            handleChange(newValue, fieldProps)
-          }
-          value={getFieldValue(fieldProps)}
-        />
+    <>
+      {equipmentOptions.current.length > 0 && (
+        <Field name='equipmentIds' id='equipmentIds' data-cy='equipment-select'>
+          {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+            <SelectAsync
+              name='equipmentIds'
+              label='Equipment'
+              id='equipmentIds'
+              placeholder='Search...'
+              data-cy='equipment-select'
+              formLabelProps={formLabelProps}
+              fieldProps={fieldProps}
+              cacheOptions
+              defaultValue={getDefaultValues()}
+              isMulti
+              isClearable
+              closeMenuOnSelect={false}
+              defaultOptions={equipmentOptions.current}
+              loadOptions={promiseOptions}
+              isLoading={fetchEquipment.isLoading}
+              onChange={(newValue: MultiValue<string | Option>) =>
+                handleChange(newValue, fieldProps)
+              }
+              value={getFieldValue(fieldProps)}
+            />
+          )}
+        </Field>
       )}
-    </Field>
+    </>
   );
 };

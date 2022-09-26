@@ -14,11 +14,25 @@ export const useEvents = () => {
     api.updateEvent(eventCreateDTO.id as string, eventCreateDTO)
   );
 
+  const verifyEvent = useMutation(
+    (eventCreateDTO: EventCreateDTO) => api.verifyEventCreation(eventCreateDTO),
+    {
+      onSuccess: (data) => {
+        console.log(data.data);
+        console.log({ data });
+      },
+      onError: (data) => {
+        console.log({ data });
+      },
+    }
+  );
+
   const getEventById = useMutation((id: string) => api.getEventById(id));
 
   return {
     addEvent,
     editEvent,
+    verifyEvent,
     getEventById,
   };
 };

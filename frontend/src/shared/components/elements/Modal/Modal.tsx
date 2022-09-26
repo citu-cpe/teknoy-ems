@@ -8,12 +8,14 @@ import {
   ModalHeader,
   ModalOverlay,
   ModalProps as ChakraModalProps,
+  Spacer,
 } from '@chakra-ui/react';
 import { brandSmallScrollbar } from '../../../../styles/components';
 
 interface ModalProps {
   iconTitle?: React.ReactNode;
   title?: string;
+  headerActions?: React.ReactNode;
   children: React.PropsWithChildren;
   footer?: React.ReactNode;
 }
@@ -22,6 +24,7 @@ export const Modal = ({
   iconTitle,
   title,
   children,
+  headerActions,
   footer,
   isOpen,
   onClose,
@@ -39,9 +42,11 @@ export const Modal = ({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          <Flex alignItems='center' justifyContent='start' gap={4}>
+          <Flex alignItems='center' justifyContent='start' gap={4} pr={10}>
             {iconTitle}
             {title}
+            <Spacer />
+            {headerActions}
           </Flex>
         </ModalHeader>
         <ModalCloseButton />

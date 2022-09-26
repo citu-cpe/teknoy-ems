@@ -1,15 +1,23 @@
-import { useDisclosure, Modal } from '@chakra-ui/react';
+import { useDisclosure } from '@chakra-ui/react';
 import { EventDTO } from 'generated-api';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useRef, useState } from 'react';
 import {
   ContentHeader,
   ContentSection,
 } from '../../../shared/components/content';
+import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
+import { useToast } from '../../../shared/hooks';
 import { EventAddForm } from './EventAddForm';
+import { EventAddSuccess } from './EventAddSuccess';
 
 export const EventAddPage = () => {
+  const toast = useToast();
+  const router = useRouter();
   const [newEventDTO, setEventDTO] = useState<EventDTO | undefined>(undefined);
+
+  const eventAddKey = useRef(new Date().getTime());
 
   const {
     onOpen: onAddOpen,
@@ -25,39 +33,35 @@ export const EventAddPage = () => {
 
   const handleComplete = (newEvent: EventDTO) => {
     setEventDTO(newEvent);
-    onClose();
     onSuccessOpen();
   };
 
-  const handleRegisterAgain = () => {
+  const handleAddAgain = () => {
     setEventDTO(undefined);
     onAddOpen();
     onSuccessClose();
+    eventAddKey.current = new Date().getTime();
   };
 
   const handleSuccessClose = () => {
     setEventDTO(undefined);
     onSuccessClose();
-    // setRefresh(!refresh);
+    router.push('/events');
   };
 
   return (
     <MainLayout title='Reserve Event'>
       <ContentHeader title='Reserve Event' />
       <ContentSection>
-        <EventAddForm onComplete={handleComplete} />
+        <EventAddForm key={eventAddKey.current} onComplete={handleComplete} />
       </ContentSection>
 
-      {/* <Modal title='New Event' isOpen={isAddOpen} onClose={onClose} size='2xl'>
-        <EventAddForm onComplete={handleComplete} />
-      </Modal> */}
-
       <Modal isOpen={isSuccessOpen} onClose={handleSuccessClose}>
-        {/* <EventAddSuccess
-          organizer={newEventDTO}
+        <EventAddSuccess
+          event={newEventDTO}
           onClose={handleSuccessClose}
-          onConfirm={handleRegisterAgain}
-        /> */}
+          onConfirm={handleAddAgain}
+        />
       </Modal>
     </MainLayout>
   );

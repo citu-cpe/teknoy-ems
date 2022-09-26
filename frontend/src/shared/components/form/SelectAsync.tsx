@@ -1,5 +1,4 @@
 import {
-  ChakraProps,
   Flex,
   FormControl,
   FormControlProps,
@@ -34,7 +33,7 @@ declare module 'react-select/dist/declarations/src/Select' {
   }
 }
 
-const SelectAsync = <
+export const SelectAsync = <
   OptionType,
   IsMulti extends boolean = true,
   GroupType extends GroupBase<OptionType> = GroupBase<OptionType>
@@ -52,6 +51,8 @@ const SelectAsync = <
     foreground,
     neutral2,
     current,
+    errorColor,
+    errorBg,
     gray50,
     gray100,
     gray200,
@@ -68,6 +69,8 @@ const SelectAsync = <
     'foreground',
     'neutral2',
     'current',
+    'errorColor',
+    'errorBg',
     'gray.50',
     'gray.100',
     'gray.200',
@@ -79,6 +82,7 @@ const SelectAsync = <
     'gray.800',
     'gray.900',
   ]);
+
   const [borderRadius] = useToken('radii', ['md']);
 
   const customStyles: StylesConfig<OptionType, IsMulti, GroupType> = {
@@ -155,8 +159,8 @@ const SelectAsync = <
       // primary75: 'black',
       // primary50: 'black',
       // primary25: 'black',
-      // danger: 'black',
-      // dangerLight: 'black',
+      danger: errorBg,
+      dangerLight: errorColor,
       neutral0: foreground,
       neutral5: gray50,
       neutral10: gray100,
@@ -220,5 +224,3 @@ const SelectAsync = <
     </>
   );
 };
-
-export default SelectAsync;

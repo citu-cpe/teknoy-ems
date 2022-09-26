@@ -1,16 +1,22 @@
-import { FieldProps, Field } from 'formik';
-import { EventCreateDTO } from 'generated-api';
-import { useContext, useRef, useEffect } from 'react';
+import { Field, FieldProps } from 'formik';
+import { EventCreateDTO, OrganizerDTO } from 'generated-api';
+import { useContext, useEffect, useRef } from 'react';
 import { useMutation } from 'react-query';
-import { MultiValue, ActionMeta } from 'react-select';
-import SelectAsync from '../../../shared/components/form/SelectAsync';
+import { ActionMeta, MultiValue } from 'react-select';
+import { SelectAsync } from '../../../shared/components/form/SelectAsync';
 import { filterOptions } from '../../../shared/helpers/filter-options';
 import { isOption } from '../../../shared/helpers/is-option';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
 import { Option } from '../../../shared/types';
-import { formLabelProps, requiredControlProp } from './EventAddForm';
+import { formLabelProps, requiredControlProp } from '../styles';
 
-export const OrganizerSelect = () => {
+interface OrganizerSelectProps {
+  defaultValue?: OrganizerDTO;
+}
+
+export const OrganizerSelect = ({
+  defaultValue: organizer,
+}: OrganizerSelectProps) => {
   const api = useContext(ApiContext);
   const organizerOptions = useRef<Option[]>([]);
 
@@ -65,6 +71,17 @@ export const OrganizerSelect = () => {
       : '';
   };
 
+  const getDefaultValue = (): Option | null => {
+    if (organizer) {
+      return {
+        value: organizer.id,
+        label: organizer.name,
+      } as Option;
+    }
+
+    return null;
+  };
+
   return (
     <Field name='organizerId' id='organizerId' data-cy='organizer-select'>
       {(fieldProps: FieldProps<string, EventCreateDTO>) => (
@@ -78,6 +95,7 @@ export const OrganizerSelect = () => {
           formLabelProps={formLabelProps}
           fieldProps={fieldProps}
           cacheOptions
+          defaultValue={getDefaultValue()}
           defaultOptions={organizerOptions.current}
           loadOptions={promiseOptions}
           isLoading={fetchOrganizers.isLoading}

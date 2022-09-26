@@ -16,76 +16,137 @@ import {
   Textarea,
 } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
-import { useToast } from '../../../shared/hooks';
+import { convertToEventCreateDTO } from '../../../shared/helpers/convert-to-event-create-dto';
+import { parseDateTime } from '../../../shared/helpers/parse-date-time';
 import { useGlobalStore } from '../../../shared/stores';
-import { useEvents } from '../hooks/useEvents';
+import { useSelectKeys } from '../hooks';
+import { useEvents } from '../hooks/';
 import { eventValidator } from '../schemas';
+import { formLabelProps } from '../styles';
 import { EquipmentSelect } from './EquipmentSelect';
 import { OrganizerSelect } from './OrganizerSelect';
 import { VenueSelect } from './VenueSelect';
 
-export const formLabelProps = {
-  minW: 44,
-};
-
-export const requiredControlProp = {
-  isRequired: true,
-};
-
-interface EventAddFormProps {
+export interface EventAddFormProps {
+  /**
+   * existingEventValue: event value when form is being used during Event Update forms
+   */
+  existingEventValue?: EventDTO | null | undefined;
+  /**
+   * onComplete: callback function passing a resulting Event value
+   */
   onComplete: (eventDTO: EventDTO) => void;
 }
 
-export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
-  const { addEvent } = useEvents();
+export const EventAddForm = ({
+  existingEventValue,
+  onComplete,
+}: EventAddFormProps) => {
+  const { addEvent, editEvent, verifyEvent } = useEvents();
   const { getUser } = useGlobalStore();
+  const { equipmentKey, organizerKey, venueKey } = useSelectKeys();
 
-  const toast = useToast();
-
-  const organizerKey = useRef(new Date().getTime() + Math.random());
-  const equipmentKey = useRef(new Date().getTime() + Math.random());
-  const venueKey = useRef(new Date().getTime() + Math.random());
-
-  const onSubmit = (eventCreateDTO: EventCreateDTO) => {
-    const formattedEvent = {
-      ...eventCreateDTO,
-      startTime: moment(eventCreateDTO.startTime).toISOString(),
-      endTime: moment(eventCreateDTO.endTime).toISOString(),
-    };
-
-    addEvent.mutate(formattedEvent);
-  };
+  /**
+   * stores old event values before being updated
+   * useful for quickly accessing prop fields rather than server fetching
+   */
+  const eventCreateDTO = existingEventValue
+    ? convertToEventCreateDTO(existingEventValue)
+    : null;
 
   const initialValues = {
-    title: '',
-    description: '',
-    type: EventCreateDTOTypeEnum.Seminar,
-    viewAccess: EventCreateDTOViewAccessEnum.Public,
-    status: EventCreateDTOStatusEnum.Pending,
-    startTime: '',
-    endTime: '',
-    contactPerson: '',
-    contactNumber: '',
-    approvedBy: '',
-    organizerId: '',
-    equipmentIds: [],
-    venueIds: [],
-    additionalNotes: '',
-    encodedById: getUser()?.id,
+    title: existingEventValue?.title || '',
+    description: existingEventValue?.description || '',
+    type: eventCreateDTO?.type || EventCreateDTOTypeEnum.Seminar,
+    viewAccess:
+      eventCreateDTO?.viewAccess || EventCreateDTOViewAccessEnum.Public,
+    status: eventCreateDTO?.status || EventCreateDTOStatusEnum.Pending,
+    startTime:
+      parseDateTime(existingEventValue?.startTime) ||
+      parseDateTime(moment().format()),
+    endTime:
+      parseDateTime(existingEventValue?.endTime) ||
+      parseDateTime(moment().add(1, 'hours').toISOString()),
+    contactPerson: existingEventValue?.contactPerson || '',
+    contactNumber: existingEventValue?.contactNumber || '',
+    approvedBy: existingEventValue?.approvedBy || '',
+    organizerId: eventCreateDTO?.organizerId || '',
+    equipmentIds: eventCreateDTO?.equipmentIds || [],
+    venueIds: eventCreateDTO?.venueIds || [],
+    additionalNotes: eventCreateDTO?.additionalNotes || '',
+    encodedById: eventCreateDTO?.encodedById || getUser()?.id,
   };
 
   useEffect(() => {
     if (addEvent.isSuccess) {
-      toast({ title: 'Added event successfully' });
       onComplete(addEvent.data.data);
     }
-  }, [addEvent, onComplete, toast]);
+  }, [addEvent, onComplete]);
 
+  /**
+   * force reset async select keys by changing their prop keys
+   */
   const handleReset = () => {
-    // force reset async select keys by changing their prop keys
     organizerKey.current = new Date().getTime() + Math.random();
     equipmentKey.current = new Date().getTime() + Math.random();
     venueKey.current = new Date().getTime() + Math.random();
+  };
+
+  const handleVerify = (eventCreateDTO: EventCreateDTO) => {
+    console.log({ eventCreateDTO });
+    if (existingEventValue) {
+      // event form is used for `updating` an event
+      const formattedEvent = {
+        ...eventCreateDTO,
+        id: existingEventValue.id,
+        startTime: moment(eventCreateDTO.startTime).toISOString(),
+        endTime: moment(eventCreateDTO.endTime).toISOString(),
+      };
+
+      console.log('editing...');
+      console.log({ formattedEvent });
+
+      verifyEvent.mutate(formattedEvent);
+    } else {
+      // event form is used for `adding` an event
+      const formattedEvent = {
+        ...eventCreateDTO,
+        startTime: moment(eventCreateDTO.startTime).toISOString(),
+        endTime: moment(eventCreateDTO.endTime).toISOString(),
+      };
+
+      console.log('adding...');
+      console.log({ formattedEvent });
+      verifyEvent.mutate(formattedEvent);
+    }
+  };
+
+  const onSubmit = (eventCreateDTO: EventCreateDTO) => {
+    if (existingEventValue) {
+      // event form is used for `updating` an event
+      const formattedEvent = {
+        ...eventCreateDTO,
+        id: existingEventValue.id,
+        startTime: moment(eventCreateDTO.startTime).toISOString(),
+        endTime: moment(eventCreateDTO.endTime).toISOString(),
+      };
+
+      console.log('editing...');
+      console.log({ formattedEvent });
+
+      editEvent.mutate(formattedEvent);
+    } else {
+      // event form is used for `adding` an event
+      const formattedEvent = {
+        ...eventCreateDTO,
+        startTime: moment(eventCreateDTO.startTime).toISOString(),
+        endTime: moment(eventCreateDTO.endTime).toISOString(),
+      };
+
+      console.log('adding...');
+      console.log({ formattedEvent });
+      addEvent.mutate(formattedEvent);
+    }
   };
 
   return (
@@ -93,6 +154,7 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
       initialValues={initialValues}
       validationSchema={eventValidator}
       onSubmit={onSubmit}
+      validate={handleVerify}
     >
       {() => (
         <Form noValidate>
@@ -106,6 +168,7 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
                   label='Title'
                   type='text'
                   id='title'
+                  placeholder='Teknoy Seminar'
                   isRequired
                   data-cy='title-input'
                 />
@@ -119,6 +182,7 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
                   name='description'
                   label='Description'
                   id='description'
+                  placeholder='The College Faculty brings again another seminar series to help students foster...'
                   data-cy='description-input'
                   rows={8}
                 />
@@ -245,6 +309,7 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
                   label='Contact Person'
                   type='text'
                   id='contactPerson'
+                  placeholder='Juan Dela Cruz'
                   isRequired
                   data-cy='contact-person-input'
                 />
@@ -259,6 +324,7 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
                   label='Contact Number'
                   type='phone'
                   id='contactNumber'
+                  placeholder='9123456789'
                   isRequired
                   data-cy='contact-number-input'
                 />
@@ -271,6 +337,7 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
                   fieldProps={fieldProps}
                   name='approvedBy'
                   label='Approved by'
+                  placeholder="President's Office"
                   type='text'
                   id='approvedBy'
                   data-cy='approved-by-input'
@@ -278,9 +345,20 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
               )}
             </Field>
 
-            <OrganizerSelect key={organizerKey.current} />
-            <EquipmentSelect key={equipmentKey.current} />
-            <VenueSelect key={venueKey.current} />
+            <OrganizerSelect
+              key={organizerKey.current}
+              defaultValue={existingEventValue?.organizer}
+            />
+
+            <EquipmentSelect
+              key={equipmentKey.current}
+              defaultValue={existingEventValue?.equipments}
+            />
+
+            <VenueSelect
+              key={venueKey.current}
+              defaultValue={existingEventValue?.venues}
+            />
 
             <Field name='additionalNotes' type='text'>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
@@ -290,6 +368,7 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
                   name='additionalNotes'
                   label='Additional Notes'
                   id='additionalNotes'
+                  placeholder='Ask live streaming key from organizers'
                   data-cy='additional-notes-input'
                 />
               )}
@@ -299,6 +378,17 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
             <FormikResetButton onClick={handleReset} />
             <Spacer />
             <Button
+              variant='outline'
+              data-cy='add-submit-btn'
+              formNoValidate
+              isLoading={addEvent.isLoading}
+              loadingText='Adding...'
+              type='submit'
+              mr={2}
+            >
+              Validate
+            </Button>
+            <Button
               variant='solid'
               data-cy='add-submit-btn'
               formNoValidate
@@ -306,7 +396,7 @@ export const EventAddForm = ({ onComplete }: EventAddFormProps) => {
               isLoading={addEvent.isLoading}
               loadingText='Adding...'
             >
-              Add Event
+              Reserve Event
             </Button>
           </Flex>
         </Form>
