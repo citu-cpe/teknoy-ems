@@ -87,8 +87,6 @@ export const VenueSelect = ({ defaultValue: venue }: VenueSelectProps) => {
           (option) => option.value === fieldProps.field.value
         )
       : '';
-    // console.log(venueOptions.current);
-    // console.log(val);
     return venueOptions.current
       ? venueOptions.current.find(
           (option) => option.value === fieldProps.field.value

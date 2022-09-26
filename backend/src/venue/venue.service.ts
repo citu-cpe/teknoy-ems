@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Schedule, Venues } from '@prisma/client';
+import { Schedule, User, Venues } from '@prisma/client';
 import { ScheduleService } from '../schedule/schedule.service';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { VenueDTO } from './dto/venue.dto';
@@ -14,17 +14,29 @@ import {
 import { SortedVenuesDTO } from '../event/dto/sorted-venues.dto';
 import { ScheduleDTO } from '../schedule/dto/schedule.dto';
 import { PostgresErrorCode } from '../shared/constants/postgress-error-codes.enum';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ActionENUM, PriorityENUM } from '../activity-log/dto/activity-log.dto';
 
 @Injectable()
 export class VenueService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly eventEmitter: EventEmitter2
+  ) {}
 
-  public async createVenue(data: VenueDTO): Promise<VenueDTO> {
+  public async createVenue(user: User, data: VenueDTO): Promise<VenueDTO> {
     try {
       const venue = await this.prisma.venues.create({
         data,
       });
-      return venue;
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'venue',
+        action: ActionENUM.ADDED,
+        username: user.name,
+        priority: PriorityENUM.IMPORTANT,
+      });
+
+      return VenueService.convertToDTO(venue);
     } catch (error) {
       if (error?.code === PostgresErrorCode.UniqueViolation) {
         if (error.meta.target[0] === 'name') {
@@ -87,12 +99,18 @@ export class VenueService {
     }
   }
 
-  public async deleteVenue(id: string): Promise<VenueDTO> {
+  public async deleteVenue(user: User, id: string): Promise<VenueDTO> {
     try {
       const venue = await this.prisma.venues.delete({
         where: {
           id,
         },
+      });
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'venue',
+        action: ActionENUM.DELETED,
+        username: user.name,
+        priority: PriorityENUM.IMPORTANT,
       });
       return VenueService.convertToDTO(venue);
     } catch (error) {
@@ -102,13 +120,31 @@ export class VenueService {
     }
   }
 
-  public async updateVenue(id: string, data: VenueDTO): Promise<VenueDTO> {
+  public async updateVenue(
+    user: User,
+    id: string,
+    data: VenueDTO
+  ): Promise<VenueDTO> {
     try {
+      const oldValue = await this.prisma.venues.findUnique({
+        where: {
+          id,
+        },
+      });
+
       const venue = await this.prisma.venues.update({
         where: {
           id,
         },
         data,
+      });
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'venue',
+        action: ActionENUM.EDITED,
+        username: user.name,
+        oldValue: JSON.stringify(oldValue),
+        newValue: JSON.stringify(venue),
+        priority: PriorityENUM.IMPORTANT,
       });
       return VenueService.convertToDTO(venue);
     } catch (error) {
@@ -168,6 +204,8 @@ export class VenueService {
   ): VenueDTO {
     const venueDTO = new VenueDTO();
     venueDTO.id = venue.id;
+    venueDTO.createdAt = venue.createdAt;
+    venueDTO.updatedAt = venue.updatedAt;
     venueDTO.name = venue.name;
     venueDTO.notes = venue.notes;
     if (venue.schedules) {

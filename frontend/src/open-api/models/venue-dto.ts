@@ -37,7 +37,7 @@ export interface VenueDTO {
    * @type {string}
    * @memberof VenueDTO
    */
-  notes: string;
+  notes?: string;
   /**
    *
    * @type {Array<ScheduleDTO>}

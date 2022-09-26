@@ -18,10 +18,12 @@ export const useEvents = () => {
     (eventCreateDTO: EventCreateDTO) => api.verifyEventCreation(eventCreateDTO),
     {
       onSuccess: (data) => {
+        console.log('success?');
         console.log(data.data);
         console.log({ data });
       },
       onError: (data) => {
+        console.log('error');
         console.log({ data });
       },
     }

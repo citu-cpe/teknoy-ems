@@ -6,12 +6,15 @@ import { AvailabilityEnum } from '../../schedule/dto/schedule.dto';
 
 export const addEquipmentWithoutSched: Equipment = {
   id: '3e8e27e1-b023-40a6-a367-52ab65937d35',
+  createdAt: new Date(),
+  updatedAt: new Date(),
   name: 'SONY CAM 1',
   brand: 'SONY',
   type: 'CAMERA',
   serial: '123456789',
   notes: 'This is a test',
 };
+
 export const addSchedToEquipment: Schedule = {
   id: '77155b33-6cae-4a6a-8c22-707c6e61d1b2',
   createdAt: new Date(),

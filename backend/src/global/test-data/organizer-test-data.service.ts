@@ -5,11 +5,15 @@ import { Organizer, Type } from '@prisma/client';
 
 export const testOrganizerDepartment: Organizer = {
   id: '6ee07e9c-daa6-4d13-a96a-91a64d380a2e',
+  createdAt: new Date(),
+  updatedAt: new Date(),
   name: 'MSDO',
   type: Type.DEPARTMENT,
 };
 export const testOrganizerOrganization: Organizer = {
   id: '906e7fb5-67ac-4632-9c4b-6721833f1264',
+  createdAt: new Date(),
+  updatedAt: new Date(),
   name: 'Supreme Student Government',
   type: Type.ORGANIZATION,
 };

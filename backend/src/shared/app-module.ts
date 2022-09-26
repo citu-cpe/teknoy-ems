@@ -22,6 +22,9 @@ import { EquipmentModule } from '../equipment/equipment.module';
 import { VenueModule } from '../venue/venue.module';
 import { AnnouncementModule } from '../announcement/announcement.module';
 import { EventModule } from '../event/event.module';
+import { ReportModule } from '../report/report.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ActivityLogModule } from '../activity-log/activity-log.module';
 
 export const appModule: ModuleMetadata = {
   imports: [
@@ -54,6 +57,9 @@ export const appModule: ModuleMetadata = {
     VenueModule,
     AnnouncementModule,
     EventModule,
+    ReportModule,
+    EventEmitterModule.forRoot(),
+    ActivityLogModule,
   ],
   controllers: [AppController],
   providers: [

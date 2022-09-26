@@ -58,8 +58,11 @@ export class EventController {
   }
 
   @Delete(EventController.EVENT_ID_API_PATH)
-  public async deleteEvent(@Param('id') id: string): Promise<EventDTO> {
-    return this.eventService.deleteEvent(id);
+  public async deleteEvent(
+    @Param('id') id: string,
+    @Req() { user }: RequestWithUser
+  ): Promise<EventDTO> {
+    return this.eventService.deleteEvent(id, user);
   }
 
   @Get(

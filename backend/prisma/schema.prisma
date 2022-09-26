@@ -32,8 +32,8 @@ enum Role {
 
 model Schedule {
   id           String       @id @default(uuid())
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  createdAt    DateTime?    @default(now())
+  updatedAt    DateTime?    @updatedAt
   availability Availability
   startTime    DateTime
   endTime      DateTime
@@ -45,6 +45,8 @@ model Schedule {
 
 model Equipment {
   id                 String               @id @default(uuid())
+  createdAt          DateTime?            @default(now())
+  updatedAt          DateTime?            @updatedAt
   name               String               @unique
   type               String
   brand              String?
@@ -56,6 +58,8 @@ model Equipment {
 
 model Venues {
   id             String           @id @default(uuid())
+  createdAt      DateTime?        @default(now())
+  updatedAt      DateTime?        @updatedAt
   name           String           @unique
   schedules      Schedule[]
   notes          String?
@@ -69,6 +73,8 @@ enum Availability {
 
 model Organizer {
   id    String  @id @default(uuid())
+  createdAt  DateTime?  @default(now())
+  updatedAt  DateTime?  @updatedAt
   name  String  @unique
   type  Type
   Event Event[]
@@ -76,6 +82,8 @@ model Organizer {
 
 model Announcement {
   id         String     @id @default(uuid())
+  createdAt  DateTime?  @default(now())
+  updatedAt  DateTime?  @updatedAt
   title      String
   subtitle   String?
   content    String
@@ -96,6 +104,8 @@ enum Type {
 
 model Event {
   id              String     @id @default(uuid())
+  createdAt       DateTime?  @default(now())
+  updatedAt       DateTime?  @updatedAt
   title           String
   description     String?
   status          Status
@@ -133,6 +143,33 @@ model EquipmentsOnEvents {
   equipmentId String
 
   @@id([eventId, equipmentId])
+}
+
+model ActivityLog {
+  id         String   @id @default(uuid())
+  username   String
+  action     Action
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  entityName String
+  oldValue   String?
+  newValue   String?
+  executedAt DateTime @default(now())
+  priority   Priority
+}
+
+enum Priority {
+  PUBLIC
+  PRIVATE
+  IMPORTANT
+}
+
+enum Action {
+  ADDED
+  EDITED
+  DELETED
+  RESERVED
+  REGISTERED
 }
 
 enum Status {

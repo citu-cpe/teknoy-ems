@@ -5,6 +5,8 @@ import { CustomLogger } from '../../shared/custom-logger';
 
 export const addAnnouncement: Announcement = {
   id: 'f3666617-01ec-4f7f-8bd9-6d337268c30a',
+  createdAt: new Date(),
+  updatedAt: new Date(),
   title: 'NEW ANNOUNCEMENT',
   subtitle: 'SUBTITLE',
   content: 'this is a content',

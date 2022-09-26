@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsDateString,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -12,6 +13,14 @@ export class VenueDTO {
   @IsUUID()
   @IsOptional()
   public id?: string;
+
+  @IsDateString()
+  @IsOptional()
+  public createdAt?: Date;
+
+  @IsDateString()
+  @IsOptional()
+  public updatedAt?: Date;
 
   @IsNotEmpty()
   @IsString()

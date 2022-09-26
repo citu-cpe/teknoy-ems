@@ -8,7 +8,7 @@ import {
   EventDTO,
 } from 'generated-api';
 import moment from 'moment';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import {
   FormLayout,
   Input,
@@ -81,7 +81,11 @@ export const EventAddForm = ({
     if (addEvent.isSuccess) {
       onComplete(addEvent.data.data);
     }
-  }, [addEvent, onComplete]);
+
+    if (editEvent.isSuccess) {
+      onComplete(editEvent.data.data);
+    }
+  }, [addEvent, editEvent, onComplete]);
 
   /**
    * force reset async select keys by changing their prop keys

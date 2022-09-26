@@ -3,18 +3,26 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Organizer } from '@prisma/client';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { Organizer, User } from '@prisma/client';
 import {
   NotFoundError,
   PrismaClientKnownRequestError,
 } from '@prisma/client/runtime';
+import { ActionENUM, PriorityENUM } from '../activity-log/dto/activity-log.dto';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { OrganizerDTO, TypeEnum } from './dto/organizer.dto';
 @Injectable()
 export class OrganizerService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly eventEmitter: EventEmitter2
+  ) {}
 
-  public async createNewOrganizer(organizerDTO: OrganizerDTO): Promise<any> {
+  public async createNewOrganizer(
+    user: User,
+    organizerDTO: OrganizerDTO
+  ): Promise<any> {
     const result = await this.prisma.organizer.findMany({
       where: {
         name: {
@@ -28,6 +36,12 @@ export class OrganizerService {
     } else {
       const organizer = await this.prisma.organizer.create({
         data: organizerDTO,
+      });
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'organizer',
+        action: ActionENUM.ADDED,
+        username: user.name,
+        priority: PriorityENUM.IMPORTANT,
       });
       return OrganizerService.convertToDTO(organizer);
     }
@@ -56,15 +70,29 @@ export class OrganizerService {
   }
 
   public async updateOrganizer(
+    user: User,
     id: string,
     data: OrganizerDTO
   ): Promise<OrganizerDTO> {
     try {
+      const oldValue = await this.prisma.organizer.findUnique({
+        where: {
+          id,
+        },
+      });
       const updatedOrganizer = await this.prisma.organizer.update({
         where: {
           id,
         },
         data,
+      });
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'organizer',
+        action: ActionENUM.EDITED,
+        username: user.name,
+        oldValue: JSON.stringify(oldValue),
+        newValue: JSON.stringify(updatedOrganizer),
+        priority: PriorityENUM.IMPORTANT,
       });
       return OrganizerService.convertToDTO(updatedOrganizer);
     } catch (e) {
@@ -74,10 +102,16 @@ export class OrganizerService {
     }
   }
 
-  public async deleteOrganizer(id: string): Promise<OrganizerDTO> {
+  public async deleteOrganizer(user: User, id: string): Promise<OrganizerDTO> {
     try {
       const deleteOrganizer = await this.prisma.organizer.delete({
         where: { id },
+      });
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'organizer',
+        action: ActionENUM.DELETED,
+        username: user.name,
+        priority: PriorityENUM.IMPORTANT,
       });
       return OrganizerService.convertToDTO(deleteOrganizer);
     } catch (e) {
@@ -90,6 +124,8 @@ export class OrganizerService {
   public static convertToDTO(organizer: Organizer): OrganizerDTO {
     const organizerDTO = new OrganizerDTO();
     organizerDTO.id = organizer.id;
+    organizerDTO.createdAt = organizer.createdAt;
+    organizerDTO.updatedAt = organizer.updatedAt;
     organizerDTO.name = organizer.name;
     organizerDTO.type = organizer.type.toString() as TypeEnum;
     return organizerDTO;

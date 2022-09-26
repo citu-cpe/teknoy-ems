@@ -164,14 +164,8 @@ export const EventsCalendar = ({
   };
 
   const handleDateClick = (dateInfo: DateClickArg) => {
-    console.log({ dateInfo });
-    console.log(dateInfo.date);
     onAddOpen();
   };
-
-  // const handleEventStartDrag = (arg: EventDragArg) => {
-  //   console.log(arg);
-  // };
 
   const handleReserve = () => {
     router.push('/events/reserve');
@@ -189,7 +183,6 @@ export const EventsCalendar = ({
     <>
       {events && (
         <FullCalendar
-          // timeZone='Asia/Manila'
           locale='en'
           plugins={[
             timeGridPlugin,
@@ -197,7 +190,6 @@ export const EventsCalendar = ({
             listPlugin,
             interactionPlugin,
           ]}
-          // eventColor='orange'
           initialView='timeGridWeek'
           initialEvents={events}
           slotMinTime='06:00'

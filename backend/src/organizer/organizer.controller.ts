@@ -6,7 +6,9 @@ import {
   Param,
   Put,
   Delete,
+  Req,
 } from '@nestjs/common';
+import { RequestWithUser } from '../authentication/types/request-with-user.interface';
 import { OrganizerDTO } from './dto/organizer.dto';
 import { OrganizerService } from './organizer.service';
 
@@ -29,19 +31,24 @@ export class OrganizerController {
 
   @Post()
   public async createNewOrganizer(
+    @Req() { user }: RequestWithUser,
     @Body() data: OrganizerDTO
   ): Promise<OrganizerDTO> {
-    return this.organizerService.createNewOrganizer(data);
+    return this.organizerService.createNewOrganizer(user, data);
   }
   @Put(':id')
   public async updateOrganizer(
+    @Req() { user }: RequestWithUser,
     @Param('id') id: string,
     @Body() data: OrganizerDTO
   ): Promise<OrganizerDTO> {
-    return this.organizerService.updateOrganizer(id, data);
+    return this.organizerService.updateOrganizer(user, id, data);
   }
   @Delete(':id')
-  public async deleteOrganizer(@Param('id') id: string): Promise<OrganizerDTO> {
-    return this.organizerService.deleteOrganizer(id);
+  public async deleteOrganizer(
+    @Req() { user }: RequestWithUser,
+    @Param('id') id: string
+  ): Promise<OrganizerDTO> {
+    return this.organizerService.deleteOrganizer(user, id);
   }
 }

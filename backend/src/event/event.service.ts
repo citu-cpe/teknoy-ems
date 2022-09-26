@@ -33,13 +33,16 @@ import { SortedVenuesDTO } from './dto/sorted-venues.dto';
 import { AvailabilityEnum, ScheduleDTO } from '../schedule/dto/schedule.dto';
 import { ValidationErrorDTO } from '../shared/dto/validation-error.dto';
 import { ErrorFieldDTO } from '../shared/dto/error-field.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ActionENUM, PriorityENUM } from '../activity-log/dto/activity-log.dto';
 
 @Injectable()
 export class EventService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly equipmentService: EquipmentService,
-    private readonly venueService: VenueService
+    private readonly venueService: VenueService,
+    private readonly eventEmitter: EventEmitter2
   ) {}
 
   public async createEvent(dto: EventCreateDTO, user: User): Promise<EventDTO> {
@@ -93,6 +96,12 @@ export class EventService {
 
     await this.addSchedules(dto);
 
+    this.eventEmitter.emit('create.logs', {
+      entityName: 'event',
+      action: ActionENUM.ADDED,
+      username: user.name,
+      priority: PriorityENUM.IMPORTANT,
+    });
     return EventService.convertToDTO(event);
   }
 
@@ -197,7 +206,7 @@ export class EventService {
     }
   }
 
-  public async deleteEvent(id: string) {
+  public async deleteEvent(id: string, user: User) {
     await this.deleteSchedules(id);
 
     try {
@@ -210,7 +219,12 @@ export class EventService {
           venues: { include: { venue: true } },
         },
       });
-
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'event',
+        action: ActionENUM.DELETED,
+        username: user.name,
+        priority: PriorityENUM.IMPORTANT,
+      });
       return EventService.convertToDTO(event);
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {
@@ -386,6 +400,8 @@ export class EventService {
   ): EventDTO {
     const eventDTO = new EventDTO();
     eventDTO.id = event.id;
+    eventDTO.createdAt = event.createdAt;
+    eventDTO.updatedAt = event.updatedAt;
     eventDTO.title = event.title;
     eventDTO.description = event.description;
     eventDTO.status = event.status.toString() as StatusEnum;
