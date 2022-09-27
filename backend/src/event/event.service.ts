@@ -247,38 +247,6 @@ export class EventService {
     return this.venueService.getSortedVenues(startTime, endTime);
   }
 
-  public async getSortedEquipmentsByEventId(
-    id: string
-  ): Promise<SortedEquipmentsDTO> {
-    try {
-      const event = await this.prismaService.event.findUniqueOrThrow({
-        where: { id },
-        select: { startTime: true, endTime: true },
-      });
-
-      return this.getSortedEquipments(event.startTime, event.endTime);
-    } catch (e) {
-      if (e instanceof NotFoundError) {
-        throw new NotFoundException();
-      }
-    }
-  }
-
-  public async getSortedVenuesByEventId(id: string): Promise<SortedVenuesDTO> {
-    try {
-      const event = await this.prismaService.event.findUniqueOrThrow({
-        where: { id },
-        select: { startTime: true, endTime: true },
-      });
-
-      return this.getSortedVenues(event.startTime, event.endTime);
-    } catch (e) {
-      if (e instanceof NotFoundError) {
-        throw new NotFoundException();
-      }
-    }
-  }
-
   public async verifyEventCreation(
     dto: EventCreateDTO
   ): Promise<ValidationErrorDTO> {

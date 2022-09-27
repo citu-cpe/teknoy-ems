@@ -31,6 +31,18 @@ export interface VenueDTO {
    * @type {string}
    * @memberof VenueDTO
    */
+  createdAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof VenueDTO
+   */
+  updatedAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof VenueDTO
+   */
   name: string;
   /**
    *

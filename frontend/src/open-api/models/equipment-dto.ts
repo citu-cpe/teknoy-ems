@@ -31,6 +31,18 @@ export interface EquipmentDTO {
    * @type {string}
    * @memberof EquipmentDTO
    */
+  createdAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof EquipmentDTO
+   */
+  updatedAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof EquipmentDTO
+   */
   name: string;
   /**
    *
