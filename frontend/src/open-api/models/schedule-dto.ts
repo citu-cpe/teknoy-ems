@@ -29,6 +29,18 @@ export interface ScheduleDTO {
    * @type {string}
    * @memberof ScheduleDTO
    */
+  createdAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ScheduleDTO
+   */
+  updatedAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ScheduleDTO
+   */
   availability: ScheduleDTOAvailabilityEnum;
   /**
    *

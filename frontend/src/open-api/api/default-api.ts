@@ -1437,20 +1437,21 @@ export const DefaultApiAxiosParamCreator = function (
     },
     /**
      *
-     * @param {string} id
+     * @param {EventCreateDTO} eventCreateDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSortedEquipments: async (
-      id: string,
+      eventCreateDTO: EventCreateDTO,
       options: any = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists('getSortedEquipments', 'id', id);
-      const localVarPath = `/api/v1/event/{id}/sorted-equipments`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
+      // verify required parameter 'eventCreateDTO' is not null or undefined
+      assertParamExists(
+        'getSortedEquipments',
+        'eventCreateDTO',
+        eventCreateDTO
       );
+      const localVarPath = `/api/v1/event/sorted-equipments`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -1466,6 +1467,8 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1474,6 +1477,11 @@ export const DefaultApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        eventCreateDTO,
+        localVarRequestOptions,
+        configuration
+      );
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1482,20 +1490,17 @@ export const DefaultApiAxiosParamCreator = function (
     },
     /**
      *
-     * @param {string} id
+     * @param {EventCreateDTO} eventCreateDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSortedVenues: async (
-      id: string,
+      eventCreateDTO: EventCreateDTO,
       options: any = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists('getSortedVenues', 'id', id);
-      const localVarPath = `/api/v1/event/{id}/sorted-venues`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
+      // verify required parameter 'eventCreateDTO' is not null or undefined
+      assertParamExists('getSortedVenues', 'eventCreateDTO', eventCreateDTO);
+      const localVarPath = `/api/v1/event/sorted-venues`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -1511,6 +1516,8 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1519,6 +1526,11 @@ export const DefaultApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        eventCreateDTO,
+        localVarRequestOptions,
+        configuration
+      );
 
       return {
         url: toPathString(localVarUrlObj),
@@ -2925,12 +2937,12 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      *
-     * @param {string} id
+     * @param {EventCreateDTO} eventCreateDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getSortedEquipments(
-      id: string,
+      eventCreateDTO: EventCreateDTO,
       options?: any
     ): Promise<
       (
@@ -2939,7 +2951,10 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<SortedEquipmentsDTO>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getSortedEquipments(id, options);
+        await localVarAxiosParamCreator.getSortedEquipments(
+          eventCreateDTO,
+          options
+        );
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -2949,12 +2964,12 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      *
-     * @param {string} id
+     * @param {EventCreateDTO} eventCreateDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getSortedVenues(
-      id: string,
+      eventCreateDTO: EventCreateDTO,
       options?: any
     ): Promise<
       (
@@ -2963,7 +2978,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<SortedVenuesDTO>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getSortedVenues(
-        id,
+        eventCreateDTO,
         options
       );
       return createRequestFunction(
@@ -3699,27 +3714,30 @@ export const DefaultApiFactory = function (
     },
     /**
      *
-     * @param {string} id
+     * @param {EventCreateDTO} eventCreateDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSortedEquipments(
-      id: string,
+      eventCreateDTO: EventCreateDTO,
       options?: any
     ): AxiosPromise<SortedEquipmentsDTO> {
       return localVarFp
-        .getSortedEquipments(id, options)
+        .getSortedEquipments(eventCreateDTO, options)
         .then((request) => request(axios, basePath));
     },
     /**
      *
-     * @param {string} id
+     * @param {EventCreateDTO} eventCreateDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getSortedVenues(id: string, options?: any): AxiosPromise<SortedVenuesDTO> {
+    getSortedVenues(
+      eventCreateDTO: EventCreateDTO,
+      options?: any
+    ): AxiosPromise<SortedVenuesDTO> {
       return localVarFp
-        .getSortedVenues(id, options)
+        .getSortedVenues(eventCreateDTO, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -4310,27 +4328,27 @@ export class DefaultApi extends BaseAPI {
 
   /**
    *
-   * @param {string} id
+   * @param {EventCreateDTO} eventCreateDTO
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getSortedEquipments(id: string, options?: any) {
+  public getSortedEquipments(eventCreateDTO: EventCreateDTO, options?: any) {
     return DefaultApiFp(this.configuration)
-      .getSortedEquipments(id, options)
+      .getSortedEquipments(eventCreateDTO, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
    *
-   * @param {string} id
+   * @param {EventCreateDTO} eventCreateDTO
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getSortedVenues(id: string, options?: any) {
+  public getSortedVenues(eventCreateDTO: EventCreateDTO, options?: any) {
     return DefaultApiFp(this.configuration)
-      .getSortedVenues(id, options)
+      .getSortedVenues(eventCreateDTO, options)
       .then((request) => request(this.axios, this.basePath));
   }
 

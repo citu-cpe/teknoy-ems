@@ -29,6 +29,18 @@ export interface AnnouncementDTO {
    * @type {string}
    * @memberof AnnouncementDTO
    */
+  createdAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AnnouncementDTO
+   */
+  updatedAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AnnouncementDTO
+   */
   title: string;
   /**
    *

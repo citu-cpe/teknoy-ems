@@ -27,6 +27,10 @@ describe('event.spec.ts - Event Controller', () => {
   const eventApiPath = EventController.EVENT_API_PATH;
   const verifyEventCreationApiPath =
     eventApiPath + EventController.VERIFY_EVENT_CREATION_API_PATH;
+  const sortedEquipmentsApiPath =
+    eventApiPath + EventController.SORTED_EQUIPMENTS_API_PATH;
+  const sortedVenuesApiPath =
+    eventApiPath + EventController.SORTED_VENUES_API_PATH;
 
   const validEventCreateDTO: EventCreateDTO = {
     title: 'test',
@@ -222,12 +226,8 @@ describe('event.spec.ts - Event Controller', () => {
   describe('GET /sorted-equipments', () => {
     it('should get sorted equipments', async () => {
       const { body } = await requestWithStaff
-        .get(
-          eventApiPath +
-            '/' +
-            testEvent.id +
-            EventController.SORTED_EQUIPMENTS_API_PATH
-        )
+        .get(sortedEquipmentsApiPath)
+        .send(validEventCreateDTO)
         .expect(HttpStatus.OK);
 
       const { availableEquipments, unavailableEquipments } =
@@ -240,12 +240,8 @@ describe('event.spec.ts - Event Controller', () => {
   describe('GET /sorted-venues', () => {
     it('should get sorted venues', async () => {
       const { body } = await requestWithStaff
-        .get(
-          eventApiPath +
-            '/' +
-            testEvent.id +
-            EventController.SORTED_VENUES_API_PATH
-        )
+        .get(sortedVenuesApiPath)
+        .send(validEventCreateDTO)
         .expect(HttpStatus.OK);
 
       const { availableVenues, unavailableVenues } = body as SortedVenuesDTO;
