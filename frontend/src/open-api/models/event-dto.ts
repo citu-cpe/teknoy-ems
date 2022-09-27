@@ -34,6 +34,18 @@ export interface EventDTO {
    * @type {string}
    * @memberof EventDTO
    */
+  createdAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof EventDTO
+   */
+  updatedAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof EventDTO
+   */
   title: string;
   /**
    *

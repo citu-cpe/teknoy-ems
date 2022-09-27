@@ -34,6 +34,20 @@ export class EventController {
     return this.eventService.getAllEvents();
   }
 
+  @Get(EventController.SORTED_EQUIPMENTS_API_PATH)
+  public async getSortedEquipments(
+    @Body() dto: EventCreateDTO
+  ): Promise<SortedEquipmentsDTO> {
+    return this.eventService.getSortedEquipments(dto.startTime, dto.endTime);
+  }
+
+  @Get(EventController.SORTED_VENUES_API_PATH)
+  public async getSortedVenues(
+    @Body() dto: EventCreateDTO
+  ): Promise<SortedVenuesDTO> {
+    return this.eventService.getSortedVenues(dto.startTime, dto.endTime);
+  }
+
   @Get(EventController.EVENT_ID_API_PATH)
   public async getEventById(@Param('id') id: string): Promise<EventDTO> {
     return this.eventService.getEventById(id);
@@ -63,25 +77,6 @@ export class EventController {
     @Req() { user }: RequestWithUser
   ): Promise<EventDTO> {
     return this.eventService.deleteEvent(id, user);
-  }
-
-  @Get(
-    EventController.EVENT_ID_API_PATH +
-      EventController.SORTED_EQUIPMENTS_API_PATH
-  )
-  public async getSortedEquipments(
-    @Param('id') id: string
-  ): Promise<SortedEquipmentsDTO> {
-    return this.eventService.getSortedEquipmentsByEventId(id);
-  }
-
-  @Get(
-    EventController.EVENT_ID_API_PATH + EventController.SORTED_VENUES_API_PATH
-  )
-  public async getSortedVenues(
-    @Param('id') id: string
-  ): Promise<SortedVenuesDTO> {
-    return this.eventService.getSortedVenuesByEventId(id);
   }
 
   @Post(EventController.VERIFY_EVENT_CREATION_API_PATH)

@@ -29,6 +29,18 @@ export interface OrganizerDTO {
    * @type {string}
    * @memberof OrganizerDTO
    */
+  createdAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof OrganizerDTO
+   */
+  updatedAt?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof OrganizerDTO
+   */
   name: string;
   /**
    *
