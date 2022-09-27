@@ -26,7 +26,7 @@ export const HeaderProfile = () => {
         <Avatar name='Admin' boxSize='2rem' rounded='full' src='#' />
       </MenuButton>
       <Portal>
-        <MenuList fontSize='sm' shadow='lg'>
+        <MenuList fontSize='sm' shadow='lg' zIndex='modal'>
           <MenuGroup fontSize='sm'>
             <NextLink href='/settings/profile'>
               <MenuItem>

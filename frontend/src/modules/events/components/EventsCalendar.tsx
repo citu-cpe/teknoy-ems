@@ -1,4 +1,4 @@
-import { Button, Center, Flex, Spinner, useDisclosure } from '@chakra-ui/react';
+import { Center, Spinner, useDisclosure } from '@chakra-ui/react';
 import {
   CalendarOptions,
   EventClickArg,
@@ -9,7 +9,7 @@ import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { EventCreateDTO, EventDTO } from 'generated-api';
+import { EventDTO } from 'generated-api';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
@@ -135,6 +135,7 @@ export const EventsCalendar = ({
   };
 
   const handleEditComplete = () => {
+    toast({ title: 'Updated event successfully' });
     fetchAllEvents();
     handleEditModalClose();
   };
@@ -158,7 +159,6 @@ export const EventsCalendar = ({
   };
 
   const handleEventClick = (eventInfo: EventClickArg) => {
-    // console.log({ eventInfo });
     eventToView.current = eventInfo.event.id;
     onViewModalOpen();
   };
@@ -202,9 +202,9 @@ export const EventsCalendar = ({
           nowIndicator
           expandRows
           headerToolbar={{
-            left: 'prev,next today',
+            left: 'monthView,weekView,dayView,listView',
             center: 'title',
-            right: 'monthView,weekView,dayView,listView',
+            right: 'prev,today,next reserve',
           }}
           views={{
             monthView: {
@@ -225,8 +225,12 @@ export const EventsCalendar = ({
             },
           }}
           customButtons={{
-            reserveButton: {
-              text: 'Reserve Event',
+            reserve: {
+              text: 'Reserve',
+              click: handleReserve,
+            },
+            refresh: {
+              text: '-',
               click: handleReserve,
             },
           }}
@@ -266,13 +270,6 @@ export const EventsCalendar = ({
           title='Update Event'
           isOpen={isEditModalOpen}
           onClose={handleEditModalClose}
-          headerActions={
-            <LinkButton
-              size='sm'
-              label='Switch Page View'
-              route='/events/reserve'
-            />
-          }
           size='4xl'
         >
           <EventAddForm

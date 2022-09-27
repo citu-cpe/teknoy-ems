@@ -8,22 +8,15 @@ import {
 } from '../../../shared/components/content';
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
-import { useToast } from '../../../shared/hooks';
 import { EventAddForm } from './EventAddForm';
 import { EventAddSuccess } from './EventAddSuccess';
 
 export const EventAddPage = () => {
-  const toast = useToast();
   const router = useRouter();
+
   const [newEventDTO, setEventDTO] = useState<EventDTO | undefined>(undefined);
 
   const eventAddKey = useRef(new Date().getTime());
-
-  const {
-    onOpen: onAddOpen,
-    isOpen: isAddOpen,
-    onClose: onClose,
-  } = useDisclosure();
 
   const {
     onOpen: onSuccessOpen,
@@ -38,7 +31,6 @@ export const EventAddPage = () => {
 
   const handleAddAgain = () => {
     setEventDTO(undefined);
-    onAddOpen();
     onSuccessClose();
     eventAddKey.current = new Date().getTime();
   };

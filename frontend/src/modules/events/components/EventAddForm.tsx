@@ -1,5 +1,5 @@
 import { Button, Flex, Spacer } from '@chakra-ui/react';
-import { Field, FieldProps, Form, Formik } from 'formik';
+import { Field, FieldProps, Form, Formik, useFormikContext } from 'formik';
 import {
   EventCreateDTO,
   EventCreateDTOStatusEnum,
@@ -96,59 +96,49 @@ export const EventAddForm = ({
     venueKey.current = new Date().getTime() + Math.random();
   };
 
-  const handleVerify = (eventCreateDTO: EventCreateDTO) => {
-    console.log({ eventCreateDTO });
+  // TODO commented for future implementations
+  // const handleVerify = (eventValue: EventCreateDTO) => {
+  //   if (existingEventValue) {
+  //     // event form is used for `updating` an event
+  //     const formattedEvent = {
+  //       ...eventValue,
+  //       id: existingEventValue.id,
+  //       startTime: moment(eventValue.startTime).toISOString(),
+  //       endTime: moment(eventValue.endTime).toISOString(),
+  //     };
+
+  //     verifyEvent.mutate(formattedEvent);
+  //   } else {
+  //     // event form is used for `adding` an event
+  //     const formattedEvent = {
+  //       ...eventValue,
+  //       startTime: moment(eventValue.startTime).toISOString(),
+  //       endTime: moment(eventValue.endTime).toISOString(),
+  //     };
+
+  //     verifyEvent.mutate(formattedEvent);
+  //   }
+  // };
+
+  const onSubmit = (newEvent: EventCreateDTO) => {
     if (existingEventValue) {
       // event form is used for `updating` an event
       const formattedEvent = {
-        ...eventCreateDTO,
+        ...newEvent,
         id: existingEventValue.id,
-        startTime: moment(eventCreateDTO.startTime).toISOString(),
-        endTime: moment(eventCreateDTO.endTime).toISOString(),
+        startTime: moment(newEvent.startTime).toISOString(),
+        endTime: moment(newEvent.endTime).toISOString(),
       };
-
-      console.log('editing...');
-      console.log({ formattedEvent });
-
-      verifyEvent.mutate(formattedEvent);
-    } else {
-      // event form is used for `adding` an event
-      const formattedEvent = {
-        ...eventCreateDTO,
-        startTime: moment(eventCreateDTO.startTime).toISOString(),
-        endTime: moment(eventCreateDTO.endTime).toISOString(),
-      };
-
-      console.log('adding...');
-      console.log({ formattedEvent });
-      verifyEvent.mutate(formattedEvent);
-    }
-  };
-
-  const onSubmit = (eventCreateDTO: EventCreateDTO) => {
-    if (existingEventValue) {
-      // event form is used for `updating` an event
-      const formattedEvent = {
-        ...eventCreateDTO,
-        id: existingEventValue.id,
-        startTime: moment(eventCreateDTO.startTime).toISOString(),
-        endTime: moment(eventCreateDTO.endTime).toISOString(),
-      };
-
-      console.log('editing...');
-      console.log({ formattedEvent });
 
       editEvent.mutate(formattedEvent);
     } else {
       // event form is used for `adding` an event
       const formattedEvent = {
-        ...eventCreateDTO,
-        startTime: moment(eventCreateDTO.startTime).toISOString(),
-        endTime: moment(eventCreateDTO.endTime).toISOString(),
+        ...newEvent,
+        startTime: moment(newEvent.startTime).toISOString(),
+        endTime: moment(newEvent.endTime).toISOString(),
       };
 
-      console.log('adding...');
-      console.log({ formattedEvent });
       addEvent.mutate(formattedEvent);
     }
   };
@@ -158,7 +148,6 @@ export const EventAddForm = ({
       initialValues={initialValues}
       validationSchema={eventValidator}
       onSubmit={onSubmit}
-      validate={handleVerify}
     >
       {() => (
         <Form noValidate>
@@ -381,17 +370,7 @@ export const EventAddForm = ({
           <Flex w='full' h='full'>
             <FormikResetButton onClick={handleReset} />
             <Spacer />
-            <Button
-              variant='outline'
-              data-cy='add-submit-btn'
-              formNoValidate
-              isLoading={addEvent.isLoading}
-              loadingText='Adding...'
-              type='submit'
-              mr={2}
-            >
-              Validate
-            </Button>
+            {/* <VerifyEventButton onVerify={handleVerify} /> */}
             <Button
               variant='solid'
               data-cy='add-submit-btn'
@@ -406,5 +385,29 @@ export const EventAddForm = ({
         </Form>
       )}
     </Formik>
+  );
+};
+
+interface VerifyEventButtonProps {
+  onVerify: (values: unknown) => void;
+}
+
+export const VerifyEventButton = ({ onVerify }: VerifyEventButtonProps) => {
+  const { values } = useFormikContext();
+
+  const handleClick = () => {
+    onVerify(values);
+  };
+
+  return (
+    <Button
+      variant='outline'
+      data-cy='add-submit-btn'
+      formNoValidate
+      mr={2}
+      onClick={handleClick}
+    >
+      Verify
+    </Button>
   );
 };

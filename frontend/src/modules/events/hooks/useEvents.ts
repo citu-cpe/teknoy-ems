@@ -18,23 +18,30 @@ export const useEvents = () => {
     (eventCreateDTO: EventCreateDTO) => api.verifyEventCreation(eventCreateDTO),
     {
       onSuccess: (data) => {
-        console.log('success?');
-        console.log(data.data);
-        console.log({ data });
+        // TODO remove these callbacks after event verify
+        // console.log('success?');
+        // console.log(data.data);
+        // console.log({ data });
       },
       onError: (data) => {
-        console.log('error');
-        console.log({ data });
+        // TODO remove these callbacks after event verify
+        // console.log('error');
+        // console.log({ data });
       },
     }
   );
 
   const getEventById = useMutation((id: string) => api.getEventById(id));
 
+  const getSortedEquipments = useMutation((eventCreateDTO: EventCreateDTO) =>
+    api.getSortedEquipments(eventCreateDTO)
+  );
+
   return {
     addEvent,
     editEvent,
     verifyEvent,
     getEventById,
+    getSortedEquipments,
   };
 };

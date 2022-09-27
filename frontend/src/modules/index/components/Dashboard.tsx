@@ -27,24 +27,6 @@ export const Dashboard = () => {
         }
       />
 
-      <Flex minH='100vh' h='100vh' w='full'>
-        <iframe
-          src='https://my.spline.design/untitled-398e61d4a5cd88c5a949f8f0f7e86f9b/'
-          frameBorder='0'
-          width='100%'
-          height='100%'
-        ></iframe>
-      </Flex>
-
-      <Flex minH='100vh' h='100vh' w='full'>
-        <iframe
-          src='https://my.spline.design/untitled-21a4629d1cd55f08a36901e930ddc246/'
-          frameBorder='0'
-          width='100%'
-          height='100%'
-        ></iframe>
-      </Flex>
-
       <Flex flexWrap='wrap' w='full' gap={5} justify='center' align='center'>
         <TeamCard
           src={princh.src}

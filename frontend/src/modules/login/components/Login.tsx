@@ -1,30 +1,42 @@
-import { Button, Center, Heading, Icon } from '@chakra-ui/react';
+import { Button, Center, Divider, Flex, Heading, Icon } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import React from 'react';
 import { BiArrowBack } from 'react-icons/bi';
-import { ContentSection } from '../../../shared/components/content';
 import { LoginForm } from './LoginForm';
 
 export const Login = () => {
   const router = useRouter();
 
   return (
-    <Center flexDir='column' w='100%' h='100vh' gap={3}>
-      <Button
-        leftIcon={<Icon as={BiArrowBack} mr={2} my={0} py={0} h='100%' />}
-        color='current'
-        position='absolute'
-        top={4}
-        left={4}
-        onClick={() => router.push('/')}
-      >
-        Home
-      </Button>
-
-      <Heading>Login</Heading>
-      <ContentSection minW='lg'>
-        <LoginForm />
-      </ContentSection>
-    </Center>
+    <Flex>
+      <Flex minH='100vh' h='100vh' w='full'>
+        <iframe
+          src='https://my.spline.design/untitled-21a4629d1cd55f08a36901e930ddc246/'
+          frameBorder='0'
+          width='100%'
+          height='100%'
+        ></iframe>
+      </Flex>
+      <Center flexDir='column' w='70%' h='100vh' gap={3} bg='foreground'>
+        <Button
+          leftIcon={<Icon as={BiArrowBack} mr={2} my={0} py={0} h='100%' />}
+          color='white'
+          _hover={{
+            bg: 'black',
+            color: 'white',
+          }}
+          variant='outline'
+          position='absolute'
+          top={4}
+          left={4}
+          onClick={() => router.push('/')}
+        >
+          Home
+        </Button>
+        <Flex direction='column' justify='center' alignItems='center' h='full'>
+          <Heading mb={20}>Login</Heading>
+          <LoginForm />
+        </Flex>
+      </Center>
+    </Flex>
   );
 };
