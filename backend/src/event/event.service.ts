@@ -149,8 +149,6 @@ export class EventService {
       throw new BadRequestException(validationErrorDTO, 'Error creating event');
     }
 
-    await this.deleteSchedules(id);
-
     try {
       await this.prismaService.equipmentsOnEvents.deleteMany({
         where: { eventId: id },
@@ -195,8 +193,6 @@ export class EventService {
           venues: { include: { venue: true } },
         },
       });
-
-      await this.addSchedules(dto);
 
       return EventService.convertToDTO(event);
     } catch (e) {
@@ -282,6 +278,10 @@ export class EventService {
   public async verifyEventCreation(
     dto: EventCreateDTO
   ): Promise<ValidationErrorDTO> {
+    if (dto.id) {
+      await this.deleteSchedules(dto.id);
+    }
+
     const validationErrorDTO = new ValidationErrorDTO();
 
     const unavailableEquipmentIds = (
@@ -315,6 +315,10 @@ export class EventService {
     }
 
     validationErrorDTO.hasErrors = validationErrorDTO.errorFields.length > 0;
+
+    if (dto.id) {
+      await this.addSchedules(dto);
+    }
 
     return validationErrorDTO;
   }
