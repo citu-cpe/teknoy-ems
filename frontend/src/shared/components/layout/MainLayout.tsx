@@ -7,11 +7,13 @@ import { HeaderBreadcrumb } from '../header/HeaderBreadcrumb';
 interface MainLayoutProps {
   title: string;
   hideRouterBreadcrumb?: boolean;
+  hideFooter?: boolean;
 }
 
 export const MainLayout = ({
   title,
   hideRouterBreadcrumb,
+  hideFooter,
   children,
   ...props
 }: MainLayoutProps & FlexProps & React.PropsWithChildren<unknown>) => {
@@ -49,7 +51,7 @@ export const MainLayout = ({
       )}
       {children}
       <Spacer />
-      <MainFooter />
+      {!hideFooter && <MainFooter />}
     </Flex>
   );
 };

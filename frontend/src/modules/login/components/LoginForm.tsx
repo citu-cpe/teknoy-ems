@@ -51,7 +51,7 @@ export const LoginForm = () => {
                   type='email'
                   id='email'
                   formLabelProps={{
-                    minW: 24,
+                    minW: 32,
                   }}
                 />
               )}
@@ -62,9 +62,11 @@ export const LoginForm = () => {
                 htmlFor='password'
                 aria-labelledby='password'
                 fontWeight='semibold'
-                minW={24}
+                minW={32}
                 m={0}
                 p={0}
+                pr={5}
+                textAlign='right'
               >
                 Password
               </FormLabel>

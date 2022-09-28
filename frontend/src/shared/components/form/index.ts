@@ -1,6 +1,7 @@
 export * from './Input';
 export * from './Checkbox';
 export * from './Select';
+export * from './SelectAsync';
 export * from './Textarea';
 export * from './FormikResetEffect';
 export * from './FormikResetButton';

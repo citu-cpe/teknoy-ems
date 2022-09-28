@@ -48,7 +48,7 @@ export const Venues = () => {
   return (
     <MainLayout title='Venues'>
       <ContentHeader
-        title='Venue'
+        title='Venues'
         actions={
           <Button variant='solid' onClick={onAddOpen} data-cy='add-venue-btn'>
             Add Venue

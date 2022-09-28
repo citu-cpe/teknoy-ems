@@ -31,7 +31,7 @@ export const VenueAddSuccess = ({
                   type: 'text',
                 },
                 {
-                  label: 'Type',
+                  label: 'Notes',
                   value: venue?.notes,
                   type: 'textarea',
                 },

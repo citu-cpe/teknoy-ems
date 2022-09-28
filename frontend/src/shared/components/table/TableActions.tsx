@@ -11,8 +11,8 @@ import { BiDotsVerticalRounded, BiEdit, BiTrash } from 'react-icons/bi';
 
 interface AccountActionsProps<T> {
   data: T;
-  onDelete: (userDTO: T) => void;
-  onEdit: (userDTO: T) => void;
+  onDelete: (dataDTO: T) => void;
+  onEdit: (dataDTO: T) => void;
 }
 
 export const TableActions = <T extends unknown>({
