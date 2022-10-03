@@ -223,10 +223,10 @@ describe('event.spec.ts - Event Controller', () => {
     });
   });
 
-  describe('GET /sorted-equipments', () => {
+  describe('POST /sorted-equipments', () => {
     it('should get sorted equipments', async () => {
       const { body } = await requestWithStaff
-        .get(sortedEquipmentsApiPath)
+        .post(sortedEquipmentsApiPath)
         .send(validEventCreateDTO)
         .expect(HttpStatus.OK);
 
@@ -237,10 +237,10 @@ describe('event.spec.ts - Event Controller', () => {
     });
   });
 
-  describe('GET /sorted-venues', () => {
+  describe('POST /sorted-venues', () => {
     it('should get sorted venues', async () => {
       const { body } = await requestWithStaff
-        .get(sortedVenuesApiPath)
+        .post(sortedVenuesApiPath)
         .send(validEventCreateDTO)
         .expect(HttpStatus.OK);
 

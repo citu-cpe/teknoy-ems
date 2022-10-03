@@ -8,6 +8,7 @@ export * from './error-field-dto';
 export * from './event-create-dto';
 export * from './event-dto';
 export * from './event-report-filter-dto';
+export * from './get-sorted-dto';
 export * from './login-response-dto';
 export * from './login-user-dto';
 export * from './notification-dto';
