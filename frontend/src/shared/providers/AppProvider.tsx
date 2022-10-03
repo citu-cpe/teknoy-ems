@@ -2,6 +2,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ApiProvider } from './ApiProvider';
+import { SocketProvider } from './SocketProvider';
 import { ThemeContext } from './ThemeProvider';
 
 const queryClient = new QueryClient();
@@ -13,7 +14,7 @@ export const AppProvider = ({ children }: React.PropsWithChildren<unknown>) => {
     <ChakraProvider theme={currentTheme.value}>
       <ApiProvider>
         <QueryClientProvider client={queryClient}>
-          {children}
+          <SocketProvider>{children}</SocketProvider>
         </QueryClientProvider>
       </ApiProvider>
     </ChakraProvider>

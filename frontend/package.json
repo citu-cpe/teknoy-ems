@@ -61,6 +61,7 @@
     "react-query": "^3.24.4",
     "react-select": "^5.4.0",
     "sass": "^1.42.1",
+    "socket.io-client": "^4.5.2",
     "ts-node": "^10.4.0",
     "vercel-is-pull-request": "0.0.8",
     "yup": "^0.32.9",

@@ -5,7 +5,9 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  ValidateNested,
 } from 'class-validator';
+import { UserDTO } from '../../user/dto/user.dto';
 
 export enum ActionENUM {
   ADDED = 'ADDED',
@@ -23,20 +25,29 @@ export enum PriorityENUM {
 export class ActivityLogDTO {
   @IsUUID()
   @IsString()
-  @IsOptional()
-  public id?: string;
+  @IsNotEmpty()
+  public id: string;
 
   @IsNotEmpty()
+  @IsUUID()
   @IsString()
-  public username: string;
+  public userId: string;
+
+  @IsNotEmpty()
+  @ValidateNested({ each: true })
+  public user: UserDTO;
 
   @IsEnum(ActionENUM)
   @IsNotEmpty()
   public action: ActionENUM;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   public entityName: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  public entityId: string;
 
   @IsString()
   @IsOptional()
@@ -49,6 +60,14 @@ export class ActivityLogDTO {
   @IsDateString()
   @IsNotEmpty()
   public executedAt: Date;
+
+  @IsDateString()
+  @IsNotEmpty()
+  public createdAt: Date;
+
+  @IsDateString()
+  @IsOptional()
+  public updatedAt?: Date;
 
   @IsEnum(PriorityENUM)
   @IsNotEmpty()

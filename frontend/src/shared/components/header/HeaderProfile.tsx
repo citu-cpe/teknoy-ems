@@ -23,7 +23,7 @@ export const HeaderProfile = () => {
   return (
     <Menu>
       <MenuButton ml={4} data-cy='profile-btn'>
-        <Avatar name='Admin' boxSize='2rem' rounded='full' src='#' />
+        <Avatar name={user?.name} boxSize='2rem' rounded='full' src='#' />
       </MenuButton>
       <Portal>
         <MenuList fontSize='sm' shadow='lg' zIndex='modal'>

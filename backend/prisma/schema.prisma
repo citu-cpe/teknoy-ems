@@ -12,16 +12,18 @@ datasource db {
 }
 
 model User {
-  id                        String   @id @default(uuid())
-  createdAt                 DateTime @default(now())
-  updatedAt                 DateTime @updatedAt
-  email                     String   @unique
+  id                        String         @id @default(uuid())
+  createdAt                 DateTime       @default(now())
+  updatedAt                 DateTime       @updatedAt
+  email                     String         @unique
   name                      String
   password                  String
   currentHashedRefreshToken String?
   roles                     Role[]
-  isFirstLogin              Boolean  @default(true)
+  isFirstLogin              Boolean        @default(true)
   Event                     Event[]
+  Notification              Notification[]
+  ActivityLog               ActivityLog[]
 }
 
 enum Role {
@@ -72,12 +74,12 @@ enum Availability {
 }
 
 model Organizer {
-  id    String  @id @default(uuid())
-  createdAt  DateTime?  @default(now())
-  updatedAt  DateTime?  @updatedAt
-  name  String  @unique
-  type  Type
-  Event Event[]
+  id        String    @id @default(uuid())
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  name      String    @unique
+  type      Type
+  Event     Event[]
 }
 
 model Announcement {
@@ -146,16 +148,31 @@ model EquipmentsOnEvents {
 }
 
 model ActivityLog {
-  id         String   @id @default(uuid())
-  username   String
-  action     Action
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  entityName String
-  oldValue   String?
-  newValue   String?
-  executedAt DateTime @default(now())
-  priority   Priority
+  id           String         @id @default(uuid())
+  action       Action
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  entityName   String
+  entityId     String
+  oldValue     String?
+  newValue     String?
+  executedAt   DateTime       @default(now())
+  priority     Priority
+  Notification Notification[]
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  userId String
+}
+
+model Notification {
+  id            String      @id @default(uuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  unread        Boolean     @default(true)
+  user          User        @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  activityLog   ActivityLog @relation(fields: [activityLogId], references: [id])
+  activityLogId String
+  userId        String
 }
 
 enum Priority {

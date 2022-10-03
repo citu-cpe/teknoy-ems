@@ -12,6 +12,9 @@ if (process.env.NEXT_PUBLIC_VERCEL_GIT_IS_PULL_REQUEST === '1') {
 const baseURL =
   process.env.NEXT_PUBLIC_BASE_URL || reviewAppUrl || 'http://localhost:3000';
 
+export const socketURL =
+  process.env.NODE_ENV === 'production' ? baseURL : 'http://localhost:5001';
+
 export const ApiContext = createContext<DefaultApi>(new DefaultApi());
 
 export const ApiProvider = ({ children }: React.PropsWithChildren<unknown>) => {

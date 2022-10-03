@@ -37,10 +37,13 @@ export class OrganizerService {
       const organizer = await this.prisma.organizer.create({
         data: organizerDTO,
       });
+
       this.eventEmitter.emit('create.logs', {
         entityName: 'organizer',
+        entityId: organizer.id,
+        userId: user.id,
         action: ActionENUM.ADDED,
-        username: user.name,
+        newValue: JSON.stringify(organizer),
         priority: PriorityENUM.IMPORTANT,
       });
       return OrganizerService.convertToDTO(organizer);
@@ -86,10 +89,12 @@ export class OrganizerService {
         },
         data,
       });
+
       this.eventEmitter.emit('create.logs', {
         entityName: 'organizer',
         action: ActionENUM.EDITED,
-        username: user.name,
+        entityId: updatedOrganizer.id,
+        userId: user.id,
         oldValue: JSON.stringify(oldValue),
         newValue: JSON.stringify(updatedOrganizer),
         priority: PriorityENUM.IMPORTANT,
@@ -110,7 +115,9 @@ export class OrganizerService {
       this.eventEmitter.emit('create.logs', {
         entityName: 'organizer',
         action: ActionENUM.DELETED,
-        username: user.name,
+        entityId: deleteOrganizer.id,
+        userId: user.id,
+        newValue: JSON.stringify(deleteOrganizer),
         priority: PriorityENUM.IMPORTANT,
       });
       return OrganizerService.convertToDTO(deleteOrganizer);
