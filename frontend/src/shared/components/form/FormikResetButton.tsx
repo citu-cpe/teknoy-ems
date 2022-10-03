@@ -3,6 +3,10 @@ import { useFormikContext } from 'formik';
 import { useState, useEffect } from 'react';
 import { valuesAreEqual } from '../../helpers';
 
+/***
+ * A custom reset button that dynamically enable/disables itself
+ * during changes of form values within a Formik context
+ */
 export const FormikResetButton = ({
   children = 'Reset Inputs',
   ...props
