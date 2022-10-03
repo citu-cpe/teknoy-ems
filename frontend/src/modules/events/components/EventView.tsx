@@ -13,7 +13,7 @@ interface EventViewProps {
 }
 
 export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
-  const { getEventById } = useEvents();
+  const { getEventById, getSortedVenues } = useEvents();
 
   const [event, setEvent] = useState<EventDTO | null>(null);
   const [editActionIsLoading, setEditActionIsLoading] = useState(false);
@@ -21,6 +21,7 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
 
   useEffect(() => {
     if (id !== null) {
+      console.log('fetch');
       getEventById.mutate(id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -31,6 +32,27 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
       setEvent(getEventById.data.data);
     }
   }, [getEventById]);
+
+  const handleGet = () => {
+    getSortedVenues.mutate({
+      id: 'string',
+      title: 'string',
+      description: 'string',
+      status: 'PENDING',
+      startTime: '2022-10-03T02:33:10.921Z',
+      endTime: '2022-10-03T02:33:10.921Z',
+      contactPerson: 'string',
+      contactNumber: 'string',
+      approvedBy: 'string',
+      viewAccess: 'PUBLIC',
+      type: 'CORPORATE',
+      additionalNotes: 'string',
+      organizerId: 'string',
+      encodedById: 'string',
+      equipmentIds: ['string'],
+      venueIds: ['string'],
+    });
+  };
 
   const handleDelete = () => {
     setDeleteActionIsLoading(true);
@@ -105,6 +127,18 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
       </ModalTable>
 
       <Flex w='full' h='full'>
+        <Button
+          variant='outline'
+          color='errorColor'
+          bg='errorBg'
+          data-cy='delete-submit-btn'
+          formNoValidate
+          isLoading={getSortedVenues.isLoading}
+          loadingText='Getting...'
+          onClick={handleGet}
+        >
+          Get
+        </Button>
         <Button
           variant='outline'
           color='errorColor'

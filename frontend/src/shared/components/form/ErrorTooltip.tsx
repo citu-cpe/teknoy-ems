@@ -1,5 +1,7 @@
 import { FormErrorMessage, Tooltip, TooltipProps } from '@chakra-ui/react';
 
+import { useEffect, useState } from 'react';
+
 interface ErrorTooptipProps {
   error: string | null | undefined;
   isInvalid: boolean;
@@ -11,6 +13,29 @@ export const ErrorTooltip = ({
   isInvalid,
   ...props
 }: ErrorTooptipProps & TooltipProps & React.PropsWithChildren) => {
+  const [show, setShow] = useState<boolean | undefined | null>(false);
+  const [alreadyShown, setInitial] = useState(false);
+
+  useEffect(() => {
+    if (isInvalid && !alreadyShown) {
+      console.log('showing...');
+      setShow(true);
+      trigger();
+    }
+  }, [isInvalid, alreadyShown]);
+
+  const trigger = () => {
+    setTimeout(() => {
+      console.log('done');
+      setShow(undefined);
+      setInitial(true);
+    }, 2000);
+  };
+
+  const handleHover = () => {
+    setShow(true);
+  };
+
   return (
     <Tooltip
       hasArrow={isInvalid}
@@ -30,6 +55,9 @@ export const ErrorTooltip = ({
           {error}
         </FormErrorMessage>
       }
+      portalProps={{
+        appendToParentPortal: true,
+      }}
       {...props}
     >
       {children}

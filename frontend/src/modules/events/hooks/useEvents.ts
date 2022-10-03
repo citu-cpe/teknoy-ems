@@ -33,8 +33,18 @@ export const useEvents = () => {
 
   const getEventById = useMutation((id: string) => api.getEventById(id));
 
-  const getSortedEquipments = useMutation((eventCreateDTO: EventCreateDTO) =>
-    api.getSortedEquipments(eventCreateDTO)
+  const getSortedEquipments = useMutation(
+    async (dto: EventCreateDTO) => await api.getSortedEquipments(dto),
+    {
+      onSuccess: (data) => {
+        console.log('getSortedEquipments Success');
+        console.log(data.data);
+      },
+    }
+  );
+
+  const getSortedVenues = useMutation((eventCreateDTO: EventCreateDTO) =>
+    api.getSortedVenues(eventCreateDTO)
   );
 
   return {
@@ -43,5 +53,6 @@ export const useEvents = () => {
     verifyEvent,
     getEventById,
     getSortedEquipments,
+    getSortedVenues,
   };
 };
