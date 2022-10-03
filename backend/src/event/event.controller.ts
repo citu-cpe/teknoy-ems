@@ -14,6 +14,7 @@ import { RequestWithUser } from '../authentication/types/request-with-user.inter
 import { ValidationErrorDTO } from '../shared/dto/validation-error.dto';
 import { EventCreateDTO } from './dto/event-create.dto';
 import { EventDTO } from './dto/event.dto';
+import { GetSortedDTO } from './dto/get-sorted.dto';
 import { SortedEquipmentsDTO } from './dto/sorted-equipments.dto';
 import { SortedVenuesDTO } from './dto/sorted-venues.dto';
 import { EventService } from './event.service';
@@ -34,16 +35,18 @@ export class EventController {
     return this.eventService.getAllEvents();
   }
 
-  @Get(EventController.SORTED_EQUIPMENTS_API_PATH)
+  @Post(EventController.SORTED_EQUIPMENTS_API_PATH)
+  @HttpCode(HttpStatus.OK)
   public async getSortedEquipments(
-    @Body() dto: EventCreateDTO
+    @Body() dto: GetSortedDTO
   ): Promise<SortedEquipmentsDTO> {
     return this.eventService.getSortedEquipments(dto.startTime, dto.endTime);
   }
 
-  @Get(EventController.SORTED_VENUES_API_PATH)
+  @Post(EventController.SORTED_VENUES_API_PATH)
+  @HttpCode(HttpStatus.OK)
   public async getSortedVenues(
-    @Body() dto: EventCreateDTO
+    @Body() dto: GetSortedDTO
   ): Promise<SortedVenuesDTO> {
     return this.eventService.getSortedVenues(dto.startTime, dto.endTime);
   }

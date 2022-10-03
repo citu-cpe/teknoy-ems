@@ -2,8 +2,10 @@ import { Role } from '.prisma/client';
 import {
   Body,
   Controller,
-  Get,
   Header,
+  HttpCode,
+  HttpStatus,
+  Post,
   Req,
   StreamableFile,
 } from '@nestjs/common';
@@ -20,7 +22,8 @@ export class ReportController {
 
   constructor(private readonly reportService: ReportService) {}
 
-  @Get()
+  @Post()
+  @HttpCode(HttpStatus.OK)
   @Roles(Role.ADMIN)
   @Header(
     'Content-Type',
