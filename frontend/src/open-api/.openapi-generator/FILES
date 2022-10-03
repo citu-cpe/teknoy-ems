@@ -18,6 +18,7 @@ models/error-field-dto.ts
 models/event-create-dto.ts
 models/event-dto.ts
 models/event-report-filter-dto.ts
+models/get-sorted-dto.ts
 models/index.ts
 models/login-response-dto.ts
 models/login-user-dto.ts
