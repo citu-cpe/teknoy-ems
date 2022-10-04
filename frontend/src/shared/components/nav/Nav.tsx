@@ -5,6 +5,7 @@ import {
   MdOutlineAnnouncement,
   MdOutlineDashboard,
 } from 'react-icons/md';
+import { LinkButton } from '../elements';
 import { Logo } from '../logo';
 import { NavLink } from './NavLink';
 
@@ -47,6 +48,7 @@ export const Nav = ({ ...props }) => {
         route='/announcements'
         icon={MdOutlineAnnouncement}
       />
+      <NavLink label='Reports' route='/reports' icon={MdOutlineAnnouncement} />
     </Flex>
   );
 };
