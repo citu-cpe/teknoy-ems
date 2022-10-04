@@ -42,7 +42,7 @@ export const ReportForm = ({ onComplete }: ReportFormProps) => {
     },
   };
 
-  const onSubmit = async (submittedReportGetDTO: any) => {
+  const onSubmit = (submittedReportGetDTO: any) => {
     const reportGetDTO: ReportGetDTO = {
       ...submittedReportGetDTO,
       reportFilterDTO: {
@@ -52,6 +52,15 @@ export const ReportForm = ({ onComplete }: ReportFormProps) => {
 
     // remove empty objects
     clearEmptyObjects(reportGetDTO);
+
+    if (reportGetDTO?.reportFilterDTO === undefined) {
+      toast({
+        title: 'Report export failed',
+        description: 'Select at least 1 filter',
+        status: 'error',
+      });
+      return;
+    }
 
     exportReport(reportGetDTO);
   };
@@ -163,7 +172,11 @@ export const ReportForm = ({ onComplete }: ReportFormProps) => {
         onComplete(getReport.status);
       },
       onError: (response) => {
-        toast({ title: 'Report export failed', status: 'error' });
+        toast({
+          title: 'Report export failed',
+          description: 'Please try again later',
+          status: 'error',
+        });
       },
     });
   };

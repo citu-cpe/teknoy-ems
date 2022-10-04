@@ -17,6 +17,6 @@ export const formControlProps: FlexProps = {
 export const filterGroupProps: FlexProps = {
   w: 'full',
   justifyContent: 'space-between',
-  direction: { base: 'column', md: 'row' },
+  direction: { base: 'column', sm: 'row' },
   gap: 6,
 };
