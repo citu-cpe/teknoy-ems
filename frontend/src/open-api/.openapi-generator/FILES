@@ -9,6 +9,7 @@ common.ts
 configuration.ts
 git_push.sh
 index.ts
+models/activity-log-dto.ts
 models/announcement-dto.ts
 models/announcement-report-filter-dto.ts
 models/change-password-dto.ts
@@ -22,6 +23,8 @@ models/get-sorted-dto.ts
 models/index.ts
 models/login-response-dto.ts
 models/login-user-dto.ts
+models/notification-dto.ts
+models/notifications-dto.ts
 models/organizer-dto.ts
 models/organizer-report-filter-dto.ts
 models/register-user-dto.ts

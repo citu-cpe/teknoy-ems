@@ -32,7 +32,9 @@ export class VenueService {
       this.eventEmitter.emit('create.logs', {
         entityName: 'venue',
         action: ActionENUM.ADDED,
-        username: user.name,
+        userId: user.id,
+        newValue: JSON.stringify(venue),
+        entityId: venue.id,
         priority: PriorityENUM.IMPORTANT,
       });
 
@@ -109,7 +111,9 @@ export class VenueService {
       this.eventEmitter.emit('create.logs', {
         entityName: 'venue',
         action: ActionENUM.DELETED,
-        username: user.name,
+        userId: user.id,
+        newValue: JSON.stringify(venue),
+        entityId: venue.id,
         priority: PriorityENUM.IMPORTANT,
       });
       return VenueService.convertToDTO(venue);
@@ -141,7 +145,8 @@ export class VenueService {
       this.eventEmitter.emit('create.logs', {
         entityName: 'venue',
         action: ActionENUM.EDITED,
-        username: user.name,
+        userId: user.id,
+        entityId: venue.id,
         oldValue: JSON.stringify(oldValue),
         newValue: JSON.stringify(venue),
         priority: PriorityENUM.IMPORTANT,

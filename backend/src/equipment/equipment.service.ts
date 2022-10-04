@@ -35,8 +35,10 @@ export class EquipmentService {
       this.eventEmitter.emit('create.logs', {
         entityName: 'equipment',
         action: ActionENUM.ADDED,
-        username: user.name,
+        userId: user.id,
         priority: PriorityENUM.IMPORTANT,
+        newValue: JSON.stringify(equipment),
+        entityId: equipment.id,
       });
       return EquipmentService.convertToDTO(equipment);
     } catch (error) {
@@ -118,8 +120,10 @@ export class EquipmentService {
       this.eventEmitter.emit('create.logs', {
         entityName: 'equipment',
         action: ActionENUM.DELETED,
-        username: user.name,
+        userId: user.id,
         priority: PriorityENUM.IMPORTANT,
+        newValue: JSON.stringify(equipment),
+        entityId: equipment.id,
       });
       return EquipmentService.convertToDTO(equipment);
     } catch (error) {
@@ -148,8 +152,9 @@ export class EquipmentService {
       });
       this.eventEmitter.emit('create.logs', {
         entityName: 'equipment',
+        entityId: equipment.id,
         action: ActionENUM.EDITED,
-        username: user.name,
+        userId: user.id,
         oldValue: JSON.stringify(oldValue),
         newValue: JSON.stringify(equipment),
         priority: PriorityENUM.IMPORTANT,

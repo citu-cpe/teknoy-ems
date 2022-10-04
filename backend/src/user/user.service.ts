@@ -82,6 +82,8 @@ export class UserService {
       this.eventEmitter.emit('create.logs', {
         entityName: 'user',
         action: ActionENUM.EDITED,
+        userId: loggedInUserDTO.id,
+        entityId: user.id,
         username: loggedInUserDTO.name,
         priority: PriorityENUM.PRIVATE,
         oldValue: JSON.stringify(oldValue),
@@ -95,14 +97,17 @@ export class UserService {
     }
   }
 
-  public async deleteUser(loggedInUser: User, id: string): Promise<UserDTO> {
+  public async deleteUser(loggedInUserDTO: User, id: string): Promise<UserDTO> {
     try {
       const user = await this.prismaService.user.delete({ where: { id } });
       this.eventEmitter.emit('create.logs', {
         entityName: 'user',
         action: ActionENUM.DELETED,
-        username: loggedInUser.name,
+        userId: loggedInUserDTO.id,
+        entityId: user.id,
+        username: loggedInUserDTO.name,
         priority: PriorityENUM.PRIVATE,
+        newValue: JSON.stringify(user),
       });
       return UserService.convertToDTO(user);
     } catch (e) {

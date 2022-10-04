@@ -50,8 +50,10 @@ export class AnnouncementServices {
       });
       this.eventEmitter.emit('create.logs', {
         entityName: 'announcement',
+        entityId: announcement.id,
+        userId: user.id,
         action: ActionENUM.ADDED,
-        username: user.name,
+        newValue: JSON.stringify(data),
         priority: PriorityENUM.IMPORTANT,
       });
 
@@ -66,7 +68,6 @@ export class AnnouncementServices {
     data: AnnouncementDTO
   ): Promise<AnnouncementDTO> {
     try {
-      // DONT KNOW IF THIS IS THE BEST WAY TO DO IT
       const oldValue = await this.prisma.announcement.findUnique({
         where: {
           id,
@@ -82,7 +83,8 @@ export class AnnouncementServices {
       this.eventEmitter.emit('create.logs', {
         entityName: 'announcement',
         action: ActionENUM.EDITED,
-        username: user.name,
+        userId: user.id,
+        entityId: announcement.id,
         priority: PriorityENUM.IMPORTANT,
         oldValue: JSON.stringify(oldValue),
         newValue: JSON.stringify(data),
@@ -106,10 +108,13 @@ export class AnnouncementServices {
           id,
         },
       });
+
       this.eventEmitter.emit('create.logs', {
+        entityId: announcement.id,
+        userId: user.id,
         entityName: 'announcement',
         action: ActionENUM.DELETED,
-        username: user.name,
+        newValue: JSON.stringify(announcement),
         priority: PriorityENUM.IMPORTANT,
       });
       return AnnouncementServices.convertToDTO(announcement);

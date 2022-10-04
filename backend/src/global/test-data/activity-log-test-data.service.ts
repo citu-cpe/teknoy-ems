@@ -13,10 +13,11 @@ export const createActivityLogForAnnouncement: ActivityLog = {
   createdAt: new Date(),
   updatedAt: new Date(),
   action: ActionENUM.ADDED,
-  username: 'TEST_USER',
+  userId: '2cf38670-0a8a-41e9-9018-e8b8a9b36486',
   priority: PriorityENUM.IMPORTANT,
   oldValue: '',
   newValue: '',
+  entityId: 'f3666617-01ec-4f7f-8bd9-6d337268c30a',
   executedAt: new Date(),
 };
 @Injectable()

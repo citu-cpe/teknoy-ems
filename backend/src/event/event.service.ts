@@ -98,8 +98,10 @@ export class EventService {
 
     this.eventEmitter.emit('create.logs', {
       entityName: 'event',
+      entityId: event.id,
+      newValue: JSON.stringify(event),
       action: ActionENUM.ADDED,
-      username: user.name,
+      userId: user.id,
       priority: PriorityENUM.IMPORTANT,
     });
     return EventService.convertToDTO(event);
@@ -156,7 +158,15 @@ export class EventService {
       await this.prismaService.venuesOnEvents.deleteMany({
         where: { eventId: id },
       });
-
+      const oldValue = await this.prismaService.event.findUniqueOrThrow({
+        where: { id },
+        include: {
+          encodedBy: true,
+          organizer: true,
+          equipments: { include: { equipment: true } },
+          venues: { include: { venue: true } },
+        },
+      });
       const event = await this.prismaService.event.update({
         where: { id },
         data: {
@@ -193,7 +203,15 @@ export class EventService {
           venues: { include: { venue: true } },
         },
       });
-
+      this.eventEmitter.emit('create.logs', {
+        entityName: 'event',
+        entityId: event.id,
+        newValue: JSON.stringify(event),
+        oldValue: JSON.stringify(oldValue),
+        action: ActionENUM.EDITED,
+        userId: user.id,
+        priority: PriorityENUM.IMPORTANT,
+      });
       return EventService.convertToDTO(event);
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {
@@ -217,8 +235,10 @@ export class EventService {
       });
       this.eventEmitter.emit('create.logs', {
         entityName: 'event',
+        entityId: event.id,
+        newValue: JSON.stringify(event),
         action: ActionENUM.DELETED,
-        username: user.name,
+        userId: user.id,
         priority: PriorityENUM.IMPORTANT,
       });
       return EventService.convertToDTO(event);

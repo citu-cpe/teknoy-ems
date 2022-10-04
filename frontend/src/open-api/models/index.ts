@@ -1,3 +1,4 @@
+export * from './activity-log-dto';
 export * from './announcement-dto';
 export * from './announcement-report-filter-dto';
 export * from './change-password-dto';
@@ -10,6 +11,8 @@ export * from './event-report-filter-dto';
 export * from './get-sorted-dto';
 export * from './login-response-dto';
 export * from './login-user-dto';
+export * from './notification-dto';
+export * from './notifications-dto';
 export * from './organizer-dto';
 export * from './organizer-report-filter-dto';
 export * from './register-user-dto';

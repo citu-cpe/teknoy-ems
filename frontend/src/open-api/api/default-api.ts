@@ -53,6 +53,10 @@ import { LoginResponseDTO } from '../models';
 // @ts-ignore
 import { LoginUserDTO } from '../models';
 // @ts-ignore
+import { NotificationDTO } from '../models';
+// @ts-ignore
+import { NotificationsDTO } from '../models';
+// @ts-ignore
 import { OrganizerDTO } from '../models';
 // @ts-ignore
 import { RegisterUserDTO } from '../models';
@@ -427,6 +431,42 @@ export const DefaultApiAxiosParamCreator = function (
     },
     /**
      *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createNotifications: async (options: any = {}): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/notification`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
      * @param {ScheduleDTO} scheduleDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -517,6 +557,42 @@ export const DefaultApiAxiosParamCreator = function (
         localVarRequestOptions,
         configuration
       );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteAllNotifications: async (options: any = {}): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/notification/all`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -652,6 +728,59 @@ export const DefaultApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {NotificationDTO} notificationDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteNotification: async (
+      notificationDTO: NotificationDTO,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'notificationDTO' is not null or undefined
+      assertParamExists(
+        'deleteNotification',
+        'notificationDTO',
+        notificationDTO
+      );
+      const localVarPath = `/api/v1/notification`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        notificationDTO,
+        localVarRequestOptions,
+        configuration
+      );
 
       return {
         url: toPathString(localVarUrlObj),
@@ -952,6 +1081,120 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    filterLastMonthsNotifications: async (
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/notification/last-month`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filterLastWeeksNotifications: async (
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/notification/last-week`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filterTodayNotifications: async (
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/notification/today`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     getAllEquipments: async (options: any = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/equipment`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1228,11 +1471,92 @@ export const DefaultApiAxiosParamCreator = function (
     },
     /**
      *
+     * @param {string} filter
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getFilteredNotifications: async (
+      filter: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'filter' is not null or undefined
+      assertParamExists('getFilteredNotifications', 'filter', filter);
+      const localVarPath = `/api/v1/notification/{filter}`.replace(
+        `{${'filter'}}`,
+        encodeURIComponent(String(filter))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getHello: async (options: any = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/v1`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getNotifications: async (options: any = {}): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/notification`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -1786,6 +2110,97 @@ export const DefaultApiAxiosParamCreator = function (
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
         userDTO,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    markAllNotificationsAsRead: async (
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/notification/all`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {NotificationDTO} notificationDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    markNotificationAsRead: async (
+      notificationDTO: NotificationDTO,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'notificationDTO' is not null or undefined
+      assertParamExists(
+        'markNotificationAsRead',
+        'notificationDTO',
+        notificationDTO
+      );
+      const localVarPath = `/api/v1/notification`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'PUT',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        notificationDTO,
         localVarRequestOptions,
         configuration
       );
@@ -2408,6 +2823,25 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createNotifications(
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.createNotifications(options);
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
      * @param {ScheduleDTO} scheduleDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2445,6 +2879,25 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         venueDTO,
         options
       );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteAllNotifications(
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.deleteAllNotifications(options);
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -2515,6 +2968,30 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         id,
         options
       );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {NotificationDTO} notificationDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteNotification(
+      notificationDTO: NotificationDTO,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.deleteNotification(
+          notificationDTO,
+          options
+        );
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -2659,6 +3136,72 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         userDTO,
         options
       );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async filterLastMonthsNotifications(
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<NotificationsDTO>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.filterLastMonthsNotifications(options);
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async filterLastWeeksNotifications(
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<NotificationsDTO>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.filterLastWeeksNotifications(options);
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async filterTodayNotifications(
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<NotificationsDTO>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.filterTodayNotifications(options);
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -2825,6 +3368,33 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @param {string} filter
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getFilteredNotifications(
+      filter: string,
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<NotificationsDTO>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getFilteredNotifications(
+          filter,
+          options
+        );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2836,6 +3406,28 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getHello(
         options
       );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getNotifications(
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<NotificationsDTO>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getNotifications(options);
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -3117,6 +3709,49 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         userDTO,
         options
       );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async markAllNotificationsAsRead(
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.markAllNotificationsAsRead(options);
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {NotificationDTO} notificationDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async markNotificationAsRead(
+      notificationDTO: NotificationDTO,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.markNotificationAsRead(
+          notificationDTO,
+          options
+        );
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -3446,6 +4081,16 @@ export const DefaultApiFactory = function (
     },
     /**
      *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createNotifications(options?: any): AxiosPromise<void> {
+      return localVarFp
+        .createNotifications(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
      * @param {ScheduleDTO} scheduleDTO
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3467,6 +4112,16 @@ export const DefaultApiFactory = function (
     createVenue(venueDTO: VenueDTO, options?: any): AxiosPromise<VenueDTO> {
       return localVarFp
         .createVenue(venueDTO, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteAllNotifications(options?: any): AxiosPromise<void> {
+      return localVarFp
+        .deleteAllNotifications(options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -3503,6 +4158,20 @@ export const DefaultApiFactory = function (
     deleteEvent(id: string, options?: any): AxiosPromise<EventDTO> {
       return localVarFp
         .deleteEvent(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {NotificationDTO} notificationDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteNotification(
+      notificationDTO: NotificationDTO,
+      options?: any
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteNotification(notificationDTO, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -3586,6 +4255,40 @@ export const DefaultApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    filterLastMonthsNotifications(
+      options?: any
+    ): AxiosPromise<NotificationsDTO> {
+      return localVarFp
+        .filterLastMonthsNotifications(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filterLastWeeksNotifications(
+      options?: any
+    ): AxiosPromise<NotificationsDTO> {
+      return localVarFp
+        .filterLastWeeksNotifications(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    filterTodayNotifications(options?: any): AxiosPromise<NotificationsDTO> {
+      return localVarFp
+        .filterTodayNotifications(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     getAllEquipments(options?: any): AxiosPromise<Array<EquipmentDTO>> {
       return localVarFp
         .getAllEquipments(options)
@@ -3659,12 +4362,36 @@ export const DefaultApiFactory = function (
     },
     /**
      *
+     * @param {string} filter
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getFilteredNotifications(
+      filter: string,
+      options?: any
+    ): AxiosPromise<NotificationsDTO> {
+      return localVarFp
+        .getFilteredNotifications(filter, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getHello(options?: any): AxiosPromise<string> {
       return localVarFp
         .getHello(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getNotifications(options?: any): AxiosPromise<NotificationsDTO> {
+      return localVarFp
+        .getNotifications(options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -3803,6 +4530,30 @@ export const DefaultApiFactory = function (
     logOut(userDTO: UserDTO, options?: any): AxiosPromise<void> {
       return localVarFp
         .logOut(userDTO, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    markAllNotificationsAsRead(options?: any): AxiosPromise<void> {
+      return localVarFp
+        .markAllNotificationsAsRead(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {NotificationDTO} notificationDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    markNotificationAsRead(
+      notificationDTO: NotificationDTO,
+      options?: any
+    ): AxiosPromise<void> {
+      return localVarFp
+        .markNotificationAsRead(notificationDTO, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -4031,6 +4782,18 @@ export class DefaultApi extends BaseAPI {
 
   /**
    *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public createNotifications(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .createNotifications(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
    * @param {ScheduleDTO} scheduleDTO
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4052,6 +4815,18 @@ export class DefaultApi extends BaseAPI {
   public createVenue(venueDTO: VenueDTO, options?: any) {
     return DefaultApiFp(this.configuration)
       .createVenue(venueDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public deleteAllNotifications(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .deleteAllNotifications(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -4091,6 +4866,19 @@ export class DefaultApi extends BaseAPI {
   public deleteEvent(id: string, options?: any) {
     return DefaultApiFp(this.configuration)
       .deleteEvent(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {NotificationDTO} notificationDTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public deleteNotification(notificationDTO: NotificationDTO, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .deleteNotification(notificationDTO, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -4171,6 +4959,42 @@ export class DefaultApi extends BaseAPI {
   public editUser(id: string, userDTO: UserDTO, options?: any) {
     return DefaultApiFp(this.configuration)
       .editUser(id, userDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public filterLastMonthsNotifications(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .filterLastMonthsNotifications(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public filterLastWeeksNotifications(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .filterLastWeeksNotifications(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public filterTodayNotifications(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .filterTodayNotifications(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -4263,6 +5087,19 @@ export class DefaultApi extends BaseAPI {
 
   /**
    *
+   * @param {string} filter
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getFilteredNotifications(filter: string, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .getFilteredNotifications(filter, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
@@ -4270,6 +5107,18 @@ export class DefaultApi extends BaseAPI {
   public getHello(options?: any) {
     return DefaultApiFp(this.configuration)
       .getHello(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getNotifications(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .getNotifications(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -4423,6 +5272,34 @@ export class DefaultApi extends BaseAPI {
   public logOut(userDTO: UserDTO, options?: any) {
     return DefaultApiFp(this.configuration)
       .logOut(userDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public markAllNotificationsAsRead(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .markAllNotificationsAsRead(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {NotificationDTO} notificationDTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public markNotificationAsRead(
+    notificationDTO: NotificationDTO,
+    options?: any
+  ) {
+    return DefaultApiFp(this.configuration)
+      .markNotificationAsRead(notificationDTO, options)
       .then((request) => request(this.axios, this.basePath));
   }
 

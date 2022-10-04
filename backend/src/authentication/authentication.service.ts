@@ -62,11 +62,16 @@ export class AuthenticationService {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
-      await this.userService.register(registerUserDTO, hashedPassword);
+      const registeredUser = await this.userService.register(
+        registerUserDTO,
+        hashedPassword
+      );
       this.eventEmitter.emit('create.logs', {
         entityName: 'user',
+        entityId: registeredUser.id,
+        userId: user.id,
+        newValue: JSON.stringify(registeredUser),
         action: ActionENUM.ADDED,
-        username: user.name,
         priority: PriorityENUM.PRIVATE,
       });
       return {
