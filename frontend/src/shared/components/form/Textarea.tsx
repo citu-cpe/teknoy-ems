@@ -39,7 +39,7 @@ export const Textarea = ({
         <FormLabel
           htmlFor={props.id}
           fontWeight='semibold'
-          minW={20}
+          minW={24}
           m={0}
           p={0}
           mt={2}

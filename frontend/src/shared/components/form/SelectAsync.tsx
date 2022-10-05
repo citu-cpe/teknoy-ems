@@ -93,7 +93,6 @@ export const SelectAsync = <
     control: (base) => ({
       ...base,
       borderRadius,
-      // border: '1px',
     }),
     container: (base) => ({
       ...base,
@@ -119,7 +118,6 @@ export const SelectAsync = <
       ...base,
       backgroundColor: neutral2,
     }),
-
     dropdownIndicator: (base) => ({
       ...base,
       color: current,
@@ -140,6 +138,21 @@ export const SelectAsync = <
       ...base,
       color: current,
     }),
+    multiValue: (base) => {
+      return {
+        ...base,
+        backgroundColor: hoverColor,
+      };
+    },
+    multiValueLabel: (base) => ({
+      ...base,
+      color: current,
+    }),
+    multiValueRemove: (base) => ({
+      ...base,
+      color: errorColor,
+    }),
+    menu: (base) => ({ ...base, zIndex: 9999 }),
     option: (base, { isDisabled, isFocused, isSelected }) => {
       return {
         ...base,
@@ -194,7 +207,7 @@ export const SelectAsync = <
     } else {
       setStatus({});
     }
-  }, [fieldProps.form]);
+  }, [borderRadius, fieldProps?.field.name, fieldProps?.form]);
 
   return (
     <>
@@ -210,7 +223,7 @@ export const SelectAsync = <
             <FormLabel
               htmlFor={formControlProps?.id}
               fontWeight='semibold'
-              minW={20}
+              minW={24}
               m={0}
               p={0}
               pr={5}

@@ -13,7 +13,7 @@ interface EventViewProps {
 }
 
 export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
-  const { getEventById, getSortedVenues } = useEvents();
+  const { getEventById } = useEvents();
 
   const [event, setEvent] = useState<EventDTO | null>(null);
   const [editActionIsLoading, setEditActionIsLoading] = useState(false);
@@ -21,7 +21,6 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
 
   useEffect(() => {
     if (id !== null) {
-      console.log('fetch');
       getEventById.mutate(id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,27 +31,6 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
       setEvent(getEventById.data.data);
     }
   }, [getEventById]);
-
-  const handleGet = () => {
-    getSortedVenues.mutate({
-      id: 'string',
-      title: 'string',
-      description: 'string',
-      status: 'PENDING',
-      startTime: '2022-10-03T02:33:10.921Z',
-      endTime: '2022-10-03T02:33:10.921Z',
-      contactPerson: 'string',
-      contactNumber: 'string',
-      approvedBy: 'string',
-      viewAccess: 'PUBLIC',
-      type: 'CORPORATE',
-      additionalNotes: 'string',
-      organizerId: 'string',
-      encodedById: 'string',
-      equipmentIds: ['string'],
-      venueIds: ['string'],
-    });
-  };
 
   const handleDelete = () => {
     setDeleteActionIsLoading(true);
@@ -88,6 +66,16 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
                 type: 'text',
               },
               {
+                label: 'Description',
+                value: event?.description,
+                type: event?.description.length > 0 ? 'textarea' : 'text',
+              },
+              {
+                label: 'Status',
+                value: event?.status,
+                type: 'text',
+              },
+              {
                 label: 'Start Time',
                 value: `${moment(event?.startTime).format(
                   'h:mm A MMM DD'
@@ -102,13 +90,39 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
                 type: 'text',
               },
               {
-                label: 'Status',
-                value: event?.status,
+                label: 'Type',
+                value: event?.type,
                 type: 'text',
               },
               {
-                label: 'Type',
-                value: event?.type,
+                label: 'Venues',
+                value:
+                  event?.venues.length > 0
+                    ? event?.venues.map((v) => v.name).join(', ')
+                    : 'None',
+                type: event?.venues.length > 0 ? 'textarea' : 'text',
+              },
+              {
+                label: 'Equipment',
+                value:
+                  event?.equipments.length > 0
+                    ? event?.equipments.map((eq) => eq.name).join(', ')
+                    : 'None',
+                type: event?.equipments.length > 0 ? 'textarea' : 'text',
+              },
+              {
+                label: 'Additional Notes',
+                value: event?.additionalNotes,
+                type: 'textarea',
+              },
+              {
+                label: 'Contact Person',
+                value: event?.contactPerson,
+                type: 'text',
+              },
+              {
+                label: 'Contact Number',
+                value: event?.contactNumber,
                 type: 'text',
               },
               {
@@ -117,9 +131,9 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
                 type: 'text',
               },
               {
-                label: 'Additional Notes',
-                value: event?.additionalNotes,
-                type: 'textarea',
+                label: 'Encoded at',
+                value: moment(event?.createdAt).format('MMMM DD, YYYY hh:mm A'),
+                type: 'text',
               },
             ]}
           />
@@ -130,19 +144,8 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
         <Button
           variant='outline'
           color='errorColor'
-          bg='errorBg'
-          data-cy='delete-submit-btn'
-          formNoValidate
-          isLoading={getSortedVenues.isLoading}
-          loadingText='Getting...'
-          onClick={handleGet}
-        >
-          Get
-        </Button>
-        <Button
-          variant='outline'
-          color='errorColor'
-          bg='errorBg'
+          borderColor='errorBg'
+          // bg='errorBg'
           data-cy='delete-submit-btn'
           formNoValidate
           isLoading={deleteActionIsLoading}

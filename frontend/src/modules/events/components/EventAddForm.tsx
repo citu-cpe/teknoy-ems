@@ -1,5 +1,5 @@
 import { Button, Divider, Flex, Spacer } from '@chakra-ui/react';
-import { Field, FieldProps, Form, Formik, useFormikContext } from 'formik';
+import { Field, FieldProps, Form, Formik } from 'formik';
 import {
   EventCreateDTO,
   EventCreateDTOStatusEnum,
@@ -8,8 +8,7 @@ import {
   EventDTO,
 } from 'generated-api';
 import moment from 'moment';
-import { useContext, useEffect } from 'react';
-import { useMutation } from 'react-query';
+import { useEffect } from 'react';
 import {
   FormLayout,
   Input,
@@ -19,7 +18,6 @@ import {
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
 import { convertToEventCreateDTO } from '../../../shared/helpers/convert-to-event-create-dto';
 import { parseDateTime } from '../../../shared/helpers/parse-date-time';
-import { ApiContext } from '../../../shared/providers/ApiProvider';
 import { useGlobalStore } from '../../../shared/stores';
 import { useSelectKeys } from '../hooks';
 import { useEvents } from '../hooks/';
@@ -44,7 +42,7 @@ export const EventAddForm = ({
   initialEventValue,
   onComplete,
 }: EventAddFormProps) => {
-  const { addEvent, editEvent, verifyEvent, getSortedEquipments } = useEvents();
+  const { addEvent, editEvent } = useEvents();
   const { getUser } = useGlobalStore();
   const { equipmentKey, organizerKey, venueKey } = useSelectKeys();
 
@@ -56,35 +54,6 @@ export const EventAddForm = ({
     ? convertToEventCreateDTO(initialEventValue)
     : null;
 
-  // useEffect(() => {
-  //   if (!initialEventValue) {
-  //     return;
-  //   }
-
-  //   if (getSortedEquipments.isLoading) {
-  //     return;
-  //   }
-
-  //   const eventCopy = {
-  //     ...convertToEventCreateDTO(initialEventValue),
-  //   };
-
-  //   if (eventCopy) {
-  //     const formattedEvent = {
-  //       ...eventCopy,
-  //       startTime: moment(eventCopy.startTime).toISOString(),
-  //       endTime: moment(eventCopy.endTime).toISOString(),
-  //       id: initialEventValue?.id,
-  //     };
-
-  //     if (!getSortedEquipments.isLoading) {
-  //       console.log({ eventCopy });
-  //       console.log({ formattedEvent });
-  //       getSortedEquipments.mutate(formattedEvent);
-  //     }
-  //   }
-  // }, [initialEventValue]);
-
   const initialValues = {
     title: initialEventValue?.title || '',
     description: initialEventValue?.description || '',
@@ -92,8 +61,12 @@ export const EventAddForm = ({
     viewAccess:
       eventCreateDTO?.viewAccess || EventCreateDTOViewAccessEnum.Public,
     status: eventCreateDTO?.status || EventCreateDTOStatusEnum.Pending,
-    startTime: parseDateTime(initialEventValue?.startTime) || '',
-    endTime: parseDateTime(initialEventValue?.endTime) || '',
+    startTime:
+      parseDateTime(initialEventValue?.startTime) ||
+      parseDateTime(moment().add(4, 'days').toISOString()),
+    endTime:
+      parseDateTime(initialEventValue?.endTime) ||
+      parseDateTime(moment().add(4, 'days').add(1, 'hours').toISOString()),
     contactPerson: initialEventValue?.contactPerson || '',
     contactNumber: initialEventValue?.contactNumber || '',
     approvedBy: initialEventValue?.approvedBy || '',
@@ -104,15 +77,15 @@ export const EventAddForm = ({
     encodedById: eventCreateDTO?.encodedById || getUser()?.id,
   };
 
-  // useEffect(() => {
-  //   if (addEvent.isSuccess) {
-  //     onComplete(addEvent.data.data);
-  //   }
+  useEffect(() => {
+    if (addEvent.isSuccess) {
+      onComplete(addEvent.data.data);
+    }
 
-  //   if (editEvent.isSuccess) {
-  //     onComplete(editEvent.data.data);
-  //   }
-  // }, [addEvent, editEvent, onComplete]);
+    if (editEvent.isSuccess) {
+      onComplete(editEvent.data.data);
+    }
+  }, [addEvent, editEvent, onComplete]);
 
   /**
    * force reset async select keys by changing their prop keys references
@@ -123,49 +96,8 @@ export const EventAddForm = ({
     venueKey.current = new Date().getTime() + Math.random();
   };
 
-  // TODO commented for future implementations
-  // const handleVerify = (values: unknown) => {
-  //   console.log({ values });
-  //   const eventValue = { ...values };
-  //   if (existingEventValue) {
-  //     // event form is used for `updating` an event
-  //     const formattedEvent = {
-  //       ...eventValue,
-  //       id: existingEventValue.id,
-  //       startTime: moment(eventValue.startTime).toISOString(),
-  //       endTime: moment(eventValue.endTime).toISOString(),
-  //     };
-
-  //     verifyEvent.mutate(formattedEvent);
-  //   } else {
-  //     // event form is used for `adding` an event
-  //     const formattedEvent = {
-  //       ...eventValue,
-  //       startTime: moment(eventValue.startTime).toISOString(),
-  //       endTime: moment(eventValue.endTime).toISOString(),
-  //     };
-
-  //     verifyEvent.mutate(formattedEvent);
-  //   }
-  // };
-
-  const api = useContext(ApiContext);
-
-  const wut = async (eventCreateDTO: EventCreateDTO) => {
-    console.log({  eventCreateDTO });
-    return await api.getSortedEquipments(eventCreateDTO);
-  };
-
-  const getNewSortedEquipments = useMutation(wut, {
-    onSuccess: (data) => {
-      console.log('getSortedEquipments Success');
-      console.log(data.data);
-    },
-  });
-
-  const onSubmit = async (newEvent: EventCreateDTO) => {
-    console.log({ newEvent });
-    const formattedEvent = {
+  const onSubmit = (newEvent: EventCreateDTO) => {
+    const formattedEvent: EventCreateDTO = {
       ...newEvent,
       startTime: moment(newEvent.startTime).toISOString(),
       endTime: moment(newEvent.endTime).toISOString(),
@@ -177,17 +109,7 @@ export const EventAddForm = ({
         id: initialEventValue.id,
       };
 
-      // editEvent.mutate(editedEventWithId);
-      console.log({ editedEventWithId });
-      await getNewSortedEquipments.mutateAsync(formattedEvent, {
-        onError: () => {
-          return console.log('sheesh');
-        },
-        onSuccess: () => {
-          return console.log('of cource');
-        },
-      });
-      console.log('done');
+      editEvent.mutate(editedEventWithId);
     } else {
       addEvent.mutate(formattedEvent);
     }
@@ -430,7 +352,6 @@ export const EventAddForm = ({
           <Flex w='full' h='full'>
             <FormikResetButton onClick={handleReset} />
             <Spacer />
-            {/* <VerifyEventButton onVerify={handleVerify} /> */}
             <Button
               variant='solid'
               data-cy='add-submit-btn'
@@ -445,33 +366,5 @@ export const EventAddForm = ({
         </Form>
       )}
     </Formik>
-  );
-};
-
-interface VerifyEventButtonProps {
-  onVerify: (values: unknown) => void;
-}
-
-export const VerifyEventButton = ({ onVerify }: VerifyEventButtonProps) => {
-  const { values, validateForm, validate, submitForm } = useFormikContext();
-
-  const handleClick = () => {
-    // onVerify(values);
-    console.log('s');
-    // validate(values);
-    validateForm();
-    submitForm();
-  };
-
-  return (
-    <Button
-      variant='outline'
-      data-cy='add-submit-btn'
-      formNoValidate
-      mr={2}
-      onClick={handleClick}
-    >
-      Verify
-    </Button>
   );
 };

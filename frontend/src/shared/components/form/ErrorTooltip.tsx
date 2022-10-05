@@ -1,6 +1,6 @@
-import { FormErrorMessage, Tooltip, TooltipProps } from '@chakra-ui/react';
-
-import { useEffect, useState } from 'react';
+import { Box, FormErrorMessage, Tooltip, TooltipProps } from '@chakra-ui/react';
+import { PropsWithChildren, useRef } from 'react';
+import { useOnScreen } from '../../hooks';
 
 interface ErrorTooptipProps {
   error: string | null | undefined;
@@ -12,34 +12,14 @@ export const ErrorTooltip = ({
   error,
   isInvalid,
   ...props
-}: ErrorTooptipProps & TooltipProps & React.PropsWithChildren) => {
-  const [show, setShow] = useState<boolean | undefined | null>(false);
-  const [alreadyShown, setInitial] = useState(false);
-
-  useEffect(() => {
-    if (isInvalid && !alreadyShown) {
-      console.log('showing...');
-      setShow(true);
-      trigger();
-    }
-  }, [isInvalid, alreadyShown]);
-
-  const trigger = () => {
-    setTimeout(() => {
-      console.log('done');
-      setShow(undefined);
-      setInitial(true);
-    }, 2000);
-  };
-
-  const handleHover = () => {
-    setShow(true);
-  };
+}: ErrorTooptipProps & TooltipProps & PropsWithChildren) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isVisible = useOnScreen(ref);
 
   return (
     <Tooltip
       hasArrow={isInvalid}
-      isOpen={isInvalid}
+      isOpen={isVisible && isInvalid}
       placement='bottom-end'
       color='errorColor'
       bg='errorBg'
@@ -55,12 +35,16 @@ export const ErrorTooltip = ({
           {error}
         </FormErrorMessage>
       }
-      portalProps={{
-        appendToParentPortal: true,
-      }}
       {...props}
     >
-      {children}
+      <Box
+        as='span'
+        w='full'
+        aria-label='Tooltip on screen reference'
+        ref={ref}
+      >
+        {children}
+      </Box>
     </Tooltip>
   );
 };

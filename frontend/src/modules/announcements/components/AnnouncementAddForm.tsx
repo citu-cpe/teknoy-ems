@@ -123,7 +123,7 @@ export const AnnouncementAddForm = ({
             <Flex as={FormControl} isRequired role='group'>
               <FormLabel
                 fontWeight='semibold'
-                minW={20}
+                minW={24}
                 m={0}
                 p={0}
                 pr={5}
