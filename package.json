@@ -49,5 +49,8 @@
   "devDependencies": {
     "concurrently": "^6.2.1",
     "dotenv-cli": "^6.0.0"
+  },
+  "dependencies": {
+    "intersection-observer": "^0.12.2"
   }
 }

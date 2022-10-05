@@ -2,11 +2,11 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { Login } from '../../src/modules/login/components/Login';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import userEvent from '@testing-library/user-event';
+import 'intersection-observer';
 
 describe('Login Page', () => {
   beforeEach(() => {
     const queryClient = new QueryClient();
-    setupIntersectionObserverMock();
 
     render(
       <QueryClientProvider client={queryClient}>
