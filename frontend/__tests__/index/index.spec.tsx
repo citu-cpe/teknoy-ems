@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { Landing } from '../../src/modules/index/components/Landing';
+import { setupIntersectionObserverMock } from '../../__mocks__/intersectionObserverMock';
 
 describe('Home Page', () => {
   beforeEach(() => {
+    setupIntersectionObserverMock();
     render(<Landing />);
   });
 

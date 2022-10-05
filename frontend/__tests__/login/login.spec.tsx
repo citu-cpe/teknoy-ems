@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 describe('Login Page', () => {
   beforeEach(() => {
     const queryClient = new QueryClient();
+    setupIntersectionObserverMock();
 
     render(
       <QueryClientProvider client={queryClient}>
