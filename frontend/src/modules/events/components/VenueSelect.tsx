@@ -12,7 +12,7 @@ export interface VenueOption extends Option {
   status: string;
 }
 
-export interface GroupedOption {
+export interface VenueGroupedOption {
   label: string;
   options: VenueOption[];
 }
@@ -22,7 +22,7 @@ export interface VenueSelectProps {
 }
 
 export const VenueSelect = ({ defaultValue }: VenueSelectProps) => {
-  const venueDefaultOptions = useRef<GroupedOption[]>([]);
+  const venueDefaultOptions = useRef<VenueGroupedOption[]>([]);
 
   const { schedule, getSortedVenues } = useGetSortedVenues();
 
@@ -79,7 +79,7 @@ export const VenueSelect = ({ defaultValue }: VenueSelectProps) => {
     return [];
   };
 
-  const filterOptions = (inputValue: string, options: GroupedOption[]) => {
+  const filterOptions = (inputValue: string, options: VenueGroupedOption[]) => {
     return options.filter((opt) =>
       opt.label.toLowerCase().includes(inputValue.toLowerCase())
     );
@@ -90,7 +90,7 @@ export const VenueSelect = ({ defaultValue }: VenueSelectProps) => {
    * (but currently, just a simple filtering because we fetch our data on first render)
    */
   const promiseOptions = (inputValue: string) =>
-    new Promise<GroupedOption[]>((resolve) => {
+    new Promise<VenueGroupedOption[]>((resolve) => {
       resolve(filterOptions(inputValue, venueDefaultOptions.current));
     });
 
@@ -121,7 +121,7 @@ export const VenueSelect = ({ defaultValue }: VenueSelectProps) => {
       : '';
   };
 
-  const formatGroupLabel = (data: GroupedOption) => (
+  const formatGroupLabel = (data: VenueGroupedOption) => (
     <div style={groupStyles}>
       <span>{data.label}</span>
       <span style={groupBadgeStyles}>{data.options.length}</span>

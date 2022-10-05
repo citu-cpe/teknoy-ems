@@ -16,7 +16,7 @@ export interface EquipmentOption extends Option {
   status: string;
 }
 
-export interface GroupedOption {
+export interface EquipmentGroupedOption {
   label: string;
   options: EquipmentOption[];
 }
@@ -26,7 +26,7 @@ export interface EquipmentSelectProps {
 }
 
 export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
-  const equipmentDefaultOptions = useRef<GroupedOption[]>([]);
+  const equipmentDefaultOptions = useRef<EquipmentGroupedOption[]>([]);
 
   const { schedule, getSortedEquipments } = useGetSortedEquipments();
 
@@ -83,7 +83,7 @@ export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
     return [];
   };
 
-  const filterOptions = (inputValue: string, options: GroupedOption[]) => {
+  const filterOptions = (inputValue: string, options: EquipmentGroupedOption[]) => {
     return options.filter((opt) =>
       opt.label.toLowerCase().includes(inputValue.toLowerCase())
     );
@@ -94,7 +94,7 @@ export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
    * (but currently, just a simple filtering because we fetch our data on first render)
    */
   const promiseOptions = (inputValue: string) =>
-    new Promise<GroupedOption[]>((resolve) => {
+    new Promise<EquipmentGroupedOption[]>((resolve) => {
       resolve(filterOptions(inputValue, equipmentDefaultOptions.current));
     });
 
@@ -125,7 +125,7 @@ export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
       : '';
   };
 
-  const formatGroupLabel = (data: GroupedOption) => (
+  const formatGroupLabel = (data: EquipmentGroupedOption) => (
     <div style={groupStyles}>
       <span>{data.label}</span>
       <span style={groupBadgeStyles}>{data.options.length}</span>
