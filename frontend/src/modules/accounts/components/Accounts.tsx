@@ -8,14 +8,12 @@ import {
 } from '../../../shared/components/content';
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
+import { adminOnlyAuth } from '../../../shared/schemas';
 import { Auth } from '../../../shared/types';
 import { AccountRegisterSuccess } from './AccountRegisterSuccess';
 import { AccountsTable } from './AccountsTable';
 
 export const Accounts = () => {
-  // const { getUser } = useGlobalStore();
-  // getUser()
-
   const [refresh, setRefresh] = useState(false);
   const [registeredUser, setRegisteredUser] = useState<
     RegisterUserDTO | undefined
@@ -90,9 +88,4 @@ export const Accounts = () => {
   );
 };
 
-const auth: Auth = {
-  redirectUrl: '/organizers',
-  roles: [RegisterUserDTORolesEnum.Organizer],
-};
-
-Accounts.auth = auth;
+Accounts.auth = adminOnlyAuth;

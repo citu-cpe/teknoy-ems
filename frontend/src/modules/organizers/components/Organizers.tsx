@@ -7,11 +7,12 @@ import {
 } from '../../../shared/components/content';
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
+import { staffAuth } from '../../../shared/schemas';
 import { OrganizerAddForm } from './OrganizerAddForm';
 import { OrganizerAddSuccess } from './OrganizerAddSuccess';
 import { OrganizersTable } from './OrganizersTable';
 
-export const Organizers = ({...props}) => {
+export const Organizers = ({ ...props }) => {
   console.log({ props });
   const [refresh, setRefresh] = useState(false);
   const [newOrganizerDTO, setOrganizerDTO] = useState<OrganizerDTO | undefined>(
@@ -81,3 +82,5 @@ export const Organizers = ({...props}) => {
     </MainLayout>
   );
 };
+
+Organizers.auth = staffAuth;

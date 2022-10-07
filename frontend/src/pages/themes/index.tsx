@@ -1,4 +1,4 @@
-import { Themes } from '../../modules/theme/components';
+import { Themes } from '../../modules/theme/';
 
 // const ThemePage: NextPage = () => <Themes />;
 

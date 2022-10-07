@@ -5,12 +5,14 @@ import { Landing } from '../modules/index/components/Landing';
 import { useGlobalStore } from '../shared/stores';
 
 const Index = () => {
-  const [user, setUser] = useState<UserDTO | undefined>();
   const getUser = useGlobalStore((state) => state.getUser);
+  const [user, setUser] = useState<UserDTO | undefined>(getUser());
 
-  useEffect(() => {
-    setUser(getUser());
-  }, [getUser]);
+  console.count('triggererd');
+
+  // useEffect(() => {
+  //   setUser(getUser());
+  // }, [getUser]);
 
   return user ? <Dashboard /> : <Landing />;
 };

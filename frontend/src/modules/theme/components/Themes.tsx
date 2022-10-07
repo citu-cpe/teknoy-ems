@@ -18,6 +18,7 @@ import { useContext } from 'react';
 import { BiCheckCircle, BiCloudLightning } from 'react-icons/bi';
 import { MainLayout } from '../../../shared/components/layout/MainLayout';
 import { Theme, ThemeContext } from '../../../shared/providers/ThemeProvider';
+import { basicAuth } from '../../../shared/schemas';
 
 export const Themes = () => {
   const theme = useTheme();
@@ -185,3 +186,5 @@ export const Themes = () => {
     </MainLayout>
   );
 };
+
+Themes.auth = basicAuth;

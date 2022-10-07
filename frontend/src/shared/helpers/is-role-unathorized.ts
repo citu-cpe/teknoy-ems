@@ -9,7 +9,7 @@ export const isRoleUnauthorized = (
 ): boolean => {
   let result = true; // unauthorize user by default
 
-  if (roles == null) {
+  if (roles == null || roles.length <= 0) {
     return false;
   }
 
