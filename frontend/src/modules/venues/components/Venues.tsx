@@ -7,6 +7,7 @@ import {
 } from '../../../shared/components/content';
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
+import { staffAuth } from '../../../shared/schemas';
 import { VenueAddForm } from './VenueAddForm';
 import { VenueAddSuccess } from './VenueAddSuccess';
 import { VenuesTable } from './VenuesTable';
@@ -73,3 +74,5 @@ export const Venues = () => {
     </MainLayout>
   );
 };
+
+Venues.auth = staffAuth;

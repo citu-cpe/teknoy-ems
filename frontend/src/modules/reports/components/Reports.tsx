@@ -1,10 +1,12 @@
 import { Button } from '@chakra-ui/react';
-import { ReportGetDTO } from 'generated-api';
+import { RegisterUserDTORolesEnum, ReportGetDTO } from 'generated-api';
 import {
   ContentHeader,
   ContentSection,
 } from '../../../shared/components/content';
 import { MainLayout } from '../../../shared/components/layout';
+import { adminOnlyAuth } from '../../../shared/schemas';
+import { Auth } from '../../../shared/types';
 import { ReportForm } from './ReportForm';
 
 export const Reports = () => {
@@ -20,3 +22,5 @@ export const Reports = () => {
     </MainLayout>
   );
 };
+
+Reports.auth = adminOnlyAuth;

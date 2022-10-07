@@ -6,6 +6,7 @@ import {
 } from '../../../shared/components/content';
 import { MainLayout } from '../../../shared/components/layout';
 import { useToast } from '../../../shared/hooks';
+import { basicAuth } from '../../../shared/schemas';
 import { useGlobalStore } from '../../../shared/stores';
 import { ChangePasswordForm } from './ChangePasswordForm';
 
@@ -32,3 +33,5 @@ export const ChangePassword = () => {
     </MainLayout>
   );
 };
+
+ChangePassword.auth = basicAuth;

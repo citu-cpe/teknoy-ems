@@ -1,6 +1,7 @@
-import { Button, Center, Divider, Flex, Heading, Icon } from '@chakra-ui/react';
+import { Button, Center, Flex, Heading, Icon } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { BiArrowBack } from 'react-icons/bi';
+import { authPage } from '../../../shared/schemas';
 import { LoginForm } from './LoginForm';
 
 export const Login = () => {
@@ -40,3 +41,5 @@ export const Login = () => {
     </Flex>
   );
 };
+
+Login.auth = authPage;
