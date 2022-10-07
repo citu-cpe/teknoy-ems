@@ -12,7 +12,7 @@ export const Reports = () => {
       <ContentHeader title='Reports' />
 
       <ContentSection>
-        <ReportForm onComplete={handleComplete} />
+        <ReportForm />
       </ContentSection>
     </MainLayout>
   );
