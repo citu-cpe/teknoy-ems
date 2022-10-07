@@ -8,6 +8,7 @@ import {
 } from '../../../shared/components/content';
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
+import { adminOnlyAuth } from '../../../shared/schemas';
 import { AccountRegisterSuccess } from './AccountRegisterSuccess';
 import { AccountsTable } from './AccountsTable';
 
@@ -85,3 +86,5 @@ export const Accounts = () => {
     </MainLayout>
   );
 };
+
+Accounts.auth = adminOnlyAuth;

@@ -22,11 +22,7 @@ import { useReports } from '../hooks';
 import { filterGroupProps, formControlProps, formLabelProps } from '../styles';
 import { SelectAllToggle } from './SelectAllToggle';
 
-interface ReportFormProps {
-  onComplete: (status: string) => void;
-}
-
-export const ReportForm = ({ onComplete }: ReportFormProps) => {
+export const ReportForm = () => {
   const { getReport } = useReports();
   const toast = useToast();
 
@@ -169,7 +165,6 @@ export const ReportForm = ({ onComplete }: ReportFormProps) => {
         fileDownload(new Blob(blobParts), filename);
 
         toast({ title: 'Report generated successfully' });
-        onComplete(getReport.status);
       },
       onError: (response) => {
         toast({

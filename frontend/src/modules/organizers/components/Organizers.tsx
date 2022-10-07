@@ -7,6 +7,7 @@ import {
 } from '../../../shared/components/content';
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
+import { staffAuth } from '../../../shared/schemas';
 import { OrganizerAddForm } from './OrganizerAddForm';
 import { OrganizerAddSuccess } from './OrganizerAddSuccess';
 import { OrganizersTable } from './OrganizersTable';
@@ -80,3 +81,5 @@ export const Organizers = () => {
     </MainLayout>
   );
 };
+
+Organizers.auth = staffAuth;
