@@ -23,10 +23,4 @@ export const Reports = () => {
   );
 };
 
-const auth: Auth = {
-  requiresAuth: true,
-  isAuthPage: false,
-  roles: [RegisterUserDTORolesEnum.Admin],
-};
-
 Reports.auth = adminOnlyAuth;

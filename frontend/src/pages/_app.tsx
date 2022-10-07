@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import router, { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { isRoleUnauthorized } from '../shared/helpers/is-role-unathorized';
 import { AppProvider } from '../shared/providers/AppProvider';
@@ -13,7 +13,7 @@ import '@fullcalendar/list/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
 import { NextPage } from 'next';
-import { RegisterUserDTORolesEnum, UserDTO } from 'generated-api';
+import { UserDTO } from 'generated-api';
 import { Auth } from '../shared/types';
 import { MainLayout } from '../shared/components/layout';
 import { Center, Button, Icon } from '@chakra-ui/react';
@@ -29,42 +29,53 @@ interface CustomAppProps extends Omit<AppProps, 'Component'> {
 
 function MyApp({ Component, pageProps }: CustomAppProps) {
   const getUser = useGlobalStore((state) => state.getUser);
-  const router = useRouter();
+  const nextRouter = useRouter();
+
   const [showPage, setShowPage] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);
 
-  console.log('showPage1', showPage);
+  const handleAuth = useCallback(
+    (user: UserDTO | undefined, auth: Auth) => {
+      const { requiresAuth, isAuthPage, roles, redirectUrl } = auth;
 
-  if (!showPage) {
-    console.log('hoy');
-  }
+      const HOME_ROUTE = '/';
+      const LOGIN_URL = '/login';
+      const FIRST_LOGIN_URL = '/first-login';
+
+      if (requiresAuth && !user) {
+        nextRouter.replace(LOGIN_URL);
+        return;
+      }
+
+      if (user && isAuthPage) {
+        nextRouter.replace(HOME_ROUTE);
+        return;
+      }
+
+      if (user?.isFirstLogin && nextRouter.pathname !== FIRST_LOGIN_URL) {
+        nextRouter.replace(FIRST_LOGIN_URL);
+        return;
+      }
+
+      if (user && isRoleUnauthorized(user, roles)) {
+        setUnauthorized(true);
+
+        if (redirectUrl) {
+          nextRouter.replace(redirectUrl);
+        }
+
+        return;
+      }
+
+      setUnauthorized(false);
+      setShowPage(true);
+    },
+    [nextRouter]
+  );
 
   useEffect(() => {
-    // if (pageProps.protected && !user) {
-    //   router.replace('/login');
-    // } else if (pageProps.dontShowUser && user) {
-    //   router.replace('/');
-    // } else if (user?.isFirstLogin && router.pathname !== '/first-login') {
-    //   router.replace('/first-login');
-    // } else if (user && isRoleUnauthorized(user, pageProps.auth.roles)) {
-    //   router.replace('/unauthorized');
-    // } else {
-    //   setShowPage(true);
-    // }
-
-    console.log('useeffect');
-    console.log('showPage', showPage);
-
     const user = getUser();
     const auth = Component.auth;
-    // console.log(isRoleUnauthorized(user, roles));
-    // const {
-    //   roles,
-    //   loadingSkeleton: loading,
-    //   redirectUrl,
-    // } = Component.auth || {};
-
-    console.log(auth);
 
     if (auth) {
       handleAuth(user, auth);
@@ -72,51 +83,8 @@ function MyApp({ Component, pageProps }: CustomAppProps) {
       setUnauthorized(false);
       setShowPage(true);
     }
-  }, [Component, getUser, pageProps, router, showPage]);
+  }, [Component, getUser, handleAuth, pageProps, nextRouter, showPage]);
 
-  const handleAuth = (user: UserDTO | undefined, auth: Auth) => {
-    console.log('auth....');
-    const { requiresAuth, isAuthPage, roles, redirectUrl } = auth;
-
-    const LOGIN_URL = '/login';
-    const FIRST_LOGIN_URL = '/first-login';
-    const HOME_ROUTE = '/';
-
-    if (requiresAuth && !user) {
-      console.log('requier login');
-      router.replace(LOGIN_URL);
-      return;
-    }
-
-    if (user && isAuthPage) {
-      console.log('redirect to home');
-      router.replace(HOME_ROUTE);
-      return;
-    }
-
-    if (user?.isFirstLogin && router.pathname !== FIRST_LOGIN_URL) {
-      console.log('first login');
-      router.replace(FIRST_LOGIN_URL);
-      return;
-    }
-
-    if (user && isRoleUnauthorized(user, roles)) {
-      setUnauthorized(true);
-
-      if (redirectUrl) {
-        console.log('unauthorized redirected');
-        router.replace(redirectUrl);
-      }
-
-      return;
-    }
-
-    console.log('okay');
-    setUnauthorized(false);
-    setShowPage(true);
-  };
-
-  console.log('return', showPage && !!unauthorized);
   return (
     <ThemeProvider>
       <AppProvider>
