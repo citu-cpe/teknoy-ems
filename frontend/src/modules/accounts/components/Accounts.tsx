@@ -1,5 +1,5 @@
 import { Button, useDisclosure } from '@chakra-ui/react';
-import { RegisterUserDTO } from 'generated-api';
+import { RegisterUserDTO, RegisterUserDTORolesEnum } from 'generated-api';
 import { useState } from 'react';
 import { AccountRegisterForm } from '.';
 import {
@@ -8,10 +8,14 @@ import {
 } from '../../../shared/components/content';
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
+import { Auth } from '../../../shared/types';
 import { AccountRegisterSuccess } from './AccountRegisterSuccess';
 import { AccountsTable } from './AccountsTable';
 
 export const Accounts = () => {
+  // const { getUser } = useGlobalStore();
+  // getUser()
+
   const [refresh, setRefresh] = useState(false);
   const [registeredUser, setRegisteredUser] = useState<
     RegisterUserDTO | undefined
@@ -85,3 +89,10 @@ export const Accounts = () => {
     </MainLayout>
   );
 };
+
+const auth: Auth = {
+  redirectUrl: '/organizers',
+  roles: [RegisterUserDTORolesEnum.Organizer],
+};
+
+Accounts.auth = auth;

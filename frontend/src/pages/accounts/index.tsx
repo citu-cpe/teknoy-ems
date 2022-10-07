@@ -12,4 +12,22 @@ import { Accounts } from '../../modules/accounts';
 //   };
 // };
 
+// export const getServerSideProps = (context) => {
+//   const user = { henlo: 'henlo' };
+//   console.log({ context });
+
+//   // if (!user) {
+//   //   return {
+//   //     redirect: {
+//   //       destination: '/login',
+//   //       permanent: false,
+//   //     },
+//   //   };
+//   // }
+
+//   return {
+//     props: { user },
+//   };
+// };
+
 export default Accounts;

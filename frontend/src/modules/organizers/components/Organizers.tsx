@@ -11,7 +11,8 @@ import { OrganizerAddForm } from './OrganizerAddForm';
 import { OrganizerAddSuccess } from './OrganizerAddSuccess';
 import { OrganizersTable } from './OrganizersTable';
 
-export const Organizers = () => {
+export const Organizers = ({...props}) => {
+  console.log({ props });
   const [refresh, setRefresh] = useState(false);
   const [newOrganizerDTO, setOrganizerDTO] = useState<OrganizerDTO | undefined>(
     undefined
