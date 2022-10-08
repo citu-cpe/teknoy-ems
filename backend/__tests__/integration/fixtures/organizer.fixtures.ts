@@ -5,6 +5,7 @@ import {
   TypeEnum,
 } from '../../../src/organizer/dto/organizer.dto';
 import { requestWithStaff } from '../setup';
+import { TEST_DATA_PREFIX } from '../../../src/shared/constants/test-data-prefix';
 
 const organizerRoute = OrganizerController.ORGANIZER_API_PATH;
 
@@ -14,7 +15,7 @@ export const testCreateOrganizerDept: OrganizerDTO = {
 };
 
 export const testCreateOrganizerDeptSameName: OrganizerDTO = {
-  name: 'MSDO',
+  name: TEST_DATA_PREFIX + 'MSDO',
   type: TypeEnum.DEPARTMENT,
 };
 
@@ -24,7 +25,7 @@ export const testCreateOrganizerOrg: OrganizerDTO = {
 };
 
 export const testCreateOrganizerOrgSameName: OrganizerDTO = {
-  name: 'Supreme Student Government',
+  name: TEST_DATA_PREFIX + 'Supreme Student Government',
   type: TypeEnum.ORGANIZATION,
 };
 

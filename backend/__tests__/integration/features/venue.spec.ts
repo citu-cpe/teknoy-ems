@@ -6,6 +6,7 @@ import { requestWithStaff } from '../setup';
 import { HttpStatus } from '@nestjs/common';
 import { SortedVenuesDTO } from '../../../src/event/dto/sorted-venues.dto';
 import { EventController } from '../../../src/event/event.controller';
+import { TEST_DATA_PREFIX } from '../../../src/shared/constants/test-data-prefix';
 
 describe('venue.spec.ts - Venue Controller', () => {
   const venueRoute = VenueController.VENUE_API_PATH;
@@ -30,7 +31,7 @@ describe('venue.spec.ts - Venue Controller', () => {
 
     it('should not successfully add a venue with the same name', async () => {
       const venueSameName = {
-        name: 'Covered Court',
+        name: TEST_DATA_PREFIX + 'Covered Court',
       };
 
       const { body } = await requestWithStaff
