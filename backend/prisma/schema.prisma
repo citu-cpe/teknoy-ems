@@ -115,7 +115,7 @@ model Event {
   startTime       DateTime
   endTime         DateTime
   contactPerson   String
-  contactNumber   String
+  contact         String     @default("")
   approvedBy      String?
   viewAccess      ViewAccess
   type            EventType

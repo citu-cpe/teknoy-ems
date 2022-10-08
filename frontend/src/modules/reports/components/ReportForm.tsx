@@ -87,7 +87,7 @@ export const ReportForm = () => {
         startTime: eventSelectedFilter?.includes('startTime'),
         endTime: eventSelectedFilter?.includes('endTime'),
         contactPerson: eventSelectedFilter?.includes('contactPerson'),
-        contactNumber: eventSelectedFilter?.includes('contactNumber'),
+        contact: eventSelectedFilter?.includes('contact'),
         approvedBy: eventSelectedFilter?.includes('approvedBy'),
         viewAccess: eventSelectedFilter?.includes('viewAccess'),
         type: eventSelectedFilter?.includes('type'),
@@ -212,7 +212,7 @@ export const ReportForm = () => {
                       'startTime',
                       'endTime',
                       'contactPerson',
-                      'contactNumber',
+                      'contact',
                       'approvedBy',
                       'viewAccess',
                       'type',
@@ -346,15 +346,15 @@ export const ReportForm = () => {
                   <Field
                     name='reportFilterDTO.eventReportFilterDTO'
                     type='checkbox'
-                    value={'contactNumber'}
+                    value={'contact'}
                   >
                     {(fieldProps: FieldProps<string, string>) => (
                       <Checkbox
                         fieldProps={fieldProps}
                         name='reportFilterDTO.eventReportFilterDTO'
                         checked={fieldProps.field.checked}
-                        id='event-contactNumber'
-                        data-cy='event-contact-number-checkbox'
+                        id='event-contact'
+                        data-cy='event-contact-checkbox'
                       >
                         {fieldProps.field.value}
                       </Checkbox>

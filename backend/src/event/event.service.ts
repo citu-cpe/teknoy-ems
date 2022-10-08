@@ -66,7 +66,7 @@ export class EventService {
         startTime: dto.startTime,
         endTime: dto.endTime,
         contactPerson: dto.contactPerson,
-        contactNumber: dto.contactNumber,
+        contact: dto.contact,
         approvedBy: dto.approvedBy,
         viewAccess: dto.viewAccess,
         type: dto.type,
@@ -176,7 +176,7 @@ export class EventService {
           startTime: dto.startTime,
           endTime: dto.endTime,
           contactPerson: dto.contactPerson,
-          contactNumber: dto.contactNumber,
+          contact: dto.contact,
           approvedBy: dto.approvedBy,
           viewAccess: dto.viewAccess,
           type: dto.type,
@@ -400,7 +400,7 @@ export class EventService {
     eventDTO.startTime = event.startTime;
     eventDTO.endTime = event.endTime;
     eventDTO.contactPerson = event.contactPerson;
-    eventDTO.contactNumber = event.contactNumber;
+    eventDTO.contact = event.contact;
     eventDTO.approvedBy = event.approvedBy;
     eventDTO.viewAccess = event.viewAccess.toString() as ViewAccessEnum;
     eventDTO.type = event.type.toString() as EventTypeEnum;
