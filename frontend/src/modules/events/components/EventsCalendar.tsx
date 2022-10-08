@@ -5,7 +5,7 @@ import {
   EventInput,
 } from '@fullcalendar/common';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
 import { Dialog, LinkButton, Modal } from '../../../shared/components/elements';
+import { valuesAreEqual } from '../../../shared/helpers';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
 import { EventAddForm } from './EventAddForm';
@@ -134,9 +135,17 @@ export const EventsCalendar = ({
     onEditModalClose();
   };
 
-  const handleEditComplete = () => {
-    toast({ title: 'Updated event successfully' });
-    fetchAllEvents();
+  const handleEditComplete = (eventDTO: EventDTO) => {
+    const initialEventValue = { ...eventToEdit.current, updatedAt: '' };
+    const updatedEventValue = { ...eventDTO, updatedAt: '' };
+
+    if (valuesAreEqual(initialEventValue, updatedEventValue)) {
+      toast({ title: 'No event changes', status: 'info' });
+    } else {
+      toast({ title: 'Updated event successfully' });
+      fetchAllEvents();
+    }
+
     handleEditModalClose();
   };
 
@@ -163,9 +172,13 @@ export const EventsCalendar = ({
     onViewModalOpen();
   };
 
-  const handleDateClick = (dateInfo: DateClickArg) => {
-    onAddOpen();
-  };
+  /**
+   * feature function currently commented for future development
+   * Reason: Users can mistakenly click calendar Dates very easily
+   */
+  // const handleDateClick = (dateInfo: DateClickArg) => {
+  //   onAddOpen();
+  // };
 
   const handleReserve = () => {
     router.push('/events/reserve');
@@ -195,7 +208,7 @@ export const EventsCalendar = ({
           slotMinTime='06:00'
           slotMaxTime='24:00'
           eventClick={handleEventClick}
-          dateClick={handleDateClick}
+          // dateClick={handleDateClick} currently disabled
           height='100%'
           selectable
           editable
@@ -252,7 +265,7 @@ export const EventsCalendar = ({
         size='4xl'
       >
         <EventAddForm
-          existingEventValue={eventToEdit.current}
+          initialEventValue={eventToEdit.current}
           onComplete={handleComplete}
         />
       </Modal>
@@ -273,7 +286,7 @@ export const EventsCalendar = ({
           size='4xl'
         >
           <EventAddForm
-            existingEventValue={eventToEdit.current}
+            initialEventValue={eventToEdit.current}
             onComplete={handleEditComplete}
           />
         </Modal>
