@@ -8,6 +8,7 @@ import {
 } from '../../../shared/components/content';
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
+import { basicAuth } from '../../../shared/schemas';
 import { EventAddForm } from './EventAddForm';
 import { EventAddSuccess } from './EventAddSuccess';
 
@@ -58,3 +59,5 @@ export const EventAddPage = () => {
     </MainLayout>
   );
 };
+
+EventAddPage.auth = basicAuth;
