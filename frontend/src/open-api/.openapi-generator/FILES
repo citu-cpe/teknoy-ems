@@ -30,6 +30,8 @@ models/organizer-report-filter-dto.ts
 models/register-user-dto.ts
 models/report-filter-dto.ts
 models/report-get-dto.ts
+models/reset-password-dto.ts
+models/reset-password-link-dto.ts
 models/schedule-dto.ts
 models/sorted-equipments-dto.ts
 models/sorted-venues-dto.ts

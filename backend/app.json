@@ -21,7 +21,10 @@
     },
     "JWT_REFRESH_TOKEN_EXPIRATION_TIME": "31540000",
     "PROJECT_PATH": "backend",
-    "ACTIVE_PROFILES": "test_data"
+    "ACTIVE_PROFILES": "test_data",
+    "FRONTEND_URL": "http://localhost:3000",
+    "EMAIL_USERNAME": "teampnrn@gmail.com",
+    "EMAIL_PASSWORD": "soppysknponsqjow"
   },
   "buildpacks": [
     {
