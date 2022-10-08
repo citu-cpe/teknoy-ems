@@ -82,7 +82,7 @@ export interface EventDTO {
    * @type {string}
    * @memberof EventDTO
    */
-  contactNumber: string;
+  contact: string;
   /**
    *
    * @type {string}

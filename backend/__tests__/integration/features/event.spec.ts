@@ -39,7 +39,7 @@ describe('event.spec.ts - Event Controller', () => {
     startTime: new Date('2022-09-10 2:00:00 PM'),
     endTime: new Date('2022-09-10 5:00:00 PM'),
     contactPerson: 'test',
-    contactNumber: '999-409-4388',
+    contact: '999-409-4388',
     approvedBy: 'test',
     viewAccess: ViewAccessEnum.PRIVATE,
     type: EventTypeEnum.CAMPUS_WIDE,
@@ -83,11 +83,6 @@ describe('event.spec.ts - Event Controller', () => {
         status: StatusEnum.RESERVED,
       };
 
-      const invalidPhoneNumberEventDTO: EventCreateDTO = {
-        ...validEventCreateDTO,
-        contactNumber: 'not a phone number',
-      };
-
       await requestWithStaff
         .post(eventApiPath)
         .send()
@@ -95,10 +90,6 @@ describe('event.spec.ts - Event Controller', () => {
       await requestWithStaff
         .post(eventApiPath)
         .send(reservedEventDTO)
-        .expect(HttpStatus.BAD_REQUEST);
-      await requestWithStaff
-        .post(eventApiPath)
-        .send(invalidPhoneNumberEventDTO)
         .expect(HttpStatus.BAD_REQUEST);
     });
 
@@ -143,18 +134,9 @@ describe('event.spec.ts - Event Controller', () => {
     });
 
     it('should not update event with invalid data', async () => {
-      const invalidPhoneNumberEventDTO: EventCreateDTO = {
-        ...validEventCreateDTO,
-        contactNumber: 'not a phone number',
-      };
-
       await requestWithStaff
         .put(eventApiPath + '/' + testEvent.id)
         .send()
-        .expect(HttpStatus.BAD_REQUEST);
-      await requestWithStaff
-        .put(eventApiPath + '/' + testEvent.id)
-        .send(invalidPhoneNumberEventDTO)
         .expect(HttpStatus.BAD_REQUEST);
     });
 

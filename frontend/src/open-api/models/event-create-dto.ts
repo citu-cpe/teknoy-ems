@@ -65,7 +65,7 @@ export interface EventCreateDTO {
    * @type {string}
    * @memberof EventCreateDTO
    */
-  contactNumber: string;
+  contact: string;
   /**
    *
    * @type {string}
