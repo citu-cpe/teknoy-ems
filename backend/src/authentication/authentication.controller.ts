@@ -19,6 +19,8 @@ import { ChangePasswordDTO } from './dto/change-password.dto';
 import { UserService } from '../user/user.service';
 import { Role } from '@prisma/client';
 import { Roles } from '../authorization/decorators/roles.decorator';
+import { ResetPasswordLinkDTO } from './dto/reset-password-link.dto';
+import { ResetPasswordDTO } from './dto/reset-password.dto';
 
 @Controller(AuthenticationController.AUTH_API_ROUTE)
 export class AuthenticationController {
@@ -28,6 +30,8 @@ export class AuthenticationController {
   public static readonly LOGOUT_API_ROUTE = '/logout';
   public static readonly REFRESH_API_ROUTE = '/refresh';
   public static readonly CHANGE_PASSWORD_API_ROUTE = '/change-password';
+  public static readonly RESET_PASSWORD_LINK_API_ROUTE = '/reset-password-link';
+  public static readonly RESET_PASSWORD_API_ROUTE = '/reset-password';
 
   constructor(
     private readonly authenticationService: AuthenticationService,
@@ -70,6 +74,24 @@ export class AuthenticationController {
     @Req() { user }: RequestWithUser,
     @Body() changePasswordDTO: ChangePasswordDTO
   ): Promise<UserDTO> {
-    return this.userService.changePassword(user, changePasswordDTO);
+    return this.userService.changePasswordWithCheck(user, changePasswordDTO);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post(AuthenticationController.RESET_PASSWORD_LINK_API_ROUTE)
+  public async sendResetPasswordLink(
+    @Body() resetPasswordLinkDTO: ResetPasswordLinkDTO
+  ): Promise<void> {
+    return this.authenticationService.sendResetPasswordLink(
+      resetPasswordLinkDTO
+    );
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post(AuthenticationController.RESET_PASSWORD_API_ROUTE)
+  public async resetPassword(
+    @Body() resetPasswordDTO: ResetPasswordDTO
+  ): Promise<void> {
+    return this.authenticationService.resetPassword(resetPasswordDTO);
   }
 }

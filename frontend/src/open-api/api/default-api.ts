@@ -63,6 +63,10 @@ import { RegisterUserDTO } from '../models';
 // @ts-ignore
 import { ReportGetDTO } from '../models';
 // @ts-ignore
+import { ResetPasswordDTO } from '../models';
+// @ts-ignore
+import { ResetPasswordLinkDTO } from '../models';
+// @ts-ignore
 import { ScheduleDTO } from '../models';
 // @ts-ignore
 import { SortedEquipmentsDTO } from '../models';
@@ -2310,6 +2314,108 @@ export const DefaultApiAxiosParamCreator = function (
     },
     /**
      *
+     * @param {ResetPasswordDTO} resetPasswordDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    resetPassword: async (
+      resetPasswordDTO: ResetPasswordDTO,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'resetPasswordDTO' is not null or undefined
+      assertParamExists('resetPassword', 'resetPasswordDTO', resetPasswordDTO);
+      const localVarPath = `/api/v1/auth/reset-password`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        resetPasswordDTO,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {ResetPasswordLinkDTO} resetPasswordLinkDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    sendResetPasswordLink: async (
+      resetPasswordLinkDTO: ResetPasswordLinkDTO,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'resetPasswordLinkDTO' is not null or undefined
+      assertParamExists(
+        'sendResetPasswordLink',
+        'resetPasswordLinkDTO',
+        resetPasswordLinkDTO
+      );
+      const localVarPath = `/api/v1/auth/reset-password-link`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        resetPasswordLinkDTO,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
      * @param {string} id
      * @param {AnnouncementDTO} announcementDTO
      * @param {*} [options] Override http request option.
@@ -3810,6 +3916,53 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @param {ResetPasswordDTO} resetPasswordDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async resetPassword(
+      resetPasswordDTO: ResetPasswordDTO,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.resetPassword(
+        resetPasswordDTO,
+        options
+      );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {ResetPasswordLinkDTO} resetPasswordLinkDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async sendResetPasswordLink(
+      resetPasswordLinkDTO: ResetPasswordLinkDTO,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.sendResetPasswordLink(
+          resetPasswordLinkDTO,
+          options
+        );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
      * @param {string} id
      * @param {AnnouncementDTO} announcementDTO
      * @param {*} [options] Override http request option.
@@ -4583,6 +4736,34 @@ export const DefaultApiFactory = function (
     },
     /**
      *
+     * @param {ResetPasswordDTO} resetPasswordDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    resetPassword(
+      resetPasswordDTO: ResetPasswordDTO,
+      options?: any
+    ): AxiosPromise<void> {
+      return localVarFp
+        .resetPassword(resetPasswordDTO, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {ResetPasswordLinkDTO} resetPasswordLinkDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    sendResetPasswordLink(
+      resetPasswordLinkDTO: ResetPasswordLinkDTO,
+      options?: any
+    ): AxiosPromise<void> {
+      return localVarFp
+        .sendResetPasswordLink(resetPasswordLinkDTO, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
      * @param {string} id
      * @param {AnnouncementDTO} announcementDTO
      * @param {*} [options] Override http request option.
@@ -5326,6 +5507,35 @@ export class DefaultApi extends BaseAPI {
   public register(registerUserDTO: RegisterUserDTO, options?: any) {
     return DefaultApiFp(this.configuration)
       .register(registerUserDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {ResetPasswordDTO} resetPasswordDTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public resetPassword(resetPasswordDTO: ResetPasswordDTO, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .resetPassword(resetPasswordDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {ResetPasswordLinkDTO} resetPasswordLinkDTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public sendResetPasswordLink(
+    resetPasswordLinkDTO: ResetPasswordLinkDTO,
+    options?: any
+  ) {
+    return DefaultApiFp(this.configuration)
+      .sendResetPasswordLink(resetPasswordLinkDTO, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
