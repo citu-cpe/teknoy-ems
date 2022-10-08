@@ -7,7 +7,7 @@ import {
 } from '../../../shared/components/content';
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
-import { basicAuth, staffAuth } from '../../../shared/schemas';
+import { staffAuth } from '../../../shared/schemas';
 import { EquipmentAddForm } from './EquipmentAddForm';
 import { EquipmentAddSuccess } from './EquipmentAddSuccess';
 import { EquipmentTable } from './EquipmentTable';

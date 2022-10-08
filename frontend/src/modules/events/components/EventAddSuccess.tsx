@@ -21,6 +21,7 @@ export const EventAddSuccess = ({
         title='Event has been added'
         onClose={onClose}
         onConfirm={onConfirm}
+        closeLabel='Done'
         confirmLabel='Reserve again'
       >
         <ModalTable>

@@ -7,6 +7,7 @@ import {
   MdOutlineDashboard,
 } from 'react-icons/md';
 import { useGlobalStore } from '../../stores';
+import { TbReport } from 'react-icons/tb';
 import { Logo } from '../logo';
 import { NavLink } from './NavLink';
 
@@ -29,12 +30,7 @@ const basicModules: React.ReactNode[] = [
 
 const adminModules: React.ReactNode[] = [
   <NavLink key='accounts' label='Accounts' route='/accounts' icon={BiUser} />,
-  <NavLink
-    key='reports'
-    label='Reports'
-    route='/reports'
-    icon={MdOutlineAnnouncement}
-  />,
+  <NavLink key='reports' label='Reports' route='/reports' icon={TbReport} />,
 ];
 
 const staffModules: React.ReactNode[] = [

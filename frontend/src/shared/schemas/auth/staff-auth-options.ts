@@ -5,8 +5,5 @@ export const staffAuth: Auth = {
   requiresAuth: true,
   isAuthPage: false,
   redirectUrl: '/login',
-  roles: [
-    RegisterUserDTORolesEnum.Staff,
-    RegisterUserDTORolesEnum.Admin,
-  ],
+  roles: [RegisterUserDTORolesEnum.Staff, RegisterUserDTORolesEnum.Admin],
 };
