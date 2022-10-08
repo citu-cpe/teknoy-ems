@@ -60,11 +60,13 @@ export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
       })),
     };
 
-    // both group options
-    equipmentDefaultOptions.current = [
-      availableEquipmentsGroup,
-      unavailableEquipmentsGroup,
-    ];
+    if (availableEquipmentsGroup.options.length > 0) {
+      equipmentDefaultOptions.current.push(availableEquipmentsGroup);
+    }
+
+    if (unavailableEquipmentsGroup.options.length > 0) {
+      equipmentDefaultOptions.current.push(unavailableEquipmentsGroup);
+    }
   };
 
   const getDefaultValues = (): EquipmentOption[] => {
@@ -83,7 +85,10 @@ export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
     return [];
   };
 
-  const filterOptions = (inputValue: string, options: EquipmentGroupedOption[]) => {
+  const filterOptions = (
+    inputValue: string,
+    options: EquipmentGroupedOption[]
+  ) => {
     return options.filter((opt) =>
       opt.label.toLowerCase().includes(inputValue.toLowerCase())
     );

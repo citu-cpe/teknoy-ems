@@ -56,11 +56,13 @@ export const VenueSelect = ({ defaultValue }: VenueSelectProps) => {
       })),
     };
 
-    // both group options
-    venueDefaultOptions.current = [
-      availableVenuesGroup,
-      unavailableVenuesGroup,
-    ];
+    if (availableVenuesGroup.options.length > 0) {
+      venueDefaultOptions.current.push(availableVenuesGroup);
+    }
+
+    if (unavailableVenuesGroup.options.length > 0) {
+      venueDefaultOptions.current.push(unavailableVenuesGroup);
+    }
   };
 
   const getDefaultValues = (): VenueOption[] => {
