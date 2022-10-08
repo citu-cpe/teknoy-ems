@@ -3,12 +3,13 @@ import { PrismaService } from '../../global/prisma/prisma.service';
 import { CustomLogger } from '../../shared/custom-logger';
 import { Equipment, Schedule } from '@prisma/client';
 import { AvailabilityEnum } from '../../schedule/dto/schedule.dto';
+import { TEST_DATA_PREFIX } from '../../shared/constants/test-data-prefix';
 
 export const addEquipmentWithoutSched: Equipment = {
   id: '3e8e27e1-b023-40a6-a367-52ab65937d35',
   createdAt: new Date(),
   updatedAt: new Date(),
-  name: 'SONY CAM 1',
+  name: TEST_DATA_PREFIX + 'SONY CAM 1',
   brand: 'SONY',
   type: 'CAMERA',
   serial: '123456789',

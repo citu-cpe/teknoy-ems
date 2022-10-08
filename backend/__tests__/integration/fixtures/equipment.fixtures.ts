@@ -2,6 +2,7 @@ import { EquipmentController } from '../../../src/equipment/equipment.controller
 import { EquipmentDTO } from '../../../src/equipment/dto/equipment.dto';
 import { HttpStatus } from '@nestjs/common';
 import { requestWithStaff } from '../setup';
+import { TEST_DATA_PREFIX } from '../../../src/shared/constants/test-data-prefix';
 
 const equipmentRoute = EquipmentController.EQUIPMENT_API_PATH;
 
@@ -14,7 +15,7 @@ export const testAddEquipment: EquipmentDTO = {
 };
 
 export const testAddEquipmentWithSameName: EquipmentDTO = {
-  name: 'SONY CAM 1',
+  name: TEST_DATA_PREFIX + 'SONY CAM 1',
   type: 'CAMERA',
   brand: 'EPSON',
   serial: 'GIJDKSLS',
@@ -22,7 +23,7 @@ export const testAddEquipmentWithSameName: EquipmentDTO = {
 };
 
 export const testAddEquipmentWithSameSerial: EquipmentDTO = {
-  name: 'SONY CAM 1',
+  name: TEST_DATA_PREFIX + 'SONY CAM 1',
   type: 'CAMERA',
   brand: 'EPSON',
   serial: '123456789',
@@ -61,3 +62,4 @@ export const addEquipmentWithSameSerial = async (
 
   return body;
 };
+

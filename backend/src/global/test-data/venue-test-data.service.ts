@@ -3,12 +3,13 @@ import { PrismaService } from '../../global/prisma/prisma.service';
 import { CustomLogger } from '../../shared/custom-logger';
 import { Schedule, Venues } from '@prisma/client';
 import { AvailabilityEnum } from '../../schedule/dto/schedule.dto';
+import { TEST_DATA_PREFIX } from '../../shared/constants/test-data-prefix';
 
 export const venueTestCC: Venues = {
   id: '6ee07e9c-daa6-4d13-a96a-91a64d380a2e',
   createdAt: new Date(),
   updatedAt: new Date(),
-  name: 'Covered Court',
+  name: TEST_DATA_PREFIX + 'Covered Court',
   notes: 'this is a test for covered court',
 };
 
@@ -16,7 +17,7 @@ export const venueTestGYM: Venues = {
   id: '9c519856-a674-4ae4-9cc3-92223fb09422',
   createdAt: new Date(),
   updatedAt: new Date(),
-  name: 'GYM',
+  name: TEST_DATA_PREFIX + 'GYM',
   notes: 'this is a test for GYM',
 };
 
