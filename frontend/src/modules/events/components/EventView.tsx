@@ -121,8 +121,8 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
                 type: 'text',
               },
               {
-                label: 'Contact Number',
-                value: event?.contactNumber,
+                label: 'Contact',
+                value: event?.contact,
                 type: 'text',
               },
               {

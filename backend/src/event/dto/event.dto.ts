@@ -6,7 +6,6 @@ import {
   IsEnum,
   IsDateString,
   Validate,
-  IsPhoneNumber,
   ValidateNested,
   IsArray,
 } from 'class-validator';
@@ -55,8 +54,7 @@ export class EventDTO {
 
   @IsString()
   @IsNotEmpty()
-  @IsPhoneNumber('PH')
-  public contactNumber: string;
+  public contact: string;
 
   @IsString()
   @IsNotEmpty()

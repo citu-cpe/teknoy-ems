@@ -19,7 +19,7 @@ export const defaultReportGetDTO: ReportGetDTO = {
       additionalNotes: true,
       approvedBy: true,
       contactPerson: true,
-      contactNumber: true,
+      contact: true,
       description: true,
       encodedBy: true,
       endTime: true,
