@@ -9,6 +9,8 @@ export const eventValidator = Yup.object({
   type: Yup.string().min(1).max(40).required('Type is required'),
   viewAccess: Yup.string().min(1).max(40).required('View Access is required'),
   status: Yup.string().min(1).max(40).required('Status is required'),
+  startTime: Yup.date().required('Start time is required'),
+  endTime: Yup.date().required('End time is required'),
   contactPerson: Yup.string()
     .min(1)
     .max(40)

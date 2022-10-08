@@ -1,5 +1,5 @@
 import { Button, useDisclosure } from '@chakra-ui/react';
-import { RegisterUserDTO, RegisterUserDTORolesEnum } from 'generated-api';
+import { RegisterUserDTO } from 'generated-api';
 import { useState } from 'react';
 import { AccountRegisterForm } from '.';
 import {
@@ -9,7 +9,6 @@ import {
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
 import { adminOnlyAuth } from '../../../shared/schemas';
-import { Auth } from '../../../shared/types';
 import { AccountRegisterSuccess } from './AccountRegisterSuccess';
 import { AccountsTable } from './AccountsTable';
 

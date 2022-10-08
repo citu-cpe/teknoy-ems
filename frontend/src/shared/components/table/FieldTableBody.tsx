@@ -41,7 +41,7 @@ export const FieldTableBody = ({ data }: FieldTableBodyProps) => {
               borderBottom='0px'
               readOnly
             >
-              {value}
+              {value?.length === 0 ? 'None' : value}
             </Textarea>
           </Td>
         </>
@@ -64,7 +64,7 @@ export const FieldTableBody = ({ data }: FieldTableBodyProps) => {
       <>
         <Th borderBottom='0px'>{label}</Th>
         <Td borderBottom='0px' minW={60}>
-          {value}
+          {value?.length === 0 ? 'None' : value}
         </Td>
       </>
     );

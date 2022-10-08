@@ -1,5 +1,5 @@
-import { Button, Flex, Spacer } from '@chakra-ui/react';
-import { Field, FieldProps, Form, Formik, useFormikContext } from 'formik';
+import { Button, Divider, Flex, Spacer } from '@chakra-ui/react';
+import { Field, FieldProps, Form, Formik } from 'formik';
 import {
   EventCreateDTO,
   EventCreateDTOStatusEnum,
@@ -29,9 +29,9 @@ import { VenueSelect } from './VenueSelect';
 
 export interface EventAddFormProps {
   /**
-   * existingEventValue: event value when form is being used during Event Update forms
+   * initialEventValue: event value from existing Event to update or generated from Event Templates
    */
-  existingEventValue?: EventDTO | null | undefined;
+  initialEventValue?: EventDTO | null | undefined;
   /**
    * onComplete: callback function passing a resulting Event value
    */
@@ -39,37 +39,37 @@ export interface EventAddFormProps {
 }
 
 export const EventAddForm = ({
-  existingEventValue,
+  initialEventValue,
   onComplete,
 }: EventAddFormProps) => {
-  const { addEvent, editEvent, verifyEvent } = useEvents();
+  const { addEvent, editEvent } = useEvents();
   const { getUser } = useGlobalStore();
   const { equipmentKey, organizerKey, venueKey } = useSelectKeys();
 
   /**
-   * stores old event values before being updated
-   * useful for quickly accessing prop fields rather than server fetching
+   * Stores old event values before being updated.
+   * Useful for quickly accessing fields prop rather than data fetching.
    */
-  const eventCreateDTO = existingEventValue
-    ? convertToEventCreateDTO(existingEventValue)
+  const eventCreateDTO = initialEventValue
+    ? convertToEventCreateDTO(initialEventValue)
     : null;
 
   const initialValues = {
-    title: existingEventValue?.title || '',
-    description: existingEventValue?.description || '',
+    title: initialEventValue?.title || '',
+    description: initialEventValue?.description || '',
     type: eventCreateDTO?.type || EventCreateDTOTypeEnum.Seminar,
     viewAccess:
       eventCreateDTO?.viewAccess || EventCreateDTOViewAccessEnum.Public,
     status: eventCreateDTO?.status || EventCreateDTOStatusEnum.Pending,
     startTime:
-      parseDateTime(existingEventValue?.startTime) ||
-      parseDateTime(moment().format()),
+      parseDateTime(initialEventValue?.startTime) ||
+      parseDateTime(moment().add(4, 'days').toISOString()),
     endTime:
-      parseDateTime(existingEventValue?.endTime) ||
-      parseDateTime(moment().add(1, 'hours').toISOString()),
-    contactPerson: existingEventValue?.contactPerson || '',
-    contactNumber: existingEventValue?.contactNumber || '',
-    approvedBy: existingEventValue?.approvedBy || '',
+      parseDateTime(initialEventValue?.endTime) ||
+      parseDateTime(moment().add(4, 'days').add(1, 'hours').toISOString()),
+    contactPerson: initialEventValue?.contactPerson || '',
+    contactNumber: initialEventValue?.contactNumber || '',
+    approvedBy: initialEventValue?.approvedBy || '',
     organizerId: eventCreateDTO?.organizerId || '',
     equipmentIds: eventCreateDTO?.equipmentIds || [],
     venueIds: eventCreateDTO?.venueIds || [],
@@ -88,7 +88,7 @@ export const EventAddForm = ({
   }, [addEvent, editEvent, onComplete]);
 
   /**
-   * force reset async select keys by changing their prop keys
+   * force reset async select keys by changing their prop keys references
    */
   const handleReset = () => {
     organizerKey.current = new Date().getTime() + Math.random();
@@ -96,49 +96,21 @@ export const EventAddForm = ({
     venueKey.current = new Date().getTime() + Math.random();
   };
 
-  // TODO commented for future implementations
-  // const handleVerify = (eventValue: EventCreateDTO) => {
-  //   if (existingEventValue) {
-  //     // event form is used for `updating` an event
-  //     const formattedEvent = {
-  //       ...eventValue,
-  //       id: existingEventValue.id,
-  //       startTime: moment(eventValue.startTime).toISOString(),
-  //       endTime: moment(eventValue.endTime).toISOString(),
-  //     };
-
-  //     verifyEvent.mutate(formattedEvent);
-  //   } else {
-  //     // event form is used for `adding` an event
-  //     const formattedEvent = {
-  //       ...eventValue,
-  //       startTime: moment(eventValue.startTime).toISOString(),
-  //       endTime: moment(eventValue.endTime).toISOString(),
-  //     };
-
-  //     verifyEvent.mutate(formattedEvent);
-  //   }
-  // };
-
   const onSubmit = (newEvent: EventCreateDTO) => {
-    if (existingEventValue) {
-      // event form is used for `updating` an event
-      const formattedEvent = {
-        ...newEvent,
-        id: existingEventValue.id,
-        startTime: moment(newEvent.startTime).toISOString(),
-        endTime: moment(newEvent.endTime).toISOString(),
+    const formattedEvent: EventCreateDTO = {
+      ...newEvent,
+      startTime: moment(newEvent.startTime).toISOString(),
+      endTime: moment(newEvent.endTime).toISOString(),
+    };
+
+    if (initialEventValue) {
+      const editedEventWithId = {
+        ...formattedEvent,
+        id: initialEventValue.id,
       };
 
-      editEvent.mutate(formattedEvent);
+      editEvent.mutate(editedEventWithId);
     } else {
-      // event form is used for `adding` an event
-      const formattedEvent = {
-        ...newEvent,
-        startTime: moment(newEvent.startTime).toISOString(),
-        endTime: moment(newEvent.endTime).toISOString(),
-      };
-
       addEvent.mutate(formattedEvent);
     }
   };
@@ -152,35 +124,6 @@ export const EventAddForm = ({
       {() => (
         <Form noValidate>
           <FormLayout>
-            <Field name='title' type='text' isRequired>
-              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-                <Input
-                  formLabelProps={formLabelProps}
-                  fieldProps={fieldProps}
-                  name='title'
-                  label='Title'
-                  type='text'
-                  id='title'
-                  placeholder='Teknoy Seminar'
-                  isRequired
-                  data-cy='title-input'
-                />
-              )}
-            </Field>
-            <Field name='description' type='text'>
-              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-                <Textarea
-                  formLabelProps={formLabelProps}
-                  fieldProps={fieldProps}
-                  name='description'
-                  label='Description'
-                  id='description'
-                  placeholder='The College Faculty brings again another seminar series to help students foster...'
-                  data-cy='description-input'
-                  rows={8}
-                />
-              )}
-            </Field>
             <Field name='type' type='text' isRequired>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
                 <FormSelect
@@ -215,56 +158,7 @@ export const EventAddForm = ({
                 </FormSelect>
               )}
             </Field>
-            <Field name='viewAccess' type='text' isRequired>
-              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-                <FormSelect
-                  formLabelProps={formLabelProps}
-                  fieldProps={fieldProps}
-                  name='viewAccess'
-                  label='View Access'
-                  id='viewAccess'
-                  isRequired
-                  data-cy='view-access-select'
-                >
-                  <option value={EventCreateDTOViewAccessEnum.Public}>
-                    Public
-                  </option>
-                  <option value={EventCreateDTOViewAccessEnum.Private}>
-                    Private
-                  </option>
-                </FormSelect>
-              )}
-            </Field>
-            <Field name='status' type='text' isRequired>
-              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
-                <FormSelect
-                  formLabelProps={formLabelProps}
-                  fieldProps={fieldProps}
-                  name='status'
-                  label='Status'
-                  id='status'
-                  isRequired
-                  data-cy='status-select'
-                >
-                  <option value={EventCreateDTOStatusEnum.Pending}>
-                    Pending
-                  </option>
-                  <option value={EventCreateDTOStatusEnum.Reserved}>
-                    Reserved
-                  </option>
-                  <option value={EventCreateDTOStatusEnum.Ongoing}>
-                    Ongoing
-                  </option>
-                  <option value={EventCreateDTOStatusEnum.Done}>Done</option>
-                  <option value={EventCreateDTOStatusEnum.Canceled}>
-                    Canceled
-                  </option>
-                  <option value={EventCreateDTOStatusEnum.Postponed}>
-                    Postponed
-                  </option>
-                </FormSelect>
-              )}
-            </Field>
+
             <Field name='startTime' type='datetime-local' isRequired>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
                 <Input
@@ -293,6 +187,75 @@ export const EventAddForm = ({
                 />
               )}
             </Field>
+
+            <VenueSelect
+              key={venueKey.current}
+              defaultValue={initialEventValue?.venues}
+            />
+
+            <EquipmentSelect
+              key={equipmentKey.current}
+              defaultValue={initialEventValue?.equipments}
+            />
+
+            <Divider />
+
+            <Field name='title' type='text' isRequired>
+              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+                <Input
+                  formLabelProps={formLabelProps}
+                  fieldProps={fieldProps}
+                  name='title'
+                  label='Title'
+                  type='text'
+                  id='title'
+                  placeholder='Teknoy Seminar'
+                  isRequired
+                  data-cy='title-input'
+                />
+              )}
+            </Field>
+            <Field name='description' type='text'>
+              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+                <Textarea
+                  formLabelProps={formLabelProps}
+                  fieldProps={fieldProps}
+                  name='description'
+                  label='Description'
+                  id='description'
+                  placeholder='The College Faculty brings again another seminar series to help students foster...'
+                  data-cy='description-input'
+                  rows={8}
+                />
+              )}
+            </Field>
+
+            <Field name='viewAccess' type='text' isRequired>
+              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+                <FormSelect
+                  formLabelProps={formLabelProps}
+                  fieldProps={fieldProps}
+                  name='viewAccess'
+                  label='View Access'
+                  id='viewAccess'
+                  isRequired
+                  data-cy='view-access-select'
+                >
+                  <option value={EventCreateDTOViewAccessEnum.Public}>
+                    Public
+                  </option>
+                  <option value={EventCreateDTOViewAccessEnum.Private}>
+                    Private
+                  </option>
+                </FormSelect>
+              )}
+            </Field>
+
+            <OrganizerSelect
+              key={organizerKey.current}
+              defaultValue={initialEventValue?.organizer}
+            />
+
             <Field name='contactPerson' type='text' isRequired>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
                 <Input
@@ -323,6 +286,40 @@ export const EventAddForm = ({
                 />
               )}
             </Field>
+
+            <Divider />
+
+            <Field name='status' type='text' isRequired>
+              {(fieldProps: FieldProps<string, EventCreateDTO>) => (
+                <FormSelect
+                  formLabelProps={formLabelProps}
+                  fieldProps={fieldProps}
+                  name='status'
+                  label='Status'
+                  id='status'
+                  isRequired
+                  data-cy='status-select'
+                >
+                  <option value={EventCreateDTOStatusEnum.Pending}>
+                    Pending
+                  </option>
+                  <option value={EventCreateDTOStatusEnum.Reserved}>
+                    Reserved
+                  </option>
+                  <option value={EventCreateDTOStatusEnum.Ongoing}>
+                    Ongoing
+                  </option>
+                  <option value={EventCreateDTOStatusEnum.Done}>Done</option>
+                  <option value={EventCreateDTOStatusEnum.Canceled}>
+                    Canceled
+                  </option>
+                  <option value={EventCreateDTOStatusEnum.Postponed}>
+                    Postponed
+                  </option>
+                </FormSelect>
+              )}
+            </Field>
+
             <Field name='approvedBy' type='text'>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
                 <Input
@@ -337,21 +334,6 @@ export const EventAddForm = ({
                 />
               )}
             </Field>
-
-            <OrganizerSelect
-              key={organizerKey.current}
-              defaultValue={existingEventValue?.organizer}
-            />
-
-            <EquipmentSelect
-              key={equipmentKey.current}
-              defaultValue={existingEventValue?.equipments}
-            />
-
-            <VenueSelect
-              key={venueKey.current}
-              defaultValue={existingEventValue?.venues}
-            />
 
             <Field name='additionalNotes' type='text'>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
@@ -370,44 +352,19 @@ export const EventAddForm = ({
           <Flex w='full' h='full'>
             <FormikResetButton onClick={handleReset} />
             <Spacer />
-            {/* <VerifyEventButton onVerify={handleVerify} /> */}
             <Button
               variant='solid'
               data-cy='add-submit-btn'
               formNoValidate
               type='submit'
-              isLoading={addEvent.isLoading}
-              loadingText='Adding...'
+              isLoading={addEvent.isLoading || editEvent.isLoading}
+              loadingText={initialEventValue ? 'Updating...' : 'Adding'}
             >
-              Reserve Event
+              {initialEventValue ? 'Update' : 'Reserve'} Event
             </Button>
           </Flex>
         </Form>
       )}
     </Formik>
-  );
-};
-
-interface VerifyEventButtonProps {
-  onVerify: (values: unknown) => void;
-}
-
-export const VerifyEventButton = ({ onVerify }: VerifyEventButtonProps) => {
-  const { values } = useFormikContext();
-
-  const handleClick = () => {
-    onVerify(values);
-  };
-
-  return (
-    <Button
-      variant='outline'
-      data-cy='add-submit-btn'
-      formNoValidate
-      mr={2}
-      onClick={handleClick}
-    >
-      Verify
-    </Button>
   );
 };

@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import 'intersection-observer';
 import { Landing } from '../../src/modules/index/components/Landing';
 
 describe('Home Page', () => {
