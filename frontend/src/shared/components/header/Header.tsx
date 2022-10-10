@@ -1,9 +1,12 @@
 import {
+  Avatar,
   Box,
   Button,
+  Center,
   Divider,
   Flex,
   Heading,
+  HStack,
   Icon,
   IconButton,
   Menu,
@@ -18,6 +21,7 @@ import {
   PopoverTrigger,
   Portal,
   Spacer,
+  Spinner,
   Tab,
   TabList,
   Tabs,
@@ -37,6 +41,7 @@ import { useGetFilteredNotification } from '../../hooks/useGetFilteredNotificati
 import { NotificationDateFilterEnum } from '../../enums/notificationDateFilter';
 import { useQueryClient } from 'react-query';
 import { useState } from 'react';
+import { brandSmallScrollbar } from '../../../styles/components';
 type HeaderProps = {
   routeBreadCrumb?: React.ReactNode;
 };
@@ -45,7 +50,8 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [notificationFilter, setNotificationFilter] =
     useState<NotificationDateFilterEnum>(NotificationDateFilterEnum.ALL);
-  const { notificationsDTO } = useGetFilteredNotification(notificationFilter);
+  const { notificationsDTO, isLoading } =
+    useGetFilteredNotification(notificationFilter);
   const queryClient = useQueryClient();
   const { markNotificationAsRead, markAllNotificationsAsRead } =
     useMarkNotificationasRead();
@@ -53,6 +59,7 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
     queryClient.invalidateQueries('notification');
     setNotificationFilter(dateFilter);
   };
+  const vowelRegex = '^[aeio].*';
 
   useGetActivityLogs();
 
@@ -119,7 +126,8 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
             shadow='lg'
             overflowY='scroll'
             p={15}
-            maxH={500}
+            maxH={'80vh'}
+            sx={brandSmallScrollbar}
           >
             <Tabs size='sm' variant='soft-rounded'>
               <Flex direction={'row'}>
@@ -144,6 +152,7 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
                         <Button
                           w={'full'}
                           onClick={() => markAllNotificationsAsRead.mutate()}
+                          size={'xs'}
                         >
                           Mark all as read
                         </Button>
@@ -152,12 +161,11 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
                   </PopoverContent>
                 </Popover>
               </Flex>
-
               <TabList>
                 <Tab
-                  onClick={() => {
-                    handleNotificationFilter(NotificationDateFilterEnum.ALL);
-                  }}
+                  onClick={() =>
+                    handleNotificationFilter(NotificationDateFilterEnum.ALL)
+                  }
                 >
                   All
                 </Tab>
@@ -188,58 +196,104 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
                 </Tab>
               </TabList>
               <Divider marginTop={2} />
-              {notificationsDTO?.notifications.length === 0 && (
-                <Text
-                  marginTop='1rem'
-                  fontSize='lg'
-                  fontWeight='bold'
-                  textAlign='center'
-                >
-                  No notifications :c
-                </Text>
-              )}
-              {notificationsDTO?.notifications.map(
-                (n: NotificationDTO, index) => (
-                  <MenuItem
-                    key={index}
-                    onClick={() => markNotificationAsRead.mutate(n)}
-                  >
-                    <Flex direction='column' alignItems='start' maxW={80}>
-                      {n.unread ? (
-                        <Box
-                          as={'span'}
-                          color={'white'}
-                          bottom={'2'}
-                          position={'inherit'}
-                          left={'5'}
-                          bgColor={'red'}
-                          borderRadius={'25'}
-                          zIndex={1}
-                          p={'2px'}
-                          width={'0.5rem'}
-                          height={'0.5rem'}
-                        ></Box>
-                      ) : null}
+              {isLoading ? (
+                <Center minH={80} minW={80}>
+                  <Spinner colorScheme='brand' />
+                </Center>
+              ) : (
+                <>
+                  {notificationsDTO?.notifications.length === 0 && (
+                    <Text
+                      marginTop='1rem'
+                      fontSize='lg'
+                      fontWeight='bold'
+                      textAlign='center'
+                    >
+                      You have no new notifications
+                    </Text>
+                  )}
 
-                      <Text opacity={0.8} fontSize='md' fontWeight='bold'>
-                        {n.activityLog.entityName.toUpperCase()}
-                      </Text>
-                      <Text opacity={1} fontSize='sm'>
-                        {n.activityLog.user.name}{' '}
-                        {n.activityLog.action.toLowerCase()}{' '}
-                        {n.activityLog.newValue && (
-                          <>
-                            {JSON.parse(n.activityLog.newValue)?.title ||
-                              JSON.parse(n.activityLog.newValue)?.name}
-                          </>
-                        )}{' '}
-                      </Text>
-                      <Text color='gray.500'>
-                        {Moment(n.activityLog.createdAt).fromNow()}
-                      </Text>
-                    </Flex>
-                  </MenuItem>
-                )
+                  {notificationsDTO?.notifications.map(
+                    (n: NotificationDTO, index) => (
+                      <MenuItem
+                        key={index}
+                        onClick={() => markNotificationAsRead.mutate(n)}
+                      >
+                        <Flex
+                          direction='row'
+                          alignItems='start'
+                          maxW={80}
+                          position={'relative'}
+                        >
+                          {n.unread ? (
+                            <Box
+                              as={'span'}
+                              top={0}
+                              bottom={0}
+                              margin={'auto'}
+                              position={'absolute'}
+                              left={300}
+                              bgColor={'blue.400'}
+                              borderRadius={'25'}
+                              zIndex={1}
+                              p={'5px'}
+                              verticalAlign={'middle'}
+                              width={'0.5rem'}
+                              height={'0.5rem'}
+                            ></Box>
+                          ) : null}
+                          <Flex>
+                            <HStack>
+                              <Avatar name={n.activityLog.user.name} />
+                              <Spacer />
+                              <Flex direction={'column'}>
+                                <Text fontSize='sm' fontWeight={'bold'}>
+                                  {n.activityLog.user.name}{' '}
+                                </Text>
+                                <Box maxW='210px' w={'100%'}>
+                                  <Text
+                                    opacity={1}
+                                    fontSize='sm'
+                                    textAlign={'left'}
+                                  >
+                                    has {n.activityLog.action.toLowerCase()}{' '}
+                                    {n.activityLog.action === 'ADDED' ||
+                                    n.activityLog.action === 'REGISTERED'
+                                      ? 'a new '
+                                      : n.activityLog.entityName.match(
+                                          vowelRegex
+                                        )
+                                      ? 'an '
+                                      : 'a '}
+                                    {n.activityLog.entityName}{' '}
+                                    <i>
+                                      <strong>
+                                        {n.activityLog.newValue && (
+                                          <>
+                                            {JSON.parse(n.activityLog.newValue)
+                                              ?.title ||
+                                              JSON.parse(n.activityLog.newValue)
+                                                ?.name}
+                                          </>
+                                        )}{' '}
+                                      </strong>
+                                    </i>
+                                  </Text>
+                                </Box>
+
+                                <Text
+                                  color={n.unread ? 'blue.400' : 'gray.500'}
+                                >
+                                  {Moment(n.activityLog.createdAt).fromNow()}
+                                </Text>
+                              </Flex>
+                            </HStack>
+                          </Flex>
+                        </Flex>
+                      </MenuItem>
+                    )
+                  )}
+                </>
               )}
             </Tabs>
           </MenuList>
