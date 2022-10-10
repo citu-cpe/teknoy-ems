@@ -3,7 +3,6 @@ import router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BiArrowBack } from 'react-icons/bi';
 import { ContentSection } from '../../../shared/components/content';
-import { adminOnlyAuth } from '../../../shared/schemas';
 import { ResetLinkSent } from './ResetLinkSent';
 import { ResetPasswordForm } from './ResetPasswordForm';
 import { ResetPasswordLinkForm } from './ResetPasswordLinkForm';
@@ -85,5 +84,3 @@ export const ResetPassword = () => {
     </Flex>
   );
 };
-
-ResetPassword.auth = adminOnlyAuth;
