@@ -6,6 +6,7 @@ import {
   ContentSection,
 } from '../../../shared/components/content';
 import { MainLayout } from '../../../shared/components/layout';
+import { basicAuth } from '../../../shared/schemas';
 import { useGlobalStore } from '../../../shared/stores';
 import { ProfileEditForm } from './ProfileEditForm';
 
@@ -30,3 +31,5 @@ export const Profile = () => {
     </MainLayout>
   );
 };
+
+Profile.auth = basicAuth;

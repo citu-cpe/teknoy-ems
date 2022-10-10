@@ -12,18 +12,19 @@ datasource db {
 }
 
 model User {
-  id                        String         @id @default(uuid())
-  createdAt                 DateTime       @default(now())
-  updatedAt                 DateTime       @updatedAt
-  email                     String         @unique
+  id                        String                @id @default(uuid())
+  createdAt                 DateTime              @default(now())
+  updatedAt                 DateTime              @updatedAt
+  email                     String                @unique
   name                      String
   password                  String
   currentHashedRefreshToken String?
   roles                     Role[]
-  isFirstLogin              Boolean        @default(true)
+  isFirstLogin              Boolean               @default(true)
   Event                     Event[]
   Notification              Notification[]
   ActivityLog               ActivityLog[]
+  PasswordResetTokens       PasswordResetTokens[]
 }
 
 enum Role {
@@ -114,7 +115,7 @@ model Event {
   startTime       DateTime
   endTime         DateTime
   contactPerson   String
-  contactNumber   String
+  contact         String     @default("")
   approvedBy      String?
   viewAccess      ViewAccess
   type            EventType
@@ -207,4 +208,12 @@ enum EventType {
   VIRTUAL
   SPORTS
   OTHERS
+}
+
+model PasswordResetTokens {
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+  token  String @unique
+
+  @@id([userId, token])
 }

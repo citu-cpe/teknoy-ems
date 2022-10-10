@@ -5,6 +5,7 @@ import {
 } from '../../../shared/components/content';
 import { LinkButton } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
+import { basicAuth } from '../../../shared/schemas';
 import { useGlobalStore } from '../../../shared/stores';
 
 export const Settings = () => {
@@ -39,3 +40,5 @@ export const Settings = () => {
     </MainLayout>
   );
 };
+
+Settings.auth = basicAuth;

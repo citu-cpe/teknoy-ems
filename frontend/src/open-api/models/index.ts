@@ -18,6 +18,8 @@ export * from './organizer-report-filter-dto';
 export * from './register-user-dto';
 export * from './report-filter-dto';
 export * from './report-get-dto';
+export * from './reset-password-dto';
+export * from './reset-password-link-dto';
 export * from './schedule-dto';
 export * from './sorted-equipments-dto';
 export * from './sorted-venues-dto';

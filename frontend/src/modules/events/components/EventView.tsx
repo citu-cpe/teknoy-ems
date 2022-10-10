@@ -66,6 +66,16 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
                 type: 'text',
               },
               {
+                label: 'Description',
+                value: event?.description,
+                type: event?.description.length > 0 ? 'textarea' : 'text',
+              },
+              {
+                label: 'Status',
+                value: event?.status,
+                type: 'text',
+              },
+              {
                 label: 'Start Time',
                 value: `${moment(event?.startTime).format(
                   'h:mm A MMM DD'
@@ -80,13 +90,39 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
                 type: 'text',
               },
               {
-                label: 'Status',
-                value: event?.status,
+                label: 'Type',
+                value: event?.type,
                 type: 'text',
               },
               {
-                label: 'Type',
-                value: event?.type,
+                label: 'Venues',
+                value:
+                  event?.venues.length > 0
+                    ? event?.venues.map((v) => v.name).join(', ')
+                    : 'None',
+                type: event?.venues.length > 0 ? 'textarea' : 'text',
+              },
+              {
+                label: 'Equipment',
+                value:
+                  event?.equipments.length > 0
+                    ? event?.equipments.map((eq) => eq.name).join(', ')
+                    : 'None',
+                type: event?.equipments.length > 0 ? 'textarea' : 'text',
+              },
+              {
+                label: 'Additional Notes',
+                value: event?.additionalNotes,
+                type: 'textarea',
+              },
+              {
+                label: 'Contact Person',
+                value: event?.contactPerson,
+                type: 'text',
+              },
+              {
+                label: 'Contact',
+                value: event?.contact,
                 type: 'text',
               },
               {
@@ -95,9 +131,9 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
                 type: 'text',
               },
               {
-                label: 'Additional Notes',
-                value: event?.additionalNotes,
-                type: 'textarea',
+                label: 'Encoded at',
+                value: moment(event?.createdAt).format('MMMM DD, YYYY hh:mm A'),
+                type: 'text',
               },
             ]}
           />
@@ -108,7 +144,8 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
         <Button
           variant='outline'
           color='errorColor'
-          bg='errorBg'
+          borderColor='errorBg'
+          // bg='errorBg'
           data-cy='delete-submit-btn'
           formNoValidate
           isLoading={deleteActionIsLoading}

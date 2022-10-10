@@ -169,8 +169,8 @@ export class ReportService {
       if (filter.contactPerson) {
         value.push({ key: 'Contact Person', value: e.contactPerson });
       }
-      if (filter.contactNumber) {
-        value.push({ key: 'Contact Number', value: e.contactNumber });
+      if (filter.contact) {
+        value.push({ key: 'Contact', value: e.contact });
       }
       if (filter.approvedBy) {
         value.push({ key: 'Approved By', value: e.approvedBy });
@@ -214,7 +214,7 @@ export class ReportService {
       'Start Time',
       'End Time',
       'Contact Person',
-      'Contact Number',
+      'Contact',
       'Approved By',
       'View Access',
       'Type',

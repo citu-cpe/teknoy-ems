@@ -1,6 +1,7 @@
-import { Button, Center, Divider, Flex, Heading, Icon } from '@chakra-ui/react';
+import { Button, Center, Flex, Heading, Icon } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { BiArrowBack } from 'react-icons/bi';
+import { authPage } from '../../../shared/schemas';
 import { LoginForm } from './LoginForm';
 
 export const Login = () => {
@@ -10,7 +11,7 @@ export const Login = () => {
     <Flex>
       <Flex minH='100vh' h='100vh' w='full'>
         <iframe
-          src='https://my.spline.design/untitled-21a4629d1cd55f08a36901e930ddc246/'
+          src='https://my.spline.design/untitled-398e61d4a5cd88c5a949f8f0f7e86f9b/'
           frameBorder='0'
           width='100%'
           height='100%'
@@ -40,3 +41,5 @@ export const Login = () => {
     </Flex>
   );
 };
+
+Login.auth = authPage;

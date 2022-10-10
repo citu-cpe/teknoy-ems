@@ -22,11 +22,7 @@ import { useReports } from '../hooks';
 import { filterGroupProps, formControlProps, formLabelProps } from '../styles';
 import { SelectAllToggle } from './SelectAllToggle';
 
-interface ReportFormProps {
-  onComplete: (status: string) => void;
-}
-
-export const ReportForm = ({ onComplete }: ReportFormProps) => {
+export const ReportForm = () => {
   const { getReport } = useReports();
   const toast = useToast();
 
@@ -91,7 +87,7 @@ export const ReportForm = ({ onComplete }: ReportFormProps) => {
         startTime: eventSelectedFilter?.includes('startTime'),
         endTime: eventSelectedFilter?.includes('endTime'),
         contactPerson: eventSelectedFilter?.includes('contactPerson'),
-        contactNumber: eventSelectedFilter?.includes('contactNumber'),
+        contact: eventSelectedFilter?.includes('contact'),
         approvedBy: eventSelectedFilter?.includes('approvedBy'),
         viewAccess: eventSelectedFilter?.includes('viewAccess'),
         type: eventSelectedFilter?.includes('type'),
@@ -169,7 +165,6 @@ export const ReportForm = ({ onComplete }: ReportFormProps) => {
         fileDownload(new Blob(blobParts), filename);
 
         toast({ title: 'Report generated successfully' });
-        onComplete(getReport.status);
       },
       onError: (response) => {
         toast({
@@ -217,7 +212,7 @@ export const ReportForm = ({ onComplete }: ReportFormProps) => {
                       'startTime',
                       'endTime',
                       'contactPerson',
-                      'contactNumber',
+                      'contact',
                       'approvedBy',
                       'viewAccess',
                       'type',
@@ -351,15 +346,15 @@ export const ReportForm = ({ onComplete }: ReportFormProps) => {
                   <Field
                     name='reportFilterDTO.eventReportFilterDTO'
                     type='checkbox'
-                    value={'contactNumber'}
+                    value={'contact'}
                   >
                     {(fieldProps: FieldProps<string, string>) => (
                       <Checkbox
                         fieldProps={fieldProps}
                         name='reportFilterDTO.eventReportFilterDTO'
                         checked={fieldProps.field.checked}
-                        id='event-contactNumber'
-                        data-cy='event-contact-number-checkbox'
+                        id='event-contact'
+                        data-cy='event-contact-checkbox'
                       >
                         {fieldProps.field.value}
                       </Checkbox>

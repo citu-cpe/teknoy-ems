@@ -3,6 +3,7 @@ import { UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
 import { ContentSection } from '../../../shared/components/content';
 import { useToast } from '../../../shared/hooks';
+import { basicAuth } from '../../../shared/schemas';
 import { useGlobalStore } from '../../../shared/stores';
 import { useLogout } from '../../index/hooks/useLogout';
 import { ChangePasswordForm } from '../../settings/components/ChangePasswordForm';
@@ -51,3 +52,5 @@ export const FirstLogin = () => {
     </Flex>
   );
 };
+
+FirstLogin.auth = basicAuth;

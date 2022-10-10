@@ -2,11 +2,13 @@ import {
   Flex,
   FormControl,
   FormControlProps,
+  FormHelperText,
   FormLabel,
   FormLabelProps,
   useToken,
 } from '@chakra-ui/react';
 import { FieldProps } from 'formik';
+import { useEffect, useState } from 'react';
 import { GroupBase, StylesConfig, Theme } from 'react-select';
 import ReactSelectAsync, { AsyncProps } from 'react-select/async';
 import { ErrorTooltip } from './ErrorTooltip';
@@ -26,6 +28,7 @@ declare module 'react-select/dist/declarations/src/Select' {
     Group extends GroupBase<Option>
   > {
     label?: string;
+    helperText?: string;
     tooltipLabel?: string;
     fieldProps?: FieldProps;
     formLabelProps?: FormLabelProps;
@@ -40,6 +43,7 @@ export const SelectAsync = <
 >({
   fieldProps,
   label,
+  helperText,
   tooltipLabel,
   formLabelProps,
   formControlProps,
@@ -88,19 +92,17 @@ export const SelectAsync = <
   const customStyles: StylesConfig<OptionType, IsMulti, GroupType> = {
     control: (base) => ({
       ...base,
-      borderRadius: borderRadius,
-      borderColor: '0px',
+      borderRadius,
     }),
     container: (base) => ({
       ...base,
       width: '100%',
       backgroundColor: neutral2,
-      borderRadius: borderRadius,
+      borderRadius,
     }),
     valueContainer: (base) => ({
       ...base,
       backgroundColor: neutral2,
-
       borderTopLeftRadius: borderRadius,
       borderBottomLeftRadius: borderRadius,
       transition: 'all linear 150ms',
@@ -116,7 +118,6 @@ export const SelectAsync = <
       ...base,
       backgroundColor: neutral2,
     }),
-
     dropdownIndicator: (base) => ({
       ...base,
       color: current,
@@ -137,6 +138,21 @@ export const SelectAsync = <
       ...base,
       color: current,
     }),
+    multiValue: (base) => {
+      return {
+        ...base,
+        backgroundColor: hoverColor,
+      };
+    },
+    multiValueLabel: (base) => ({
+      ...base,
+      color: current,
+    }),
+    multiValueRemove: (base) => ({
+      ...base,
+      color: errorColor,
+    }),
+    menu: (base) => ({ ...base, zIndex: 9999 }),
     option: (base, { isDisabled, isFocused, isSelected }) => {
       return {
         ...base,
@@ -175,51 +191,76 @@ export const SelectAsync = <
     },
   });
 
+  const [status, setStatus] = useState({});
+
+  useEffect(() => {
+    const isInvalid =
+      !!fieldProps?.form.errors[fieldProps?.field.name!] &&
+      !!fieldProps?.form.touched[fieldProps?.field.name!];
+
+    if (isInvalid) {
+      setStatus({
+        border: '2px',
+        borderColor: 'errorColor',
+        borderRadius,
+      });
+    } else {
+      setStatus({});
+    }
+  }, [borderRadius, fieldProps?.field.name, fieldProps?.form]);
+
   return (
     <>
       <FormControl
-        as={Flex}
-        justifyContent='center'
-        alignItems='center'
         isInvalid={
           !!fieldProps?.form.errors[fieldProps?.field.name!] &&
           !!fieldProps?.form.touched[fieldProps?.field.name!]
         }
         isRequired={formControlProps?.isRequired}
       >
-        {!!label && (
-          <FormLabel
-            htmlFor={formControlProps?.id}
-            fontWeight='semibold'
-            minW={20}
-            m={0}
-            p={0}
-            pr={5}
-            textAlign='right'
-            {...formLabelProps}
-          >
-            {label}
-          </FormLabel>
-        )}
+        <Flex justifyContent='center' alignItems='center'>
+          {!!label && (
+            <FormLabel
+              htmlFor={formControlProps?.id}
+              fontWeight='semibold'
+              minW={24}
+              m={0}
+              p={0}
+              pr={5}
+              textAlign='right'
+              {...formLabelProps}
+            >
+              {label}
+            </FormLabel>
+          )}
 
-        <ErrorTooltip
-          error={fieldProps?.form.errors[fieldProps?.field.name!]?.toString()}
-          isInvalid={
-            !!fieldProps?.form.errors[fieldProps?.field.name!] &&
-            !!fieldProps?.form.touched[fieldProps?.field.name!]
-          }
-        >
-          <Flex w='full' justifyContent='stretch' alignItems='stretch'>
-            <ReactSelectAsync
-              isSearchable
-              name={fieldProps?.field.name}
-              onBlur={fieldProps?.field.onBlur}
-              styles={customStyles}
-              theme={customTheme}
-              {...props}
-            />
-          </Flex>
-        </ErrorTooltip>
+          <ErrorTooltip
+            error={fieldProps?.form.errors[fieldProps?.field.name!]?.toString()}
+            isInvalid={
+              !!fieldProps?.form.errors[fieldProps?.field.name!] &&
+              !!fieldProps?.form.touched[fieldProps?.field.name!]
+            }
+          >
+            <Flex
+              w='full'
+              justifyContent='stretch'
+              alignItems='stretch'
+              sx={status}
+            >
+              <ReactSelectAsync
+                isSearchable
+                name={fieldProps?.field.name}
+                onBlur={fieldProps?.field.onBlur}
+                styles={customStyles}
+                theme={customTheme}
+                {...props}
+              />
+            </Flex>
+          </ErrorTooltip>
+        </Flex>
+        <FormHelperText pl={formLabelProps?.minW} textAlign='left'>
+          {helperText}
+        </FormHelperText>
       </FormControl>
     </>
   );

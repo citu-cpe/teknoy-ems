@@ -1,22 +1,21 @@
-import { Button } from '@chakra-ui/react';
-import { ReportGetDTO } from 'generated-api';
 import {
   ContentHeader,
   ContentSection,
 } from '../../../shared/components/content';
 import { MainLayout } from '../../../shared/components/layout';
+import { adminOnlyAuth } from '../../../shared/schemas';
 import { ReportForm } from './ReportForm';
 
 export const Reports = () => {
-  const handleComplete = (reportGetDTO: string) => {};
-
   return (
     <MainLayout title='Reports'>
       <ContentHeader title='Reports' />
 
       <ContentSection>
-        <ReportForm onComplete={handleComplete} />
+        <ReportForm />
       </ContentSection>
     </MainLayout>
   );
 };
+
+Reports.auth = adminOnlyAuth;

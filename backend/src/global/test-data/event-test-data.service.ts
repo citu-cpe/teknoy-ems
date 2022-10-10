@@ -6,18 +6,19 @@ import { testOrganizerDepartment } from './organizer-test-data.service';
 import { testAdmin } from './user-test-data.service';
 import { addEquipmentWithoutSched } from './equipment-test-data.service';
 import { venueTestCC, venueTestGYM } from './venue-test-data.service';
+import { TEST_DATA_PREFIX } from '../../shared/constants/test-data-prefix';
 
 export const testEvent: Event = {
   id: '64415bad-632f-4f13-8946-4bffb0345615',
   createdAt: new Date(),
   updatedAt: new Date(),
-  title: 'First Event',
+  title: TEST_DATA_PREFIX + 'First Event',
   description: 'Welcome to the First Event',
   status: Status.PENDING,
   startTime: new Date('2022-10-15 02:00:00 PM'),
   endTime: new Date('2022-10-15 05:00:00 PM'),
   contactPerson: 'Product Owner Ra0l',
-  contactNumber: '999-888-777',
+  contact: '999-888-777',
   approvedBy: 'Backend Lead Patrek',
   viewAccess: ViewAccess.PUBLIC,
   type: EventType.ACADEMIC,

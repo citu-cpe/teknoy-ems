@@ -7,6 +7,7 @@ import {
 } from '../../../shared/components/content';
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
+import { staffAuth } from '../../../shared/schemas';
 import { AnnouncementAddForm } from './AnnouncementAddForm';
 import { AnnouncementAddSuccess } from './AnnouncementAddSuccess';
 import { AnnouncementsTable } from './AnnouncementTable';
@@ -79,3 +80,5 @@ export const Announcements = () => {
     </MainLayout>
   );
 };
+
+Announcements.auth = staffAuth;

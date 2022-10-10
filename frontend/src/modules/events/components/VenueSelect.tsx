@@ -1,54 +1,90 @@
 import { Field, FieldProps } from 'formik';
-import { EventCreateDTO, VenueDTO } from 'generated-api';
-import { useContext, useEffect, useRef } from 'react';
-import { useMutation } from 'react-query';
+import { EventCreateDTO, SortedVenuesDTO, VenueDTO } from 'generated-api';
+import { useEffect, useRef } from 'react';
 import { MultiValue } from 'react-select';
-import { SelectAsync } from '../../../shared/components/form/SelectAsync';
-import { filterOptions } from '../../../shared/helpers/filter-options';
-import { isOption } from '../../../shared/helpers/is-option';
-import { ApiContext } from '../../../shared/providers/ApiProvider';
+import { SelectAsync } from '../../../shared/components/form';
+import { isOption } from '../../../shared/helpers';
 import { Option } from '../../../shared/types';
-import { formLabelProps, requiredControlProp } from '../styles';
+import { useGetSortedVenues } from '../hooks';
+import { formLabelProps, groupBadgeStyles, groupStyles } from '../styles';
 
-interface VenueSelectProps {
+export interface VenueOption extends Option {
+  status: string;
+}
+
+export interface VenueGroupedOption {
+  label: string;
+  options: VenueOption[];
+}
+
+export interface VenueSelectProps {
   defaultValue?: VenueDTO[];
 }
 
-export const VenueSelect = ({ defaultValue: venue }: VenueSelectProps) => {
-  const api = useContext(ApiContext);
-  const venueOptions = useRef<Option[]>([]);
+export const VenueSelect = ({ defaultValue }: VenueSelectProps) => {
+  const venueDefaultOptions = useRef<VenueGroupedOption[]>([]);
+
+  const { schedule, getSortedVenues } = useGetSortedVenues();
 
   useEffect(() => {
-    fetchVenue.mutate();
+    getSortedVenues.mutate(schedule, {
+      onSuccess: (res) => {
+        setDefaultOptions(res.data);
+      },
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [schedule.startTime, schedule.endTime]);
 
-  const fetchVenue = useMutation(() => api.getVenues(), {
-    onSuccess: (data) => {
-      venueOptions.current = data.data.map((item) => {
-        return {
-          value: item.id,
-          label: item.name,
-        } as Option;
-      });
-    },
-  });
+  const setDefaultOptions = (sortedVenues: SortedVenuesDTO) => {
+    const availableVenuesGroup = {
+      label: 'Available',
+      options: sortedVenues.availableVenues.map((eq) => ({
+        value: eq.id,
+        label: eq.name,
+        status: 'Available',
+      })),
+    };
 
-  const getDefaultValues = (): Option[] => {
-    if (venue) {
-      const venueDefaultValues = venue.map((v) => {
-        const option = {
-          value: v.id,
-          label: v.name,
-        } as Option;
+    // venues that are conflict in schedule
+    const unavailableVenuesGroup = {
+      label: 'Conflict',
+      options: sortedVenues.unavailableVenues.map((eq) => ({
+        value: eq.id,
+        label: eq.name,
+        status: 'Conflict',
+      })),
+    };
 
-        return option;
-      });
+    if (availableVenuesGroup.options.length > 0) {
+      venueDefaultOptions.current.push(availableVenuesGroup);
+    }
 
-      return venueDefaultValues;
+    if (unavailableVenuesGroup.options.length > 0) {
+      venueDefaultOptions.current.push(unavailableVenuesGroup);
+    }
+  };
+
+  const getDefaultValues = (): VenueOption[] => {
+    if (defaultValue) {
+      const venueOptions = defaultValue.map(
+        (eq) =>
+          ({
+            value: eq.id,
+            label: eq.name,
+          } as VenueOption)
+      );
+
+      return venueOptions;
     }
 
     return [];
+  };
+
+  const filterOptions = (inputValue: string, options: VenueGroupedOption[]) => {
+    return options.filter((opt) =>
+      opt.label.toLowerCase().includes(inputValue.toLowerCase())
+    );
   };
 
   /**
@@ -56,12 +92,12 @@ export const VenueSelect = ({ defaultValue: venue }: VenueSelectProps) => {
    * (but currently, just a simple filtering because we fetch our data on first render)
    */
   const promiseOptions = (inputValue: string) =>
-    new Promise<Option[]>((resolve) => {
-      resolve(filterOptions(inputValue, venueOptions.current));
+    new Promise<VenueGroupedOption[]>((resolve) => {
+      resolve(filterOptions(inputValue, venueDefaultOptions.current));
     });
 
   const handleChange = (
-    newValue: MultiValue<string | Option>,
+    newValue: MultiValue<string | VenueOption>,
     fieldProps: FieldProps
   ) => {
     if (newValue === null || undefined) {
@@ -70,56 +106,63 @@ export const VenueSelect = ({ defaultValue: venue }: VenueSelectProps) => {
       return;
     }
 
-    const formattedNewValues = newValue.map((item: Option | string) => {
-      if (!!item && isOption(item)) {
-        return item.value;
-      }
-
-      return item;
-    });
+    const formattedNewValues = newValue.map((item: VenueOption | string) =>
+      !!item && isOption(item) ? item.value : item
+    );
 
     fieldProps.form.setFieldValue(fieldProps.field.name, formattedNewValues);
   };
 
   const getFieldValue = (fieldProps: FieldProps) => {
-    const val = venueOptions.current
-      ? venueOptions.current.find(
-          (option) => option.value === fieldProps.field.value
-        )
-      : '';
-    return venueOptions.current
-      ? venueOptions.current.find(
+    const availableOptionsGroup = venueDefaultOptions.current[0].options;
+
+    return availableOptionsGroup
+      ? availableOptionsGroup.find(
           (option) => option.value === fieldProps.field.value
         )
       : '';
   };
 
+  const formatGroupLabel = (data: VenueGroupedOption) => (
+    <div style={groupStyles}>
+      <span>{data.label}</span>
+      <span style={groupBadgeStyles}>{data.options.length}</span>
+    </div>
+  );
+
+  const isOptionDisabled = (option: string | VenueOption) => {
+    return (option as VenueOption).status !== null
+      ? (option as VenueOption).status === 'Conflict'
+      : false;
+  };
+
   return (
     <>
-      {venueOptions.current.length > 0 && (
-        <Field name='venueIds' id='venueIds' data-cy='venue-select' isRequired>
+      {venueDefaultOptions.current[0]?.options.length > 0 && (
+        <Field name='venueIds' id='venueIds' data-cy='venue-select'>
           {(fieldProps: FieldProps<string, EventCreateDTO>) => (
             <SelectAsync
               name='venueIds'
-              label='Venues'
+              label='Venue'
               id='venueIds'
-              placeholder='Search...'
+              placeholder='Type to search...'
               data-cy='venue-select'
-              formControlProps={requiredControlProp}
               formLabelProps={formLabelProps}
               fieldProps={fieldProps}
               cacheOptions
+              defaultValue={getDefaultValues()}
               isMulti
               isClearable
               closeMenuOnSelect={false}
-              defaultValue={getDefaultValues()}
-              defaultOptions={venueOptions.current}
+              defaultOptions={venueDefaultOptions.current}
               loadOptions={promiseOptions}
-              isLoading={fetchVenue.isLoading}
-              onChange={(newValue: MultiValue<string | Option>) =>
+              isLoading={getSortedVenues.isLoading}
+              onChange={(newValue: MultiValue<string | VenueOption>) =>
                 handleChange(newValue, fieldProps)
               }
               value={getFieldValue(fieldProps)}
+              formatGroupLabel={formatGroupLabel}
+              isOptionDisabled={isOptionDisabled}
             />
           )}
         </Field>

@@ -7,13 +7,10 @@ import {
   princh,
   raol,
 } from '../../../assets/team';
-import {
-  ContentHeader,
-  ContentSection,
-} from '../../../shared/components/content';
+import { ContentHeader } from '../../../shared/components/content';
 import { TeamCard } from '../../../shared/components/elements/card';
 import { MainLayout } from '../../../shared/components/layout/MainLayout';
-import { EventsCalendar } from '../../events';
+import { basicAuth } from '../../../shared/schemas';
 
 export const Dashboard = () => {
   return (
@@ -63,3 +60,5 @@ export const Dashboard = () => {
     </MainLayout>
   );
 };
+
+Dashboard.auth = basicAuth;

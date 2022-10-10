@@ -181,22 +181,10 @@ export class UserService {
 
   public async changePassword(
     user: User,
-    changePasswordDTO: ChangePasswordDTO
+    newPassword: string
   ): Promise<UserDTO> {
-    const isPasswordMatching = await bcrypt.compare(
-      changePasswordDTO.currentPassword,
-      user.password
-    );
-
-    if (!isPasswordMatching) {
-      throw new BadRequestException('Wrong credentials provided');
-    }
-
     try {
-      const hashedPassword = await bcrypt.hash(
-        changePasswordDTO.newPassword,
-        10
-      );
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
       const updatedUser = await this.prismaService.user.update({
         data: { password: hashedPassword },
         where: { id: user.id },
@@ -208,6 +196,22 @@ export class UserService {
         throw new NotFoundException();
       }
     }
+  }
+
+  public async changePasswordWithCheck(
+    user: User,
+    changePasswordDTO: ChangePasswordDTO
+  ): Promise<UserDTO> {
+    const isPasswordMatching = await bcrypt.compare(
+      changePasswordDTO.currentPassword,
+      user.password
+    );
+
+    if (!isPasswordMatching) {
+      throw new BadRequestException('Wrong credentials provided');
+    }
+
+    return this.changePassword(user, changePasswordDTO.newPassword);
   }
 
   public async updateFirstLogin(userId: string): Promise<User> {

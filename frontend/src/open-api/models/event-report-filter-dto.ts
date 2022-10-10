@@ -65,7 +65,7 @@ export interface EventReportFilterDTO {
    * @type {boolean}
    * @memberof EventReportFilterDTO
    */
-  contactNumber?: boolean;
+  contact?: boolean;
   /**
    *
    * @type {boolean}
