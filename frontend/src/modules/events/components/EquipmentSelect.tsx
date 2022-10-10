@@ -41,6 +41,7 @@ export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
   }, [schedule.startTime, schedule.endTime]);
 
   const setDefaultOptions = (sortedEquipments: SortedEquipmentsDTO) => {
+    equipmentDefaultOptions.current = [];
     const availableEquipmentsGroup = {
       label: 'Available',
       options: sortedEquipments.availableEquipments.map((eq) => ({

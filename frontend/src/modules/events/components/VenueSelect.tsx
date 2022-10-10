@@ -42,6 +42,7 @@ export const VenueSelect = ({ defaultValue }: VenueSelectProps) => {
   }, [schedule.startTime, schedule.endTime]);
 
   const setDefaultOptions = (sortedVenues: SortedVenuesDTO) => {
+    venueDefaultOptions.current = [];
     const availableVenuesGroup = {
       label: 'Available',
       options: sortedVenues.availableVenues.map((eq) => ({
