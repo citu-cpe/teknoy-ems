@@ -277,10 +277,10 @@ export const EventAddForm = ({
                   formLabelProps={formLabelProps}
                   fieldProps={fieldProps}
                   name='contact'
-                  label='Contact'
+                  label='Contact Info'
                   type='phone'
                   id='contact'
-                  placeholder='e.g. Phone Number: 9123456789 / Email: teampnrn@gmail.com / Messenger: My Name'
+                  placeholder='e.g. MSTeams / Email / Messenger / Phone Number'
                   isRequired
                   data-cy='contact-input'
                 />

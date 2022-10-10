@@ -57,6 +57,10 @@ export const SelectAsync = <
     current,
     errorColor,
     errorBg,
+    brand100,
+    brand200,
+    brand400,
+    brand500,
     gray50,
     gray100,
     gray200,
@@ -75,6 +79,10 @@ export const SelectAsync = <
     'current',
     'errorColor',
     'errorBg',
+    'brand.100',
+    'brand.200',
+    'brand.400',
+    'brand.500',
     'gray.50',
     'gray.100',
     'gray.200',
@@ -93,6 +101,10 @@ export const SelectAsync = <
     control: (base) => ({
       ...base,
       borderRadius,
+    }),
+    input: (base) => ({
+      ...base,
+      color: current,
     }),
     container: (base) => ({
       ...base,
@@ -171,10 +183,10 @@ export const SelectAsync = <
     ...theme,
     colors: {
       ...theme.colors,
-      // primary: brand500,
-      // primary75: 'black',
-      // primary50: 'black',
-      // primary25: 'black',
+      primary: brand500,
+      primary75: brand400,
+      primary50: brand200,
+      primary25: brand100,
       danger: errorBg,
       dangerLight: errorColor,
       neutral0: foreground,
@@ -223,7 +235,7 @@ export const SelectAsync = <
             <FormLabel
               htmlFor={formControlProps?.id}
               fontWeight='semibold'
-              minW={24}
+              minW={28}
               m={0}
               p={0}
               pr={5}
