@@ -36,10 +36,15 @@
   --fc-list-event-hover-bg-color: orange;
 }
 
+// Fix list text issues on Dark mode
 .fc-list-day-text {
   color: black;
 }
 
 .fc-list-day-side-text {
+  color: black;
+}
+
+.fc-list-event:hover {
   color: black;
 }
