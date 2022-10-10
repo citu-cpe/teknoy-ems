@@ -68,7 +68,7 @@ export const EventAddForm = ({
       parseDateTime(initialEventValue?.endTime) ||
       parseDateTime(moment().add(4, 'days').add(1, 'hours').toISOString()),
     contactPerson: initialEventValue?.contactPerson || '',
-    contactNumber: initialEventValue?.contactNumber || '',
+    contact: initialEventValue?.contact || '',
     approvedBy: initialEventValue?.approvedBy || '',
     organizerId: eventCreateDTO?.organizerId || '',
     equipmentIds: eventCreateDTO?.equipmentIds || [],
@@ -271,18 +271,18 @@ export const EventAddForm = ({
                 />
               )}
             </Field>
-            <Field name='contactNumber' type='phone' isRequired>
+            <Field name='contact' type='phone' isRequired>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
                 <Input
                   formLabelProps={formLabelProps}
                   fieldProps={fieldProps}
-                  name='contactNumber'
-                  label='Contact Number'
+                  name='contact'
+                  label='Contact'
                   type='phone'
-                  id='contactNumber'
-                  placeholder='9123456789'
+                  id='contact'
+                  placeholder='e.g. Phone Number: 9123456789 / Email: teampnrn@gmail.com / Messenger: My Name'
                   isRequired
-                  data-cy='contact-number-input'
+                  data-cy='contact-input'
                 />
               )}
             </Field>

@@ -18,7 +18,7 @@ export const testEvent: Event = {
   startTime: new Date('2022-09-09 02:00:00 PM'),
   endTime: new Date('2022-09-09 05:00:00 PM'),
   contactPerson: 'Product Owner Ra0l',
-  contactNumber: '999-888-777',
+  contact: '999-888-777',
   approvedBy: 'Backend Lead Patrek',
   viewAccess: ViewAccess.PUBLIC,
   type: EventType.ACADEMIC,

@@ -31,7 +31,7 @@ export class EventReportFilterDTO {
 
   @IsBoolean()
   @IsOptional()
-  public contactNumber?: boolean;
+  public contact?: boolean;
 
   @IsBoolean()
   @IsOptional()
