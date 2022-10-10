@@ -12,7 +12,7 @@ export const eventValidator = Yup.object({
     .min(1)
     .max(40)
     .required('Contact Person is required'),
-  contact: Yup.string().min(1).max(40).required('Contact '),
+  contact: Yup.string().min(1).max(40).required('Contact is required'),
   organizerId: Yup.string().min(1).required('Organizer is required'),
   equipmentIds: Yup.array().max(30, 'Equipment must not exceed to 30'),
   venueIds: Yup.array()
