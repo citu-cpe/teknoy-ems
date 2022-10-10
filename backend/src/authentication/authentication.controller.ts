@@ -77,6 +77,7 @@ export class AuthenticationController {
     return this.userService.changePasswordWithCheck(user, changePasswordDTO);
   }
 
+  @Public()
   @HttpCode(HttpStatus.OK)
   @Post(AuthenticationController.RESET_PASSWORD_LINK_API_ROUTE)
   public async sendResetPasswordLink(
@@ -87,6 +88,7 @@ export class AuthenticationController {
     );
   }
 
+  @Public()
   @HttpCode(HttpStatus.OK)
   @Post(AuthenticationController.RESET_PASSWORD_API_ROUTE)
   public async resetPassword(

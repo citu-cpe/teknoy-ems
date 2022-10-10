@@ -7,9 +7,11 @@ import {
   IconButton,
   InputGroup,
   InputRightElement,
+  Text,
 } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { ChangePasswordDTO, LoginUserDTO } from 'generated-api';
+import NextLink from 'next/link';
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import * as Yup from 'yup';
@@ -41,7 +43,7 @@ export const LoginForm = () => {
     >
       {() => (
         <Form noValidate>
-          <FormLayout>
+          <FormLayout mb={10} gap={3}>
             <Field name='email' type='email' isRequired>
               {(fieldProps: FieldProps<string, LoginUserDTO>) => (
                 <Input
@@ -107,6 +109,20 @@ export const LoginForm = () => {
                 )}
               </Field>
             </FormControl>
+            <NextLink href='/reset-password'>
+              <Text
+                opacity={0.8}
+                _hover={{
+                  opacity: 1,
+                  textDecoration: 'none',
+                  color: 'brand.200',
+                  cursor: 'pointer',
+                }}
+                textAlign='right'
+              >
+                Forgot Password?
+              </Text>
+            </NextLink>
           </FormLayout>
           <Box mb={2}>
             <Button
