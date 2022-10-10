@@ -28,11 +28,6 @@ const basicModules: React.ReactNode[] = [
   />,
 ];
 
-const adminModules: React.ReactNode[] = [
-  <NavLink key='accounts' label='Accounts' route='/accounts' icon={BiUser} />,
-  <NavLink key='reports' label='Reports' route='/reports' icon={TbReport} />,
-];
-
 const staffModules: React.ReactNode[] = [
   <NavLink
     key='equipment'
@@ -61,6 +56,11 @@ const staffModules: React.ReactNode[] = [
   />,
 ];
 
+const adminModules: React.ReactNode[] = [
+  <NavLink key='accounts' label='Accounts' route='/accounts' icon={BiUser} />,
+  <NavLink key='reports' label='Reports' route='/reports' icon={TbReport} />,
+];
+
 export const Nav = ({ ...props }) => {
   const { getUser } = useGlobalStore();
 
@@ -85,7 +85,8 @@ export const Nav = ({ ...props }) => {
     >
       {basicModules.map((module) => module)}
 
-      {roles?.includes(RegisterUserDTORolesEnum.Staff)
+      {roles?.includes(RegisterUserDTORolesEnum.Staff) ||
+      roles?.includes(RegisterUserDTORolesEnum.Admin)
         ? staffModules.map((module) => module)
         : null}
 
