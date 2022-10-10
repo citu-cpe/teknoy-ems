@@ -88,23 +88,29 @@ export const VenueSelect = ({ defaultValue }: VenueSelectProps) => {
   };
 
   const filterOptions = (inputValue: string) => {
-    const filterResults: VenueOption[] = [];
+    let filterResults: VenueOption[] = [];
+    const availableDefaultOptionsGroup = venueDefaultOptions.current[0];
+    const unavailableDefaultOptionsGroup = venueDefaultOptions.current[1];
 
-    const availableOptionsGroup = venueDefaultOptions.current[0].options.filter(
-      (opt) => opt.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
-
-    const unavailableOptionsGroup =
-      venueDefaultOptions.current[1].options.filter((opt) =>
-        opt.label.toLowerCase().includes(inputValue.toLowerCase())
+    if (availableDefaultOptionsGroup) {
+      const availableOptionsGroup = availableDefaultOptionsGroup.options.filter(
+        (opt) => opt.label.toLowerCase().includes(inputValue.toLowerCase())
       );
 
-    if (availableOptionsGroup.length > 0) {
-      filterResults.push(...availableOptionsGroup);
+      if (availableOptionsGroup.length > 0) {
+        filterResults.push(...availableOptionsGroup);
+      }
     }
 
-    if (unavailableOptionsGroup.length > 0) {
-      filterResults.push(...unavailableOptionsGroup);
+    if (unavailableDefaultOptionsGroup) {
+      const unavailableOptionsGroup =
+        unavailableDefaultOptionsGroup.options.filter((opt) =>
+          opt.label.toLowerCase().includes(inputValue.toLowerCase())
+        );
+
+      if (unavailableOptionsGroup.length > 0) {
+        filterResults.push(...unavailableOptionsGroup);
+      }
     }
 
     return filterResults;
