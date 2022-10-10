@@ -54,13 +54,20 @@ export const Accounts = () => {
       <ContentHeader
         title='Accounts'
         actions={
-          <Button
-            variant='solid'
-            onClick={onRegisterOpen}
-            data-cy='register-account-btn'
-          >
-            Register Account
-          </Button>
+          <Flex gap={3}>
+            <LinkButton
+              variant='outline'
+              label='Password Reset'
+              route='/reset-password'
+            />
+            <Button
+              variant='solid'
+              onClick={onRegisterOpen}
+              data-cy='register-account-btn'
+            >
+              Register Account
+            </Button>
+          </Flex>
         }
       />
 

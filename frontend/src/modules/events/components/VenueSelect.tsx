@@ -6,7 +6,12 @@ import { SelectAsync } from '../../../shared/components/form';
 import { isOption } from '../../../shared/helpers';
 import { Option } from '../../../shared/types';
 import { useGetSortedVenues } from '../hooks';
-import { formLabelProps, groupBadgeStyles, groupStyles } from '../styles';
+import {
+  formLabelProps,
+  groupBadgeStyles,
+  groupStyles,
+  requiredControlProp,
+} from '../styles';
 
 export interface VenueOption extends Option {
   status: string;
@@ -81,10 +86,27 @@ export const VenueSelect = ({ defaultValue }: VenueSelectProps) => {
     return [];
   };
 
-  const filterOptions = (inputValue: string, options: VenueGroupedOption[]) => {
-    return options.filter((opt) =>
-      opt.label.toLowerCase().includes(inputValue.toLowerCase())
+  const filterOptions = (inputValue: string) => {
+    const filterResults: VenueOption[] = [];
+
+    const availableOptionsGroup = venueDefaultOptions.current[0].options.filter(
+      (opt) => opt.label.toLowerCase().includes(inputValue.toLowerCase())
     );
+
+    const unavailableOptionsGroup =
+      venueDefaultOptions.current[1].options.filter((opt) =>
+        opt.label.toLowerCase().includes(inputValue.toLowerCase())
+      );
+
+    if (availableOptionsGroup.length > 0) {
+      filterResults.push(...availableOptionsGroup);
+    }
+
+    if (unavailableOptionsGroup.length > 0) {
+      filterResults.push(...unavailableOptionsGroup);
+    }
+
+    return filterResults;
   };
 
   /**
@@ -92,8 +114,8 @@ export const VenueSelect = ({ defaultValue }: VenueSelectProps) => {
    * (but currently, just a simple filtering because we fetch our data on first render)
    */
   const promiseOptions = (inputValue: string) =>
-    new Promise<VenueGroupedOption[]>((resolve) => {
-      resolve(filterOptions(inputValue, venueDefaultOptions.current));
+    new Promise<VenueOption[]>((resolve) => {
+      resolve(filterOptions(inputValue));
     });
 
   const handleChange = (
@@ -147,6 +169,7 @@ export const VenueSelect = ({ defaultValue }: VenueSelectProps) => {
               id='venueIds'
               placeholder='Type to search...'
               data-cy='venue-select'
+              formControlProps={requiredControlProp}
               formLabelProps={formLabelProps}
               fieldProps={fieldProps}
               cacheOptions
