@@ -1,4 +1,11 @@
-import { Button, Flex, FormControl, FormLabel, Spacer } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  FormLabelProps,
+  Spacer,
+} from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { RegisterUserDTORolesEnum, UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
@@ -13,12 +20,17 @@ import {
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
 import { useToast } from '../../../shared/hooks';
 import { nameValidator } from '../../../shared/schemas';
+import { useResetPasswords } from '../../reset-password/';
 import { useEdit } from '../hooks/useEdit';
 
 interface AccountEditFormProps {
   initialUser: UserDTO;
   onComplete?: (userDTO: UserDTO) => void;
 }
+
+const formLabelProps: FormLabelProps = {
+  minW: 32,
+};
 
 export const AccountEditForm = ({
   initialUser,
@@ -27,6 +39,7 @@ export const AccountEditForm = ({
   const router = useRouter();
   const toast = useToast();
   const mutation = useEdit();
+  const { sendResetPasswordLink } = useResetPasswords();
 
   const initialValues = {
     ...initialUser,
@@ -65,6 +78,21 @@ export const AccountEditForm = ({
     }
   }, [mutation, onComplete, toast, router]);
 
+  const handleResetPassword = () => {
+    sendResetPasswordLink.mutate(
+      { email: initialUser.email },
+      {
+        onSuccess: () => {
+          toast({
+            title: 'Reset Password Request',
+            description: `Reset link sent to ${initialUser.email}`,
+            duration: 9000,
+          });
+        },
+      }
+    );
+  };
+
   /**
    * basic resetForm() function from `Formik` library
    * does not reset the values of all Field members of a Field group,
@@ -102,6 +130,7 @@ export const AccountEditForm = ({
               {(fieldProps: FieldProps<string, UserDTO>) => (
                 <Input
                   fieldProps={fieldProps}
+                  formLabelProps={formLabelProps}
                   name='email'
                   label='Email'
                   type='email'
@@ -113,11 +142,12 @@ export const AccountEditForm = ({
             <Flex as={FormControl} isRequired role='group'>
               <FormLabel
                 fontWeight='semibold'
-                minW={24}
+                minW={28}
                 m={0}
                 p={0}
                 pr={5}
                 textAlign='right'
+                {...formLabelProps}
               >
                 Roles
               </FormLabel>
@@ -177,6 +207,7 @@ export const AccountEditForm = ({
               {(fieldProps: FieldProps<string, UserDTO>) => (
                 <Input
                   fieldProps={fieldProps}
+                  formLabelProps={formLabelProps}
                   name='name'
                   label='Name'
                   type='name'
@@ -186,6 +217,29 @@ export const AccountEditForm = ({
                 />
               )}
             </Field>
+            <Flex alignItems='center'>
+              <FormLabel
+                htmlFor='newPassword'
+                fontWeight='semibold'
+                m={0}
+                p={0}
+                pr={8}
+                textAlign='right'
+                {...formLabelProps}
+              >
+                Password
+              </FormLabel>
+              <Button
+                minW={40}
+                maxW={40}
+                ml={-4}
+                isLoading={sendResetPasswordLink.isLoading}
+                loadingText='Sending reset link...'
+                onClick={handleResetPassword}
+              >
+                Reset Password
+              </Button>
+            </Flex>
           </FormLayout>
           <Flex w='full' h='full'>
             <FormikResetButton />

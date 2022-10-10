@@ -223,7 +223,7 @@ export const SelectAsync = <
             <FormLabel
               htmlFor={formControlProps?.id}
               fontWeight='semibold'
-              minW={24}
+              minW={28}
               m={0}
               p={0}
               pr={5}

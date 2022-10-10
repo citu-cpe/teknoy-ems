@@ -1,4 +1,4 @@
-import { Button, useDisclosure } from '@chakra-ui/react';
+import { Button, Flex, useDisclosure } from '@chakra-ui/react';
 import { RegisterUserDTO } from 'generated-api';
 import { useState } from 'react';
 import { AccountRegisterForm } from '.';
@@ -6,7 +6,7 @@ import {
   ContentHeader,
   ContentSection,
 } from '../../../shared/components/content';
-import { Modal } from '../../../shared/components/elements';
+import { LinkButton, Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
 import { adminOnlyAuth } from '../../../shared/schemas';
 import { AccountRegisterSuccess } from './AccountRegisterSuccess';
@@ -54,13 +54,20 @@ export const Accounts = () => {
       <ContentHeader
         title='Accounts'
         actions={
-          <Button
-            variant='solid'
-            onClick={onRegisterOpen}
-            data-cy='register-account-btn'
-          >
-            Register Account
-          </Button>
+          <Flex gap={3}>
+            <LinkButton
+              variant='outline'
+              label='Password Reset'
+              route='/reset-password'
+            />
+            <Button
+              variant='solid'
+              onClick={onRegisterOpen}
+              data-cy='register-account-btn'
+            >
+              Register Account
+            </Button>
+          </Flex>
         }
       />
 
