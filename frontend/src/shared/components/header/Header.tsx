@@ -75,7 +75,7 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
       top={0}
       left={0}
       px={{ base: 5, md: 0 }}
-      zIndex={{ base: 4, md: 0 }}
+      zIndex={{ base: 4, md: 0, lg: 'popover' }}
       bg={{ base: 'foreground', md: 'transparent' }}
     >
       <IconButton
@@ -121,6 +121,7 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
         ></MenuButton>
         <Portal>
           <MenuList
+            zIndex={9999}
             fontSize='sm'
             minW={80}
             shadow='lg'
