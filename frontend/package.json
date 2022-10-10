@@ -62,9 +62,11 @@
     "react-icons": "^4.4.0",
     "react-query": "^3.24.4",
     "react-select": "^5.4.0",
+    "react-tsparticles": "^2.3.3",
     "sass": "^1.42.1",
     "socket.io-client": "^4.5.2",
     "ts-node": "^10.4.0",
+    "tsparticles": "^2.3.4",
     "vercel-is-pull-request": "0.0.8",
     "yup": "^0.32.9",
     "zustand": "^3.5.12"
