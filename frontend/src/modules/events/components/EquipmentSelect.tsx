@@ -85,13 +85,28 @@ export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
     return [];
   };
 
-  const filterOptions = (
-    inputValue: string,
-    options: EquipmentGroupedOption[]
-  ) => {
-    return options.filter((opt) =>
-      opt.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
+  const filterOptions = (inputValue: string) => {
+    const filterResults: EquipmentOption[] = [];
+
+    const availableOptionsGroup =
+      equipmentDefaultOptions.current[0].options.filter((opt) =>
+        opt.label.toLowerCase().includes(inputValue.toLowerCase())
+      );
+
+    const unavailableOptionsGroup =
+      equipmentDefaultOptions.current[1].options.filter((opt) =>
+        opt.label.toLowerCase().includes(inputValue.toLowerCase())
+      );
+
+    if (availableOptionsGroup.length > 0) {
+      filterResults.push(...availableOptionsGroup);
+    }
+
+    if (unavailableOptionsGroup.length > 0) {
+      filterResults.push(...unavailableOptionsGroup);
+    }
+
+    return filterResults;
   };
 
   /**
@@ -99,8 +114,8 @@ export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
    * (but currently, just a simple filtering because we fetch our data on first render)
    */
   const promiseOptions = (inputValue: string) =>
-    new Promise<EquipmentGroupedOption[]>((resolve) => {
-      resolve(filterOptions(inputValue, equipmentDefaultOptions.current));
+    new Promise<EquipmentOption[]>((resolve) => {
+      resolve(filterOptions(inputValue));
     });
 
   const handleChange = (
