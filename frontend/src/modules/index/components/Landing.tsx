@@ -1,17 +1,68 @@
-import { Button, Center, Flex, Heading } from '@chakra-ui/react';
-import NextLink from 'next/link';
+import {
+  Center,
+  Flex,
+  Heading,
+  Image,
+  useColorMode,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { logoMobileBlack, logoMobileLight } from '../../../assets';
+import { LinkButton } from '../../../shared/components/elements';
+import { ThemeModeToggle } from '../../../shared/components/header';
+import { LinkParticles } from './LinkParticles';
 
 export const Landing = () => {
+  const { colorMode } = useColorMode();
+  const logoDesktop = useColorModeValue(logoMobileBlack, logoMobileLight);
+
   return (
-    <Center w='100%' h='100vh' flexDir='column'>
-      <Flex direction='column' alignItems='center' as='nav' gap={3}>
-        <Heading as='h1'>Teknoy EMS</Heading>
-        <NextLink href='/login' passHref>
-          <Button as='a' variant='solid' minW={56}>
-            Log In
-          </Button>
-        </NextLink>
-      </Flex>
-    </Center>
+    <>
+      <LinkParticles theme={colorMode} />
+
+      <Center w='100%' h='100vh' flexDir='column'>
+        <Flex direction='column' alignItems='center' gap={6}>
+          <Image src={logoDesktop.src} alt='Teknoy EMS Logo' boxSize={72} />
+          <Flex
+            direction='column'
+            gap={0}
+            justifyContent='center'
+            alignItems='center'
+          >
+            <Heading
+              fontWeight='black'
+              letterSpacing='tighter'
+              as='h1'
+              size='3xl'
+            >
+              TEKNOY
+            </Heading>
+            <span>EVENTS MANAGEMENT SYSTEM</span>
+          </Flex>
+
+          <Flex
+            direction='column'
+            gap={3}
+            justifyContent='center'
+            alignItems='center'
+          >
+            <LinkButton
+              variant='solid'
+              label='Log In'
+              route='/login'
+              minW={56}
+            />
+            <LinkButton label='About' route='/about' minW={56} />
+          </Flex>
+
+          <Flex
+            position='absolute'
+            top={{ base: 2, md: 5 }}
+            right={{ base: 3, md: 10 }}
+          >
+            <ThemeModeToggle />
+          </Flex>
+        </Flex>
+      </Center>
+    </>
   );
 };

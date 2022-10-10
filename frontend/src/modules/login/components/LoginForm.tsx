@@ -42,7 +42,7 @@ export const LoginForm = () => {
       {() => (
         <Form noValidate>
           <FormLayout>
-            <Field name='email' type='email'>
+            <Field name='email' type='email' isRequired>
               {(fieldProps: FieldProps<string, LoginUserDTO>) => (
                 <Input
                   fieldProps={fieldProps}
@@ -50,6 +50,7 @@ export const LoginForm = () => {
                   label='Email'
                   type='email'
                   id='email'
+                  isRequired
                   formLabelProps={{
                     minW: 32,
                   }}
@@ -57,7 +58,12 @@ export const LoginForm = () => {
               )}
             </Field>
 
-            <FormControl as={Flex} justifyContent='center' alignItems='center'>
+            <FormControl
+              as={Flex}
+              justifyContent='center'
+              alignItems='center'
+              isRequired
+            >
               <FormLabel
                 htmlFor='password'
                 aria-labelledby='password'
@@ -70,7 +76,7 @@ export const LoginForm = () => {
               >
                 Password
               </FormLabel>
-              <Field name='password' type='password'>
+              <Field name='password' type='password' isRequired>
                 {(fieldProps: FieldProps<string, ChangePasswordDTO>) => (
                   <InputGroup>
                     {fieldProps.field.value?.length > 0 ? (
@@ -94,6 +100,7 @@ export const LoginForm = () => {
                       name='password'
                       type={showPassword ? 'text' : 'password'}
                       id='password'
+                      isRequired
                       data-cy='password-input'
                     />
                   </InputGroup>

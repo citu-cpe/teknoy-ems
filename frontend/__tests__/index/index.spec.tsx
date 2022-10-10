@@ -9,7 +9,7 @@ describe('Home Page', () => {
 
   it('shows landing page', () => {
     const heading = screen.getByRole<HTMLHeadingElement>('heading', {
-      name: 'Teknoy EMS',
+      name: 'TEKNOY',
     });
 
     const loginLink = screen.getByRole<HTMLAnchorElement>('link', {
