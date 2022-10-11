@@ -1,17 +1,18 @@
-import { Flex, Spacer, Text } from '@chakra-ui/react';
+import { Flex, FlexProps, Spacer } from '@chakra-ui/react';
+import { LinkText } from '../Button';
 
-export const MainFooter = () => {
+export const MainFooter = ({ ...props }: FlexProps) => {
   return (
-    <Flex direction='column' opacity={0.5}>
+    <Flex direction='column' opacity={0.5} {...props}>
       <Flex fontSize='sm'>
-        <Text>TeknoyEMS &copy; 2022</Text>
+        <LinkText label='The TEMS Team' route='/' />
         <Spacer />
-        <Text>The TEMS Team</Text>
+        <LinkText label='TeknoyEMS &copy; 2022' route='/about' />
       </Flex>
       <Flex fontSize='xs'>
-        <Text>Teknoy Events Management System</Text>
+        <LinkText label='Teknoy Events Management System' route='/' />
         <Spacer />
-        <Text>surpassing limits since 2022</Text>
+        <LinkText label='surpassing limits since 2022' route='/about' />
       </Flex>
     </Flex>
   );

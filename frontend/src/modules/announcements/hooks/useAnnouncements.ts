@@ -18,9 +18,12 @@ export const useAnnouncements = () => {
     api.getAnnouncementById(id)
   );
 
+  const fetchAllAnnouncements = useMutation(() => api.getAnnouncements());
+
   return {
     addAnnouncement,
     editAnnouncement,
     fetchAnnouncementById,
+    fetchAllAnnouncements,
   };
 };

@@ -16,25 +16,35 @@ export const Settings = () => {
     <MainLayout title='Settings'>
       <ContentHeader title='Settings' />
       <ContentSection>
-        <Text fontWeight='bold' data-cy='user-name'>
-          {user?.name}
-        </Text>
-        <Flex gap={3}>
-          {user?.roles.map((role, index) => (
-            <Badge key={index}>{role.toString()}</Badge>
-          ))}
-        </Flex>
-        <Flex direction='column' maxW={80}>
-          <LinkButton
-            label='Edit Profile'
-            route='/settings/profile'
-            data-cy='edit-profile-btn'
-          />
-          <LinkButton
-            label='Change Password'
-            route='/settings/profile/change-password'
-            data-cy='change-password-btn'
-          />
+        <Flex
+          justifyContent={{ base: 'center', sm: 'space-between' }}
+          textAlign={{ base: 'center', sm: 'justify' }}
+          alignItems='center'
+          flexWrap='wrap'
+          gap={6}
+        >
+          <Flex direction='column' gap={3}>
+            <Text fontWeight='bold' data-cy='user-name'>
+              {user?.name}
+            </Text>
+            <Flex gap={3}>
+              {user?.roles.map((role, index) => (
+                <Badge key={index}>{role.toString()}</Badge>
+              ))}
+            </Flex>
+          </Flex>
+          <Flex direction='column' minW={56} maxW={{ base: 'full', md: 80 }}>
+            <LinkButton
+              label='Edit Profile'
+              route='/settings/profile'
+              data-cy='edit-profile-btn'
+            />
+            <LinkButton
+              label='Change Password'
+              route='/settings/profile/change-password'
+              data-cy='change-password-btn'
+            />
+          </Flex>
         </Flex>
       </ContentSection>
     </MainLayout>

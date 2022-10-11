@@ -44,7 +44,7 @@ export const VenueEditForm = ({
 
   const validationSchema = Yup.object({
     name: Yup.string().min(1).max(40).required('Required'),
-    notes: Yup.string().min(1).max(250).required('Required'),
+    notes: Yup.string().min(1).max(250),
   });
 
   useEffect(() => {
