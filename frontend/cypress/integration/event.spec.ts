@@ -1262,8 +1262,11 @@ describe('event.spec.ts - Event Page', () => {
     });
 
     it('should successfully delete an event when "yes" button is clicked', () => {
-      cy.getBySel('delete-submit-btn').click().wait(1000);
-      cy.getBySel('dialog-yes-btn').click().wait(3000);
+    cy.intercept('DELETE', '/api/v1/event/*').as('deleteEvents');
+
+    cy.getBySel('delete-submit-btn').click().wait(1000);
+    cy.getBySel('dialog-yes-btn').click().wait('deleteEvents').wait(3000);
+
     });
 
     describe('deleted event should not be found in various calendar views anymore', () => {
