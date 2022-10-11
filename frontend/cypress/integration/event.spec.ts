@@ -38,56 +38,56 @@ describe('event.spec.ts - Event Page', () => {
         .wait(1000);
     });
 
-    // it('should show weekly view', () => {
-    //   cy.contains('Week').click().wait(1500);
-    //   //viewing prev and next week
-    //   cy.get('[title="Previous week"]')
-    //     .click()
-    //     .wait(500)
-    //     .get('[title="Previous week"]')
-    //     .click()
-    //     .wait(500)
-    //     .get('[title="Next week"]')
-    //     .click()
-    //     .wait(500)
-    //     .get('[title="This week"]')
-    //     .click()
-    //     .wait(1000);
-    // });
+    it('should show weekly view', () => {
+      cy.contains('Week').click().wait(1500);
+      //viewing prev and next week
+      cy.get('[title="Previous week"]')
+        .click()
+        .wait(500)
+        .get('[title="Previous week"]')
+        .click()
+        .wait(500)
+        .get('[title="Next week"]')
+        .click()
+        .wait(500)
+        .get('[title="This week"]')
+        .click()
+        .wait(1000);
+    });
 
-    // it('should show daily view', () => {
-    //   cy.contains('Day').click().wait(1500);
-    //   //viewing prev and next days
-    //   cy.get('[title="Previous day"]')
-    //     .click()
-    //     .wait(500)
-    //     .get('[title="Previous day"]')
-    //     .click()
-    //     .wait(500)
-    //     .get('[title="Next day"]')
-    //     .click()
-    //     .wait(500)
-    //     .get('[title="Today"]')
-    //     .click()
-    //     .wait(1000);
-    // });
+    it('should show daily view', () => {
+      cy.contains('Day').click().wait(1500);
+      //viewing prev and next days
+      cy.get('[title="Previous day"]')
+        .click()
+        .wait(500)
+        .get('[title="Previous day"]')
+        .click()
+        .wait(500)
+        .get('[title="Next day"]')
+        .click()
+        .wait(500)
+        .get('[title="Today"]')
+        .click()
+        .wait(1000);
+    });
 
-    // it('should show list view', () => {
-    //   cy.contains('List').click().wait(1500);
-    //   //viewing prev and next years
-    //   cy.get('[title="Previous year"]')
-    //     .click()
-    //     .wait(500)
-    //     .get('[title="Previous year"]')
-    //     .click()
-    //     .wait(500)
-    //     .get('[title="Next year"]')
-    //     .click()
-    //     .wait(500)
-    //     .get('[title="This year"]')
-    //     .click()
-    //     .wait(1000);
-    // });
+    it('should show list view', () => {
+      cy.contains('List').click().wait(1500);
+      //viewing prev and next years
+      cy.get('[title="Previous year"]')
+        .click()
+        .wait(500)
+        .get('[title="Previous year"]')
+        .click()
+        .wait(500)
+        .get('[title="Next year"]')
+        .click()
+        .wait(500)
+        .get('[title="This year"]')
+        .click()
+        .wait(1000);
+    });
   });
 
   describe('adding an event on a day without a reserved event', () => {
@@ -1262,11 +1262,10 @@ describe('event.spec.ts - Event Page', () => {
     });
 
     it('should successfully delete an event when "yes" button is clicked', () => {
-    cy.intercept('DELETE', '/api/v1/event/*').as('deleteEvents');
+      cy.intercept('DELETE', '/api/v1/event/*').as('deleteEvents');
 
-    cy.getBySel('delete-submit-btn').click().wait(1000);
-    cy.getBySel('dialog-yes-btn').click().wait('deleteEvents').wait(3000);
-
+      cy.getBySel('delete-submit-btn').click().wait(1000);
+      cy.getBySel('dialog-yes-btn').click().wait('@deleteEvents').wait(3000);
     });
 
     describe('deleted event should not be found in various calendar views anymore', () => {
@@ -1278,8 +1277,9 @@ describe('event.spec.ts - Event Page', () => {
       });
       it('should not be found in daily view', () => {
         cy.contains('Day').click().wait(2000);
-        //viewing oct 14
-        cy.get('[title="Previous day"]').click().wait(4000);
+        //viewing oct 13
+        cy.get('[title="Next day"]').click().wait(4000);
+        cy.get('[title="Next day"]').click().wait(4000);
       });
       it('should not be found in list view', () => {
         cy.contains('List').click().wait(4000);
