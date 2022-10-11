@@ -13,3 +13,6 @@ export {
   logoBlack,
   logoMobileBlack,
 };
+
+export * from './img';
+export * from './team';

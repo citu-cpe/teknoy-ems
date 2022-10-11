@@ -36,13 +36,15 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
     setDeleteActionIsLoading(true);
     if (event) {
       onDelete(event);
+      setDeleteActionIsLoading(false);
     }
   };
-
+  
   const handleEdit = () => {
     setEditActionIsLoading(true);
     if (event) {
       onEdit(event);
+      setDeleteActionIsLoading(false);
     }
   };
 
@@ -145,7 +147,6 @@ export const EventView = ({ id, onDelete, onEdit }: EventViewProps) => {
           variant='outline'
           color='errorColor'
           borderColor='errorBg'
-          // bg='errorBg'
           data-cy='delete-submit-btn'
           formNoValidate
           isLoading={deleteActionIsLoading}

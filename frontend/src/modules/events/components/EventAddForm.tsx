@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Spacer } from '@chakra-ui/react';
+import { Button, Divider, Flex, Heading, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import {
   EventCreateDTO,
@@ -124,6 +124,9 @@ export const EventAddForm = ({
       {() => (
         <Form noValidate>
           <FormLayout>
+            <Heading textAlign='center' as='h2' size='md'>
+              Service Information
+            </Heading>
             <Field name='type' type='text' isRequired>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
                 <FormSelect
@@ -199,6 +202,10 @@ export const EventAddForm = ({
             />
 
             <Divider />
+
+            <Heading textAlign='center' as='h2' size='md'>
+              Event Details
+            </Heading>
 
             <Field name='title' type='text' isRequired>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
@@ -288,6 +295,10 @@ export const EventAddForm = ({
             </Field>
 
             <Divider />
+
+            <Heading textAlign='center' as='h2' size='md'>
+              Technical Support Information
+            </Heading>
 
             <Field name='status' type='text' isRequired>
               {(fieldProps: FieldProps<string, EventCreateDTO>) => (
