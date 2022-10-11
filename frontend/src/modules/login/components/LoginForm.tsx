@@ -8,6 +8,7 @@ import {
   InputGroup,
   InputRightElement,
   Text,
+  Tooltip,
 } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { ChangePasswordDTO, LoginUserDTO } from 'generated-api';
@@ -15,6 +16,7 @@ import NextLink from 'next/link';
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import * as Yup from 'yup';
+import { LinkText } from '../../../shared/components/elements';
 import { FormLayout } from '../../../shared/components/form';
 import { Input } from '../../../shared/components/form/Input';
 import { useLogin } from '../hooks/useLogin';
@@ -109,20 +111,33 @@ export const LoginForm = () => {
                 )}
               </Field>
             </FormControl>
-            <NextLink href='/reset-password'>
-              <Text
-                opacity={0.8}
-                _hover={{
-                  opacity: 1,
-                  textDecoration: 'none',
-                  color: 'brand.200',
-                  cursor: 'pointer',
-                }}
-                textAlign='right'
+            <Flex
+              pl={4}
+              fontSize='sm'
+              w='full'
+              opacity={0.8}
+              justifyContent='space-between'
+              alignItems='center'
+            >
+              <Tooltip
+                placement='bottom-start'
+                label='Email MSDO Department at msdo@cit.edu'
+                cursor='pointer'
+                hasArrow
               >
-                Forgot Password?
-              </Text>
-            </NextLink>
+                <Text
+                  _hover={{
+                    opacity: 1,
+                    textDecoration: 'none',
+                    color: 'brand.200',
+                    cursor: 'pointer',
+                  }}
+                >
+                  No account?
+                </Text>
+              </Tooltip>
+              <LinkText label='Forgot Password?' route='/reset-password' />
+            </Flex>
           </FormLayout>
           <Box mb={2}>
             <Button

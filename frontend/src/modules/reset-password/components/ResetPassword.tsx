@@ -1,8 +1,9 @@
-import { Button, Flex, Heading, Icon, Text } from '@chakra-ui/react';
+import { Flex, Heading, Text } from '@chakra-ui/react';
 import router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { BiArrowBack } from 'react-icons/bi';
 import { ContentSection } from '../../../shared/components/content';
+import { BackButton } from '../../../shared/components/elements';
+import { ThemeModeToggleFloat } from '../../../shared/components/header';
 import { ResetLinkSent } from './ResetLinkSent';
 import { ResetPasswordForm } from './ResetPasswordForm';
 import { ResetPasswordLinkForm } from './ResetPasswordLinkForm';
@@ -70,17 +71,8 @@ export const ResetPassword = () => {
         </>
       )}
 
-      <Button
-        leftIcon={<Icon as={BiArrowBack} mr={2} my={0} py={0} h='100%' />}
-        color='white'
-        variant='outline'
-        position='absolute'
-        top={4}
-        left={4}
-        onClick={() => router.back()}
-      >
-        Back
-      </Button>
+      <BackButton />
+      <ThemeModeToggleFloat />
     </Flex>
   );
 };

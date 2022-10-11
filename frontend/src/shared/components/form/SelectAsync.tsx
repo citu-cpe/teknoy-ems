@@ -168,6 +168,7 @@ export const SelectAsync = <
     option: (base, { isDisabled, isFocused, isSelected }) => {
       return {
         ...base,
+        opacity: isDisabled ? 0.5 : 1,
         backgroundColor: isDisabled
           ? undefined
           : isSelected

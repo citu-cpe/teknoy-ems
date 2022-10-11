@@ -16,9 +16,12 @@ export const useEvents = () => {
 
   const getEventById = useMutation((id: string) => api.getEventById(id));
 
+  const fetchAllEvents = useMutation(() => api.getAllEvents());
+
   return {
     addEvent,
     editEvent,
     getEventById,
+    fetchAllEvents,
   };
 };

@@ -4,11 +4,13 @@ import {
   Heading,
   Image,
   useColorMode,
-  useColorModeValue,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { logoMobileBlack, logoMobileLight } from '../../../assets';
 import { LinkButton } from '../../../shared/components/elements';
-import { ThemeModeToggle } from '../../../shared/components/header';
+import {
+  ThemeModeToggleFloat
+} from '../../../shared/components/header';
 import { LinkParticles } from './LinkParticles';
 
 export const Landing = () => {
@@ -54,13 +56,7 @@ export const Landing = () => {
             <LinkButton label='About' route='/about' minW={56} />
           </Flex>
 
-          <Flex
-            position='absolute'
-            top={{ base: 2, md: 5 }}
-            right={{ base: 3, md: 10 }}
-          >
-            <ThemeModeToggle />
-          </Flex>
+          <ThemeModeToggleFloat />
         </Flex>
       </Center>
     </>

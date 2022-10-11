@@ -1,8 +1,8 @@
 import { Flex, FlexProps, Spacer } from '@chakra-ui/react';
-import { MainFooter } from '../elements/MainFooter/MainFooter';
+import { MainFooter } from '../elements/MainFooter/';
 import { HeaderSpacer } from '../header';
-import { Header } from '../header/Header';
-import { HeaderBreadcrumb } from '../header/HeaderBreadcrumb';
+import { Header } from '../header/';
+import { HeaderBreadcrumb } from '../header/';
 
 interface MainLayoutProps {
   title: string;

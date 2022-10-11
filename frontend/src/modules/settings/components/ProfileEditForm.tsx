@@ -65,7 +65,7 @@ export const ProfileEditForm = ({
       {() => (
         <Form noValidate>
           <FormLayout>
-            <Field name='email' type='email' isReadOnly>
+            <Field name='email' type='email' isReadOnly isRequired>
               {(fieldProps: FieldProps<string, UserDTO>) => (
                 <Input
                   fieldProps={fieldProps}
@@ -74,16 +74,18 @@ export const ProfileEditForm = ({
                   type='email'
                   id='email'
                   isReadOnly
+                  isRequired
                 />
               )}
             </Field>
-            <Field name='roles' type='text' isReadOnly>
+            <Field name='roles' type='text' isReadOnly isRequired>
               {(fieldProps: FieldProps<string, UserDTO>) => (
                 <Input
                   fieldProps={fieldProps}
                   label='Roles'
                   name='roles'
                   type='text'
+                  isRequired
                   isReadOnly
                 />
               )}
