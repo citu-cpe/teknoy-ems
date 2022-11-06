@@ -16,7 +16,9 @@ import { VenueService } from './venue.service';
 export class VenueController {
   public static readonly VENUE_API_PATH = '/venue';
   public static readonly VENUE_ID_ROUTE = '/:id';
+
   constructor(private readonly venueService: VenueService) {}
+
   @Post()
   public async createVenue(
     @Req() { user }: RequestWithUser,
@@ -24,14 +26,17 @@ export class VenueController {
   ): Promise<VenueDTO> {
     return this.venueService.createVenue(user, data);
   }
+
   @Get()
   public async getVenues(): Promise<VenueDTO[]> {
     return this.venueService.getAllVenue();
   }
+
   @Get(VenueController.VENUE_ID_ROUTE)
   public async getVenueById(@Param('id') id: string): Promise<VenueDTO> {
     return this.venueService.getVenueById(id);
   }
+
   @Delete(VenueController.VENUE_ID_ROUTE)
   public async deleteVenue(
     @Req() { user }: RequestWithUser,
@@ -39,6 +44,7 @@ export class VenueController {
   ): Promise<VenueDTO> {
     return this.venueService.deleteVenue(user, id);
   }
+
   @Put(VenueController.VENUE_ID_ROUTE)
   public async updateVenue(
     @Req() { user }: RequestWithUser,

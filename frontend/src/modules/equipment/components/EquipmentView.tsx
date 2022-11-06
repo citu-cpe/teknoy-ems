@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { EquipmentDTO } from 'generated-api';
 import moment from 'moment';
+import { enumValueToCapitalCase } from '../../../shared/helpers/enum-helpers';
 
 interface EquipmentViewProps {
   equipment: EquipmentDTO;
@@ -43,7 +44,9 @@ export const EquipmentView = ({ equipment }: EquipmentViewProps) => {
             <Tr>
               <Th>Type</Th>
               <Td>
-                <Text data-cy='equipment-view-type'>{equipment.type}</Text>
+                <Text data-cy='equipment-view-type'>
+                  {enumValueToCapitalCase(equipment.type)}
+                </Text>
               </Td>
             </Tr>
             <Tr>

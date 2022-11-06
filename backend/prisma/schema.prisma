@@ -46,12 +46,21 @@ model Schedule {
   venuesId     String?
 }
 
+enum EquipmentType {
+  PHOTO_DOCUMENTATION
+  VIDEO_DOCUMENTATION
+  PHOTO_AND_VIDEO_DOCUMENTATION
+  LIVE_STREAMING
+  MUSIC_BAND
+  OTHERS
+}
+
 model Equipment {
   id                 String               @id @default(uuid())
   createdAt          DateTime?            @default(now())
   updatedAt          DateTime?            @updatedAt
   name               String               @unique
-  type               String
+  type               EquipmentType
   brand              String?
   serial             String?
   notes              String?
