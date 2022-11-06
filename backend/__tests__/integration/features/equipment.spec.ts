@@ -1,5 +1,8 @@
 import { addEquipmentWithoutSched } from '../../../src/global/test-data/equipment-test-data.service';
-import { EquipmentDTO } from '../../../src/equipment/dto/equipment.dto';
+import {
+  EquipmentDTO,
+  EquipmentTypeEnum,
+} from '../../../src/equipment/dto/equipment.dto';
 import { EquipmentController } from '../../../src/equipment/equipment.controller';
 import {
   addEquipment,
@@ -28,30 +31,30 @@ describe('equipment.spec.ts - Equipment Controller', () => {
     });
 
     it('should successfully add an equipment even without populating brand, serial and notes field', async () => {
-      const equipmentWithoutBrand = {
+      const equipmentWithoutBrand: EquipmentDTO = {
         name: 'EPSON Large 4',
-        type: 'CAMERA',
+        type: EquipmentTypeEnum.PHOTO_AND_VIDEO_DOCUMENTATION,
         serial: 'GIJDKSLS',
         notes: 'handle with care',
       };
 
-      const equipmentWithoutSerial = {
+      const equipmentWithoutSerial: EquipmentDTO = {
         name: 'EPSON Large 3',
-        type: 'CAMERA',
+        type: EquipmentTypeEnum.PHOTO_AND_VIDEO_DOCUMENTATION,
         brand: 'EPSON',
         notes: 'handle with care',
       };
 
-      const equipmentWithoutNotes = {
+      const equipmentWithoutNotes: EquipmentDTO = {
         name: 'EPSON Large 2',
-        type: 'CAMERA',
+        type: EquipmentTypeEnum.PHOTO_AND_VIDEO_DOCUMENTATION,
         brand: 'EPSON',
         serial: 'OJSDFMCJ',
       };
 
-      const equipmentWithoutAllOptional = {
+      const equipmentWithoutAllOptional: EquipmentDTO = {
         name: 'EPSON Large 1',
-        type: 'CAMERA',
+        type: EquipmentTypeEnum.PHOTO_AND_VIDEO_DOCUMENTATION,
       };
 
       await requestWithStaff
@@ -135,43 +138,43 @@ describe('equipment.spec.ts - Equipment Controller', () => {
 
   describe('PUT /:id', () => {
     it('should update equipment info', async () => {
-      const updateEquipmentName = {
+      const updateEquipmentName: EquipmentDTO = {
         id: addEquipmentWithoutSched.id,
         name: 'EPSON Large 3',
         brand: addEquipmentWithoutSched.brand,
-        type: addEquipmentWithoutSched.type,
+        type: addEquipmentWithoutSched.type.toString() as EquipmentTypeEnum,
         serial: addEquipmentWithoutSched.serial,
         notes: addEquipmentWithoutSched.notes,
       };
-      const updateEquipmentBrand = {
+      const updateEquipmentBrand: EquipmentDTO = {
         id: addEquipmentWithoutSched.id,
         name: addEquipmentWithoutSched.name,
         brand: 'SONY',
-        type: addEquipmentWithoutSched.type,
+        type: addEquipmentWithoutSched.type.toString() as EquipmentTypeEnum,
         serial: addEquipmentWithoutSched.serial,
         notes: addEquipmentWithoutSched.notes,
       };
-      const updateEquipmentType = {
+      const updateEquipmentType: EquipmentDTO = {
         id: addEquipmentWithoutSched.id,
         name: addEquipmentWithoutSched.name,
         brand: addEquipmentWithoutSched.brand,
-        type: 'Speaker',
+        type: EquipmentTypeEnum.LIVE_STREAMING,
         serial: addEquipmentWithoutSched.serial,
         notes: addEquipmentWithoutSched.notes,
       };
-      const updateEquipmentSerial = {
+      const updateEquipmentSerial: EquipmentDTO = {
         id: addEquipmentWithoutSched.id,
         name: addEquipmentWithoutSched.name,
         brand: addEquipmentWithoutSched.brand,
-        type: addEquipmentWithoutSched.type,
+        type: addEquipmentWithoutSched.type.toString() as EquipmentTypeEnum,
         serial: '123465',
         notes: addEquipmentWithoutSched.notes,
       };
-      const updateEquipmentNotes = {
+      const updateEquipmentNotes: EquipmentDTO = {
         id: addEquipmentWithoutSched.id,
         name: addEquipmentWithoutSched.name,
         brand: addEquipmentWithoutSched.brand,
-        type: addEquipmentWithoutSched.type,
+        type: addEquipmentWithoutSched.type.toString() as EquipmentTypeEnum,
         serial: addEquipmentWithoutSched.serial,
         notes: 'do not forget the lens',
       };

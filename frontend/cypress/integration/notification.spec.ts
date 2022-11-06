@@ -21,10 +21,10 @@ describe('report.spec.ts - Report Page', () => {
         cy.getBySel('add-equipment-btn').click();
 
         cy.getBySel('name-input').type('RJ45');
-        cy.getBySel('type-select').select('Wire');
+        cy.getBySel('type-select').select('Live Streaming');
         cy.getBySel('brand-input').type('N/A');
         cy.getBySel('serial-input').type('GIOEMSKIQ');
-        cy.getBySel('notes-input').type('Notes').wait(2000);
+        cy.getBySel('notes-input').type('Notes');
 
         cy.getBySel('add-submit-btn').click();
 
@@ -33,7 +33,7 @@ describe('report.spec.ts - Report Page', () => {
 
         cy.getBySel('close-btn').click();
 
-        cy.wait('@getAllEquipment').wait(3000);
+        cy.wait('@getAllEquipment');
       });
     });
 
@@ -46,7 +46,7 @@ describe('report.spec.ts - Report Page', () => {
         cy.getBySel('add-venue-btn').click();
 
         cy.getBySel('name-input').type('Case Room');
-        cy.getBySel('notes-input').type('No Food Allowed').wait(2000);
+        cy.getBySel('notes-input').type('No Food Allowed');
 
         cy.getBySel('add-submit-btn').click();
 
@@ -55,7 +55,7 @@ describe('report.spec.ts - Report Page', () => {
 
         cy.getBySel('close-btn').click();
 
-        cy.wait('@getAllVenue').wait(3000);
+        cy.wait('@getAllVenue');
       });
 
       it('should succssfully edit a venue', () => {
@@ -69,7 +69,7 @@ describe('report.spec.ts - Report Page', () => {
 
         cy.getBySel('edit-submit-btn').click();
 
-        cy.wait('@editVenue').wait(3000);
+        cy.wait('@editVenue');
       });
     });
 
@@ -93,8 +93,8 @@ describe('report.spec.ts - Report Page', () => {
 
     describe('Staff Logout', () => {
       it('should successfully logout staff account', () => {
-        cy.getBySel('profile-btn').click().wait(2000);
-        cy.getBySel('logout-btn').click().wait(2000);
+        cy.getBySel('profile-btn').click();
+        cy.getBySel('logout-btn').click();
       });
     });
   });
@@ -114,11 +114,11 @@ describe('report.spec.ts - Report Page', () => {
       'should receive notifications done by staff activities',
       { scrollBehavior: false },
       () => {
-        cy.get('[aria-label="Open notifications"]').click().wait(8000);
-        cy.get('[role="tab"]').contains('Today').click().wait(2000);
-        cy.get('[role="tab"]').contains('Last week').click().wait(2000);
-        cy.get('[role="tab"]').contains('Last month').click().wait(2000);
-        cy.get('[aria-label="Open notifications"]').click().wait(3000);
+        cy.get('[aria-label="Open notifications"]').click();
+        cy.get('[role="tab"]').contains('Today').click();
+        cy.get('[role="tab"]').contains('Last week').click();
+        cy.get('[role="tab"]').contains('Last month').click();
+        cy.get('[aria-label="Open notifications"]').click();
       }
     );
 
@@ -149,7 +149,7 @@ describe('report.spec.ts - Report Page', () => {
       cy.getBySel('edit-submit-btn').click();
 
       // wait for create request
-      cy.wait('@editUser').wait(3000);
+      cy.wait('@editUser');
     });
 
     it('should successfully edit an announcement', () => {
@@ -167,13 +167,13 @@ describe('report.spec.ts - Report Page', () => {
 
       cy.getBySel('edit-submit-btn').click();
 
-      cy.wait('@editAnnouncement').wait(3000);
+      cy.wait('@editAnnouncement');
     });
 
     describe('Admin Logout', () => {
       it('should successfully logout admin account', () => {
-        cy.getBySel('profile-btn').click().wait(2000);
-        cy.getBySel('logout-btn').click().wait(2000);
+        cy.getBySel('profile-btn').click();
+        cy.getBySel('logout-btn').click();
       });
     });
   });
@@ -193,19 +193,19 @@ describe('report.spec.ts - Report Page', () => {
       'should receive notifications done by admin activities',
       { scrollBehavior: false },
       () => {
-        cy.get('[aria-label="Open notifications"]').click().wait(8000);
-        cy.get('[role="tab"]').contains('Today').click().wait(2000);
-        cy.get('[role="tab"]').contains('Last week').click().wait(2000);
-        cy.get('[role="tab"]').contains('Last month').click().wait(2000);
-        cy.get('[role="tab"]').contains('All').click().wait(2000);
+        cy.get('[aria-label="Open notifications"]').click();
+        cy.get('[role="tab"]').contains('Today').click();
+        cy.get('[role="tab"]').contains('Last week').click();
+        cy.get('[role="tab"]').contains('Last month').click();
+        cy.get('[role="tab"]').contains('All').click();
 
         cy.get('[data-index="4"]').click();
-        cy.get('[aria-label="Open notifications"]').click().wait(3000);
+        cy.get('[aria-label="Open notifications"]').click();
         cy.get('[data-index="5"]').click();
         // cy.get('[aria-label="Open notifications"]').click().wait(3000);
         // cy.get('[data-index="6"]').click();
 
-        cy.getBySel('profile-btn').click().wait(2000);
+        cy.getBySel('profile-btn').click();
       }
     );
   });

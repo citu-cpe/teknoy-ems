@@ -49,7 +49,7 @@ export interface EquipmentDTO {
    * @type {string}
    * @memberof EquipmentDTO
    */
-  type: string;
+  type: EquipmentDTOTypeEnum;
   /**
    *
    * @type {string}
@@ -73,5 +73,18 @@ export interface EquipmentDTO {
    * @type {string}
    * @memberof EquipmentDTO
    */
-  notes: string;
+  notes?: string;
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum EquipmentDTOTypeEnum {
+  PhotoDocumentation = 'PHOTO_DOCUMENTATION',
+  VideoDocumentation = 'VIDEO_DOCUMENTATION',
+  PhotoAndVideoDocumentation = 'PHOTO_AND_VIDEO_DOCUMENTATION',
+  LiveStreaming = 'LIVE_STREAMING',
+  MusicBand = 'MUSIC_BAND',
+  Others = 'OTHERS',
 }

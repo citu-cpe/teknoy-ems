@@ -18,6 +18,7 @@ import { Modal } from '../../../shared/components/elements';
 import { Dialog } from '../../../shared/components/elements/Dialog/Dialog';
 import { EllipsisText } from '../../../shared/components/elements/Text';
 import { TableActions } from '../../../shared/components/table/TableActions';
+import { enumValueToCapitalCase } from '../../../shared/helpers/enum-helpers';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
 import { EquipmentEditForm } from './EquipmentEditForm';
@@ -199,7 +200,7 @@ export const EquipmentTable = ({ refresh }: EquipmentTableProps) => {
                   </Td>
                   <Td maxW={32}>
                     <EllipsisText opacity={0.8} data-cy='equipment-type'>
-                      {eq.type}
+                      {enumValueToCapitalCase(eq.type)}
                     </EllipsisText>
                   </Td>
                   <Td maxW={32}>

@@ -6,7 +6,7 @@ import {
 import { Equipment, Schedule, User } from '@prisma/client';
 import { ScheduleDTO } from '../schedule/dto/schedule.dto';
 import { PrismaService } from '../global/prisma/prisma.service';
-import { EquipmentDTO } from './dto/equipment.dto';
+import { EquipmentDTO, EquipmentTypeEnum } from './dto/equipment.dto';
 import { ScheduleService } from '../schedule/schedule.service';
 import {
   NotFoundError,
@@ -16,6 +16,8 @@ import { PostgresErrorCode } from '../shared/constants/postgress-error-codes.enu
 import { SortedEquipmentsDTO } from '../event/dto/sorted-equipments.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ActionENUM, PriorityENUM } from '../activity-log/dto/activity-log.dto';
+
+export const EQUIPMENT_SET_POSTFIX = 'Equipment Set';
 
 @Injectable()
 export class EquipmentService {
@@ -72,7 +74,7 @@ export class EquipmentService {
         },
       },
     });
-    return equipment;
+    return EquipmentService.convertToDTO(equipment);
   }
 
   public async getAllEquipments(): Promise<EquipmentDTO[]> {
@@ -223,7 +225,7 @@ export class EquipmentService {
     equipmentDTO.updatedAt = equipment.updatedAt;
     equipmentDTO.name = equipment.name;
     equipmentDTO.notes = equipment.notes;
-    equipmentDTO.type = equipment.type;
+    equipmentDTO.type = equipment.type.toString() as EquipmentTypeEnum;
     equipmentDTO.serial = equipment.serial;
 
     if (equipment.schedules) {
