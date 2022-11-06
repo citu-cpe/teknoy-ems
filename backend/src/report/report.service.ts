@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { ReportGetDTO } from './dto/report-get.dto';
 import ExcelJS from 'exceljs';
-import { User } from '@prisma/client';
+import { User, Prisma } from '@prisma/client';
 import { EventDTO } from '../event/dto/event.dto';
 import { EventService } from '../event/event.service';
 import { EventReportFilterDTO } from './dto/report-filters/event-report-filter.dto';
@@ -18,6 +18,7 @@ import { OrganizerService } from '../organizer/organizer.service';
 import { AnnouncementDTO } from '../announcement/dto/announcement.dto';
 import { AnnouncementReportFilterDTO } from './dto/report-filters/announcement-report-filter.dto';
 import { AnnouncementServices } from '../announcement/announcement.service';
+import { ReportFilterDTO } from './dto/report-filter.dto';
 
 interface KeyValuePair {
   key: string;
@@ -29,6 +30,8 @@ export class ReportService {
   constructor(private readonly prismaService: PrismaService) {}
 
   public async getReport(reportGetDTO: ReportGetDTO, user: User): Promise<any> {
+    const where = this.getEventWhereFilter(reportGetDTO.reportFilterDTO);
+
     const events = await this.prismaService.event.findMany({
       include: {
         encodedBy: true,
@@ -36,7 +39,9 @@ export class ReportService {
         equipments: { include: { equipment: true } },
         venues: { include: { venue: true } },
       },
+      where,
     });
+
     const eventDTOs = events.map((e) => EventService.convertToDTO(e));
 
     const equipments = await this.prismaService.equipment.findMany({
@@ -106,6 +111,37 @@ export class ReportService {
     }
 
     await workbook.xlsx.writeFile('report.xlsx');
+  }
+
+  private getEventWhereFilter(filter: ReportFilterDTO): Prisma.EventWhereInput {
+    let organizerFilter: Prisma.StringFilter | undefined;
+
+    if (filter.organizerIds && filter.organizerIds.length > 0) {
+      organizerFilter = { in: filter.organizerIds };
+    }
+
+    let dateFilter: Prisma.Enumerable<Prisma.EventWhereInput> | undefined;
+
+    if (filter.startDate && filter.endDate) {
+      dateFilter = {
+        AND: {
+          startTime: { lte: filter.endDate },
+          endTime: { gte: filter.startDate },
+        },
+      };
+    }
+
+    const where: Prisma.EventWhereInput = {};
+
+    if (organizerFilter) {
+      where.organizerId = organizerFilter;
+    }
+
+    if (dateFilter) {
+      where.AND = dateFilter;
+    }
+
+    return where;
   }
 
   private getFirstWorksheet(
