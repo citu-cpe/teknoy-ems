@@ -54,4 +54,22 @@ export interface ReportFilterDTO {
    * @memberof ReportFilterDTO
    */
   venueReportFilterDTO?: VenueReportFilterDTO;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ReportFilterDTO
+   */
+  organizerIds?: Array<string>;
+  /**
+   *
+   * @type {string}
+   * @memberof ReportFilterDTO
+   */
+  startDate?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ReportFilterDTO
+   */
+  endDate?: string;
 }
