@@ -155,18 +155,35 @@ export class EventService {
       await this.prismaService.equipmentsOnEvents.deleteMany({
         where: { eventId: id },
       });
+
       await this.prismaService.venuesOnEvents.deleteMany({
         where: { eventId: id },
       });
+
       const oldValue = await this.prismaService.event.findUniqueOrThrow({
         where: { id },
         include: {
           encodedBy: true,
           organizer: true,
-          equipments: { include: { equipment: true } },
+          equipments: {
+            include: { equipment: true },
+          },
           venues: { include: { venue: true } },
         },
       });
+
+      if (
+        oldValue.status !== dto.status &&
+        (dto.status === StatusEnum.CANCELED ||
+          dto.status === StatusEnum.DONE ||
+          dto.status === StatusEnum.POSTPONED)
+      ) {
+        await this.prismaService.schedule.updateMany({
+          data: { availability: AvailabilityEnum.AVAILABLE },
+          where: { startTime: oldValue.startTime, endTime: oldValue.endTime },
+        });
+      }
+
       const event = await this.prismaService.event.update({
         where: { id },
         data: {
@@ -203,6 +220,7 @@ export class EventService {
           venues: { include: { venue: true } },
         },
       });
+
       this.eventEmitter.emit('create.logs', {
         entityName: 'event',
         entityId: event.id,
@@ -212,6 +230,7 @@ export class EventService {
         userId: user.id,
         priority: PriorityENUM.IMPORTANT,
       });
+
       return EventService.convertToDTO(event);
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {
@@ -315,7 +334,7 @@ export class EventService {
     const scheduleDTO: ScheduleDTO = {
       startTime: dto.startTime,
       endTime: dto.endTime,
-      availability: AvailabilityEnum.AVAILABLE,
+      availability: AvailabilityEnum.UNAVAILABLE,
     };
 
     await Promise.all(
