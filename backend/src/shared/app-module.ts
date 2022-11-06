@@ -27,6 +27,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ActivityLogModule } from '../activity-log/activity-log.module';
 import { WebSocketsModule } from '../web-socket/web-socket.module';
 import { NotificationModule } from '../notifications/notification.module';
+import { MasterSettingsModule } from '../master-settings/master-settings.module';
 
 export const appModule: ModuleMetadata = {
   imports: [
@@ -67,6 +68,7 @@ export const appModule: ModuleMetadata = {
     ActivityLogModule,
     WebSocketsModule,
     NotificationModule,
+    MasterSettingsModule,
   ],
   controllers: [AppController],
   providers: [

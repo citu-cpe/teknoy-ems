@@ -226,3 +226,8 @@ model PasswordResetTokens {
 
   @@id([userId, token])
 }
+
+model MasterSettings {
+  id                  String  @id @default(uuid())
+  allowOrganizersCRUD Boolean @default(false)
+}

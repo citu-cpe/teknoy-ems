@@ -11,6 +11,7 @@ export * from './event-report-filter-dto';
 export * from './get-sorted-dto';
 export * from './login-response-dto';
 export * from './login-user-dto';
+export * from './master-settings-dto';
 export * from './notification-dto';
 export * from './notifications-dto';
 export * from './organizer-dto';
