@@ -193,6 +193,7 @@ export const EventAddForm = ({
                   isRequired
                   data-cy='start-time-input'
                   isReadOnly={isRoleAndStatusInvalid()}
+                  tooltipLabel='Editing start time is restricted after being RESERVED, please contact Technical Department for changes.'
                 />
               )}
             </Field>
@@ -208,6 +209,7 @@ export const EventAddForm = ({
                   isRequired
                   data-cy='end-time-input'
                   isReadOnly={isRoleAndStatusInvalid()}
+                  tooltipLabel='Editing end time is restricted after being RESERVED, please contact Technical Department for changes.'
                 />
               )}
             </Field>
