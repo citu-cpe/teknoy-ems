@@ -9,5 +9,5 @@ export const useUpdateEventsCalendar = (callback: any, refresher: boolean) => {
     return () => {
       socket?.off(WebSocketEnum.UPDATE_EVENTS_TABLE, callback);
     };
-  }, [socket, refresher]);
+  }, [socket, refresher, callback]);
 };

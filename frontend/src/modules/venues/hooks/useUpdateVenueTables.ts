@@ -9,5 +9,5 @@ export const useUpdateVenueTables = (callback: any, refresher: boolean) => {
     return () => {
       socket?.off(WebSocketEnum.UPDATE_VENUES_TABLE, callback);
     };
-  }, [socket, refresher]);
+  }, [socket, refresher, callback]);
 };

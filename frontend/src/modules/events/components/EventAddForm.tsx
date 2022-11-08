@@ -92,7 +92,7 @@ export const EventAddForm = ({
       onComplete(editEvent.data.data);
       socket?.emit(WebSocketEnum.UPDATE_TABLES, 'EVENT');
     }
-  }, [addEvent, editEvent, onComplete]);
+  }, [addEvent, editEvent, onComplete, socket]);
 
   /**
    * force reset async select keys by changing their prop keys references
@@ -124,7 +124,7 @@ export const EventAddForm = ({
 
   const isTechnicalStaff = (): boolean => {
     const user = getUser();
-    if (user == null || user == undefined) {
+    if (user === null || user === undefined) {
       return false;
     }
 

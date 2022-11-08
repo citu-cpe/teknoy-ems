@@ -9,5 +9,5 @@ export const useUpdateOrganizerTables = (callback: any, refresher: boolean) => {
     return () => {
       socket?.off(WebSocketEnum.UPDATE_ORGANIZERS_TABLE, callback);
     };
-  }, [socket, refresher]);
+  }, [socket, refresher, callback]);
 };

@@ -12,5 +12,5 @@ export const useUpdateAnnouncementTables = (
     return () => {
       socket?.off(WebSocketEnum.UPDATE_ANNOUNCEMENTS_TABLE, callback);
     };
-  }, [socket, refresher]);
+  }, [socket, refresher, callback]);
 };
