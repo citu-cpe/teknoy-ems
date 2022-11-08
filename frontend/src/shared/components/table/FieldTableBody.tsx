@@ -3,8 +3,8 @@ import { PasswordField } from './PasswordField';
 
 type TableDataType = {
   label: string | undefined | null;
-  value: string | undefined | null;
-  type: 'text' | 'textarea' | 'password' | undefined | null;
+  value: string | React.ReactNode | undefined | null;
+  type: 'text' | 'textarea' | 'password' | 'node' | undefined | null;
 };
 
 interface FieldTableBodyProps {
@@ -20,7 +20,7 @@ export const FieldTableBody = ({ data }: FieldTableBodyProps) => {
   const getComponentType = (data: TableDataType) => {
     const { label, type, value } = data;
 
-    if (type === 'textarea' && value) {
+    if (typeof value === 'string' && type === 'textarea' && value) {
       return (
         <>
           <Th
@@ -48,7 +48,7 @@ export const FieldTableBody = ({ data }: FieldTableBodyProps) => {
       );
     }
 
-    if (type === 'password' && value) {
+    if (typeof value === 'string' && type === 'password' && value) {
       return (
         <>
           <Th borderBottom='0px'>{label}</Th>
@@ -64,7 +64,7 @@ export const FieldTableBody = ({ data }: FieldTableBodyProps) => {
       <>
         <Th borderBottom='0px'>{label}</Th>
         <Td borderBottom='0px' minW={60}>
-          {value?.length === 0 ? 'None' : value}
+          {typeof value === 'string' && value?.length === 0 ? 'None' : value}
         </Td>
       </>
     );

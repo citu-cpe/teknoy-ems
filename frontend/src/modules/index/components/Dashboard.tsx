@@ -1,5 +1,4 @@
 import {
-  Button,
   Center,
   Flex,
   FlexProps,
@@ -11,13 +10,13 @@ import {
   StatLabel,
   StatNumber,
   Tag,
-  Text,
+  Text
 } from '@chakra-ui/react';
 import {
   AnnouncementDTO,
   AnnouncementDTOViewAccessEnum,
   EventDTO,
-  EventDTOStatusEnum,
+  EventDTOStatusEnum
 } from 'generated-api';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -26,7 +25,7 @@ import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
   ContentHeader,
-  ContentSection,
+  ContentSection
 } from '../../../shared/components/content';
 import { MainLayout } from '../../../shared/components/layout/MainLayout';
 import { basicAuth } from '../../../shared/schemas';
@@ -45,8 +44,9 @@ import {
   imgSample3,
   imgSample4,
   imgSample5,
-  imgSample6,
+  imgSample6
 } from '../../../assets';
+import { LinkButton } from '../../../shared/components/elements';
 import { brandSmallScrollbar } from '../../../styles/components';
 
 export const Dashboard = () => {
@@ -104,9 +104,12 @@ export const Dashboard = () => {
       <ContentHeader
         title='Dashboard'
         actions={
-          <Button variant='solid' data-cy='reserve-event-btn'>
-            Reserve Event
-          </Button>
+          <LinkButton
+            variant='solid'
+            label='Reserve Event'
+            route='/events/reserve'
+            data-cy='reserve-event-btn'
+          />
         }
       />
 

@@ -5,12 +5,16 @@ import {
   SortedEquipmentsDTO,
 } from 'generated-api';
 import { useEffect, useRef } from 'react';
-import { MultiValue } from 'react-select';
-import { SelectAsync } from '../../../shared/components/form/';
+import { MultiValue, Props } from 'react-select';
+import {
+  CustomSelectAsyncProps,
+  SelectAsync,
+} from '../../../shared/components/form/';
 import { isOption } from '../../../shared/helpers/';
 import { Option } from '../../../shared/types';
 import { useGetSortedEquipments } from '../hooks/';
 import { formLabelProps, groupBadgeStyles, groupStyles } from '../styles';
+import { AsyncProps } from 'react-select/async';
 
 export interface EquipmentOption extends Option {
   status: string;
@@ -23,9 +27,13 @@ export interface EquipmentGroupedOption {
 
 export interface EquipmentSelectProps {
   defaultValue?: EquipmentDTO[];
+  selectAsyncProps?: Props;
 }
 
-export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
+export const EquipmentSelect = ({
+  defaultValue,
+  selectAsyncProps,
+}: EquipmentSelectProps) => {
   const equipmentDefaultOptions = useRef<EquipmentGroupedOption[]>([]);
 
   const { schedule, getSortedEquipments } = useGetSortedEquipments();
@@ -173,7 +181,7 @@ export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
               name='equipmentIds'
               label='Equipment'
               id='equipmentIds'
-              placeholder='Type to search...'
+              placeholder='No equipment...'
               data-cy='equipment-select'
               formLabelProps={formLabelProps}
               fieldProps={fieldProps}
@@ -191,6 +199,10 @@ export const EquipmentSelect = ({ defaultValue }: EquipmentSelectProps) => {
               value={getFieldValue(fieldProps)}
               formatGroupLabel={formatGroupLabel}
               isOptionDisabled={isOptionDisabled}
+              isDisabled={selectAsyncProps?.isDisabled}
+              helperText={
+                selectAsyncProps?.isDisabled ? 'For Technical Staff only' : ''
+              }
             />
           )}
         </Field>
