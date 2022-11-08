@@ -23,6 +23,7 @@ models/get-sorted-dto.ts
 models/index.ts
 models/login-response-dto.ts
 models/login-user-dto.ts
+models/master-settings-dto.ts
 models/notification-dto.ts
 models/notifications-dto.ts
 models/organizer-dto.ts

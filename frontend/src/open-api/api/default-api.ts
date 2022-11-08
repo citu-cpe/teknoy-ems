@@ -53,6 +53,8 @@ import { LoginResponseDTO } from '../models';
 // @ts-ignore
 import { LoginUserDTO } from '../models';
 // @ts-ignore
+import { MasterSettingsDTO } from '../models';
+// @ts-ignore
 import { NotificationDTO } from '../models';
 // @ts-ignore
 import { NotificationsDTO } from '../models';
@@ -1559,6 +1561,42 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    getMasterSettings: async (options: any = {}): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/master-settings`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     getNotifications: async (options: any = {}): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/notification`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2405,6 +2443,59 @@ export const DefaultApiAxiosParamCreator = function (
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
         resetPasswordLinkDTO,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {MasterSettingsDTO} masterSettingsDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setMasterSettings: async (
+      masterSettingsDTO: MasterSettingsDTO,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'masterSettingsDTO' is not null or undefined
+      assertParamExists(
+        'setMasterSettings',
+        'masterSettingsDTO',
+        masterSettingsDTO
+      );
+      const localVarPath = `/api/v1/master-settings`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        masterSettingsDTO,
         localVarRequestOptions,
         configuration
       );
@@ -3524,6 +3615,28 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    async getMasterSettings(
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<MasterSettingsDTO>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getMasterSettings(options);
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     async getNotifications(
       options?: any
     ): Promise<
@@ -3952,6 +4065,30 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.sendResetPasswordLink(
           resetPasswordLinkDTO,
+          options
+        );
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration
+      );
+    },
+    /**
+     *
+     * @param {MasterSettingsDTO} masterSettingsDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async setMasterSettings(
+      masterSettingsDTO: MasterSettingsDTO,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.setMasterSettings(
+          masterSettingsDTO,
           options
         );
       return createRequestFunction(
@@ -4542,6 +4679,16 @@ export const DefaultApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    getMasterSettings(options?: any): AxiosPromise<MasterSettingsDTO> {
+      return localVarFp
+        .getMasterSettings(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     getNotifications(options?: any): AxiosPromise<NotificationsDTO> {
       return localVarFp
         .getNotifications(options)
@@ -4760,6 +4907,20 @@ export const DefaultApiFactory = function (
     ): AxiosPromise<void> {
       return localVarFp
         .sendResetPasswordLink(resetPasswordLinkDTO, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {MasterSettingsDTO} masterSettingsDTO
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setMasterSettings(
+      masterSettingsDTO: MasterSettingsDTO,
+      options?: any
+    ): AxiosPromise<void> {
+      return localVarFp
+        .setMasterSettings(masterSettingsDTO, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -5297,6 +5458,18 @@ export class DefaultApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
+  public getMasterSettings(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .getMasterSettings(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
   public getNotifications(options?: any) {
     return DefaultApiFp(this.configuration)
       .getNotifications(options)
@@ -5536,6 +5709,22 @@ export class DefaultApi extends BaseAPI {
   ) {
     return DefaultApiFp(this.configuration)
       .sendResetPasswordLink(resetPasswordLinkDTO, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {MasterSettingsDTO} masterSettingsDTO
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public setMasterSettings(
+    masterSettingsDTO: MasterSettingsDTO,
+    options?: any
+  ) {
+    return DefaultApiFp(this.configuration)
+      .setMasterSettings(masterSettingsDTO, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
