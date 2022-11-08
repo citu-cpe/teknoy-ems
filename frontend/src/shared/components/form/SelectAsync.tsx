@@ -13,7 +13,7 @@ import { GroupBase, StylesConfig, Theme } from 'react-select';
 import ReactSelectAsync, { AsyncProps } from 'react-select/async';
 import { ErrorTooltip } from './ErrorTooltip';
 
-interface CustomSelectAsyncProps {
+export interface CustomSelectAsyncProps {
   label?: string;
   tooltipLabel?: string;
   fieldProps: FieldProps;

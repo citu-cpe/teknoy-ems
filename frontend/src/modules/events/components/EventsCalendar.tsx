@@ -9,16 +9,24 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { EventDTO } from 'generated-api';
+import {
+  EventCreateDTO,
+  EventCreateDTOStatusEnum,
+  EventDTO,
+  EventDTOStatusEnum,
+} from 'generated-api';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
 import { Dialog, LinkButton, Modal } from '../../../shared/components/elements';
 import { valuesAreEqual } from '../../../shared/helpers';
+import { convertToEventCreateDTO } from '../../../shared/helpers/convert-to-event-create-dto';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
+import { useEvents } from '../hooks';
 import { EventAddForm } from './EventAddForm';
 import { EventAddSuccess } from './EventAddSuccess';
+import { getEventStatusColor } from './EventStatus';
 import { EventView } from './EventView';
 
 export const EventsCalendar = ({
@@ -27,6 +35,8 @@ export const EventsCalendar = ({
   const api = useContext(ApiContext);
   const toast = useToast();
   const router = useRouter();
+
+  const { editEvent } = useEvents();
 
   const [events, setEvents] = useState<EventInput[] | undefined>([]);
   const [newEventDTO, setEventDTO] = useState<EventDTO | undefined>(undefined);
@@ -93,11 +103,15 @@ export const EventsCalendar = ({
   const formatEvents = (events: EventDTO[]): EventInput[] => {
     let formattedEvents: EventInput[];
     formattedEvents = events.map((ev) => {
+      const statusColor = getEventStatusColor(ev.status);
+
       let event: EventInput;
       event = {
         ...ev,
         start: ev.startTime,
         end: ev.endTime,
+        backgroundColor: statusColor,
+        borderColor: statusColor,
       };
       return event;
     });
@@ -172,6 +186,23 @@ export const EventsCalendar = ({
     onViewModalOpen();
   };
 
+  const handleQuickApprove = (event: EventDTO) => {
+    const eventCreate = convertToEventCreateDTO(event);
+    let approvedEventCreate: EventCreateDTO = {
+      ...eventCreate,
+      status: EventCreateDTOStatusEnum.Reserved,
+    };
+
+    editEvent.mutate(approvedEventCreate, {
+      onSuccess: () => {
+        toast({ title: 'Approved event successfully' });
+      },
+      onError: () => {
+        toast({ title: 'Approved event failed', status: 'error' });
+      },
+    });
+  };
+
   /**
    * feature function currently commented for future development
    * Reason: Users can mistakenly click calendar Dates very easily
@@ -208,7 +239,9 @@ export const EventsCalendar = ({
           slotMinTime='06:00'
           slotMaxTime='24:00'
           eventClick={handleEventClick}
-          // dateClick={handleDateClick} currently disabled
+          eventDragStop={() => console.log('drag stopped')}
+          eventStartEditable={false}
+          eventDurationEditable={false}
           height='100%'
           selectable
           editable
@@ -302,6 +335,7 @@ export const EventsCalendar = ({
             id={eventToView.current}
             onDelete={handleDelete}
             onEdit={handleEdit}
+            onApprove={handleQuickApprove}
           />
         </Modal>
       )}
