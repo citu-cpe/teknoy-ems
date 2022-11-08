@@ -14,13 +14,17 @@ import {
 import { EquipmentDTO } from 'generated-api';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
+import { ref } from 'yup';
 import { Modal } from '../../../shared/components/elements';
 import { Dialog } from '../../../shared/components/elements/Dialog/Dialog';
 import { EllipsisText } from '../../../shared/components/elements/Text';
 import { TableActions } from '../../../shared/components/table/TableActions';
 import { enumValueToCapitalCase } from '../../../shared/helpers/enum-helpers';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
+
 import { EquipmentEditForm } from './EquipmentEditForm';
 import { EquipmentView } from './EquipmentView';
 
@@ -31,12 +35,11 @@ interface EquipmentTableProps {
 export const EquipmentTable = ({ refresh }: EquipmentTableProps) => {
   const api = useContext(ApiContext);
   const toast = useToast();
-
   const [equipment, setEquipment] = useState<EquipmentDTO[] | undefined>([]);
   const equipmentToView = useRef<EquipmentDTO | null>(null);
   const equipmentToEdit = useRef<EquipmentDTO | null>(null);
   const equipmentToDelete = useRef<EquipmentDTO | null>(null);
-
+  const socket = useContext(SocketContext);
   const {
     onOpen: onViewModalOpen,
     isOpen: isViewModalOpen,
@@ -103,6 +106,7 @@ export const EquipmentTable = ({ refresh }: EquipmentTableProps) => {
     }
 
     await deleteEquipment.mutateAsync(equipmentDTO);
+    socket?.emit(WebSocketEnum.UPDATE_TABLES, 'EQUIPMENT');
     toast({ title: 'Deleted equipment successfully' });
     onDeleteDialogClose();
   };

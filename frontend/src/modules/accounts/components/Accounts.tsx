@@ -9,6 +9,7 @@ import {
 import { LinkButton, Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
 import { adminOnlyAuth } from '../../../shared/schemas';
+import { useUpdateAccountTables } from '../hooks/useUpdateAccountTables';
 import { AccountRegisterSuccess } from './AccountRegisterSuccess';
 import { AccountsTable } from './AccountsTable';
 
@@ -42,7 +43,10 @@ export const Accounts = () => {
     onRegisterOpen();
     onSuccessClose();
   };
-
+  const handleWebSocketTableUpdates = () => {
+    setRefresh(!refresh);
+  };
+  useUpdateAccountTables(handleWebSocketTableUpdates, refresh);
   const handleSuccessClose = () => {
     setRegisteredUser(undefined);
     onSuccessClose();

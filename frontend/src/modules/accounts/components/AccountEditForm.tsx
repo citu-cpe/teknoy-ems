@@ -9,7 +9,7 @@ import {
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { RegisterUserDTORolesEnum, UserDTO } from 'generated-api';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import {
   Checkbox,
@@ -18,7 +18,9 @@ import {
   Input,
 } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { nameValidator } from '../../../shared/schemas';
 import { useResetPasswords } from '../../reset-password/';
 import { useEdit } from '../hooks/useEdit';
@@ -40,6 +42,7 @@ export const AccountEditForm = ({
   const toast = useToast();
   const mutation = useEdit();
   const { sendResetPasswordLink } = useResetPasswords();
+  const socket = useContext(SocketContext);
 
   const initialValues = {
     ...initialUser,
@@ -73,7 +76,7 @@ export const AccountEditForm = ({
       if (onComplete) {
         onComplete(mutation.data.data);
       }
-
+      socket?.emit(WebSocketEnum.UPDATE_TABLES, 'ACCOUNT');
       toast({ title: 'Edited account successfully' });
     }
   }, [mutation, onComplete, toast, router]);

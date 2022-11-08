@@ -1,7 +1,7 @@
 import { Button, Flex, FormControl, FormLabel, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { AnnouncementDTO, AnnouncementDTOViewAccessEnum } from 'generated-api';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import {
   Checkbox,
@@ -12,7 +12,9 @@ import {
   Textarea,
 } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { useAnnouncements } from '../hooks';
 
 interface AnnouncementAddFormProps {
@@ -24,7 +26,7 @@ export const AnnouncementAddForm = ({
 }: AnnouncementAddFormProps) => {
   const { addAnnouncement } = useAnnouncements();
   const toast = useToast();
-
+  const socket = useContext(SocketContext);
   const onSubmit = (announcementDTO: AnnouncementDTO) => {
     addAnnouncement.mutate(announcementDTO);
   };
@@ -63,6 +65,7 @@ export const AnnouncementAddForm = ({
     if (addAnnouncement.isSuccess) {
       toast({ title: 'Added announcement successfully' });
       onComplete(addAnnouncement.data.data);
+      socket?.emit(WebSocketEnum.UPDATE_TABLES, 'ANNOUNCEMENT');
     }
   }, [addAnnouncement, onComplete, toast]);
 

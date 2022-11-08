@@ -1,11 +1,13 @@
 import { Button, Flex, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { VenueDTO } from 'generated-api';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import { FormLayout, Input } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { useVenues } from '../hooks';
 
 interface VenueAddFormProps {
@@ -19,7 +21,7 @@ export const VenueEditForm = ({
 }: VenueAddFormProps) => {
   const { editVenue } = useVenues();
   const toast = useToast();
-
+  const socket = useContext(SocketContext);
   const onSubmit = (venueDTO: VenueDTO) => {
     if (
       initialVenue.name === venueDTO.name &&
@@ -51,6 +53,7 @@ export const VenueEditForm = ({
     if (editVenue.isSuccess) {
       toast({ title: 'Edited venue successfully' });
       onComplete(editVenue.data.data);
+      socket?.emit(WebSocketEnum.UPDATE_TABLES, 'VENUE');
     }
   }, [editVenue, onComplete, toast]);
 

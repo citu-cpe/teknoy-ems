@@ -28,6 +28,7 @@ import { ActivityLogModule } from '../activity-log/activity-log.module';
 import { WebSocketsModule } from '../web-socket/web-socket.module';
 import { NotificationModule } from '../notifications/notification.module';
 import { MasterSettingsModule } from '../master-settings/master-settings.module';
+import { TablesModule } from '../tables-web-socket/tables.module';
 
 export const appModule: ModuleMetadata = {
   imports: [
@@ -69,6 +70,7 @@ export const appModule: ModuleMetadata = {
     WebSocketsModule,
     NotificationModule,
     MasterSettingsModule,
+    TablesModule,
   ],
   controllers: [AppController],
   providers: [

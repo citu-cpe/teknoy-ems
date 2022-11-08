@@ -8,6 +8,7 @@ import {
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
 import { staffAuth } from '../../../shared/schemas';
+import { useUpdateVenueTables } from '../hooks/useUpdateVenueTables';
 import { VenueAddForm } from './VenueAddForm';
 import { VenueAddSuccess } from './VenueAddSuccess';
 import { VenuesTable } from './VenuesTable';
@@ -39,7 +40,10 @@ export const Venues = () => {
     onAddOpen();
     onSuccessClose();
   };
-
+  const handleWebSocketTableUpdates = () => {
+    setRefresh(!refresh);
+  };
+  useUpdateVenueTables(handleWebSocketTableUpdates, refresh);
   const handleSuccessClose = () => {
     setVenueDTO(undefined);
     onSuccessClose();

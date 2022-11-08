@@ -19,11 +19,14 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
 import { Dialog, LinkButton, Modal } from '../../../shared/components/elements';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { valuesAreEqual } from '../../../shared/helpers';
 import { convertToEventCreateDTO } from '../../../shared/helpers/convert-to-event-create-dto';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { useEvents } from '../hooks';
+import { useUpdateEventsCalendar } from '../hooks/useUpdateEventsCalendar';
 import { EventAddForm } from './EventAddForm';
 import { EventAddSuccess } from './EventAddSuccess';
 import { getEventStatusColor } from './EventStatus';
@@ -35,7 +38,7 @@ export const EventsCalendar = ({
   const api = useContext(ApiContext);
   const toast = useToast();
   const router = useRouter();
-
+  const socket = useContext(SocketContext);
   const { editEvent } = useEvents();
 
   const [events, setEvents] = useState<EventInput[] | undefined>([]);
@@ -90,7 +93,10 @@ export const EventsCalendar = ({
       },
     }
   );
-
+  const handleWebSocketsTable = () => {
+    setRefresh(!refresh);
+  };
+  useUpdateEventsCalendar(handleWebSocketsTable, refresh);
   const fetchAllEvents = () => {
     fetchEvents.mutate();
   };
@@ -176,6 +182,7 @@ export const EventsCalendar = ({
     }
 
     await deleteEvents.mutateAsync(eventDTO);
+    socket?.emit(WebSocketEnum.UPDATE_TABLES, 'EVENT');
     toast({ title: 'Deleted event successfully' });
     onDeleteDialogClose();
     onViewModalClose();

@@ -23,8 +23,10 @@ import { useMutation } from 'react-query';
 import { Modal } from '../../../shared/components/elements';
 import { Dialog } from '../../../shared/components/elements/Dialog/Dialog';
 import { TableActions } from '../../../shared/components/table';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { useGlobalStore } from '../../../shared/stores';
 import { AccountEditForm } from './AccountEditForm';
 
@@ -38,7 +40,7 @@ export const AccountsTable = ({ refresh }: AccountsTableProps) => {
 
   const { getUser } = useGlobalStore();
   const localUser = getUser();
-
+  const socket = useContext(SocketContext);
   const [users, setUsers] = useState<UserDTO[] | undefined>([]);
   const userToEdit = useRef<UserDTO | null>(null);
   const userToDelete = useRef<UserDTO | null>(null);
@@ -104,6 +106,7 @@ export const AccountsTable = ({ refresh }: AccountsTableProps) => {
       });
     } else {
       await deleteUser.mutateAsync(userDTO);
+      socket?.emit(WebSocketEnum.UPDATE_TABLES, 'ACCOUNT');
     }
 
     toast({ title: 'Deleted account successfully' });

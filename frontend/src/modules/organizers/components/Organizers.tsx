@@ -8,6 +8,7 @@ import {
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
 import { staffAuth } from '../../../shared/schemas';
+import { useUpdateOrganizerTables } from '../hooks/useUpdateOrganizerTables';
 import { OrganizerAddForm } from './OrganizerAddForm';
 import { OrganizerAddSuccess } from './OrganizerAddSuccess';
 import { OrganizersTable } from './OrganizersTable';
@@ -41,7 +42,10 @@ export const Organizers = () => {
     onAddOpen();
     onSuccessClose();
   };
-
+  const handleWebSocketTableUpdates = () => {
+    setRefresh(!refresh);
+  };
+  useUpdateOrganizerTables(handleWebSocketTableUpdates, refresh);
   const handleSuccessClose = () => {
     setOrganizerDTO(undefined);
     onSuccessClose();
