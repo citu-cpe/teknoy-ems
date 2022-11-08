@@ -29,7 +29,7 @@ export const getEventStatusColor = (status: EventDTOStatusEnum) => {
     case EventDTOStatusEnum.Pending:
       return '#718096';
     case EventDTOStatusEnum.Reserved:
-      return '#CBD5E0';
+      return '#F6AD55';
     case EventDTOStatusEnum.Ongoing:
       return '#68D391';
     case EventDTOStatusEnum.Done:
