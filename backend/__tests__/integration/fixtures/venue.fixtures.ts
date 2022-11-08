@@ -18,3 +18,4 @@ export const addVenue = async (dto: VenueDTO): Promise<VenueDTO> => {
 
   return body;
 };
+

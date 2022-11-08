@@ -64,6 +64,7 @@ model Equipment {
   brand              String?
   serial             String?
   notes              String?
+  archived           Boolean              @default(false)
   schedules          Schedule[]
   EquipmentsOnEvents EquipmentsOnEvents[]
 }
@@ -75,6 +76,7 @@ model Venues {
   name           String           @unique
   schedules      Schedule[]
   notes          String?
+  archived       Boolean          @default(false)
   VenuesOnEvents VenuesOnEvents[]
 }
 

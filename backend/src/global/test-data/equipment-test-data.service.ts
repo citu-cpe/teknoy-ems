@@ -15,6 +15,7 @@ export const addEquipmentWithoutSched: Equipment = {
   type: EquipmentTypeEnum.PHOTO_AND_VIDEO_DOCUMENTATION,
   serial: '123456789',
   notes: 'This is a test',
+  archived: false,
 };
 
 export const addSchedToEquipment: Schedule = {

@@ -83,7 +83,11 @@ export class EquipmentService {
         include: {
           schedules: true,
         },
+        where: {
+          archived: false,
+        },
       });
+
       return getAll.map((equipment) =>
         EquipmentService.convertToDTO(equipment)
       );
@@ -114,11 +118,13 @@ export class EquipmentService {
 
   public async deleteEquipment(user: User, id: string): Promise<EquipmentDTO> {
     try {
-      const equipment = await this.prisma.equipment.delete({
+      const equipment = await this.prisma.equipment.update({
         where: {
           id,
         },
+        data: { archived: true },
       });
+
       this.eventEmitter.emit('create.logs', {
         entityName: 'equipment',
         action: ActionENUM.DELETED,
@@ -127,6 +133,7 @@ export class EquipmentService {
         newValue: JSON.stringify(equipment),
         entityId: equipment.id,
       });
+
       return EquipmentService.convertToDTO(equipment);
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
@@ -181,14 +188,17 @@ export class EquipmentService {
   ): Promise<SortedEquipmentsDTO> {
     const unavailableEquipments = await this.prisma.equipment.findMany({
       where: {
-        schedules: {
-          some: {
-            AND: {
-              startTime: { lte: endTime },
-              endTime: { gte: startTime },
-              availability: AvailabilityEnum.UNAVAILABLE,
+        AND: {
+          schedules: {
+            some: {
+              AND: {
+                startTime: { lte: endTime },
+                endTime: { gte: startTime },
+                availability: AvailabilityEnum.UNAVAILABLE,
+              },
             },
           },
+          archived: false,
         },
       },
       include: { schedules: true },
@@ -200,13 +210,19 @@ export class EquipmentService {
 
     const availableEquipments = await this.prisma.equipment.findMany({
       where: {
-        schedules: {
-          none: {
-            OR: {
-              AND: { startTime: { lte: endTime }, endTime: { gte: startTime } },
-              availability: AvailabilityEnum.UNAVAILABLE,
+        AND: {
+          schedules: {
+            none: {
+              OR: {
+                AND: {
+                  startTime: { lte: endTime },
+                  endTime: { gte: startTime },
+                },
+                availability: AvailabilityEnum.UNAVAILABLE,
+              },
             },
           },
+          archived: false,
         },
       },
       include: { schedules: true },
