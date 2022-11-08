@@ -12,7 +12,7 @@ import {
   PrismaClientKnownRequestError,
 } from '@prisma/client/runtime';
 import { SortedVenuesDTO } from '../event/dto/sorted-venues.dto';
-import { ScheduleDTO } from '../schedule/dto/schedule.dto';
+import { AvailabilityEnum, ScheduleDTO } from '../schedule/dto/schedule.dto';
 import { PostgresErrorCode } from '../shared/constants/postgress-error-codes.enum';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ActionENUM, PriorityENUM } from '../activity-log/dto/activity-log.dto';
@@ -185,7 +185,11 @@ export class VenueService {
       where: {
         schedules: {
           some: {
-            AND: { startTime: { lte: endTime }, endTime: { gte: startTime } },
+            AND: {
+              startTime: { lte: endTime },
+              endTime: { gte: startTime },
+              availability: AvailabilityEnum.UNAVAILABLE,
+            },
           },
         },
       },
@@ -200,7 +204,10 @@ export class VenueService {
       where: {
         schedules: {
           none: {
-            AND: { startTime: { lte: endTime }, endTime: { gte: startTime } },
+            OR: {
+              AND: { startTime: { lte: endTime }, endTime: { gte: startTime } },
+              availability: AvailabilityEnum.UNAVAILABLE,
+            },
           },
         },
       },

@@ -21,7 +21,7 @@ export const addSchedToEquipment: Schedule = {
   id: '77155b33-6cae-4a6a-8c22-707c6e61d1b2',
   createdAt: new Date(),
   updatedAt: new Date(),
-  availability: AvailabilityEnum.AVAILABLE,
+  availability: AvailabilityEnum.UNAVAILABLE,
   startTime: new Date('2022-9-2 2:00:00 PM'),
   endTime: new Date('2022-9-2 5:00:00 PM'),
   equipmentId: null,

@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Equipment, Schedule, User } from '@prisma/client';
-import { ScheduleDTO } from '../schedule/dto/schedule.dto';
+import { AvailabilityEnum, ScheduleDTO } from '../schedule/dto/schedule.dto';
 import { PrismaService } from '../global/prisma/prisma.service';
 import { EquipmentDTO, EquipmentTypeEnum } from './dto/equipment.dto';
 import { ScheduleService } from '../schedule/schedule.service';
@@ -183,7 +183,11 @@ export class EquipmentService {
       where: {
         schedules: {
           some: {
-            AND: { startTime: { lte: endTime }, endTime: { gte: startTime } },
+            AND: {
+              startTime: { lte: endTime },
+              endTime: { gte: startTime },
+              availability: AvailabilityEnum.UNAVAILABLE,
+            },
           },
         },
       },
@@ -198,7 +202,10 @@ export class EquipmentService {
       where: {
         schedules: {
           none: {
-            AND: { startTime: { lte: endTime }, endTime: { gte: startTime } },
+            OR: {
+              AND: { startTime: { lte: endTime }, endTime: { gte: startTime } },
+              availability: AvailabilityEnum.UNAVAILABLE,
+            },
           },
         },
       },
