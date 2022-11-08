@@ -201,7 +201,6 @@ export class EventService {
           organizer: {
             connect: { id: dto.organizerId },
           },
-          encodedBy: { connect: { id: user.id } },
           equipments: {
             create: dto.equipmentIds.map((eqId) => ({
               equipmentId: eqId,
