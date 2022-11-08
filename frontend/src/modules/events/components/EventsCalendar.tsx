@@ -239,7 +239,13 @@ export const EventsCalendar = ({
           slotMinTime='06:00'
           slotMaxTime='24:00'
           eventClick={handleEventClick}
-          eventDragStop={() => console.log('drag stopped')}
+          eventDragStop={() => {
+            toast({
+              status: 'error',
+              title: 'Quick updates through dragging is not supported',
+            });
+          }}
+          // eventMouseEnter={}
           eventStartEditable={false}
           eventDurationEditable={false}
           height='100%'
