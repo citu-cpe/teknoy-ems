@@ -1,6 +1,6 @@
 import { ContentSection } from '../../../shared/components/content';
 import { MainLayout } from '../../../shared/components/layout';
-import { staffAuth } from '../../../shared/schemas';
+import { basicAuth } from '../../../shared/schemas';
 import { EventsCalendar } from './EventsCalendar';
 
 export const Events = () => {
@@ -13,4 +13,4 @@ export const Events = () => {
   );
 };
 
-Events.auth = staffAuth;
+Events.auth = basicAuth;
