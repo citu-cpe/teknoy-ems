@@ -11,6 +11,7 @@ export const venueTestCC: Venues = {
   updatedAt: new Date(),
   name: TEST_DATA_PREFIX + 'Covered Court',
   notes: 'this is a test for covered court',
+  archived: false,
 };
 
 export const venueTestGYM: Venues = {
@@ -19,6 +20,7 @@ export const venueTestGYM: Venues = {
   updatedAt: new Date(),
   name: TEST_DATA_PREFIX + 'GYM',
   notes: 'this is a test for GYM',
+  archived: false,
 };
 
 export const addSchedToVenueCC: Schedule = {

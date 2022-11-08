@@ -46,6 +46,7 @@ export class ReportService {
 
     const equipments = await this.prismaService.equipment.findMany({
       include: { schedules: true },
+      where: { archived: false },
     });
     const equipmentDTOs = equipments.map((e) =>
       EquipmentService.convertToDTO(e)
@@ -53,6 +54,7 @@ export class ReportService {
 
     const venues = await this.prismaService.venues.findMany({
       include: { schedules: true },
+      where: { archived: false },
     });
     const venueDTOs = venues.map((v) => VenueService.convertToDTO(v));
 
