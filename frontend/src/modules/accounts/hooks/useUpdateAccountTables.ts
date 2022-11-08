@@ -9,5 +9,5 @@ export const useUpdateAccountTables = (callback: any, refresher: boolean) => {
     return () => {
       socket?.off(WebSocketEnum.UPDATE_ACCOUNTS_TABLE, callback);
     };
-  }, [socket, refresher]);
+  }, [socket, refresher, callback]);
 };

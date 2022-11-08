@@ -9,5 +9,5 @@ export const useUpdateEquipmentTables = (callback: any, refresher: boolean) => {
     return () => {
       socket?.off(WebSocketEnum.UPDATE_EQUIPMENTS_TABLE, callback);
     };
-  }, [socket, refresher]);
+  }, [socket, refresher, callback]);
 };

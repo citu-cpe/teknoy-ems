@@ -13,7 +13,6 @@ import {
   EventCreateDTO,
   EventCreateDTOStatusEnum,
   EventDTO,
-  EventDTOStatusEnum,
 } from 'generated-api';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -93,9 +92,11 @@ export const EventsCalendar = ({
       },
     }
   );
+
   const handleWebSocketsTable = () => {
     setRefresh(!refresh);
   };
+
   useUpdateEventsCalendar(handleWebSocketsTable, refresh);
   const fetchAllEvents = () => {
     fetchEvents.mutate();
@@ -106,9 +107,9 @@ export const EventsCalendar = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh]);
 
-  const formatEvents = (events: EventDTO[]): EventInput[] => {
+  const formatEvents = (fetchedEvents: EventDTO[]): EventInput[] => {
     let formattedEvents: EventInput[];
-    formattedEvents = events.map((ev) => {
+    formattedEvents = fetchedEvents.map((ev) => {
       const statusColor = getEventStatusColor(ev.status);
 
       let event: EventInput;
@@ -195,7 +196,7 @@ export const EventsCalendar = ({
 
   const handleQuickApprove = (event: EventDTO) => {
     const eventCreate = convertToEventCreateDTO(event);
-    let approvedEventCreate: EventCreateDTO = {
+    const approvedEventCreate: EventCreateDTO = {
       ...eventCreate,
       status: EventCreateDTOStatusEnum.Reserved,
     };
@@ -252,7 +253,6 @@ export const EventsCalendar = ({
               title: 'Quick updates through dragging is not supported',
             });
           }}
-          // eventMouseEnter={}
           eventStartEditable={false}
           eventDurationEditable={false}
           height='100%'

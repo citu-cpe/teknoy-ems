@@ -92,7 +92,7 @@ export const EventAddForm = ({
       onComplete(editEvent.data.data);
       socket?.emit(WebSocketEnum.UPDATE_TABLES, 'EVENT');
     }
-  }, [addEvent, editEvent, onComplete]);
+  }, [addEvent, editEvent, onComplete, socket]);
 
   /**
    * force reset async select keys by changing their prop keys references
@@ -124,7 +124,7 @@ export const EventAddForm = ({
 
   const isTechnicalStaff = (): boolean => {
     const user = getUser();
-    if (user == null || user == undefined) {
+    if (user === null || user === undefined) {
       return false;
     }
 
@@ -193,6 +193,7 @@ export const EventAddForm = ({
                   isRequired
                   data-cy='start-time-input'
                   isReadOnly={isRoleAndStatusInvalid()}
+                  tooltipLabel='Editing start time is restricted after being RESERVED, please contact Technical Department for changes.'
                 />
               )}
             </Field>
@@ -208,6 +209,7 @@ export const EventAddForm = ({
                   isRequired
                   data-cy='end-time-input'
                   isReadOnly={isRoleAndStatusInvalid()}
+                  tooltipLabel='Editing end time is restricted after being RESERVED, please contact Technical Department for changes.'
                 />
               )}
             </Field>
