@@ -1,11 +1,13 @@
 import { Button, Flex, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { OrganizerDTO, OrganizerDTOTypeEnum } from 'generated-api';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import { FormLayout, Input, Select } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { useOrganizers } from '../hooks';
 
 interface OrganizerAddFormProps {
@@ -15,7 +17,7 @@ interface OrganizerAddFormProps {
 export const OrganizerAddForm = ({ onComplete }: OrganizerAddFormProps) => {
   const { addOrganizer } = useOrganizers();
   const toast = useToast();
-
+  const socket = useContext(SocketContext);
   const onSubmit = (organizer: OrganizerDTO) => {
     addOrganizer.mutate(organizer);
   };
@@ -34,6 +36,7 @@ export const OrganizerAddForm = ({ onComplete }: OrganizerAddFormProps) => {
     if (addOrganizer.isSuccess) {
       toast({ title: 'Added organizer successfully' });
       onComplete(addOrganizer.data.data);
+      socket?.emit(WebSocketEnum.UPDATE_TABLES, 'ORGANIZER');
     }
   }, [addOrganizer, onComplete, toast]);
 

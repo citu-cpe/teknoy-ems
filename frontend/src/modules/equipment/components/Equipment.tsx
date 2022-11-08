@@ -8,6 +8,7 @@ import {
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
 import { staffAuth } from '../../../shared/schemas';
+import { useUpdateEquipmentTables } from '../hooks/useUpdateEquipmentTables';
 import { EquipmentAddForm } from './EquipmentAddForm';
 import { EquipmentAddSuccess } from './EquipmentAddSuccess';
 import { EquipmentTable } from './EquipmentTable';
@@ -17,7 +18,6 @@ export const Equipment = () => {
   const [newEquipmentDTO, setEquipmentDTO] = useState<EquipmentDTO | undefined>(
     undefined
   );
-
   const {
     onOpen: onAddOpen,
     isOpen: isAddOpen,
@@ -41,13 +41,15 @@ export const Equipment = () => {
     onAddOpen();
     onSuccessClose();
   };
-
+  const handleWebSocketTableUpdates = () => {
+    setRefresh(!refresh);
+  };
+  useUpdateEquipmentTables(handleWebSocketTableUpdates, refresh);
   const handleSuccessClose = () => {
     setEquipmentDTO(undefined);
     onSuccessClose();
     setRefresh(!refresh);
   };
-
   return (
     <MainLayout title='Equipment'>
       <ContentHeader

@@ -10,7 +10,7 @@ import {
   RegisterUserDTORolesEnum,
 } from 'generated-api';
 import moment from 'moment';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import {
   FormLayout,
   Input,
@@ -18,9 +18,11 @@ import {
   Textarea,
 } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { isRoleUnauthorized } from '../../../shared/helpers';
 import { convertToEventCreateDTO } from '../../../shared/helpers/convert-to-event-create-dto';
 import { parseDateTime } from '../../../shared/helpers/parse-date-time';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { useGlobalStore } from '../../../shared/stores';
 import { useSelectKeys } from '../hooks';
 import { useEvents } from '../hooks/';
@@ -48,7 +50,7 @@ export const EventAddForm = ({
   const { addEvent, editEvent } = useEvents();
   const { getUser } = useGlobalStore();
   const { equipmentKey, organizerKey, venueKey } = useSelectKeys();
-
+  const socket = useContext(SocketContext);
   /**
    * Stores old event values before being updated.
    * Useful for quickly accessing fields prop rather than data fetching.
@@ -83,10 +85,12 @@ export const EventAddForm = ({
   useEffect(() => {
     if (addEvent.isSuccess) {
       onComplete(addEvent.data.data);
+      socket?.emit(WebSocketEnum.UPDATE_TABLES, 'EVENT');
     }
 
     if (editEvent.isSuccess) {
       onComplete(editEvent.data.data);
+      socket?.emit(WebSocketEnum.UPDATE_TABLES, 'EVENT');
     }
   }, [addEvent, editEvent, onComplete]);
 

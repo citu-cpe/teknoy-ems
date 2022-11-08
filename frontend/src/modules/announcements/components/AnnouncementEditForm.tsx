@@ -1,7 +1,7 @@
 import { Button, Flex, FormControl, FormLabel, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { AnnouncementDTO, AnnouncementDTOViewAccessEnum } from 'generated-api';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import {
   Checkbox,
@@ -12,8 +12,10 @@ import {
   Textarea,
 } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { valuesAreEqual } from '../../../shared/helpers';
 import { useToast } from '../../../shared/hooks';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { useAnnouncements } from '../hooks';
 
 interface AnnouncementAddFormProps {
@@ -27,7 +29,7 @@ export const AnnouncementEditForm = ({
 }: AnnouncementAddFormProps) => {
   const { editAnnouncement } = useAnnouncements();
   const toast = useToast();
-
+  const socket = useContext(SocketContext);
   const onSubmit = (announcementDTO: AnnouncementDTO) => {
     if (valuesAreEqual(initialAnnouncement, announcementDTO)) {
       if (onComplete) {
@@ -76,6 +78,7 @@ export const AnnouncementEditForm = ({
     if (editAnnouncement.isSuccess) {
       toast({ title: 'Edited announcement successfully' });
       onComplete(editAnnouncement.data.data);
+      socket?.emit(WebSocketEnum.UPDATE_TABLES, 'ANNOUNCEMENT');
     }
 
     // needs to reset on first render to properly display value of a AnnouncementDTOViewAccessEnum

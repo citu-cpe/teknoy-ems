@@ -18,8 +18,10 @@ import { Modal } from '../../../shared/components/elements';
 import { Dialog } from '../../../shared/components/elements/Dialog/Dialog';
 import { EllipsisText } from '../../../shared/components/elements/Text';
 import { TableActions } from '../../../shared/components/table/TableActions';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { VenueEditForm } from './VenueEditForm';
 import { VenueView } from './VenueView';
 
@@ -30,6 +32,7 @@ interface VenuesTableProps {
 export const VenuesTable = ({ refresh }: VenuesTableProps) => {
   const api = useContext(ApiContext);
   const toast = useToast();
+  const socket = useContext(SocketContext);
 
   const [venues, setVenues] = useState<VenueDTO[] | undefined>([]);
   const venueToView = useRef<VenueDTO | null>(null);
@@ -101,6 +104,7 @@ export const VenuesTable = ({ refresh }: VenuesTableProps) => {
     }
 
     await deleteVenue.mutateAsync(venueDTO);
+    socket?.emit(WebSocketEnum.UPDATE_TABLES, 'VENUE');
     toast({ title: 'Deleted venue successfully' });
     onDeleteDialogClose();
   };

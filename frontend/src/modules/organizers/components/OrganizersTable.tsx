@@ -21,8 +21,10 @@ import { useMutation } from 'react-query';
 import { Modal } from '../../../shared/components/elements';
 import { Dialog } from '../../../shared/components/elements/Dialog/Dialog';
 import { TableActions } from '../../../shared/components/table/TableActions';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { OrganizerEditForm } from './OrganizerEditForm';
 
 interface OrganizersTableProps {
@@ -32,7 +34,7 @@ interface OrganizersTableProps {
 export const OrganizersTable = ({ refresh }: OrganizersTableProps) => {
   const api = useContext(ApiContext);
   const toast = useToast();
-
+  const socket = useContext(SocketContext);
   const [organizers, setOrganizers] = useState<OrganizerDTO[] | undefined>([]);
   const organizerToEdit = useRef<OrganizerDTO | null>(null);
   const organizerToDelete = useRef<OrganizerDTO | null>(null);
@@ -92,6 +94,7 @@ export const OrganizersTable = ({ refresh }: OrganizersTableProps) => {
     }
 
     await deleteOrganizers.mutateAsync(organizerDTO);
+    socket?.emit(WebSocketEnum.UPDATE_TABLES, 'ORGANIZER');
     toast({ title: 'Deleted organizer successfully' });
     onDeleteDialogClose();
   };

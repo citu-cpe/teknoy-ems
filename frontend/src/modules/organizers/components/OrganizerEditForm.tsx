@@ -1,11 +1,13 @@
 import { Button, Flex, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { OrganizerDTO, OrganizerDTOTypeEnum } from 'generated-api';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import { FormLayout, Input, Select } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { useOrganizers } from '../hooks';
 
 interface OrganizerAddFormProps {
@@ -19,7 +21,7 @@ export const OrganizerEditForm = ({
 }: OrganizerAddFormProps) => {
   const { editOrganizer } = useOrganizers();
   const toast = useToast();
-
+  const socket = useContext(SocketContext);
   const onSubmit = (organizer: OrganizerDTO) => {
     if (
       initialOrganizer.name === organizer.name &&
@@ -49,6 +51,7 @@ export const OrganizerEditForm = ({
     if (editOrganizer.isSuccess) {
       toast({ title: 'Edited organizer successfully' });
       onComplete(editOrganizer.data.data);
+      socket?.emit(WebSocketEnum.UPDATE_TABLES, 'ORGANIZER');
     }
   }, [editOrganizer, onComplete, toast]);
 

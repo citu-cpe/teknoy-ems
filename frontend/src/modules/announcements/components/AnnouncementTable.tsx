@@ -19,8 +19,10 @@ import { Modal } from '../../../shared/components/elements';
 import { Dialog } from '../../../shared/components/elements/Dialog/Dialog';
 import { EllipsisText } from '../../../shared/components/elements/Text';
 import { TableActions } from '../../../shared/components/table/TableActions';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { AnnouncementEditForm } from './AnnouncementEditForm';
 import { AnnouncementView } from './AnnouncementView';
 
@@ -31,7 +33,7 @@ interface AnnouncementsTableProps {
 export const AnnouncementsTable = ({ refresh }: AnnouncementsTableProps) => {
   const api = useContext(ApiContext);
   const toast = useToast();
-
+  const socket = useContext(SocketContext);
   const [announcements, setAnnouncements] = useState<
     AnnouncementDTO[] | undefined
   >([]);
@@ -105,6 +107,7 @@ export const AnnouncementsTable = ({ refresh }: AnnouncementsTableProps) => {
     }
 
     await deleteAnnouncement.mutateAsync(announcementDTO);
+    socket?.emit(WebSocketEnum.UPDATE_TABLES, 'ANNOUNCEMENT');
     toast({ title: 'Deleted announcement successfully' });
     onDeleteDialogClose();
   };

@@ -1,7 +1,7 @@
 import { Button, Flex, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { EquipmentDTO, EquipmentDTOTypeEnum } from 'generated-api';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import {
   FormLayout,
@@ -10,11 +10,13 @@ import {
   Textarea,
 } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import {
   enumToArray,
   enumValueToCapitalCase,
 } from '../../../shared/helpers/enum-helpers';
 import { useToast } from '../../../shared/hooks';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { useEquipment } from '../hooks/useEquipment';
 
 interface EquipmentAddFormProps {
@@ -24,7 +26,7 @@ interface EquipmentAddFormProps {
 export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
   const { addEquipment } = useEquipment();
   const toast = useToast();
-
+  const socket = useContext(SocketContext);
   const onSubmit = (equipmentDTO: EquipmentDTO) => {
     addEquipment.mutate(equipmentDTO);
   };
@@ -47,6 +49,7 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
     if (addEquipment.isSuccess) {
       toast({ title: 'Added equipment successfully' });
       onComplete(addEquipment.data.data);
+      socket?.emit(WebSocketEnum.UPDATE_TABLES, 'EQUIPMENT');
     }
   }, [addEquipment, onComplete, toast]);
 

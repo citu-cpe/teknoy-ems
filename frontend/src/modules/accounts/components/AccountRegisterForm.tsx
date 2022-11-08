@@ -1,7 +1,7 @@
 import { Button, Flex, FormControl, FormLabel, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import { RegisterUserDTO, RegisterUserDTORolesEnum } from 'generated-api';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import {
   Checkbox,
@@ -10,7 +10,9 @@ import {
   Input,
 } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
+import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
+import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { emailValidator, nameValidator } from '../../../shared/schemas';
 import { useRegister } from '../hooks/useRegister';
 
@@ -23,7 +25,7 @@ export const AccountRegisterForm = ({
 }: AccountRegisterFormProps) => {
   const mutation = useRegister();
   const toast = useToast();
-
+  const socket = useContext(SocketContext);
   const onSubmit = (registerDTO: RegisterUserDTO) => {
     mutation.mutate(registerDTO);
   };
@@ -46,6 +48,7 @@ export const AccountRegisterForm = ({
     if (mutation.isSuccess) {
       toast({ title: 'Registered account successfully' });
       onComplete(mutation.data.data);
+      socket?.emit(WebSocketEnum.UPDATE_TABLES, 'ACCOUNT');
     }
   }, [mutation, onComplete, toast]);
 

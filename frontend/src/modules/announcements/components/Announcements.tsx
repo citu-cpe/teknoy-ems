@@ -8,6 +8,7 @@ import {
 import { Modal } from '../../../shared/components/elements';
 import { MainLayout } from '../../../shared/components/layout';
 import { staffAuth } from '../../../shared/schemas';
+import { useUpdateAnnouncementTables } from '../hooks/useUpdateAnnouncementTables';
 import { AnnouncementAddForm } from './AnnouncementAddForm';
 import { AnnouncementAddSuccess } from './AnnouncementAddSuccess';
 import { AnnouncementsTable } from './AnnouncementTable';
@@ -41,7 +42,10 @@ export const Announcements = () => {
     onAddOpen();
     onSuccessClose();
   };
-
+  const handleWebSocketTableUpdates = () => {
+    setRefresh(!refresh);
+  };
+  useUpdateAnnouncementTables(handleWebSocketTableUpdates, refresh);
   const handleSuccessClose = () => {
     setAnnouncementDTO(undefined);
     onSuccessClose();
