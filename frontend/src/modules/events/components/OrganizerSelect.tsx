@@ -1,3 +1,4 @@
+import { FormLabelProps } from '@chakra-ui/react';
 import { Field, FieldProps } from 'formik';
 import { EventCreateDTO, OrganizerDTO } from 'generated-api';
 import { useContext, useEffect, useRef } from 'react';
@@ -12,10 +13,12 @@ import { formLabelProps, requiredControlProp } from '../styles';
 
 interface OrganizerSelectProps {
   defaultValue?: OrganizerDTO;
+  customLabelProps?: FormLabelProps;
 }
 
 export const OrganizerSelect = ({
   defaultValue: organizer,
+  customLabelProps,
 }: OrganizerSelectProps) => {
   const api = useContext(ApiContext);
   const organizerOptions = useRef<Option[]>([]);
@@ -92,7 +95,8 @@ export const OrganizerSelect = ({
           placeholder='Search...'
           data-cy='organizer-select'
           formControlProps={requiredControlProp}
-          formLabelProps={formLabelProps}
+          formLabelProps={customLabelProps || formLabelProps}
+          isClearable
           fieldProps={fieldProps}
           cacheOptions
           defaultValue={getDefaultValue()}
