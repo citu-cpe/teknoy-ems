@@ -13,11 +13,13 @@ import moment from 'moment';
 import {
   Checkbox,
   FormLayout,
+  Input,
   Textarea,
 } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
 import { clearEmptyObjects } from '../../../shared/helpers/';
 import { useToast } from '../../../shared/hooks';
+import { OrganizerSelect, useSelectKeys } from '../../events';
 import { useReports } from '../hooks';
 import { filterGroupProps, formControlProps, formLabelProps } from '../styles';
 import { SelectAllToggle } from './SelectAllToggle';
@@ -25,6 +27,8 @@ import { SelectAllToggle } from './SelectAllToggle';
 export const ReportForm = () => {
   const { getReport } = useReports();
   const toast = useToast();
+
+  const { organizerKey } = useSelectKeys();
 
   // initialize checkbox filter groups as empty arrays
   const initialValues: any = {
@@ -35,6 +39,9 @@ export const ReportForm = () => {
       equipmentReportFilterDTO: [],
       organizerReportFilterDTO: [],
       venueReportFilterDTO: [],
+      organizerId: [],
+      startDate: '',
+      endDate: '',
     },
   };
 
@@ -49,10 +56,16 @@ export const ReportForm = () => {
     // remove empty objects
     clearEmptyObjects(reportGetDTO);
 
-    if (reportGetDTO?.reportFilterDTO === undefined) {
+    if (
+      reportGetDTO?.reportFilterDTO.eventReportFilterDTO === undefined &&
+      reportGetDTO?.reportFilterDTO.announcementReportFilterDTO === undefined &&
+      reportGetDTO?.reportFilterDTO.equipmentReportFilterDTO === undefined &&
+      reportGetDTO?.reportFilterDTO.organizerReportFilterDTO === undefined &&
+      reportGetDTO?.reportFilterDTO.venueReportFilterDTO === undefined
+    ) {
       toast({
-        title: 'Report export failed',
-        description: 'Select at least 1 filter',
+        title: 'Report Export failed',
+        description: 'Select at least 1 valid filter',
         status: 'error',
       });
       return;
@@ -70,6 +83,17 @@ export const ReportForm = () => {
       organizerReportFilterDTO: organizerSelectedFilter,
       venueReportFilterDTO: venueSelectedFilter,
     } = submittedReportGetDTO.reportFilterDTO;
+
+    const organizerIds = submittedReportGetDTO.organizerId;
+
+    const startDate =
+      submittedReportGetDTO.startDate !== undefined
+        ? moment(submittedReportGetDTO.startDate).toISOString()
+        : undefined;
+    const endDate =
+      submittedReportGetDTO.endDate !== undefined
+        ? moment(submittedReportGetDTO.endDate).toISOString()
+        : undefined;
 
     // prepare filter objects
     let eventReportFilterDTO: EventReportFilterDTO = {};
@@ -145,6 +169,9 @@ export const ReportForm = () => {
       venueReportFilterDTO,
       equipmentReportFilterDTO,
       announcementReportFilterDTO,
+      organizerIds,
+      startDate,
+      endDate,
     };
   };
 
@@ -191,12 +218,9 @@ export const ReportForm = () => {
             <Flex direction='column' borderBottomWidth='1px' pb={6}>
               <Text>
                 Each entity has unique properties, please check the checkboxes
-                below to include them.
-                <br />
-                Then, click <strong>Export Report</strong> to download the
-                report.
+                below to include them. Then, click{' '}
+                <strong>Export and Download Report</strong>.
               </Text>
-              <Text></Text>
             </Flex>
             <Flex {...filterGroupProps}>
               <Flex {...formControlProps}>
@@ -479,6 +503,48 @@ export const ReportForm = () => {
                       </Checkbox>
                     )}
                   </Field>
+
+                  <Text my={4} fontSize='sm'>
+                    Filter Events by Organizer
+                  </Text>
+
+                  <OrganizerSelect
+                    key={organizerKey.current}
+                    customLabelProps={formLabelProps}
+                  />
+
+                  <Text my={4} fontSize='sm'>
+                    Filter Events by Date
+                  </Text>
+
+                  <Field name='startDate' type='datetime-local' isRequired>
+                    {(fieldProps: FieldProps<string, string>) => (
+                      <Input
+                        formLabelProps={formLabelProps}
+                        fieldProps={fieldProps}
+                        name='startDate'
+                        label='Start Date'
+                        type='datetime-local'
+                        id='startDate'
+                        data-cy='start-date-input'
+                        isRequired
+                      />
+                    )}
+                  </Field>
+                  <Field name='endDate' type='datetime-local' isRequired>
+                    {(fieldProps: FieldProps<string, string>) => (
+                      <Input
+                        formLabelProps={formLabelProps}
+                        fieldProps={fieldProps}
+                        name='endDate'
+                        label='End Date'
+                        type='datetime-local'
+                        id='endDate'
+                        data-cy='end-date-input'
+                        isRequired
+                      />
+                    )}
+                  </Field>
                 </Flex>
               </Flex>
 
@@ -623,265 +689,263 @@ export const ReportForm = () => {
                     </Field>
                   </Flex>
                 </Flex>
-              </Flex>
-            </Flex>
 
-            <Flex {...filterGroupProps}>
-              <Flex {...formControlProps}>
-                <FormLabel {...formLabelProps}>Announcement</FormLabel>
-                <Flex direction='column' gap={0}>
-                  <SelectAllToggle
-                    fieldName='reportFilterDTO.announcementReportFilterDTO'
-                    onSelectValue={[
-                      'id',
-                      'title',
-                      'subtitle',
-                      'content',
-                      'tags',
-                      'viewAccess',
-                    ]}
-                    onDeselectValue={[]}
-                  />
-                  <Field
-                    name='reportFilterDTO.announcementReportFilterDTO'
-                    type='checkbox'
-                    value={'id'}
-                  >
-                    {(fieldProps: FieldProps<string, boolean>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.announcementReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='announcement-id'
-                        data-cy='announcement-id-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
-                  <Field
-                    name='reportFilterDTO.announcementReportFilterDTO'
-                    type='checkbox'
-                    value={'title'}
-                  >
-                    {(fieldProps: FieldProps<string, string>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.announcementReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='announcement-title'
-                        data-cy='announcement-title-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
-                  <Field
-                    name='reportFilterDTO.announcementReportFilterDTO'
-                    type='checkbox'
-                    value={'subtitle'}
-                  >
-                    {(fieldProps: FieldProps<string, string>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.announcementReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='announcement-subtitle'
-                        data-cy='announcement-subtitle-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
-                  <Field
-                    name='reportFilterDTO.announcementReportFilterDTO'
-                    type='checkbox'
-                    value={'content'}
-                  >
-                    {(fieldProps: FieldProps<string, string>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.announcementReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='announcement-content'
-                        data-cy='announcement-content-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
-                  <Field
-                    name='reportFilterDTO.announcementReportFilterDTO'
-                    type='checkbox'
-                    value={'tags'}
-                  >
-                    {(fieldProps: FieldProps<string, string>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.announcementReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='announcement-tags'
-                        data-cy='announcement-tags-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
-                  <Field
-                    name='reportFilterDTO.announcementReportFilterDTO'
-                    type='checkbox'
-                    value={'viewAccess'}
-                  >
-                    {(fieldProps: FieldProps<string, string>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.announcementReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='announcement-viewAccess'
-                        data-cy='announcement-view-access-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
+                <Flex {...formControlProps}>
+                  <FormLabel {...formLabelProps}>Announcement</FormLabel>
+                  <Flex direction='column' gap={0}>
+                    <SelectAllToggle
+                      fieldName='reportFilterDTO.announcementReportFilterDTO'
+                      onSelectValue={[
+                        'id',
+                        'title',
+                        'subtitle',
+                        'content',
+                        'tags',
+                        'viewAccess',
+                      ]}
+                      onDeselectValue={[]}
+                    />
+                    <Field
+                      name='reportFilterDTO.announcementReportFilterDTO'
+                      type='checkbox'
+                      value={'id'}
+                    >
+                      {(fieldProps: FieldProps<string, boolean>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.announcementReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='announcement-id'
+                          data-cy='announcement-id-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                    <Field
+                      name='reportFilterDTO.announcementReportFilterDTO'
+                      type='checkbox'
+                      value={'title'}
+                    >
+                      {(fieldProps: FieldProps<string, string>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.announcementReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='announcement-title'
+                          data-cy='announcement-title-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                    <Field
+                      name='reportFilterDTO.announcementReportFilterDTO'
+                      type='checkbox'
+                      value={'subtitle'}
+                    >
+                      {(fieldProps: FieldProps<string, string>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.announcementReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='announcement-subtitle'
+                          data-cy='announcement-subtitle-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                    <Field
+                      name='reportFilterDTO.announcementReportFilterDTO'
+                      type='checkbox'
+                      value={'content'}
+                    >
+                      {(fieldProps: FieldProps<string, string>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.announcementReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='announcement-content'
+                          data-cy='announcement-content-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                    <Field
+                      name='reportFilterDTO.announcementReportFilterDTO'
+                      type='checkbox'
+                      value={'tags'}
+                    >
+                      {(fieldProps: FieldProps<string, string>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.announcementReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='announcement-tags'
+                          data-cy='announcement-tags-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                    <Field
+                      name='reportFilterDTO.announcementReportFilterDTO'
+                      type='checkbox'
+                      value={'viewAccess'}
+                    >
+                      {(fieldProps: FieldProps<string, string>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.announcementReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='announcement-viewAccess'
+                          data-cy='announcement-view-access-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                  </Flex>
                 </Flex>
-              </Flex>
 
-              <Flex {...formControlProps}>
-                <FormLabel {...formLabelProps}>Equipment</FormLabel>
-                <Flex direction='column' gap={0}>
-                  <SelectAllToggle
-                    fieldName='reportFilterDTO.equipmentReportFilterDTO'
-                    onSelectValue={[
-                      'id',
-                      'name',
-                      'type',
-                      'brand',
-                      'serial',
-                      'notes',
-                      'schedules',
-                    ]}
-                    onDeselectValue={[]}
-                  />
-                  <Field
-                    name='reportFilterDTO.equipmentReportFilterDTO'
-                    type='checkbox'
-                    value={'id'}
-                  >
-                    {(fieldProps: FieldProps<string, boolean>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.equipmentReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='equipment-id'
-                        data-cy='equipment-id-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
-                  <Field
-                    name='reportFilterDTO.equipmentReportFilterDTO'
-                    type='checkbox'
-                    value={'name'}
-                  >
-                    {(fieldProps: FieldProps<string, string>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.equipmentReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='equipment-name'
-                        data-cy='equipment-name-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
-                  <Field
-                    name='reportFilterDTO.equipmentReportFilterDTO'
-                    type='checkbox'
-                    value={'type'}
-                  >
-                    {(fieldProps: FieldProps<string, string>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.equipmentReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='equipment-type'
-                        data-cy='equipment-type-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
-                  <Field
-                    name='reportFilterDTO.equipmentReportFilterDTO'
-                    type='checkbox'
-                    value={'brand'}
-                  >
-                    {(fieldProps: FieldProps<string, string>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.equipmentReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='equipment-brand'
-                        data-cy='equipment-brand-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
-                  <Field
-                    name='reportFilterDTO.equipmentReportFilterDTO'
-                    type='checkbox'
-                    value={'serial'}
-                  >
-                    {(fieldProps: FieldProps<string, string>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.equipmentReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='equipment-serial'
-                        data-cy='equipment-serial-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
-                  <Field
-                    name='reportFilterDTO.equipmentReportFilterDTO'
-                    type='checkbox'
-                    value={'schedules'}
-                  >
-                    {(fieldProps: FieldProps<string, string>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.equipmentReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='equipment-schedules'
-                        data-cy='equipment-schedules-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
-                  <Field
-                    name='reportFilterDTO.equipmentReportFilterDTO'
-                    type='checkbox'
-                    value={'notes'}
-                  >
-                    {(fieldProps: FieldProps<string, string>) => (
-                      <Checkbox
-                        fieldProps={fieldProps}
-                        name='reportFilterDTO.equipmentReportFilterDTO'
-                        checked={fieldProps.field.checked}
-                        id='equipment-notes'
-                        data-cy='equipment-notes-checkbox'
-                      >
-                        {fieldProps.field.value}
-                      </Checkbox>
-                    )}
-                  </Field>
+                <Flex {...formControlProps}>
+                  <FormLabel {...formLabelProps}>Equipment</FormLabel>
+                  <Flex direction='column' gap={0}>
+                    <SelectAllToggle
+                      fieldName='reportFilterDTO.equipmentReportFilterDTO'
+                      onSelectValue={[
+                        'id',
+                        'name',
+                        'type',
+                        'brand',
+                        'serial',
+                        'notes',
+                        'schedules',
+                      ]}
+                      onDeselectValue={[]}
+                    />
+                    <Field
+                      name='reportFilterDTO.equipmentReportFilterDTO'
+                      type='checkbox'
+                      value={'id'}
+                    >
+                      {(fieldProps: FieldProps<string, boolean>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.equipmentReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='equipment-id'
+                          data-cy='equipment-id-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                    <Field
+                      name='reportFilterDTO.equipmentReportFilterDTO'
+                      type='checkbox'
+                      value={'name'}
+                    >
+                      {(fieldProps: FieldProps<string, string>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.equipmentReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='equipment-name'
+                          data-cy='equipment-name-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                    <Field
+                      name='reportFilterDTO.equipmentReportFilterDTO'
+                      type='checkbox'
+                      value={'type'}
+                    >
+                      {(fieldProps: FieldProps<string, string>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.equipmentReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='equipment-type'
+                          data-cy='equipment-type-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                    <Field
+                      name='reportFilterDTO.equipmentReportFilterDTO'
+                      type='checkbox'
+                      value={'brand'}
+                    >
+                      {(fieldProps: FieldProps<string, string>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.equipmentReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='equipment-brand'
+                          data-cy='equipment-brand-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                    <Field
+                      name='reportFilterDTO.equipmentReportFilterDTO'
+                      type='checkbox'
+                      value={'serial'}
+                    >
+                      {(fieldProps: FieldProps<string, string>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.equipmentReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='equipment-serial'
+                          data-cy='equipment-serial-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                    <Field
+                      name='reportFilterDTO.equipmentReportFilterDTO'
+                      type='checkbox'
+                      value={'schedules'}
+                    >
+                      {(fieldProps: FieldProps<string, string>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.equipmentReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='equipment-schedules'
+                          data-cy='equipment-schedules-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                    <Field
+                      name='reportFilterDTO.equipmentReportFilterDTO'
+                      type='checkbox'
+                      value={'notes'}
+                    >
+                      {(fieldProps: FieldProps<string, string>) => (
+                        <Checkbox
+                          fieldProps={fieldProps}
+                          name='reportFilterDTO.equipmentReportFilterDTO'
+                          checked={fieldProps.field.checked}
+                          id='equipment-notes'
+                          data-cy='equipment-notes-checkbox'
+                        >
+                          {fieldProps.field.value}
+                        </Checkbox>
+                      )}
+                    </Field>
+                  </Flex>
                 </Flex>
               </Flex>
             </Flex>
@@ -894,7 +958,7 @@ export const ReportForm = () => {
                   name='message'
                   label='Message'
                   id='message'
-                  placeholder='Report message'
+                  placeholder='Report message/notes/details'
                   data-cy='message-input'
                 />
               )}
@@ -912,7 +976,7 @@ export const ReportForm = () => {
               isLoading={getReport.isLoading}
               loadingText='Exporting...'
             >
-              Export Report
+              Export and Download Report
             </Button>
           </Flex>
         </Form>
