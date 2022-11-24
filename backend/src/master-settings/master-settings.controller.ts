@@ -11,7 +11,6 @@ export class MasterSettingsController {
   constructor(private readonly masterSettingsService: MasterSettingsService) {}
 
   @Get()
-  @Roles(Role.ADMIN)
   public async getMasterSettings(): Promise<MasterSettingsDTO> {
     return this.masterSettingsService.getMasterSettings();
   }

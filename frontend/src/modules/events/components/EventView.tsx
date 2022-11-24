@@ -1,4 +1,4 @@
-import { Button, Center, Flex, Spacer, Spinner, Tag } from '@chakra-ui/react';
+import { Button, Center, Flex, Spacer, Spinner } from '@chakra-ui/react';
 import {
   EventDTO,
   EventDTOStatusEnum,
@@ -10,6 +10,7 @@ import { FieldTableBody } from '../../../shared/components/table';
 import { ModalTable } from '../../../shared/components/table/FieldTable';
 import { isRoleUnauthorized } from '../../../shared/helpers';
 import { useGlobalStore } from '../../../shared/stores';
+import { useMasterSettings } from '../../settings';
 import { useEvents } from '../hooks/';
 import { EventStatus } from './EventStatus';
 
@@ -28,6 +29,7 @@ export const EventView = ({
 }: EventViewProps) => {
   const { getUser } = useGlobalStore();
   const { getEventById } = useEvents();
+  const { masterSettings } = useMasterSettings();
 
   const [event, setEvent] = useState<EventDTO | null>(null);
   const [editActionIsLoading, setEditActionIsLoading] = useState(false);
@@ -90,7 +92,9 @@ export const EventView = ({
 
     const encodedByUser = event?.encodedBy;
 
-    return user?.id !== encodedByUser?.id;
+    return (
+      user?.id !== encodedByUser?.id || !masterSettings?.allowOrganizersCRUD
+    );
   };
 
   const isStatusAndRolesInvalid = (): boolean => {
@@ -196,7 +200,10 @@ export const EventView = ({
               },
               {
                 label: 'Encoded by',
-                value: event?.encodedBy.name,
+                value:
+                  event?.encodedBy.name === getUser()?.name
+                    ? 'ME'
+                    : event?.encodedBy.name,
                 type: 'text',
               },
               {
