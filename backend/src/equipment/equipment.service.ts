@@ -6,7 +6,7 @@ import {
 import { Equipment, Schedule, User } from '@prisma/client';
 import { AvailabilityEnum, ScheduleDTO } from '../schedule/dto/schedule.dto';
 import { PrismaService } from '../global/prisma/prisma.service';
-import { EquipmentDTO, EquipmentTypeEnum } from './dto/equipment.dto';
+import { EquipmentDTO } from './dto/equipment.dto';
 import { ScheduleService } from '../schedule/schedule.service';
 import {
   NotFoundError,
@@ -248,7 +248,7 @@ export class EquipmentService {
     equipmentDTO.updatedAt = equipment.updatedAt;
     equipmentDTO.name = equipment.name;
     equipmentDTO.notes = equipment.notes;
-    equipmentDTO.type = equipment.type.toString() as EquipmentTypeEnum;
+    equipmentDTO.type = equipment.type;
     equipmentDTO.serial = equipment.serial;
 
     if (equipment.schedules) {

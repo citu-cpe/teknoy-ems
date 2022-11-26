@@ -1,8 +1,5 @@
 import { EquipmentController } from '../../../src/equipment/equipment.controller';
-import {
-  EquipmentDTO,
-  EquipmentTypeEnum,
-} from '../../../src/equipment/dto/equipment.dto';
+import { EquipmentDTO } from '../../../src/equipment/dto/equipment.dto';
 import { HttpStatus } from '@nestjs/common';
 import { requestWithStaff } from '../setup';
 import { TEST_DATA_PREFIX } from '../../../src/shared/constants/test-data-prefix';
@@ -11,7 +8,7 @@ const equipmentRoute = EquipmentController.EQUIPMENT_API_PATH;
 
 export const testAddEquipment: EquipmentDTO = {
   name: 'EPSON Large 3',
-  type: EquipmentTypeEnum.PHOTO_AND_VIDEO_DOCUMENTATION,
+  type: 'CAMERA',
   brand: 'EPSON',
   serial: 'GIJDKSLS',
   notes: 'handle with care',
@@ -19,7 +16,7 @@ export const testAddEquipment: EquipmentDTO = {
 
 export const testAddEquipmentWithSameName: EquipmentDTO = {
   name: TEST_DATA_PREFIX + 'SONY CAM 1',
-  type: EquipmentTypeEnum.PHOTO_AND_VIDEO_DOCUMENTATION,
+  type: 'CAMERA',
   brand: 'EPSON',
   serial: 'GIJDKSLS',
   notes: 'handle with care',
@@ -27,7 +24,7 @@ export const testAddEquipmentWithSameName: EquipmentDTO = {
 
 export const testAddEquipmentWithSameSerial: EquipmentDTO = {
   name: TEST_DATA_PREFIX + 'SONY CAM 1',
-  type: EquipmentTypeEnum.PHOTO_AND_VIDEO_DOCUMENTATION,
+  type: 'CAMERA',
   brand: 'EPSON',
   serial: '123456789',
   notes: 'handle with care',

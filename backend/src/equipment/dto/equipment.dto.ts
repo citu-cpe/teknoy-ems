@@ -9,15 +9,6 @@ import {
 } from 'class-validator';
 import { ScheduleDTO } from '../../schedule/dto/schedule.dto';
 
-export enum EquipmentTypeEnum {
-  PHOTO_DOCUMENTATION = 'PHOTO_DOCUMENTATION',
-  VIDEO_DOCUMENTATION = 'VIDEO_DOCUMENTATION',
-  PHOTO_AND_VIDEO_DOCUMENTATION = 'PHOTO_AND_VIDEO_DOCUMENTATION',
-  LIVE_STREAMING = 'LIVE_STREAMING',
-  MUSIC_BAND = 'MUSIC_BAND',
-  OTHERS = 'OTHERS',
-}
-
 export class EquipmentDTO {
   @IsUUID()
   @IsString()
@@ -38,7 +29,7 @@ export class EquipmentDTO {
 
   @IsString()
   @IsNotEmpty()
-  public type: EquipmentTypeEnum;
+  public type: string;
 
   @IsString()
   @IsOptional()

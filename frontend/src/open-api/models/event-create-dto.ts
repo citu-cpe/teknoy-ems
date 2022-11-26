@@ -141,12 +141,10 @@ export enum EventCreateDTOViewAccessEnum {
  * @enum {string}
  */
 export enum EventCreateDTOTypeEnum {
-  Corporate = 'CORPORATE',
-  Academic = 'ACADEMIC',
-  Seminar = 'SEMINAR',
-  Conference = 'CONFERENCE',
-  CampusWide = 'CAMPUS_WIDE',
-  Virtual = 'VIRTUAL',
-  Sports = 'SPORTS',
+  PhotoDocumentation = 'PHOTO_DOCUMENTATION',
+  VideoDocumentation = 'VIDEO_DOCUMENTATION',
+  PhotoAndVideoDocumentation = 'PHOTO_AND_VIDEO_DOCUMENTATION',
+  LiveStreaming = 'LIVE_STREAMING',
+  MusicBand = 'MUSIC_BAND',
   Others = 'OTHERS',
 }

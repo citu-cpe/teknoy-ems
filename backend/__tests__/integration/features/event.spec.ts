@@ -42,7 +42,7 @@ describe('event.spec.ts - Event Controller', () => {
     contact: '999-409-4388',
     approvedBy: 'test',
     viewAccess: ViewAccessEnum.PRIVATE,
-    type: EventTypeEnum.CAMPUS_WIDE,
+    type: EventTypeEnum.PHOTO_AND_VIDEO_DOCUMENTATION,
     additionalNotes: 'test',
     organizerId: testOrganizerDepartment.id,
     equipmentIds: [addEquipmentWithoutSched.id],

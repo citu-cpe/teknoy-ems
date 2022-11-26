@@ -14,12 +14,10 @@ import {
 import { EquipmentDTO } from 'generated-api';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
-import { ref } from 'yup';
 import { Modal } from '../../../shared/components/elements';
 import { Dialog } from '../../../shared/components/elements/Dialog/Dialog';
 import { EllipsisText } from '../../../shared/components/elements/Text';
 import { TableActions } from '../../../shared/components/table/TableActions';
-import { enumValueToCapitalCase } from '../../../shared/helpers/enum-helpers';
 import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { useToast } from '../../../shared/hooks';
 import { ApiContext } from '../../../shared/providers/ApiProvider';
@@ -204,7 +202,7 @@ export const EquipmentTable = ({ refresh }: EquipmentTableProps) => {
                   </Td>
                   <Td maxW={32}>
                     <EllipsisText opacity={0.8} data-cy='equipment-type'>
-                      {enumValueToCapitalCase(eq.type)}
+                      {eq.type}
                     </EllipsisText>
                   </Td>
                   <Td maxW={32}>

@@ -4,7 +4,6 @@ import { CustomLogger } from '../../shared/custom-logger';
 import { Equipment, Schedule } from '@prisma/client';
 import { AvailabilityEnum } from '../../schedule/dto/schedule.dto';
 import { TEST_DATA_PREFIX } from '../../shared/constants/test-data-prefix';
-import { EquipmentTypeEnum } from '../../equipment/dto/equipment.dto';
 
 export const addEquipmentWithoutSched: Equipment = {
   id: '3e8e27e1-b023-40a6-a367-52ab65937d35',
@@ -12,7 +11,7 @@ export const addEquipmentWithoutSched: Equipment = {
   updatedAt: new Date(),
   name: TEST_DATA_PREFIX + 'SONY CAM 1',
   brand: 'SONY',
-  type: EquipmentTypeEnum.PHOTO_AND_VIDEO_DOCUMENTATION,
+  type: 'CAMERA',
   serial: '123456789',
   notes: 'This is a test',
   archived: false,

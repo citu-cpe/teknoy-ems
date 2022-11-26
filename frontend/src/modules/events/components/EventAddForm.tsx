@@ -21,6 +21,10 @@ import { FormikResetButton } from '../../../shared/components/form/FormikResetBu
 import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
 import { isRoleUnauthorized } from '../../../shared/helpers';
 import { convertToEventCreateDTO } from '../../../shared/helpers/convert-to-event-create-dto';
+import {
+  enumToArray,
+  enumValueToCapitalCase,
+} from '../../../shared/helpers/enum-helpers';
 import { parseDateTime } from '../../../shared/helpers/parse-date-time';
 import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { useGlobalStore } from '../../../shared/stores';
@@ -62,7 +66,8 @@ export const EventAddForm = ({
   const initialValues = {
     title: initialEventValue?.title || '',
     description: initialEventValue?.description || '',
-    type: eventCreateDTO?.type || EventCreateDTOTypeEnum.Seminar,
+    type:
+      eventCreateDTO?.type || EventCreateDTOTypeEnum.PhotoAndVideoDocumentation,
     viewAccess:
       eventCreateDTO?.viewAccess || EventCreateDTOViewAccessEnum.Public,
     status: eventCreateDTO?.status || EventCreateDTOStatusEnum.Pending,
@@ -241,26 +246,11 @@ export const EventAddForm = ({
                   data-cy='type-select'
                   isReadOnly={isRoleAndStatusInvalid()}
                 >
-                  <option value={EventCreateDTOTypeEnum.Seminar}>
-                    Seminar
-                  </option>
-                  <option value={EventCreateDTOTypeEnum.Academic}>
-                    Academic
-                  </option>
-                  <option value={EventCreateDTOTypeEnum.CampusWide}>
-                    CampusWide
-                  </option>
-                  <option value={EventCreateDTOTypeEnum.Conference}>
-                    Conference
-                  </option>
-                  <option value={EventCreateDTOTypeEnum.Corporate}>
-                    Corporate
-                  </option>
-                  <option value={EventCreateDTOTypeEnum.Others}>Others</option>
-                  <option value={EventCreateDTOTypeEnum.Sports}>Sports</option>
-                  <option value={EventCreateDTOTypeEnum.Virtual}>
-                    Virtual
-                  </option>
+                  {enumToArray(EventCreateDTOTypeEnum).map((val) => (
+                    <option value={val} key={val}>
+                      {enumValueToCapitalCase(val)}
+                    </option>
+                  ))}
                 </FormSelect>
               )}
             </Field>
