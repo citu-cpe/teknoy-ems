@@ -15,9 +15,7 @@ describe('equipment.spec.ts - Equipment Page', () => {
   it('should get all equipment', () => {
     cy.getBySel('equipment-row').should('have.length', 1);
     cy.getBySel('equipment-name').contains('SONY CAM 1').should('exist');
-    cy.getBySel('equipment-type')
-      .contains('Photo And Video Documentation')
-      .should('exist');
+    cy.getBySel('equipment-type').contains('CAMERA').should('exist');
     cy.getBySel('equipment-brand').contains('SONY');
     cy.getBySel('equipment-notes').contains('This is a test');
 
@@ -35,7 +33,7 @@ describe('equipment.spec.ts - Equipment Page', () => {
     cy.getBySel('add-equipment-btn').click();
 
     cy.getBySel('name-input').type('RJ45');
-    cy.getBySel('type-select').select('Live Streaming');
+    cy.getBySel('type-select').select('Wire');
     cy.getBySel('brand-input').type('N/A');
     cy.getBySel('serial-input').type('GIOEMSKIQ');
     cy.getBySel('notes-input').type('Notes');
@@ -56,7 +54,7 @@ describe('equipment.spec.ts - Equipment Page', () => {
     cy.getBySel('add-equipment-btn').click();
 
     cy.getBySel('name-input').type('JBL');
-    cy.getBySel('type-select').select('Video Documentation');
+    cy.getBySel('type-select').select('Speaker');
     cy.getBySel('notes-input').type('Notes');
 
     cy.getBySel('add-submit-btn').click();

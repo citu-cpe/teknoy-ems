@@ -21,7 +21,7 @@ describe('report.spec.ts - Report Page', () => {
         cy.getBySel('add-equipment-btn').click();
 
         cy.getBySel('name-input').type('RJ45');
-        cy.getBySel('type-select').select('Live Streaming');
+        cy.getBySel('type-select').select('Wire');
         cy.getBySel('brand-input').type('N/A');
         cy.getBySel('serial-input').type('GIOEMSKIQ');
         cy.getBySel('notes-input').type('Notes');

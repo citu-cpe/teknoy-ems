@@ -21,7 +21,7 @@ export const testEvent: Event = {
   contact: '999-888-777',
   approvedBy: 'Backend Lead Patrek',
   viewAccess: ViewAccess.PUBLIC,
-  type: EventType.ACADEMIC,
+  type: EventType.PHOTO_AND_VIDEO_DOCUMENTATION,
   additionalNotes: `Lorem ipsum dolor sit amet, consectetur adipiscing elit,
   sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
   Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

@@ -16,10 +16,7 @@ import { AvailabilityEnum, ScheduleDTO } from '../schedule/dto/schedule.dto';
 import { PostgresErrorCode } from '../shared/constants/postgress-error-codes.enum';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ActionENUM, PriorityENUM } from '../activity-log/dto/activity-log.dto';
-import {
-  EquipmentDTO,
-  EquipmentTypeEnum,
-} from '../equipment/dto/equipment.dto';
+import { EquipmentDTO } from '../equipment/dto/equipment.dto';
 import { EQUIPMENT_SET_POSTFIX } from '../equipment/equipment.service';
 
 @Injectable()
@@ -37,7 +34,7 @@ export class VenueService {
 
       const equipmentDTO: EquipmentDTO = {
         name: `${data.name} ${EQUIPMENT_SET_POSTFIX}`,
-        type: EquipmentTypeEnum.OTHERS,
+        type: 'OTHERS',
       };
 
       await this.prisma.equipment.create({ data: equipmentDTO });

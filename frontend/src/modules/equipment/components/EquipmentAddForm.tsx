@@ -1,6 +1,6 @@
 import { Button, Flex, Spacer } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik } from 'formik';
-import { EquipmentDTO, EquipmentDTOTypeEnum } from 'generated-api';
+import { EquipmentDTO } from 'generated-api';
 import { useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import {
@@ -11,10 +11,6 @@ import {
 } from '../../../shared/components/form';
 import { FormikResetButton } from '../../../shared/components/form/FormikResetButton';
 import { WebSocketEnum } from '../../../shared/enums/webSocketEnum';
-import {
-  enumToArray,
-  enumValueToCapitalCase,
-} from '../../../shared/helpers/enum-helpers';
 import { useToast } from '../../../shared/hooks';
 import { SocketContext } from '../../../shared/providers/SocketProvider';
 import { useEquipment } from '../hooks/useEquipment';
@@ -33,7 +29,7 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
 
   const initialValues = {
     name: '',
-    type: EquipmentDTOTypeEnum.PhotoAndVideoDocumentation,
+    type: 'Camera',
     brand: '',
     serial: '',
     notes: '',
@@ -86,11 +82,19 @@ export const EquipmentAddForm = ({ onComplete }: EquipmentAddFormProps) => {
                   isRequired
                   data-cy='type-select'
                 >
-                  {enumToArray(EquipmentDTOTypeEnum).map((val) => (
-                    <option value={val} key={val}>
-                      {enumValueToCapitalCase(val)}
-                    </option>
-                  ))}
+                  <option value='Camera'>Camera</option>
+                  <option value='Projector'>Projector</option>
+                  <option value='Speaker'>Speaker</option>
+                  <option value='Microphone'>Microphone</option>
+                  <option value='Wire'>Wire</option>
+                  <option value='Monitor'>Monitor</option>
+                  <option value='Computer'>Computer</option>
+                  <option value='Laptop'>Laptop</option>
+                  <option value='Lights'>Lights</option>
+                  <option value='Others'>Others</option>
+                  <option value='EQUIPMENT SET'>EQUIPMENT SET</option>
+                  <option value='Broken'>Broken</option>
+                  <option value='Unallowed'>Unallowed</option>
                 </Select>
               )}
             </Field>
