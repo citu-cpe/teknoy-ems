@@ -72,7 +72,6 @@ describe('announcement.spec.ts - Announcement Page', () => {
 
     cy.getBySel('add-submit-btn').click();
 
-    //wait for create req
     cy.wait('@createAnnouncement');
 
     cy.getBySel('close-btn').click();
@@ -106,7 +105,6 @@ describe('announcement.spec.ts - Announcement Page', () => {
 
     cy.getBySel('add-submit-btn').click();
 
-    //wait for create req
     cy.wait('@createAnnouncement');
 
     cy.getBySel('close-btn').click();
@@ -158,7 +156,10 @@ describe('announcement.spec.ts - Announcement Page', () => {
 
     cy.wait('@editAnnouncement');
 
-    cy.wait(1000);
+    // check that modal is closed
+    cy.get('.chakra-modal__content').should('not.exist');
+
+    cy.getBySel('announcement-row').should('exist');
     cy.getBySel('announcement-title').contains(newTitle).should('exist');
     cy.getBySel('announcement-subtitle').contains(newSubtitle).should('exist');
     cy.getBySel('announcement-content').contains(newContent).should('exist');
@@ -166,7 +167,6 @@ describe('announcement.spec.ts - Announcement Page', () => {
       .contains(newViewAccess)
       .should('exist');
 
-    //should show venue view
     cy.getBySel('announcement-row').first().click();
     cy.getBySel('announcement-view-title').contains(newTitle).should('exist');
     cy.getBySel('announcement-view-subtitle')
@@ -203,10 +203,8 @@ describe('announcement.spec.ts - Announcement Page', () => {
     cy.getBySel('actions-delete-btn').first().click();
     cy.getBySel('dialog-yes-btn').click();
 
-    // wait for delete request
     cy.wait('@deleteAnnouncement');
 
-    // wait for refetch
     cy.wait('@getAllAnnouncement');
 
     cy.getBySel('announcement-row').should('have.length', 0);

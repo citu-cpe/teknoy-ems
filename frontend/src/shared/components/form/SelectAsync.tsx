@@ -262,6 +262,7 @@ export const SelectAsync = <
             >
               <ReactSelectAsync
                 isSearchable
+                className='react-select'
                 name={fieldProps?.field.name}
                 onBlur={fieldProps?.field.onBlur}
                 styles={customStyles}

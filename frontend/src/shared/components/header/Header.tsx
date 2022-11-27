@@ -95,6 +95,7 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
         <MenuButton
           as={IconButton}
           aria-label='Open notifications'
+          data-cy='notifications-btn'
           color='current'
           rounded='full'
           icon={
@@ -167,6 +168,7 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
                   onClick={() =>
                     handleNotificationFilter(NotificationDateFilterEnum.ALL)
                   }
+                  data-cy='all-tab'
                 >
                   All
                 </Tab>
@@ -174,6 +176,7 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
                   onClick={() =>
                     handleNotificationFilter(NotificationDateFilterEnum.TODAY)
                   }
+                  data-cy='today-tab'
                 >
                   Today
                 </Tab>
@@ -183,6 +186,7 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
                       NotificationDateFilterEnum.LAST_WEEK
                     )
                   }
+                  data-cy='last-week-tab'
                 >
                   Last week
                 </Tab>
@@ -192,6 +196,7 @@ export const Header = ({ routeBreadCrumb }: HeaderProps) => {
                       NotificationDateFilterEnum.LAST_MONTH
                     )
                   }
+                  data-cy='last-month-tab'
                 >
                   Last month
                 </Tab>

@@ -29,7 +29,6 @@ describe('account.spec.ts - Accounts Page', () => {
     cy.getBySel('staff-checkbox').click();
     cy.getBySel('register-submit-btn').click();
 
-    // wait for create request
     cy.wait('@registerUser');
 
     cy.wait('@getAllUsers');
@@ -52,10 +51,8 @@ describe('account.spec.ts - Accounts Page', () => {
     cy.getBySel('name-input').clear().type(newName);
     cy.getBySel('edit-submit-btn').click();
 
-    // wait for edit request
     cy.wait('@editUser');
 
-    // refetch users
     cy.wait('@getAllUsers');
 
     // check if update values are correct
@@ -72,10 +69,8 @@ describe('account.spec.ts - Accounts Page', () => {
     cy.getBySel('actions-delete-btn').click();
     cy.getBySel('dialog-yes-btn').click();
 
-    // wait for delete request
     cy.wait('@deleteUser');
 
-    // wait for refetch users
     cy.wait('@getAllUsers');
 
     // no other users should exist

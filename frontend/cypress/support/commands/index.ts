@@ -2,6 +2,9 @@
 
 import './common';
 import './auth';
+import './date';
+import './event';
+import { CreateEventInfo } from './event';
 
 declare global {
   namespace Cypress {
@@ -71,6 +74,24 @@ declare global {
        * @example cy.resetTestDataAndLoginAsStaff()
        */
       resetTestDataAndLoginAsStaff(): void;
+
+      /**
+       * Custom command to set value on datetime-local input
+       * @example cy.setDateTimeLocal('.datetime-input', new Date())
+       */
+      setDateTimeLocal(selector: string, date: Date): void;
+
+      /**
+       * Custom command to set value on datetime-local input using data-cy
+       * @example cy.setDateTimeLocalBySel('datetime-input', new Date())
+       */
+      setDateTimeLocalBySel(selector: string, date: Date): void;
+
+      /**
+       * Custom command to fill out create event form
+       * @example cy.createEvent(info)
+       */
+      createEvent(info: CreateEventInfo): void;
     }
   }
 }

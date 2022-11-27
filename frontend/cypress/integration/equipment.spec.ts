@@ -19,7 +19,6 @@ describe('equipment.spec.ts - Equipment Page', () => {
     cy.getBySel('equipment-brand').contains('SONY');
     cy.getBySel('equipment-notes').contains('This is a test');
 
-    //should show equipment view
     cy.getBySel('equipment-row').first().click();
     cy.getBySel('equipment-view-name').contains('SONY CAM 1').should('exist');
     cy.getBySel('equipment-view-brand').contains('SONY').should('exist');
@@ -40,7 +39,6 @@ describe('equipment.spec.ts - Equipment Page', () => {
 
     cy.getBySel('add-submit-btn').click();
 
-    //wait for create req
     cy.wait('@createEquipment');
 
     cy.getBySel('close-btn').click();
@@ -59,7 +57,6 @@ describe('equipment.spec.ts - Equipment Page', () => {
 
     cy.getBySel('add-submit-btn').click();
 
-    //wait for create req
     cy.wait('@createEquipment');
 
     cy.getBySel('close-btn').click();
@@ -79,7 +76,6 @@ describe('equipment.spec.ts - Equipment Page', () => {
 
     cy.getBySel('add-submit-btn').click();
 
-    //wait for create req
     cy.wait('@createEquipment');
   });
 
@@ -97,14 +93,17 @@ describe('equipment.spec.ts - Equipment Page', () => {
 
     cy.getBySel('edit-submit-btn').click();
 
-    //wait for edit req
     cy.wait('@editEquipment');
 
-    cy.wait(1000);
+    // check that modal is closed
+    cy.get('.chakra-modal__content').should('not.exist');
+
+    cy.getBySel('equipment-row').should('exist');
+    cy.getBySel('equipment-name').should('exist');
     cy.getBySel('equipment-name').contains('SONY CAM 2').should('exist');
     cy.getBySel('equipment-notes').contains('Handle with Care').should('exist');
 
-    cy.getBySel('equipment-row').first().click();
+    cy.getBySel('equipment-row').click();
     cy.getBySel('equipment-view-name').contains('SONY CAM 2').should('exist');
     cy.getBySel('equipment-view-serial').contains('987654321').should('exist');
     cy.getBySel('equipment-view-notes')
@@ -117,10 +116,8 @@ describe('equipment.spec.ts - Equipment Page', () => {
     cy.getBySel('actions-delete-btn').first().click();
     cy.getBySel('dialog-yes-btn').click();
 
-    // wait for delete request
     cy.wait('@deleteEquipment');
 
-    // wait for refetch
     cy.wait('@getAllEquipment');
 
     cy.getBySel('equipment-row').should('have.length', 0);
