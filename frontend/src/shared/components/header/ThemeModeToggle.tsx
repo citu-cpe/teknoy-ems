@@ -14,6 +14,7 @@ export const ThemeModeToggle = ({ ...props }) => {
         color='current'
         rounded='full'
         aria-label={`Enable ${colorMode === 'light' ? 'Dark' : 'Light'} mode`}
+        data-cy='theme-toggle'
         onClick={toggleColorMode}
         icon={
           colorMode === 'light' ? (

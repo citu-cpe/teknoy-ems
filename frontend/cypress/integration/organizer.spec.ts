@@ -28,7 +28,6 @@ describe('organizer.spec.ts - Organizers Page', () => {
     cy.getBySel('type-select').select('DEPARTMENT');
     cy.getBySel('add-submit-btn').click();
 
-    // wait for create request
     cy.wait('@createOrganizer');
 
     cy.getBySel('close-btn').click();
@@ -50,14 +49,10 @@ describe('organizer.spec.ts - Organizers Page', () => {
     cy.getBySel('type-select').select('ORGANIZATION');
     cy.getBySel('edit-submit-btn').click();
 
-    // wait for edit request
     cy.wait('@editOrganizer');
 
-    // wait for refetch
     cy.wait('@getAllOrganizers');
 
-    // TODO: find solution to remove cy.wait(1000)
-    cy.wait(1000);
     cy.getBySel('organizer-name').contains(newName).should('exist');
   });
 
@@ -66,7 +61,6 @@ describe('organizer.spec.ts - Organizers Page', () => {
     cy.getBySel('actions-delete-btn').first().click();
     cy.getBySel('dialog-yes-btn').click();
 
-    // wait for delete request
     cy.wait('@deleteOrganizer');
 
     // wait for refetch

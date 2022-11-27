@@ -398,7 +398,7 @@ export const EventAddForm = ({
                   id='contact'
                   placeholder='e.g. MSTeams / Email / Messenger / Phone Number'
                   isRequired
-                  data-cy='contact-input'
+                  data-cy='contact-info-input'
                 />
               )}
             </Field>

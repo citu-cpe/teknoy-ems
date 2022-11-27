@@ -8,35 +8,30 @@ describe('report.spec.ts - Report Page', () => {
 
   beforeEach(() => {
     cy.restoreLocalStorage();
+    cy.intercept('POST', '/api/v1/report').as('exportReport');
+
+    cy.visit('/reports');
   });
 
   it('should not export report without selecting at least one filter', () => {
-    cy.visit('/reports');
-
     cy.getBySel('report-submit-btn').click();
   });
 
   it('should successfully reset filters', () => {
-    cy.get(
-      '.css-1l5obqg > :nth-child(2) > :nth-child(1) > .css-165casq > .chakra-button'
-    ).click();
+    cy.getBySel('event-toggle').click();
+
     cy.getBySel('reset-btn').click();
   });
 
   describe('export functions for events', () => {
-    it('should successfully select all events filter', () => {
-      cy.get(
-        '.css-1l5obqg > :nth-child(2) > :nth-child(1) > .css-165casq > .chakra-button'
-      ).click();
-    });
     it('should successfully export events with all filters selected', () => {
-      cy.intercept('POST', '/api/v1/report').as('exportReport');
-      cy.getBySel('report-submit-btn').click().wait('@exportReport');
+      cy.getBySel('event-toggle').click();
+
+      cy.getBySel('report-submit-btn').click();
+      cy.wait('@exportReport');
     });
-    it('should successfully unselect all events filter and select desired filter only', () => {
-      cy.get(
-        '.css-1l5obqg > :nth-child(2) > :nth-child(1) > .css-165casq > .chakra-button'
-      ).click();
+
+    it('should successfully select desired filter only', () => {
       cy.getBySel('event-id-checkbox').click();
       cy.getBySel('event-title-checkbox').click();
       cy.getBySel('event-description-checkbox').click();
@@ -45,117 +40,81 @@ describe('report.spec.ts - Report Page', () => {
       cy.getBySel('event-status-checkbox').click();
       cy.getBySel('event-contact-person-checkbox').click();
       cy.getBySel('event-additional-notes-checkbox').click();
-    });
-    it('should successfully export events with modified filters', () => {
-      cy.intercept('POST', '/api/v1/report').as('exportReport');
-      cy.getBySel('report-submit-btn').click().wait('@exportReport');
+
+      cy.getBySel('report-submit-btn').click();
+      cy.wait('@exportReport');
     });
   });
 
   describe('export functions for organizer', () => {
-    it('should successfully select all organizer filter', () => {
-      //reset past filter
-      cy.getBySel('reset-btn').click();
-
-      cy.get(
-        '.css-q3j5jo > :nth-child(1) > .css-165casq > .chakra-button'
-      ).click();
-    });
     it('should successfully export organizer with all filters selected', () => {
-      cy.intercept('POST', '/api/v1/report').as('exportReport');
-      cy.getBySel('report-submit-btn').click().wait('@exportReport');
+      cy.getBySel('organizer-toggle').click();
+
+      cy.getBySel('report-submit-btn').click();
+      cy.wait('@exportReport');
     });
-    it('should successfully unselect all organizer filter and select desired filter only', () => {
-      cy.get(
-        '.css-q3j5jo > :nth-child(1) > .css-165casq > .chakra-button'
-      ).click();
+
+    it('should successfully export organizer with modified filters', () => {
       cy.getBySel('organizer-name-checkbox').click();
       cy.getBySel('organizer-type-checkbox').click();
-    });
-    it('should successfully export organizer with modified filters', () => {
-      cy.intercept('POST', '/api/v1/report').as('exportReport');
-      cy.getBySel('report-submit-btn').click().wait('@exportReport');
+
+      cy.getBySel('report-submit-btn').click();
+      cy.wait('@exportReport');
     });
   });
 
   describe('export functions for venue', () => {
-    it('should successfully select all venue filter', () => {
-      //reset past filter
-      cy.getBySel('reset-btn').click();
-
-      cy.get(
-        '.css-q3j5jo > :nth-child(2) > .css-165casq > .chakra-button'
-      ).click();
-    });
     it('should successfully export venue with all filters selected', () => {
-      cy.intercept('POST', '/api/v1/report').as('exportReport');
-      cy.getBySel('report-submit-btn').click().wait('@exportReport');
+      cy.getBySel('venue-toggle').click();
+
+      cy.getBySel('report-submit-btn').click();
+      cy.wait('@exportReport');
     });
-    it('should successfully unselect all venue filter and select desired filter only', () => {
-      cy.get(
-        '.css-q3j5jo > :nth-child(2) > .css-165casq > .chakra-button'
-      ).click();
+
+    it('should successfully export venue with modified filters', () => {
       cy.getBySel('venue-id-checkbox').click();
       cy.getBySel('venue-name-checkbox').click();
-    });
-    it('should successfully export venue with modified filters', () => {
-      cy.intercept('POST', '/api/v1/report').as('exportReport');
-      cy.getBySel('report-submit-btn').click().wait('@exportReport');
+
+      cy.getBySel('report-submit-btn').click();
+      cy.wait('@exportReport');
     });
   });
 
   describe('export functions for announcement', () => {
-    it('should successfully select all announcement filter', () => {
-      //reset past filter
-      cy.getBySel('reset-btn').click();
-
-      cy.get(
-        ':nth-child(3) > :nth-child(1) > .css-165casq > .chakra-button'
-      ).click();
-    });
     it('should successfully export announcement with all filters selected', () => {
-      cy.intercept('POST', '/api/v1/report').as('exportReport');
+      cy.getBySel('announcement-toggle').click();
+
+      cy.getBySel('report-submit-btn').click();
+      cy.wait('@exportReport');
     });
-    it('should successfully unselect all announcement filter and select desired filter only', () => {
-      cy.get(
-        ':nth-child(3) > :nth-child(1) > .css-165casq > .chakra-button'
-      ).click();
+
+    it('should successfully export announcement with modified filters', () => {
       cy.getBySel('announcement-id-checkbox').click();
       cy.getBySel('announcement-title-checkbox').click();
       cy.getBySel('announcement-content-checkbox').click();
-    });
-    it('should successfully export announcement with modified filters', () => {
-      cy.intercept('POST', '/api/v1/report').as('exportReport');
-      cy.getBySel('report-submit-btn').click().wait('@exportReport');
+
+      cy.getBySel('report-submit-btn').click();
+      cy.wait('@exportReport');
     });
   });
 
   describe('export functions for equipment', () => {
-    it('should successfully select all equipment filter', () => {
-      //reset past filter
-      cy.getBySel('reset-btn').click();
-
-      cy.get(
-        ':nth-child(3) > :nth-child(2) > .css-165casq > .chakra-button'
-      ).click();
-    });
     it('should successfully export equipment with all filters selected', () => {
-      cy.intercept('POST', '/api/v1/report').as('exportReport');
-      cy.getBySel('report-submit-btn').click().wait('@exportReport');
+      cy.getBySel('equipment-toggle').click();
+
+      cy.getBySel('report-submit-btn').click();
+      cy.wait('@exportReport');
     });
-    it('should successfully unselect all equipment filter and select desired filter only', () => {
-      cy.get(
-        ':nth-child(3) > :nth-child(2) > .css-165casq > .chakra-button'
-      ).click();
+
+    it('should successfully export equipment with modified filters', () => {
       cy.getBySel('equipment-id-checkbox').click();
       cy.getBySel('equipment-name-checkbox').click();
       cy.getBySel('equipment-type-checkbox').click();
       cy.getBySel('equipment-schedules-checkbox').click();
       cy.getBySel('equipment-notes-checkbox').click();
-    });
-    it('should successfully export equipment with modified filters', () => {
-      cy.intercept('POST', '/api/v1/report').as('exportReport');
-      cy.getBySel('report-submit-btn').click().wait('@exportReport');
+
+      cy.getBySel('report-submit-btn').click();
+      cy.wait('@exportReport');
     });
   });
 
@@ -184,10 +143,17 @@ describe('report.spec.ts - Report Page', () => {
       cy.getBySel('announcement-title-checkbox').click();
       cy.getBySel('announcement-content-checkbox').click();
 
+      // equipment
+      cy.getBySel('equipment-id-checkbox').click();
+      cy.getBySel('equipment-name-checkbox').click();
+      cy.getBySel('equipment-type-checkbox').click();
+      cy.getBySel('equipment-schedules-checkbox').click();
+      cy.getBySel('equipment-notes-checkbox').click();
+
       cy.getBySel('message-input').type('Reports as of October 11, 2022');
 
-      //export
-      cy.intercept('POST', '/api/v1/report').as('exportReport');
+      cy.getBySel('report-submit-btn').click();
+      cy.wait('@exportReport');
     });
   });
 });

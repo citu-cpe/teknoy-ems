@@ -23,7 +23,6 @@ describe('venue.spec.ts - Venues Page', () => {
     cy.getBySel('venue-name').contains(venueName).should('exist');
     cy.getBySel('venue-notes').contains(venueNotes).should('exist');
 
-    //should show venue view
     cy.getBySel('venue-row').first().click();
     cy.getBySel('venue-view-name').contains(venueName).should('exist');
     cy.getBySel('venue-view-notes').contains(venueNotes).should('exist');
@@ -37,7 +36,6 @@ describe('venue.spec.ts - Venues Page', () => {
 
     cy.getBySel('add-submit-btn').click();
 
-    //wait for create req
     cy.wait('@createVenue');
 
     cy.getBySel('close-btn').click();
@@ -55,7 +53,6 @@ describe('venue.spec.ts - Venues Page', () => {
 
     cy.getBySel('add-submit-btn').click();
 
-    //wait for create req
     cy.wait('@createVenue');
 
     cy.getBySel('close-btn').click();
@@ -82,7 +79,6 @@ describe('venue.spec.ts - Venues Page', () => {
 
     cy.getBySel('add-submit-btn').click();
 
-    //wait for create req
     cy.wait('@createVenue');
   });
 
@@ -100,11 +96,12 @@ describe('venue.spec.ts - Venues Page', () => {
 
     cy.wait('@editVenue');
 
-    cy.wait(1000);
+    // check that modal is closed
+    cy.get('.chakra-modal__content').should('not.exist');
+
     cy.getBySel('venue-name').contains(newName).should('exist');
     cy.getBySel('venue-notes').contains(newNotes).should('exist');
 
-    //should show venue view
     cy.getBySel('venue-name').contains(newName).click();
     cy.getBySel('venue-view-name').contains(newName).should('exist');
     cy.getBySel('venue-view-notes').contains(newNotes).should('exist');
@@ -128,10 +125,8 @@ describe('venue.spec.ts - Venues Page', () => {
     cy.getBySel('actions-delete-btn').first().click();
     cy.getBySel('dialog-yes-btn').click();
 
-    // wait for delete request
     cy.wait('@deleteVenue');
 
-    // wait for refetch
     cy.wait('@getAllVenue');
 
     cy.getBySel('venue-row').should('have.length', 1);

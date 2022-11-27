@@ -227,6 +227,7 @@ export const ReportForm = () => {
                 <FormLabel {...formLabelProps}>Events</FormLabel>
                 <Flex direction='column' gap={0}>
                   <SelectAllToggle
+                    data-cy='event-toggle'
                     fieldName='reportFilterDTO.eventReportFilterDTO'
                     onSelectValue={[
                       'id',
@@ -553,6 +554,7 @@ export const ReportForm = () => {
                   <FormLabel {...formLabelProps}>Organizer</FormLabel>
                   <Flex direction='column' gap={0}>
                     <SelectAllToggle
+                      data-cy='organizer-toggle'
                       fieldName='reportFilterDTO.organizerReportFilterDTO'
                       onSelectValue={['id', 'name', 'type']}
                       onDeselectValue={[]}
@@ -615,6 +617,7 @@ export const ReportForm = () => {
                   <FormLabel {...formLabelProps}>Venue</FormLabel>
                   <Flex direction='column' gap={0}>
                     <SelectAllToggle
+                      data-cy='venue-toggle'
                       fieldName='reportFilterDTO.venueReportFilterDTO'
                       onSelectValue={['id', 'name', 'notes', 'schedule']}
                       onDeselectValue={[]}
@@ -694,6 +697,7 @@ export const ReportForm = () => {
                   <FormLabel {...formLabelProps}>Announcement</FormLabel>
                   <Flex direction='column' gap={0}>
                     <SelectAllToggle
+                      data-cy='announcement-toggle'
                       fieldName='reportFilterDTO.announcementReportFilterDTO'
                       onSelectValue={[
                         'id',
@@ -814,6 +818,7 @@ export const ReportForm = () => {
                   <FormLabel {...formLabelProps}>Equipment</FormLabel>
                   <Flex direction='column' gap={0}>
                     <SelectAllToggle
+                      data-cy='equipment-toggle'
                       fieldName='reportFilterDTO.equipmentReportFilterDTO'
                       onSelectValue={[
                         'id',
